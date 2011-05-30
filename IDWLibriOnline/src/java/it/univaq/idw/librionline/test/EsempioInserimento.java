@@ -6,7 +6,7 @@ package it.univaq.idw.librionline.test;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
-import it.univaq.idw.librionline.model.impl.Libro;
+import it.univaq.idw.librionline.model.impl.LibroMysqlImpl;
 
 /**
  *
@@ -18,7 +18,7 @@ public class EsempioInserimento {
         // TODO code application logic here
         EntityManagerFactory factory = Persistence.createEntityManagerFactory("IDWLibriOnlinePU");
         EntityManager manager = factory.createEntityManager();
-        Libro l = new Libro("28", "TwentyEight");
+        LibroMysqlImpl l = new LibroMysqlImpl("28", "TwentyEight");
         l.setEditore("Mondadori");
         l.setAnnoPubblicazione(new Integer(1928));
         l.setRecensione("Il libro racconta la storia dal 1928 ad oggi");

@@ -2,17 +2,17 @@
 <persistence version="2.0" xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
   <persistence-unit name="IDWLibriOnlinePU" transaction-type="RESOURCE_LOCAL">
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
-    <class>it.univaq.idw.librionline.model.impl.Prestito</class>
-    <class>it.univaq.idw.librionline.model.impl.User</class>
-    <class>it.univaq.idw.librionline.model.impl.Libro</class>
-    <class>it.univaq.idw.librionline.model.impl.Tag</class>
-    <class>it.univaq.idw.librionline.model.impl.Autore</class>
-    <class>it.univaq.idw.librionline.model.impl.Stato</class>
-    <class>it.univaq.idw.librionline.model.impl.Copiaelettronica</class>
-    <class>it.univaq.idw.librionline.model.impl.Gruppo</class>
-    <class>it.univaq.idw.librionline.model.impl.Lingua</class>
-    <class>it.univaq.idw.librionline.model.impl.Volume</class>
-    <class>it.univaq.idw.librionline.model.impl.Servizio</class>
+    <class>it.univaq.idw.librionline.model.impl.LibroMysqlImpl</class>
+    <class>it.univaq.idw.librionline.model.impl.GruppoMysqlImpl</class>
+    <class>it.univaq.idw.librionline.model.impl.CopiaelettronicaMysqlImpl</class>
+    <class>it.univaq.idw.librionline.model.impl.LinguaMysqlImpl</class>
+    <class>it.univaq.idw.librionline.model.impl.PrestitoMysqlImpl</class>
+    <class>it.univaq.idw.librionline.model.impl.ServizioMysqlImpl</class>
+    <class>it.univaq.idw.librionline.model.impl.StatoMysqlImpl</class>
+    <class>it.univaq.idw.librionline.model.impl.TagMysqlImpl</class>
+    <class>it.univaq.idw.librionline.model.impl.UserMysqlImpl</class>
+    <class>it.univaq.idw.librionline.model.impl.VolumeMysqlImpl</class>
+    <class>it.univaq.idw.librionline.model.impl.AutoreMysqlImpl</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/LibriOnLine"/>

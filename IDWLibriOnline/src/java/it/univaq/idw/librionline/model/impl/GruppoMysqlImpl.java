@@ -4,6 +4,7 @@
  */
 package it.univaq.idw.librionline.model.impl;
 
+import it.univaq.idw.librionline.model.Gruppo;
 import java.io.Serializable;
 import java.util.Collection;
 import javax.persistence.Basic;
@@ -33,7 +34,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Gruppo.findAll", query = "SELECT g FROM Gruppo g"),
     @NamedQuery(name = "Gruppo.findById", query = "SELECT g FROM Gruppo g WHERE g.id = :id"),
     @NamedQuery(name = "Gruppo.findByGruppo", query = "SELECT g FROM Gruppo g WHERE g.gruppo = :gruppo")})
-public class Gruppo implements Serializable {
+public class GruppoMysqlImpl implements Serializable, Gruppo {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -47,53 +48,61 @@ public class Gruppo implements Serializable {
         @JoinColumn(name = "gruppo", referencedColumnName = "id")}, inverseJoinColumns = {
         @JoinColumn(name = "servizio", referencedColumnName = "id")})
     @ManyToMany
-    private Collection<Servizio> servizioCollection;
+    private Collection<ServizioMysqlImpl> servizioCollection;
     @OneToMany(mappedBy = "gruppo")
-    private Collection<User> userCollection;
+    private Collection<UserMysqlImpl> userCollection;
 
-    public Gruppo() {
+    public GruppoMysqlImpl() {
     }
 
-    public Gruppo(Integer id) {
+    public GruppoMysqlImpl(Integer id) {
         this.id = id;
     }
 
-    public Gruppo(Integer id, String gruppo) {
+    public GruppoMysqlImpl(Integer id, String gruppo) {
         this.id = id;
         this.gruppo = gruppo;
     }
 
+    @Override
     public Integer getId() {
         return id;
     }
 
+    @Override
     public void setId(Integer id) {
         this.id = id;
     }
 
+    @Override
     public String getGruppo() {
         return gruppo;
     }
 
+    @Override
     public void setGruppo(String gruppo) {
         this.gruppo = gruppo;
     }
 
     @XmlTransient
-    public Collection<Servizio> getServizioCollection() {
+    @Override
+    public Collection<ServizioMysqlImpl> getServizioCollection() {
         return servizioCollection;
     }
 
-    public void setServizioCollection(Collection<Servizio> servizioCollection) {
+    @Override
+    public void setServizioCollection(Collection<ServizioMysqlImpl> servizioCollection) {
         this.servizioCollection = servizioCollection;
     }
 
     @XmlTransient
-    public Collection<User> getUserCollection() {
+    @Override
+    public Collection<UserMysqlImpl> getUserCollection() {
         return userCollection;
     }
 
-    public void setUserCollection(Collection<User> userCollection) {
+    @Override
+    public void setUserCollection(Collection<UserMysqlImpl> userCollection) {
         this.userCollection = userCollection;
     }
 
@@ -107,10 +116,10 @@ public class Gruppo implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Gruppo)) {
+        if (!(object instanceof GruppoMysqlImpl)) {
             return false;
         }
-        Gruppo other = (Gruppo) object;
+        GruppoMysqlImpl other = (GruppoMysqlImpl) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }

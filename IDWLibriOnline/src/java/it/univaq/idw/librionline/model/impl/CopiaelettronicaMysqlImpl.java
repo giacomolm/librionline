@@ -4,6 +4,7 @@
  */
 package it.univaq.idw.librionline.model.impl;
 
+import it.univaq.idw.librionline.model.Copiaelettronica;
 import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -30,7 +31,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Copiaelettronica.findById", query = "SELECT c FROM Copiaelettronica c WHERE c.id = :id"),
     @NamedQuery(name = "Copiaelettronica.findByMimetype", query = "SELECT c FROM Copiaelettronica c WHERE c.mimetype = :mimetype"),
     @NamedQuery(name = "Copiaelettronica.findByUrl", query = "SELECT c FROM Copiaelettronica c WHERE c.url = :url")})
-public class Copiaelettronica implements Serializable {
+public class CopiaelettronicaMysqlImpl implements Serializable, Copiaelettronica {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -45,50 +46,58 @@ public class Copiaelettronica implements Serializable {
     private String url;
     @JoinColumn(name = "libro", referencedColumnName = "isbn")
     @ManyToOne(optional = false)
-    private Libro libro;
+    private LibroMysqlImpl libro;
 
-    public Copiaelettronica() {
+    public CopiaelettronicaMysqlImpl() {
     }
 
-    public Copiaelettronica(Integer id) {
+    public CopiaelettronicaMysqlImpl(Integer id) {
         this.id = id;
     }
 
-    public Copiaelettronica(Integer id, String mimetype, String url) {
+    public CopiaelettronicaMysqlImpl(Integer id, String mimetype, String url) {
         this.id = id;
         this.mimetype = mimetype;
         this.url = url;
     }
 
+    @Override
     public Integer getId() {
         return id;
     }
 
+    @Override
     public void setId(Integer id) {
         this.id = id;
     }
 
+    @Override
     public String getMimetype() {
         return mimetype;
     }
 
+    @Override
     public void setMimetype(String mimetype) {
         this.mimetype = mimetype;
     }
 
+    @Override
     public String getUrl() {
         return url;
     }
 
+    @Override
     public void setUrl(String url) {
         this.url = url;
     }
 
-    public Libro getLibro() {
+    @Override
+    public LibroMysqlImpl getLibro() {
         return libro;
     }
 
-    public void setLibro(Libro libro) {
+    @Override
+    public void setLibro(LibroMysqlImpl libro) {
         this.libro = libro;
     }
 
@@ -102,10 +111,10 @@ public class Copiaelettronica implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Copiaelettronica)) {
+        if (!(object instanceof CopiaelettronicaMysqlImpl)) {
             return false;
         }
-        Copiaelettronica other = (Copiaelettronica) object;
+        CopiaelettronicaMysqlImpl other = (CopiaelettronicaMysqlImpl) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }

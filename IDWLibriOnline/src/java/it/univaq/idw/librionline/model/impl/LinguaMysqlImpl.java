@@ -4,6 +4,7 @@
  */
 package it.univaq.idw.librionline.model.impl;
 
+import it.univaq.idw.librionline.model.Lingua;
 import java.io.Serializable;
 import java.util.Collection;
 import javax.persistence.Basic;
@@ -24,13 +25,13 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author giacomolm
  */
 @Entity
-@Table(name = "stato")
+@Table(name = "lingua")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Stato.findAll", query = "SELECT s FROM Stato s"),
-    @NamedQuery(name = "Stato.findById", query = "SELECT s FROM Stato s WHERE s.id = :id"),
-    @NamedQuery(name = "Stato.findByStato", query = "SELECT s FROM Stato s WHERE s.stato = :stato")})
-public class Stato implements Serializable {
+    @NamedQuery(name = "Lingua.findAll", query = "SELECT l FROM Lingua l"),
+    @NamedQuery(name = "Lingua.findById", query = "SELECT l FROM Lingua l WHERE l.id = :id"),
+    @NamedQuery(name = "Lingua.findByLingua", query = "SELECT l FROM Lingua l WHERE l.lingua = :lingua")})
+public class LinguaMysqlImpl implements Serializable, Lingua {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -38,46 +39,52 @@ public class Stato implements Serializable {
     @Column(name = "id")
     private Integer id;
     @Basic(optional = false)
-    @Column(name = "stato")
-    private String stato;
-    @OneToMany(mappedBy = "stato")
-    private Collection<Volume> volumeCollection;
+    @Column(name = "lingua")
+    private String lingua;
+    @OneToMany(mappedBy = "lingua")
+    private Collection<LibroMysqlImpl> libroCollection;
 
-    public Stato() {
+    public LinguaMysqlImpl() {
     }
 
-    public Stato(Integer id) {
+    public LinguaMysqlImpl(Integer id) {
         this.id = id;
     }
 
-    public Stato(Integer id, String stato) {
+    public LinguaMysqlImpl(Integer id, String lingua) {
         this.id = id;
-        this.stato = stato;
+        this.lingua = lingua;
     }
 
+    @Override
     public Integer getId() {
         return id;
     }
 
+    @Override
     public void setId(Integer id) {
         this.id = id;
     }
 
-    public String getStato() {
-        return stato;
+    @Override
+    public String getLingua() {
+        return lingua;
     }
 
-    public void setStato(String stato) {
-        this.stato = stato;
+    @Override
+    public void setLingua(String lingua) {
+        this.lingua = lingua;
     }
 
     @XmlTransient
-    public Collection<Volume> getVolumeCollection() {
-        return volumeCollection;
+    @Override
+    public Collection<LibroMysqlImpl> getLibroCollection() {
+        return libroCollection;
     }
 
-    public void setVolumeCollection(Collection<Volume> volumeCollection) {
-        this.volumeCollection = volumeCollection;
+    @Override
+    public void setLibroCollection(Collection<LibroMysqlImpl> libroCollection) {
+        this.libroCollection = libroCollection;
     }
 
     @Override
@@ -90,10 +97,10 @@ public class Stato implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Stato)) {
+        if (!(object instanceof LinguaMysqlImpl)) {
             return false;
         }
-        Stato other = (Stato) object;
+        LinguaMysqlImpl other = (LinguaMysqlImpl) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -102,7 +109,7 @@ public class Stato implements Serializable {
 
     @Override
     public String toString() {
-        return "it.univaq.idw.librionline.model.impl.Stato[ id=" + id + " ]";
+        return "it.univaq.idw.librionline.model.impl.Lingua[ id=" + id + " ]";
     }
     
 }

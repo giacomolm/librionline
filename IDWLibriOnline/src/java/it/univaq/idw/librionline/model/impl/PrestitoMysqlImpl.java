@@ -4,6 +4,7 @@
  */
 package it.univaq.idw.librionline.model.impl;
 
+import it.univaq.idw.librionline.model.Prestito;
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Basic;
@@ -34,7 +35,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Prestito.findByDataPrestito", query = "SELECT p FROM Prestito p WHERE p.dataPrestito = :dataPrestito"),
     @NamedQuery(name = "Prestito.findByDataRestituzione", query = "SELECT p FROM Prestito p WHERE p.dataRestituzione = :dataRestituzione"),
     @NamedQuery(name = "Prestito.findByRestituito", query = "SELECT p FROM Prestito p WHERE p.restituito = :restituito")})
-public class Prestito implements Serializable {
+public class PrestitoMysqlImpl implements Serializable, Prestito {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -54,70 +55,82 @@ public class Prestito implements Serializable {
     private boolean restituito;
     @JoinColumn(name = "user", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private User user;
+    private UserMysqlImpl user;
     @JoinColumn(name = "volume", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private Volume volume;
+    private VolumeMysqlImpl volume;
 
-    public Prestito() {
+    public PrestitoMysqlImpl() {
     }
 
-    public Prestito(Integer id) {
+    public PrestitoMysqlImpl(Integer id) {
         this.id = id;
     }
 
-    public Prestito(Integer id, Date dataPrestito, Date dataRestituzione, boolean restituito) {
+    public PrestitoMysqlImpl(Integer id, Date dataPrestito, Date dataRestituzione, boolean restituito) {
         this.id = id;
         this.dataPrestito = dataPrestito;
         this.dataRestituzione = dataRestituzione;
         this.restituito = restituito;
     }
 
+    @Override
     public Integer getId() {
         return id;
     }
 
+    @Override
     public void setId(Integer id) {
         this.id = id;
     }
 
+    @Override
     public Date getDataPrestito() {
         return dataPrestito;
     }
 
+    @Override
     public void setDataPrestito(Date dataPrestito) {
         this.dataPrestito = dataPrestito;
     }
 
+    @Override
     public Date getDataRestituzione() {
         return dataRestituzione;
     }
 
+    @Override
     public void setDataRestituzione(Date dataRestituzione) {
         this.dataRestituzione = dataRestituzione;
     }
 
+    @Override
     public boolean getRestituito() {
         return restituito;
     }
 
+    @Override
     public void setRestituito(boolean restituito) {
         this.restituito = restituito;
     }
 
-    public User getUser() {
+    @Override
+    public UserMysqlImpl getUser() {
         return user;
     }
 
-    public void setUser(User user) {
+    @Override
+    public void setUser(UserMysqlImpl user) {
         this.user = user;
     }
 
-    public Volume getVolume() {
+    @Override
+    public VolumeMysqlImpl getVolume() {
         return volume;
     }
 
-    public void setVolume(Volume volume) {
+    @Override
+    public void setVolume(VolumeMysqlImpl volume) {
         this.volume = volume;
     }
 
@@ -131,10 +144,10 @@ public class Prestito implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Prestito)) {
+        if (!(object instanceof PrestitoMysqlImpl)) {
             return false;
         }
-        Prestito other = (Prestito) object;
+        PrestitoMysqlImpl other = (PrestitoMysqlImpl) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }

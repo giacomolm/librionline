@@ -4,6 +4,7 @@
  */
 package it.univaq.idw.librionline.model.impl;
 
+import it.univaq.idw.librionline.model.Servizio;
 import java.io.Serializable;
 import java.util.Collection;
 import javax.persistence.Basic;
@@ -24,13 +25,13 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author giacomolm
  */
 @Entity
-@Table(name = "tag")
+@Table(name = "servizio")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Tag.findAll", query = "SELECT t FROM Tag t"),
-    @NamedQuery(name = "Tag.findById", query = "SELECT t FROM Tag t WHERE t.id = :id"),
-    @NamedQuery(name = "Tag.findByTag", query = "SELECT t FROM Tag t WHERE t.tag = :tag")})
-public class Tag implements Serializable {
+    @NamedQuery(name = "Servizio.findAll", query = "SELECT s FROM Servizio s"),
+    @NamedQuery(name = "Servizio.findById", query = "SELECT s FROM Servizio s WHERE s.id = :id"),
+    @NamedQuery(name = "Servizio.findByServizio", query = "SELECT s FROM Servizio s WHERE s.servizio = :servizio")})
+public class ServizioMysqlImpl implements Serializable, Servizio {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -38,46 +39,52 @@ public class Tag implements Serializable {
     @Column(name = "id")
     private Integer id;
     @Basic(optional = false)
-    @Column(name = "tag")
-    private String tag;
-    @ManyToMany(mappedBy = "tagCollection")
-    private Collection<Libro> libroCollection;
+    @Column(name = "servizio")
+    private String servizio;
+    @ManyToMany(mappedBy = "servizioCollection")
+    private Collection<GruppoMysqlImpl> gruppoCollection;
 
-    public Tag() {
+    public ServizioMysqlImpl() {
     }
 
-    public Tag(Integer id) {
+    public ServizioMysqlImpl(Integer id) {
         this.id = id;
     }
 
-    public Tag(Integer id, String tag) {
+    public ServizioMysqlImpl(Integer id, String servizio) {
         this.id = id;
-        this.tag = tag;
+        this.servizio = servizio;
     }
 
+    @Override
     public Integer getId() {
         return id;
     }
 
+    @Override
     public void setId(Integer id) {
         this.id = id;
     }
 
-    public String getTag() {
-        return tag;
+    @Override
+    public String getServizio() {
+        return servizio;
     }
 
-    public void setTag(String tag) {
-        this.tag = tag;
+    @Override
+    public void setServizio(String servizio) {
+        this.servizio = servizio;
     }
 
     @XmlTransient
-    public Collection<Libro> getLibroCollection() {
-        return libroCollection;
+    @Override
+    public Collection<GruppoMysqlImpl> getGruppoCollection() {
+        return gruppoCollection;
     }
 
-    public void setLibroCollection(Collection<Libro> libroCollection) {
-        this.libroCollection = libroCollection;
+    @Override
+    public void setGruppoCollection(Collection<GruppoMysqlImpl> gruppoCollection) {
+        this.gruppoCollection = gruppoCollection;
     }
 
     @Override
@@ -90,10 +97,10 @@ public class Tag implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Tag)) {
+        if (!(object instanceof ServizioMysqlImpl)) {
             return false;
         }
-        Tag other = (Tag) object;
+        ServizioMysqlImpl other = (ServizioMysqlImpl) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -102,7 +109,7 @@ public class Tag implements Serializable {
 
     @Override
     public String toString() {
-        return "it.univaq.idw.librionline.model.impl.Tag[ id=" + id + " ]";
+        return "it.univaq.idw.librionline.model.impl.Servizio[ id=" + id + " ]";
     }
     
 }

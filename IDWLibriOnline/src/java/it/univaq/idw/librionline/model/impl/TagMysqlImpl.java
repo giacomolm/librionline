@@ -4,6 +4,7 @@
  */
 package it.univaq.idw.librionline.model.impl;
 
+import it.univaq.idw.librionline.model.Tag;
 import java.io.Serializable;
 import java.util.Collection;
 import javax.persistence.Basic;
@@ -12,9 +13,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
@@ -24,13 +25,13 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author giacomolm
  */
 @Entity
-@Table(name = "lingua")
+@Table(name = "tag")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Lingua.findAll", query = "SELECT l FROM Lingua l"),
-    @NamedQuery(name = "Lingua.findById", query = "SELECT l FROM Lingua l WHERE l.id = :id"),
-    @NamedQuery(name = "Lingua.findByLingua", query = "SELECT l FROM Lingua l WHERE l.lingua = :lingua")})
-public class Lingua implements Serializable {
+    @NamedQuery(name = "Tag.findAll", query = "SELECT t FROM Tag t"),
+    @NamedQuery(name = "Tag.findById", query = "SELECT t FROM Tag t WHERE t.id = :id"),
+    @NamedQuery(name = "Tag.findByTag", query = "SELECT t FROM Tag t WHERE t.tag = :tag")})
+public class TagMysqlImpl implements Serializable, Tag {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -38,45 +39,51 @@ public class Lingua implements Serializable {
     @Column(name = "id")
     private Integer id;
     @Basic(optional = false)
-    @Column(name = "lingua")
-    private String lingua;
-    @OneToMany(mappedBy = "lingua")
-    private Collection<Libro> libroCollection;
+    @Column(name = "tag")
+    private String tag;
+    @ManyToMany(mappedBy = "tagCollection")
+    private Collection<LibroMysqlImpl> libroCollection;
 
-    public Lingua() {
+    public TagMysqlImpl() {
     }
 
-    public Lingua(Integer id) {
+    public TagMysqlImpl(Integer id) {
         this.id = id;
     }
 
-    public Lingua(Integer id, String lingua) {
+    public TagMysqlImpl(Integer id, String tag) {
         this.id = id;
-        this.lingua = lingua;
+        this.tag = tag;
     }
 
+    @Override
     public Integer getId() {
         return id;
     }
 
+    @Override
     public void setId(Integer id) {
         this.id = id;
     }
 
-    public String getLingua() {
-        return lingua;
+    @Override
+    public String getTag() {
+        return tag;
     }
 
-    public void setLingua(String lingua) {
-        this.lingua = lingua;
+    @Override
+    public void setTag(String tag) {
+        this.tag = tag;
     }
 
     @XmlTransient
-    public Collection<Libro> getLibroCollection() {
+    @Override
+    public Collection<LibroMysqlImpl> getLibroCollection() {
         return libroCollection;
     }
 
-    public void setLibroCollection(Collection<Libro> libroCollection) {
+    @Override
+    public void setLibroCollection(Collection<LibroMysqlImpl> libroCollection) {
         this.libroCollection = libroCollection;
     }
 
@@ -90,10 +97,10 @@ public class Lingua implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Lingua)) {
+        if (!(object instanceof TagMysqlImpl)) {
             return false;
         }
-        Lingua other = (Lingua) object;
+        TagMysqlImpl other = (TagMysqlImpl) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -102,7 +109,7 @@ public class Lingua implements Serializable {
 
     @Override
     public String toString() {
-        return "it.univaq.idw.librionline.model.impl.Lingua[ id=" + id + " ]";
+        return "it.univaq.idw.librionline.model.impl.Tag[ id=" + id + " ]";
     }
     
 }

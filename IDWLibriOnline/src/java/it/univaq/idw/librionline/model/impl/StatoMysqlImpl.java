@@ -4,17 +4,15 @@
  */
 package it.univaq.idw.librionline.model.impl;
 
+import it.univaq.idw.librionline.model.Stato;
 import java.io.Serializable;
 import java.util.Collection;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -27,65 +25,66 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author giacomolm
  */
 @Entity
-@Table(name = "volume")
+@Table(name = "stato")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Volume.findAll", query = "SELECT v FROM Volume v"),
-    @NamedQuery(name = "Volume.findById", query = "SELECT v FROM Volume v WHERE v.id = :id")})
-public class Volume implements Serializable {
+    @NamedQuery(name = "Stato.findAll", query = "SELECT s FROM Stato s"),
+    @NamedQuery(name = "Stato.findById", query = "SELECT s FROM Stato s WHERE s.id = :id"),
+    @NamedQuery(name = "Stato.findByStato", query = "SELECT s FROM Stato s WHERE s.stato = :stato")})
+public class StatoMysqlImpl implements Serializable, Stato {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
-    @JoinColumn(name = "libro", referencedColumnName = "isbn")
-    @ManyToOne(optional = false)
-    private Libro libro;
-    @JoinColumn(name = "stato", referencedColumnName = "id")
-    @ManyToOne
-    private Stato stato;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "volume")
-    private Collection<Prestito> prestitoCollection;
+    @Basic(optional = false)
+    @Column(name = "stato")
+    private String stato;
+    @OneToMany(mappedBy = "stato")
+    private Collection<VolumeMysqlImpl> volumeCollection;
 
-    public Volume() {
+    public StatoMysqlImpl() {
     }
 
-    public Volume(Integer id) {
+    public StatoMysqlImpl(Integer id) {
         this.id = id;
     }
 
+    public StatoMysqlImpl(Integer id, String stato) {
+        this.id = id;
+        this.stato = stato;
+    }
+
+    @Override
     public Integer getId() {
         return id;
     }
 
+    @Override
     public void setId(Integer id) {
         this.id = id;
     }
 
-    public Libro getLibro() {
-        return libro;
-    }
-
-    public void setLibro(Libro libro) {
-        this.libro = libro;
-    }
-
-    public Stato getStato() {
+    @Override
+    public String getStato() {
         return stato;
     }
 
-    public void setStato(Stato stato) {
+    @Override
+    public void setStato(String stato) {
         this.stato = stato;
     }
 
     @XmlTransient
-    public Collection<Prestito> getPrestitoCollection() {
-        return prestitoCollection;
+    @Override
+    public Collection<VolumeMysqlImpl> getVolumeCollection() {
+        return volumeCollection;
     }
 
-    public void setPrestitoCollection(Collection<Prestito> prestitoCollection) {
-        this.prestitoCollection = prestitoCollection;
+    @Override
+    public void setVolumeCollection(Collection<VolumeMysqlImpl> volumeCollection) {
+        this.volumeCollection = volumeCollection;
     }
 
     @Override
@@ -98,10 +97,10 @@ public class Volume implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Volume)) {
+        if (!(object instanceof StatoMysqlImpl)) {
             return false;
         }
-        Volume other = (Volume) object;
+        StatoMysqlImpl other = (StatoMysqlImpl) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -110,7 +109,7 @@ public class Volume implements Serializable {
 
     @Override
     public String toString() {
-        return "it.univaq.idw.librionline.model.impl.Volume[ id=" + id + " ]";
+        return "it.univaq.idw.librionline.model.impl.Stato[ id=" + id + " ]";
     }
     
 }
