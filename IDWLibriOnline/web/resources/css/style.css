@@ -46,10 +46,10 @@ a:link,a:visited{
 }
 
 #titolo_header{
-    background-image:url('../img/header2.png');
     height: 85px;
     display: block;
     background-repeat: no-repeat;
+    float: left;
 }
 
 #login{
@@ -58,6 +58,7 @@ a:link,a:visited{
 
 #center {
     text-align:center;
+    min-width: 150px;
 }
 
 #center_menu{
