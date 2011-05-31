@@ -58,7 +58,6 @@ a:link,a:visited{
 
 #center {
     text-align:center;
-    min-width: 150px;
 }
 
 #center_menu{
@@ -80,6 +79,7 @@ a:link,a:visited{
     overflow:hidden;
     padding: 5px;
     border: 1px solid #eae9f3;
+    min-width: 250px;
 }
 
 /*
