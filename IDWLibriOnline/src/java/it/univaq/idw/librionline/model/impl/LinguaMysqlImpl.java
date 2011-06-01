@@ -4,6 +4,7 @@
  */
 package it.univaq.idw.librionline.model.impl;
 
+import it.univaq.idw.librionline.model.Libro;
 import it.univaq.idw.librionline.model.Lingua;
 import java.io.Serializable;
 import java.util.Collection;
@@ -28,10 +29,10 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "lingua")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Lingua.findAll", query = "SELECT l FROM Lingua l"),
-    @NamedQuery(name = "Lingua.findById", query = "SELECT l FROM Lingua l WHERE l.id = :id"),
-    @NamedQuery(name = "Lingua.findByLingua", query = "SELECT l FROM Lingua l WHERE l.lingua = :lingua")})
-public class LinguaMysqlImpl implements Serializable, Lingua {
+    @NamedQuery(name = "LinguaMysqlImpl.findAll", query = "SELECT l FROM LinguaMysqlImpl l"),
+    @NamedQuery(name = "LinguaMysqlImpl.findById", query = "SELECT l FROM LinguaMysqlImpl l WHERE l.id = :id"),
+    @NamedQuery(name = "LinguaMysqlImpl.findByLingua", query = "SELECT l FROM LinguaMysqlImpl l WHERE l.lingua = :lingua")})
+public class LinguaMysqlImpl implements Serializable,Lingua {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -42,7 +43,7 @@ public class LinguaMysqlImpl implements Serializable, Lingua {
     @Column(name = "lingua")
     private String lingua;
     @OneToMany(mappedBy = "lingua")
-    private Collection<LibroMysqlImpl> libroCollection;
+    private Collection<LibroMysqlImpl> libroMysqlImplCollection;
 
     public LinguaMysqlImpl() {
     }
@@ -56,35 +57,29 @@ public class LinguaMysqlImpl implements Serializable, Lingua {
         this.lingua = lingua;
     }
 
-    @Override
     public Integer getId() {
         return id;
     }
 
-    @Override
     public void setId(Integer id) {
         this.id = id;
     }
 
-    @Override
     public String getLingua() {
         return lingua;
     }
 
-    @Override
     public void setLingua(String lingua) {
         this.lingua = lingua;
     }
 
     @XmlTransient
-    @Override
-    public Collection<LibroMysqlImpl> getLibroCollection() {
-        return libroCollection;
+    public Collection<LibroMysqlImpl> getLibroMysqlImplCollection() {
+        return libroMysqlImplCollection;
     }
 
-    @Override
-    public void setLibroCollection(Collection<LibroMysqlImpl> libroCollection) {
-        this.libroCollection = libroCollection;
+    public void setLibroMysqlImplCollection(Collection<LibroMysqlImpl> libroMysqlImplCollection) {
+        this.libroMysqlImplCollection = libroMysqlImplCollection;
     }
 
     @Override
@@ -109,7 +104,17 @@ public class LinguaMysqlImpl implements Serializable, Lingua {
 
     @Override
     public String toString() {
-        return "it.univaq.idw.librionline.model.impl.Lingua[ id=" + id + " ]";
+        return "it.univaq.idw.librionline.model.impl.LinguaMysqlImpl[ id=" + id + " ]";
+    }
+
+    @Override
+    public Collection<Libro> getLibroCollection() {
+        return (Collection) getLibroMysqlImplCollection();
+    }
+
+    @Override
+    public void setLibroCollection(Collection<Libro> libroCollection) {
+         setLibroMysqlImplCollection((Collection) libroCollection);
     }
     
 }

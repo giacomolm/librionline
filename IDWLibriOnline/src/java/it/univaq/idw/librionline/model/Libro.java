@@ -4,12 +4,6 @@
  */
 package it.univaq.idw.librionline.model;
 
-import it.univaq.idw.librionline.model.impl.AutoreMysqlImpl;
-import it.univaq.idw.librionline.model.impl.CopiaelettronicaMysqlImpl;
-import it.univaq.idw.librionline.model.impl.LibroMysqlImpl;
-import it.univaq.idw.librionline.model.impl.LinguaMysqlImpl;
-import it.univaq.idw.librionline.model.impl.TagMysqlImpl;
-import it.univaq.idw.librionline.model.impl.VolumeMysqlImpl;
 import java.util.Collection;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -24,58 +18,58 @@ public interface Libro {
     Integer getAnnoPubblicazione();
 
     @XmlTransient
-    Collection<AutoreMysqlImpl> getAutoreCollection();
+    Collection<Autore> getAutoreCollection();
 
     @XmlTransient
-    Collection<CopiaelettronicaMysqlImpl> getCopiaelettronicaCollection();
+    Collection<Copiaelettronica> getCopiaelettronicaCollection();
 
     String getEditore();
 
     String getIsbn();
 
     @XmlTransient
-    Collection<LibroMysqlImpl> getLibroCollection();
+    Collection<Libro> getLibroCollection();
 
     @XmlTransient
-    Collection<LibroMysqlImpl> getLibroCollection1();
+    Collection<Libro> getLibroCollection1();
 
-    LinguaMysqlImpl getLingua();
+    Lingua getLingua();
 
     String getRecensione();
 
     @XmlTransient
-    Collection<TagMysqlImpl> getTagCollection();
+    Collection<Tag> getTagCollection();
 
     String getTitolo();
 
     @XmlTransient
-    Collection<VolumeMysqlImpl> getVolumeCollection();
+    Collection<Volume> getVolumeCollection();
 
     int hashCode();
 
     void setAnnoPubblicazione(Integer annoPubblicazione);
 
-    void setAutoreCollection(Collection<AutoreMysqlImpl> autoreCollection);
+    void setAutoreCollection(Collection<Autore> autoreCollection);
 
-    void setCopiaelettronicaCollection(Collection<CopiaelettronicaMysqlImpl> copiaelettronicaCollection);
+    void setCopiaelettronicaCollection(Collection<Copiaelettronica> copiaelettronicaCollection);
 
     void setEditore(String editore);
 
     void setIsbn(String isbn);
 
-    void setLibroCollection(Collection<LibroMysqlImpl> libroCollection);
+    void setLibroCollection(Collection<Libro> libroCollection);
 
-    void setLibroCollection1(Collection<LibroMysqlImpl> libroCollection1);
+    void setLibroCollection1(Collection<Libro> libroCollection1);
 
-    void setLingua(LinguaMysqlImpl lingua);
+    void setLingua(Lingua lingua);
 
     void setRecensione(String recensione);
 
-    void setTagCollection(Collection<TagMysqlImpl> tagCollection);
+    void setTagCollection(Collection<Tag> tagCollection);
 
     void setTitolo(String titolo);
 
-    void setVolumeCollection(Collection<VolumeMysqlImpl> volumeCollection);
+    void setVolumeCollection(Collection<Volume> volumeCollection);
 
     String toString();
     

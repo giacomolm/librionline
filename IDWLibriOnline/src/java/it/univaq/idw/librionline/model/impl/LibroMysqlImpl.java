@@ -4,7 +4,12 @@
  */
 package it.univaq.idw.librionline.model.impl;
 
+import it.univaq.idw.librionline.model.Autore;
+import it.univaq.idw.librionline.model.Copiaelettronica;
 import it.univaq.idw.librionline.model.Libro;
+import it.univaq.idw.librionline.model.Lingua;
+import it.univaq.idw.librionline.model.Tag;
+import it.univaq.idw.librionline.model.Volume;
 import java.io.Serializable;
 import java.util.Collection;
 import javax.persistence.Basic;
@@ -32,12 +37,12 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "libro")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Libro.findAll", query = "SELECT l FROM Libro l"),
-    @NamedQuery(name = "Libro.findByIsbn", query = "SELECT l FROM Libro l WHERE l.isbn = :isbn"),
-    @NamedQuery(name = "Libro.findByTitolo", query = "SELECT l FROM Libro l WHERE l.titolo = :titolo"),
-    @NamedQuery(name = "Libro.findByEditore", query = "SELECT l FROM Libro l WHERE l.editore = :editore"),
-    @NamedQuery(name = "Libro.findByAnnoPubblicazione", query = "SELECT l FROM Libro l WHERE l.annoPubblicazione = :annoPubblicazione")})
-public class LibroMysqlImpl implements Serializable, Libro {
+    @NamedQuery(name = "LibroMysqlImpl.findAll", query = "SELECT l FROM LibroMysqlImpl l"),
+    @NamedQuery(name = "LibroMysqlImpl.findByIsbn", query = "SELECT l FROM LibroMysqlImpl l WHERE l.isbn = :isbn"),
+    @NamedQuery(name = "LibroMysqlImpl.findByTitolo", query = "SELECT l FROM LibroMysqlImpl l WHERE l.titolo = :titolo"),
+    @NamedQuery(name = "LibroMysqlImpl.findByEditore", query = "SELECT l FROM LibroMysqlImpl l WHERE l.editore = :editore"),
+    @NamedQuery(name = "LibroMysqlImpl.findByAnnoPubblicazione", query = "SELECT l FROM LibroMysqlImpl l WHERE l.annoPubblicazione = :annoPubblicazione")})
+public class LibroMysqlImpl implements Serializable,Libro {
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -57,23 +62,23 @@ public class LibroMysqlImpl implements Serializable, Libro {
         @JoinColumn(name = "libro", referencedColumnName = "isbn")}, inverseJoinColumns = {
         @JoinColumn(name = "autore", referencedColumnName = "id")})
     @ManyToMany
-    private Collection<AutoreMysqlImpl> autoreCollection;
+    private Collection<AutoreMysqlImpl> autoreMysqlImplCollection;
     @JoinTable(name = "libro_tag", joinColumns = {
         @JoinColumn(name = "libro", referencedColumnName = "isbn")}, inverseJoinColumns = {
         @JoinColumn(name = "tag", referencedColumnName = "id")})
     @ManyToMany
-    private Collection<TagMysqlImpl> tagCollection;
+    private Collection<TagMysqlImpl> tagMysqlImplCollection;
     @JoinTable(name = "traduzione", joinColumns = {
         @JoinColumn(name = "libro1", referencedColumnName = "isbn")}, inverseJoinColumns = {
         @JoinColumn(name = "libro2", referencedColumnName = "isbn")})
     @ManyToMany
-    private Collection<LibroMysqlImpl> libroCollection;
-    @ManyToMany(mappedBy = "libroCollection")
-    private Collection<LibroMysqlImpl> libroCollection1;
+    private Collection<LibroMysqlImpl> libroMysqlImplCollection;
+    @ManyToMany(mappedBy = "libroMysqlImplCollection")
+    private Collection<LibroMysqlImpl> libroMysqlImplCollection1;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "libro")
-    private Collection<CopiaelettronicaMysqlImpl> copiaelettronicaCollection;
+    private Collection<CopiaelettronicaMysqlImpl> copiaelettronicaMysqlImplCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "libro")
-    private Collection<VolumeMysqlImpl> volumeCollection;
+    private Collection<VolumeMysqlImpl> volumeMysqlImplCollection;
     @JoinColumn(name = "lingua", referencedColumnName = "id")
     @ManyToOne
     private LinguaMysqlImpl lingua;
@@ -90,128 +95,100 @@ public class LibroMysqlImpl implements Serializable, Libro {
         this.titolo = titolo;
     }
 
-    @Override
     public String getIsbn() {
         return isbn;
     }
 
-    @Override
     public void setIsbn(String isbn) {
         this.isbn = isbn;
     }
 
-    @Override
     public String getTitolo() {
         return titolo;
     }
 
-    @Override
     public void setTitolo(String titolo) {
         this.titolo = titolo;
     }
 
-    @Override
     public String getEditore() {
         return editore;
     }
 
-    @Override
     public void setEditore(String editore) {
         this.editore = editore;
     }
 
-    @Override
     public Integer getAnnoPubblicazione() {
         return annoPubblicazione;
     }
 
-    @Override
     public void setAnnoPubblicazione(Integer annoPubblicazione) {
         this.annoPubblicazione = annoPubblicazione;
     }
 
-    @Override
     public String getRecensione() {
         return recensione;
     }
 
-    @Override
     public void setRecensione(String recensione) {
         this.recensione = recensione;
     }
 
     @XmlTransient
-    @Override
-    public Collection<AutoreMysqlImpl> getAutoreCollection() {
-        return autoreCollection;
+    public Collection<AutoreMysqlImpl> getAutoreMysqlImplCollection() {
+        return autoreMysqlImplCollection;
     }
 
-    @Override
-    public void setAutoreCollection(Collection<AutoreMysqlImpl> autoreCollection) {
-        this.autoreCollection = autoreCollection;
-    }
-
-    @XmlTransient
-    @Override
-    public Collection<TagMysqlImpl> getTagCollection() {
-        return tagCollection;
-    }
-
-    @Override
-    public void setTagCollection(Collection<TagMysqlImpl> tagCollection) {
-        this.tagCollection = tagCollection;
+    public void setAutoreMysqlImplCollection(Collection<AutoreMysqlImpl> autoreMysqlImplCollection) {
+        this.autoreMysqlImplCollection = autoreMysqlImplCollection;
     }
 
     @XmlTransient
-    @Override
-    public Collection<LibroMysqlImpl> getLibroCollection() {
-        return libroCollection;
+    public Collection<TagMysqlImpl> getTagMysqlImplCollection() {
+        return tagMysqlImplCollection;
     }
 
-    @Override
-    public void setLibroCollection(Collection<LibroMysqlImpl> libroCollection) {
-        this.libroCollection = libroCollection;
-    }
-
-    @XmlTransient
-    @Override
-    public Collection<LibroMysqlImpl> getLibroCollection1() {
-        return libroCollection1;
-    }
-
-    @Override
-    public void setLibroCollection1(Collection<LibroMysqlImpl> libroCollection1) {
-        this.libroCollection1 = libroCollection1;
+    public void setTagMysqlImplCollection(Collection<TagMysqlImpl> tagMysqlImplCollection) {
+        this.tagMysqlImplCollection = tagMysqlImplCollection;
     }
 
     @XmlTransient
-    @Override
-    public Collection<CopiaelettronicaMysqlImpl> getCopiaelettronicaCollection() {
-        return copiaelettronicaCollection;
+    public Collection<LibroMysqlImpl> getLibroMysqlImplCollection() {
+        return libroMysqlImplCollection;
     }
 
-    @Override
-    public void setCopiaelettronicaCollection(Collection<CopiaelettronicaMysqlImpl> copiaelettronicaCollection) {
-        this.copiaelettronicaCollection = copiaelettronicaCollection;
+    public void setLibroMysqlImplCollection(Collection<LibroMysqlImpl> libroMysqlImplCollection) {
+        this.libroMysqlImplCollection = libroMysqlImplCollection;
     }
 
     @XmlTransient
-    @Override
-    public Collection<VolumeMysqlImpl> getVolumeCollection() {
-        return volumeCollection;
+    public Collection<LibroMysqlImpl> getLibroMysqlImplCollection1() {
+        return libroMysqlImplCollection1;
     }
 
-    @Override
-    public void setVolumeCollection(Collection<VolumeMysqlImpl> volumeCollection) {
-        this.volumeCollection = volumeCollection;
+    public void setLibroMysqlImplCollection1(Collection<LibroMysqlImpl> libroMysqlImplCollection1) {
+        this.libroMysqlImplCollection1 = libroMysqlImplCollection1;
     }
 
-    @Override
-    public LinguaMysqlImpl getLingua() {
-        return lingua;
+    @XmlTransient
+    public Collection<CopiaelettronicaMysqlImpl> getCopiaelettronicaMysqlImplCollection() {
+        return copiaelettronicaMysqlImplCollection;
     }
 
-    @Override
+    public void setCopiaelettronicaMysqlImplCollection(Collection<CopiaelettronicaMysqlImpl> copiaelettronicaMysqlImplCollection) {
+        this.copiaelettronicaMysqlImplCollection = copiaelettronicaMysqlImplCollection;
+    }
+
+    @XmlTransient
+    public Collection<VolumeMysqlImpl> getVolumeMysqlImplCollection() {
+        return volumeMysqlImplCollection;
+    }
+
+    public void setVolumeMysqlImplCollection(Collection<VolumeMysqlImpl> volumeMysqlImplCollection) {
+        this.volumeMysqlImplCollection = volumeMysqlImplCollection;
+    }
+
     public void setLingua(LinguaMysqlImpl lingua) {
         this.lingua = lingua;
     }
@@ -238,7 +215,77 @@ public class LibroMysqlImpl implements Serializable, Libro {
 
     @Override
     public String toString() {
-        return "it.univaq.idw.librionline.model.impl.Libro[ isbn=" + isbn + " ]";
+        return "it.univaq.idw.librionline.model.impl.LibroMysqlImpl[ isbn=" + isbn + " ]";
+    }
+
+    @Override
+    public Collection<Autore> getAutoreCollection() {
+        return (Collection) getAutoreMysqlImplCollection();
+    }
+
+    @Override
+    public Collection<Copiaelettronica> getCopiaelettronicaCollection() {
+        return (Collection) getCopiaelettronicaMysqlImplCollection();
+    }
+
+    @Override
+    public Collection<Libro> getLibroCollection() {
+        return (Collection) getLibroMysqlImplCollection();
+    }
+
+    @Override
+    public Collection<Libro> getLibroCollection1() {
+        return (Collection) getLibroMysqlImplCollection1();
+    }
+
+    @Override
+    public Lingua getLingua() {
+        return (Lingua) lingua;
+    }
+
+    @Override
+    public Collection<Tag> getTagCollection() {
+        return (Collection) getTagMysqlImplCollection();
+    }
+
+    @Override
+    public Collection<Volume> getVolumeCollection() {
+        return (Collection) getVolumeMysqlImplCollection();
+    }
+
+    @Override
+    public void setAutoreCollection(Collection<Autore> autoreCollection) {
+        setAutoreMysqlImplCollection((Collection) autoreCollection);
+    }
+
+    @Override
+    public void setCopiaelettronicaCollection(Collection<Copiaelettronica> copiaelettronicaCollection) {
+        setCopiaelettronicaMysqlImplCollection((Collection) copiaelettronicaCollection);
+    }
+
+    @Override
+    public void setLibroCollection(Collection<Libro> libroCollection) {
+        setLibroMysqlImplCollection((Collection) libroCollection);
+    }
+
+    @Override
+    public void setLibroCollection1(Collection<Libro> libroCollection1) {
+        setLibroMysqlImplCollection1((Collection) libroCollection1);
+    }
+
+    @Override
+    public void setLingua(Lingua lingua) {
+       this.lingua = (LinguaMysqlImpl) lingua;
+    }
+
+    @Override
+    public void setTagCollection(Collection<Tag> tagCollection) {
+       setTagMysqlImplCollection((Collection) tagCollection);
+    }
+
+    @Override
+    public void setVolumeCollection(Collection<Volume> volumeCollection) {
+       setVolumeMysqlImplCollection((Collection) volumeCollection);
     }
     
 }

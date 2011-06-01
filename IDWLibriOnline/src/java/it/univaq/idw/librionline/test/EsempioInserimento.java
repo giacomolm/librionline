@@ -3,6 +3,7 @@
  * and open the template in the editor.
  */
 package it.univaq.idw.librionline.test;
+import it.univaq.idw.librionline.model.Libro;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -18,7 +19,7 @@ public class EsempioInserimento {
         // TODO code application logic here
         EntityManagerFactory factory = Persistence.createEntityManagerFactory("IDWLibriOnlinePU");
         EntityManager manager = factory.createEntityManager();
-        LibroMysqlImpl l = new LibroMysqlImpl("28", "TwentyEight");
+        Libro l = new LibroMysqlImpl("90", "Giuliano Pisapia");
         l.setEditore("Mondadori");
         l.setAnnoPubblicazione(new Integer(1928));
         l.setRecensione("Il libro racconta la storia dal 1928 ad oggi");
@@ -26,5 +27,6 @@ public class EsempioInserimento {
         manager.getTransaction().begin();
         manager.persist(l);
         manager.getTransaction().commit();
+        //Collection<Libro> lc = get
     }
 }

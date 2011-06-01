@@ -4,7 +4,6 @@
  */
 package it.univaq.idw.librionline.model;
 
-import it.univaq.idw.librionline.model.impl.VolumeMysqlImpl;
 import java.util.Collection;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -21,7 +20,7 @@ public interface Stato {
     String getStato();
 
     @XmlTransient
-    Collection<VolumeMysqlImpl> getVolumeCollection();
+    Collection<Volume> getVolumeCollection();
 
     int hashCode();
 
@@ -29,7 +28,7 @@ public interface Stato {
 
     void setStato(String stato);
 
-    void setVolumeCollection(Collection<VolumeMysqlImpl> volumeCollection);
+    void setVolumeCollection(Collection<Volume> volumeCollection);
 
     String toString();
     

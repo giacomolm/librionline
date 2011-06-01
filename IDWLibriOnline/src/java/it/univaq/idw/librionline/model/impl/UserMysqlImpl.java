@@ -4,6 +4,8 @@
  */
 package it.univaq.idw.librionline.model.impl;
 
+import it.univaq.idw.librionline.model.Gruppo;
+import it.univaq.idw.librionline.model.Prestito;
 import it.univaq.idw.librionline.model.User;
 import java.io.Serializable;
 import java.util.Collection;
@@ -31,19 +33,19 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "user")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "User.findAll", query = "SELECT u FROM User u"),
-    @NamedQuery(name = "User.findById", query = "SELECT u FROM User u WHERE u.id = :id"),
-    @NamedQuery(name = "User.findByUsername", query = "SELECT u FROM User u WHERE u.username = :username"),
-    @NamedQuery(name = "User.findByPassword", query = "SELECT u FROM User u WHERE u.password = :password"),
-    @NamedQuery(name = "User.findByEmail", query = "SELECT u FROM User u WHERE u.email = :email"),
-    @NamedQuery(name = "User.findByTelefono", query = "SELECT u FROM User u WHERE u.telefono = :telefono"),
-    @NamedQuery(name = "User.findByNome", query = "SELECT u FROM User u WHERE u.nome = :nome"),
-    @NamedQuery(name = "User.findByCognome", query = "SELECT u FROM User u WHERE u.cognome = :cognome"),
-    @NamedQuery(name = "User.findByCodiceFiscale", query = "SELECT u FROM User u WHERE u.codiceFiscale = :codiceFiscale"),
-    @NamedQuery(name = "User.findByIndirizzo", query = "SELECT u FROM User u WHERE u.indirizzo = :indirizzo"),
-    @NamedQuery(name = "User.findByCitta", query = "SELECT u FROM User u WHERE u.citta = :citta"),
-    @NamedQuery(name = "User.findByProvincia", query = "SELECT u FROM User u WHERE u.provincia = :provincia"),
-    @NamedQuery(name = "User.findByCap", query = "SELECT u FROM User u WHERE u.cap = :cap")})
+    @NamedQuery(name = "UserMysqlImpl.findAll", query = "SELECT u FROM UserMysqlImpl u"),
+    @NamedQuery(name = "UserMysqlImpl.findById", query = "SELECT u FROM UserMysqlImpl u WHERE u.id = :id"),
+    @NamedQuery(name = "UserMysqlImpl.findByUsername", query = "SELECT u FROM UserMysqlImpl u WHERE u.username = :username"),
+    @NamedQuery(name = "UserMysqlImpl.findByPassword", query = "SELECT u FROM UserMysqlImpl u WHERE u.password = :password"),
+    @NamedQuery(name = "UserMysqlImpl.findByEmail", query = "SELECT u FROM UserMysqlImpl u WHERE u.email = :email"),
+    @NamedQuery(name = "UserMysqlImpl.findByTelefono", query = "SELECT u FROM UserMysqlImpl u WHERE u.telefono = :telefono"),
+    @NamedQuery(name = "UserMysqlImpl.findByNome", query = "SELECT u FROM UserMysqlImpl u WHERE u.nome = :nome"),
+    @NamedQuery(name = "UserMysqlImpl.findByCognome", query = "SELECT u FROM UserMysqlImpl u WHERE u.cognome = :cognome"),
+    @NamedQuery(name = "UserMysqlImpl.findByCodiceFiscale", query = "SELECT u FROM UserMysqlImpl u WHERE u.codiceFiscale = :codiceFiscale"),
+    @NamedQuery(name = "UserMysqlImpl.findByIndirizzo", query = "SELECT u FROM UserMysqlImpl u WHERE u.indirizzo = :indirizzo"),
+    @NamedQuery(name = "UserMysqlImpl.findByCitta", query = "SELECT u FROM UserMysqlImpl u WHERE u.citta = :citta"),
+    @NamedQuery(name = "UserMysqlImpl.findByProvincia", query = "SELECT u FROM UserMysqlImpl u WHERE u.provincia = :provincia"),
+    @NamedQuery(name = "UserMysqlImpl.findByCap", query = "SELECT u FROM UserMysqlImpl u WHERE u.cap = :cap")})
 public class UserMysqlImpl implements Serializable, User {
     private static final long serialVersionUID = 1L;
     @Id
@@ -83,7 +85,7 @@ public class UserMysqlImpl implements Serializable, User {
     @Column(name = "cap")
     private int cap;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
-    private Collection<PrestitoMysqlImpl> prestitoCollection;
+    private Collection<PrestitoMysqlImpl> prestitoMysqlImplCollection;
     @JoinColumn(name = "gruppo", referencedColumnName = "id")
     @ManyToOne
     private GruppoMysqlImpl gruppo;
@@ -108,145 +110,113 @@ public class UserMysqlImpl implements Serializable, User {
         this.cap = cap;
     }
 
-    @Override
     public Integer getId() {
         return id;
     }
 
-    @Override
     public void setId(Integer id) {
         this.id = id;
     }
 
-    @Override
     public String getUsername() {
         return username;
     }
 
-    @Override
     public void setUsername(String username) {
         this.username = username;
     }
 
-    @Override
     public String getPassword() {
         return password;
     }
 
-    @Override
     public void setPassword(String password) {
         this.password = password;
     }
 
-    @Override
     public String getEmail() {
         return email;
     }
 
-    @Override
     public void setEmail(String email) {
         this.email = email;
     }
 
-    @Override
     public String getTelefono() {
         return telefono;
     }
 
-    @Override
     public void setTelefono(String telefono) {
         this.telefono = telefono;
     }
 
-    @Override
     public String getNome() {
         return nome;
     }
 
-    @Override
     public void setNome(String nome) {
         this.nome = nome;
     }
 
-    @Override
     public String getCognome() {
         return cognome;
     }
 
-    @Override
     public void setCognome(String cognome) {
         this.cognome = cognome;
     }
 
-    @Override
     public String getCodiceFiscale() {
         return codiceFiscale;
     }
 
-    @Override
     public void setCodiceFiscale(String codiceFiscale) {
         this.codiceFiscale = codiceFiscale;
     }
 
-    @Override
     public String getIndirizzo() {
         return indirizzo;
     }
 
-    @Override
     public void setIndirizzo(String indirizzo) {
         this.indirizzo = indirizzo;
     }
 
-    @Override
     public String getCitta() {
         return citta;
     }
 
-    @Override
     public void setCitta(String citta) {
         this.citta = citta;
     }
 
-    @Override
     public String getProvincia() {
         return provincia;
     }
 
-    @Override
     public void setProvincia(String provincia) {
         this.provincia = provincia;
     }
 
-    @Override
     public int getCap() {
         return cap;
     }
 
-    @Override
     public void setCap(int cap) {
         this.cap = cap;
     }
 
     @XmlTransient
-    @Override
-    public Collection<PrestitoMysqlImpl> getPrestitoCollection() {
-        return prestitoCollection;
+    public Collection<PrestitoMysqlImpl> getPrestitoMysqlImplCollection() {
+        return prestitoMysqlImplCollection;
     }
 
-    @Override
-    public void setPrestitoCollection(Collection<PrestitoMysqlImpl> prestitoCollection) {
-        this.prestitoCollection = prestitoCollection;
+    public void setPrestitoMysqlImplCollection(Collection<PrestitoMysqlImpl> prestitoMysqlImplCollection) {
+        this.prestitoMysqlImplCollection = prestitoMysqlImplCollection;
     }
 
-    @Override
     public GruppoMysqlImpl getGruppo() {
         return gruppo;
-    }
-
-    @Override
-    public void setGruppo(GruppoMysqlImpl gruppo) {
-        this.gruppo = gruppo;
     }
 
     @Override
@@ -271,7 +241,22 @@ public class UserMysqlImpl implements Serializable, User {
 
     @Override
     public String toString() {
-        return "it.univaq.idw.librionline.model.impl.User[ id=" + id + " ]";
+        return "it.univaq.idw.librionline.model.impl.UserMysqlImpl[ id=" + id + " ]";
+    }
+
+    @Override
+    public Collection<Prestito> getPrestitoCollection() {
+        return (Collection) getPrestitoMysqlImplCollection();
+    }
+
+    @Override
+    public void setGruppo(Gruppo gruppo) {
+        this.gruppo = (GruppoMysqlImpl) gruppo;
+    }
+
+    @Override
+    public void setPrestitoCollection(Collection<Prestito> prestitoCollection) {
+        setPrestitoMysqlImplCollection((Collection) prestitoCollection);
     }
     
 }

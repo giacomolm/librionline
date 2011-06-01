@@ -4,6 +4,9 @@
  */
 package it.univaq.idw.librionline.model.impl;
 
+import it.univaq.idw.librionline.model.Libro;
+import it.univaq.idw.librionline.model.Prestito;
+import it.univaq.idw.librionline.model.Stato;
 import it.univaq.idw.librionline.model.Volume;
 import java.io.Serializable;
 import java.util.Collection;
@@ -31,8 +34,8 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "volume")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Volume.findAll", query = "SELECT v FROM Volume v"),
-    @NamedQuery(name = "Volume.findById", query = "SELECT v FROM Volume v WHERE v.id = :id")})
+    @NamedQuery(name = "VolumeMysqlImpl.findAll", query = "SELECT v FROM VolumeMysqlImpl v"),
+    @NamedQuery(name = "VolumeMysqlImpl.findById", query = "SELECT v FROM VolumeMysqlImpl v WHERE v.id = :id")})
 public class VolumeMysqlImpl implements Serializable, Volume {
     private static final long serialVersionUID = 1L;
     @Id
@@ -47,7 +50,7 @@ public class VolumeMysqlImpl implements Serializable, Volume {
     @ManyToOne
     private StatoMysqlImpl stato;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "volume")
-    private Collection<PrestitoMysqlImpl> prestitoCollection;
+    private Collection<PrestitoMysqlImpl> prestitoMysqlImplCollection;
 
     public VolumeMysqlImpl() {
     }
@@ -56,45 +59,29 @@ public class VolumeMysqlImpl implements Serializable, Volume {
         this.id = id;
     }
 
-    @Override
     public Integer getId() {
         return id;
     }
 
-    @Override
     public void setId(Integer id) {
         this.id = id;
     }
 
-    @Override
     public LibroMysqlImpl getLibro() {
         return libro;
     }
 
-    @Override
-    public void setLibro(LibroMysqlImpl libro) {
-        this.libro = libro;
-    }
-
-    @Override
     public StatoMysqlImpl getStato() {
         return stato;
     }
 
-    @Override
-    public void setStato(StatoMysqlImpl stato) {
-        this.stato = stato;
-    }
-
     @XmlTransient
-    @Override
-    public Collection<PrestitoMysqlImpl> getPrestitoCollection() {
-        return prestitoCollection;
+    public Collection<PrestitoMysqlImpl> getPrestitoMysqlImplCollection() {
+        return prestitoMysqlImplCollection;
     }
 
-    @Override
-    public void setPrestitoCollection(Collection<PrestitoMysqlImpl> prestitoCollection) {
-        this.prestitoCollection = prestitoCollection;
+    public void setPrestitoMysqlImplCollection(Collection<PrestitoMysqlImpl> prestitoMysqlImplCollection) {
+        this.prestitoMysqlImplCollection = prestitoMysqlImplCollection;
     }
 
     @Override
@@ -119,7 +106,27 @@ public class VolumeMysqlImpl implements Serializable, Volume {
 
     @Override
     public String toString() {
-        return "it.univaq.idw.librionline.model.impl.Volume[ id=" + id + " ]";
+        return "it.univaq.idw.librionline.model.impl.VolumeMysqlImpl[ id=" + id + " ]";
+    }
+
+    @Override
+    public Collection<Prestito> getPrestitoCollection() {
+        return (Collection) getPrestitoMysqlImplCollection();
+    }
+
+    @Override
+    public void setLibro(Libro libro) {
+        this.libro = (LibroMysqlImpl) libro;
+    }
+
+    @Override
+    public void setPrestitoCollection(Collection<Prestito> prestitoCollection) {
+        setPrestitoMysqlImplCollection((Collection) prestitoCollection);
+    }
+
+    @Override
+    public void setStato(Stato stato) {
+        this.stato = (StatoMysqlImpl) stato;
     }
     
 }

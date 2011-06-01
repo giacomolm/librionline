@@ -5,6 +5,8 @@
 package it.univaq.idw.librionline.model.impl;
 
 import it.univaq.idw.librionline.model.Prestito;
+import it.univaq.idw.librionline.model.User;
+import it.univaq.idw.librionline.model.Volume;
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Basic;
@@ -30,11 +32,11 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "prestito")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Prestito.findAll", query = "SELECT p FROM Prestito p"),
-    @NamedQuery(name = "Prestito.findById", query = "SELECT p FROM Prestito p WHERE p.id = :id"),
-    @NamedQuery(name = "Prestito.findByDataPrestito", query = "SELECT p FROM Prestito p WHERE p.dataPrestito = :dataPrestito"),
-    @NamedQuery(name = "Prestito.findByDataRestituzione", query = "SELECT p FROM Prestito p WHERE p.dataRestituzione = :dataRestituzione"),
-    @NamedQuery(name = "Prestito.findByRestituito", query = "SELECT p FROM Prestito p WHERE p.restituito = :restituito")})
+    @NamedQuery(name = "PrestitoMysqlImpl.findAll", query = "SELECT p FROM PrestitoMysqlImpl p"),
+    @NamedQuery(name = "PrestitoMysqlImpl.findById", query = "SELECT p FROM PrestitoMysqlImpl p WHERE p.id = :id"),
+    @NamedQuery(name = "PrestitoMysqlImpl.findByDataPrestito", query = "SELECT p FROM PrestitoMysqlImpl p WHERE p.dataPrestito = :dataPrestito"),
+    @NamedQuery(name = "PrestitoMysqlImpl.findByDataRestituzione", query = "SELECT p FROM PrestitoMysqlImpl p WHERE p.dataRestituzione = :dataRestituzione"),
+    @NamedQuery(name = "PrestitoMysqlImpl.findByRestituito", query = "SELECT p FROM PrestitoMysqlImpl p WHERE p.restituito = :restituito")})
 public class PrestitoMysqlImpl implements Serializable, Prestito {
     private static final long serialVersionUID = 1L;
     @Id
@@ -74,22 +76,18 @@ public class PrestitoMysqlImpl implements Serializable, Prestito {
         this.restituito = restituito;
     }
 
-    @Override
     public Integer getId() {
         return id;
     }
 
-    @Override
     public void setId(Integer id) {
         this.id = id;
     }
 
-    @Override
     public Date getDataPrestito() {
         return dataPrestito;
     }
 
-    @Override
     public void setDataPrestito(Date dataPrestito) {
         this.dataPrestito = dataPrestito;
     }
@@ -99,39 +97,16 @@ public class PrestitoMysqlImpl implements Serializable, Prestito {
         return dataRestituzione;
     }
 
-    @Override
     public void setDataRestituzione(Date dataRestituzione) {
         this.dataRestituzione = dataRestituzione;
     }
 
-    @Override
     public boolean getRestituito() {
         return restituito;
     }
 
-    @Override
     public void setRestituito(boolean restituito) {
         this.restituito = restituito;
-    }
-
-    @Override
-    public UserMysqlImpl getUser() {
-        return user;
-    }
-
-    @Override
-    public void setUser(UserMysqlImpl user) {
-        this.user = user;
-    }
-
-    @Override
-    public VolumeMysqlImpl getVolume() {
-        return volume;
-    }
-
-    @Override
-    public void setVolume(VolumeMysqlImpl volume) {
-        this.volume = volume;
     }
 
     @Override
@@ -156,7 +131,27 @@ public class PrestitoMysqlImpl implements Serializable, Prestito {
 
     @Override
     public String toString() {
-        return "it.univaq.idw.librionline.model.impl.Prestito[ id=" + id + " ]";
+        return "it.univaq.idw.librionline.model.impl.PrestitoMysqlImpl[ id=" + id + " ]";
+    }
+
+    @Override
+    public User getUser() {
+        return (User) user;
+    }
+
+    @Override
+    public Volume getVolume() {
+        return (Volume) volume;
+    }
+
+    @Override
+    public void setUser(User user) {
+        this.user = (UserMysqlImpl) user;
+    }
+
+    @Override
+    public void setVolume(Volume volume) {
+        this.volume = (VolumeMysqlImpl) volume;
     }
     
 }

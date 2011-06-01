@@ -20,22 +20,22 @@ public interface Volume {
 
     Integer getId();
 
-    LibroMysqlImpl getLibro();
+    Libro getLibro();
 
     @XmlTransient
-    Collection<PrestitoMysqlImpl> getPrestitoCollection();
+    Collection<Prestito> getPrestitoCollection();
 
-    StatoMysqlImpl getStato();
+    Stato getStato();
 
     int hashCode();
 
     void setId(Integer id);
 
-    void setLibro(LibroMysqlImpl libro);
+    void setLibro(Libro libro);
 
-    void setPrestitoCollection(Collection<PrestitoMysqlImpl> prestitoCollection);
+    void setPrestitoCollection(Collection<Prestito> prestitoCollection);
 
-    void setStato(StatoMysqlImpl stato);
+    void setStato(Stato stato);
 
     String toString();
     

@@ -4,6 +4,7 @@
  */
 package it.univaq.idw.librionline.model.impl;
 
+import it.univaq.idw.librionline.model.Libro;
 import it.univaq.idw.librionline.model.Tag;
 import java.io.Serializable;
 import java.util.Collection;
@@ -28,9 +29,9 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "tag")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Tag.findAll", query = "SELECT t FROM Tag t"),
-    @NamedQuery(name = "Tag.findById", query = "SELECT t FROM Tag t WHERE t.id = :id"),
-    @NamedQuery(name = "Tag.findByTag", query = "SELECT t FROM Tag t WHERE t.tag = :tag")})
+    @NamedQuery(name = "TagMysqlImpl.findAll", query = "SELECT t FROM TagMysqlImpl t"),
+    @NamedQuery(name = "TagMysqlImpl.findById", query = "SELECT t FROM TagMysqlImpl t WHERE t.id = :id"),
+    @NamedQuery(name = "TagMysqlImpl.findByTag", query = "SELECT t FROM TagMysqlImpl t WHERE t.tag = :tag")})
 public class TagMysqlImpl implements Serializable, Tag {
     private static final long serialVersionUID = 1L;
     @Id
@@ -41,8 +42,8 @@ public class TagMysqlImpl implements Serializable, Tag {
     @Basic(optional = false)
     @Column(name = "tag")
     private String tag;
-    @ManyToMany(mappedBy = "tagCollection")
-    private Collection<LibroMysqlImpl> libroCollection;
+    @ManyToMany(mappedBy = "tagMysqlImplCollection")
+    private Collection<LibroMysqlImpl> libroMysqlImplCollection;
 
     public TagMysqlImpl() {
     }
@@ -56,35 +57,29 @@ public class TagMysqlImpl implements Serializable, Tag {
         this.tag = tag;
     }
 
-    @Override
     public Integer getId() {
         return id;
     }
 
-    @Override
     public void setId(Integer id) {
         this.id = id;
     }
 
-    @Override
     public String getTag() {
         return tag;
     }
 
-    @Override
     public void setTag(String tag) {
         this.tag = tag;
     }
 
     @XmlTransient
-    @Override
-    public Collection<LibroMysqlImpl> getLibroCollection() {
-        return libroCollection;
+    public Collection<LibroMysqlImpl> getLibroMysqlImplCollection() {
+        return libroMysqlImplCollection;
     }
 
-    @Override
-    public void setLibroCollection(Collection<LibroMysqlImpl> libroCollection) {
-        this.libroCollection = libroCollection;
+    public void setLibroMysqlImplCollection(Collection<LibroMysqlImpl> libroMysqlImplCollection) {
+        this.libroMysqlImplCollection = libroMysqlImplCollection;
     }
 
     @Override
@@ -109,7 +104,17 @@ public class TagMysqlImpl implements Serializable, Tag {
 
     @Override
     public String toString() {
-        return "it.univaq.idw.librionline.model.impl.Tag[ id=" + id + " ]";
+        return "it.univaq.idw.librionline.model.impl.TagMysqlImpl[ id=" + id + " ]";
+    }
+
+    @Override
+    public Collection<Libro> getLibroCollection() {
+        return (Collection) getLibroMysqlImplCollection();
+    }
+
+    @Override
+    public void setLibroCollection(Collection<Libro> libroCollection) {
+        setLibroMysqlImplCollection((Collection) libroCollection);
     }
     
 }

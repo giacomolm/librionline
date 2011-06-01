@@ -4,7 +4,6 @@
  */
 package it.univaq.idw.librionline.model;
 
-import it.univaq.idw.librionline.model.impl.LibroMysqlImpl;
 import java.util.Collection;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -19,7 +18,7 @@ public interface Lingua {
     Integer getId();
 
     @XmlTransient
-    Collection<LibroMysqlImpl> getLibroCollection();
+    Collection<Libro> getLibroCollection();
 
     String getLingua();
 
@@ -27,7 +26,7 @@ public interface Lingua {
 
     void setId(Integer id);
 
-    void setLibroCollection(Collection<LibroMysqlImpl> libroCollection);
+    void setLibroCollection(Collection<Libro> libroCollection);
 
     void setLingua(String lingua);
 

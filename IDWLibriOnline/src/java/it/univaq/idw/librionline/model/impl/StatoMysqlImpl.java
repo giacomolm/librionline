@@ -5,6 +5,7 @@
 package it.univaq.idw.librionline.model.impl;
 
 import it.univaq.idw.librionline.model.Stato;
+import it.univaq.idw.librionline.model.Volume;
 import java.io.Serializable;
 import java.util.Collection;
 import javax.persistence.Basic;
@@ -28,10 +29,10 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "stato")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Stato.findAll", query = "SELECT s FROM Stato s"),
-    @NamedQuery(name = "Stato.findById", query = "SELECT s FROM Stato s WHERE s.id = :id"),
-    @NamedQuery(name = "Stato.findByStato", query = "SELECT s FROM Stato s WHERE s.stato = :stato")})
-public class StatoMysqlImpl implements Serializable, Stato {
+    @NamedQuery(name = "StatoMysqlImpl.findAll", query = "SELECT s FROM StatoMysqlImpl s"),
+    @NamedQuery(name = "StatoMysqlImpl.findById", query = "SELECT s FROM StatoMysqlImpl s WHERE s.id = :id"),
+    @NamedQuery(name = "StatoMysqlImpl.findByStato", query = "SELECT s FROM StatoMysqlImpl s WHERE s.stato = :stato")})
+public class StatoMysqlImpl implements Serializable,Stato {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -42,7 +43,7 @@ public class StatoMysqlImpl implements Serializable, Stato {
     @Column(name = "stato")
     private String stato;
     @OneToMany(mappedBy = "stato")
-    private Collection<VolumeMysqlImpl> volumeCollection;
+    private Collection<VolumeMysqlImpl> volumeMysqlImplCollection;
 
     public StatoMysqlImpl() {
     }
@@ -56,35 +57,29 @@ public class StatoMysqlImpl implements Serializable, Stato {
         this.stato = stato;
     }
 
-    @Override
     public Integer getId() {
         return id;
     }
 
-    @Override
     public void setId(Integer id) {
         this.id = id;
     }
 
-    @Override
     public String getStato() {
         return stato;
     }
 
-    @Override
     public void setStato(String stato) {
         this.stato = stato;
     }
 
     @XmlTransient
-    @Override
-    public Collection<VolumeMysqlImpl> getVolumeCollection() {
-        return volumeCollection;
+    public Collection<VolumeMysqlImpl> getVolumeMysqlImplCollection() {
+        return volumeMysqlImplCollection;
     }
 
-    @Override
-    public void setVolumeCollection(Collection<VolumeMysqlImpl> volumeCollection) {
-        this.volumeCollection = volumeCollection;
+    public void setVolumeMysqlImplCollection(Collection<VolumeMysqlImpl> volumeMysqlImplCollection) {
+        this.volumeMysqlImplCollection = volumeMysqlImplCollection;
     }
 
     @Override
@@ -109,7 +104,17 @@ public class StatoMysqlImpl implements Serializable, Stato {
 
     @Override
     public String toString() {
-        return "it.univaq.idw.librionline.model.impl.Stato[ id=" + id + " ]";
+        return "it.univaq.idw.librionline.model.impl.StatoMysqlImpl[ id=" + id + " ]";
+    }
+
+    @Override
+    public Collection<Volume> getVolumeCollection() {
+        return (Collection) getVolumeMysqlImplCollection();
+    }
+
+    @Override
+    public void setVolumeCollection(Collection<Volume> volumeCollection) {
+        setVolumeMysqlImplCollection((Collection) volumeCollection);
     }
     
 }

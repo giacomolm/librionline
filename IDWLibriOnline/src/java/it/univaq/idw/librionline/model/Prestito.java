@@ -4,8 +4,6 @@
  */
 package it.univaq.idw.librionline.model;
 
-import it.univaq.idw.librionline.model.impl.UserMysqlImpl;
-import it.univaq.idw.librionline.model.impl.VolumeMysqlImpl;
 import java.util.Date;
 
 /**
@@ -24,9 +22,9 @@ public interface Prestito {
 
     boolean getRestituito();
 
-    UserMysqlImpl getUser();
+    User getUser();
 
-    VolumeMysqlImpl getVolume();
+    Volume getVolume();
 
     int hashCode();
 
@@ -38,9 +36,9 @@ public interface Prestito {
 
     void setRestituito(boolean restituito);
 
-    void setUser(UserMysqlImpl user);
+    void setUser(User user);
 
-    void setVolume(VolumeMysqlImpl volume);
+    void setVolume(Volume volume);
 
     String toString();
     

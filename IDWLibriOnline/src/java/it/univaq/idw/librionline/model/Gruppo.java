@@ -4,8 +4,6 @@
  */
 package it.univaq.idw.librionline.model;
 
-import it.univaq.idw.librionline.model.impl.ServizioMysqlImpl;
-import it.univaq.idw.librionline.model.impl.UserMysqlImpl;
 import java.util.Collection;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -22,10 +20,10 @@ public interface Gruppo {
     Integer getId();
 
     @XmlTransient
-    Collection<ServizioMysqlImpl> getServizioCollection();
+    Collection<Servizio> getServizioCollection();
 
     @XmlTransient
-    Collection<UserMysqlImpl> getUserCollection();
+    Collection<User> getUserCollection();
 
     int hashCode();
 
@@ -33,9 +31,9 @@ public interface Gruppo {
 
     void setId(Integer id);
 
-    void setServizioCollection(Collection<ServizioMysqlImpl> servizioCollection);
+    void setServizioCollection(Collection<Servizio> servizioCollection);
 
-    void setUserCollection(Collection<UserMysqlImpl> userCollection);
+    void setUserCollection(Collection<User> userCollection);
 
     String toString();
     

@@ -5,6 +5,8 @@
 package it.univaq.idw.librionline.model.impl;
 
 import it.univaq.idw.librionline.model.Gruppo;
+import it.univaq.idw.librionline.model.Servizio;
+import it.univaq.idw.librionline.model.User;
 import java.io.Serializable;
 import java.util.Collection;
 import javax.persistence.Basic;
@@ -31,10 +33,10 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "gruppo")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Gruppo.findAll", query = "SELECT g FROM Gruppo g"),
-    @NamedQuery(name = "Gruppo.findById", query = "SELECT g FROM Gruppo g WHERE g.id = :id"),
-    @NamedQuery(name = "Gruppo.findByGruppo", query = "SELECT g FROM Gruppo g WHERE g.gruppo = :gruppo")})
-public class GruppoMysqlImpl implements Serializable, Gruppo {
+    @NamedQuery(name = "GruppoMysqlImpl.findAll", query = "SELECT g FROM GruppoMysqlImpl g"),
+    @NamedQuery(name = "GruppoMysqlImpl.findById", query = "SELECT g FROM GruppoMysqlImpl g WHERE g.id = :id"),
+    @NamedQuery(name = "GruppoMysqlImpl.findByGruppo", query = "SELECT g FROM GruppoMysqlImpl g WHERE g.gruppo = :gruppo")})
+public class GruppoMysqlImpl implements Serializable,Gruppo {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -48,9 +50,9 @@ public class GruppoMysqlImpl implements Serializable, Gruppo {
         @JoinColumn(name = "gruppo", referencedColumnName = "id")}, inverseJoinColumns = {
         @JoinColumn(name = "servizio", referencedColumnName = "id")})
     @ManyToMany
-    private Collection<ServizioMysqlImpl> servizioCollection;
+    private Collection<ServizioMysqlImpl> servizioMysqlImplCollection;
     @OneToMany(mappedBy = "gruppo")
-    private Collection<UserMysqlImpl> userCollection;
+    private Collection<UserMysqlImpl> userMysqlImplCollection;
 
     public GruppoMysqlImpl() {
     }
@@ -64,46 +66,38 @@ public class GruppoMysqlImpl implements Serializable, Gruppo {
         this.gruppo = gruppo;
     }
 
-    @Override
     public Integer getId() {
         return id;
     }
 
-    @Override
     public void setId(Integer id) {
         this.id = id;
     }
 
-    @Override
     public String getGruppo() {
         return gruppo;
     }
 
-    @Override
     public void setGruppo(String gruppo) {
         this.gruppo = gruppo;
     }
 
     @XmlTransient
-    @Override
-    public Collection<ServizioMysqlImpl> getServizioCollection() {
-        return servizioCollection;
+    public Collection<ServizioMysqlImpl> getServizioMysqlImplCollection() {
+        return servizioMysqlImplCollection;
     }
 
-    @Override
-    public void setServizioCollection(Collection<ServizioMysqlImpl> servizioCollection) {
-        this.servizioCollection = servizioCollection;
+    public void setServizioMysqlImplCollection(Collection<ServizioMysqlImpl> servizioMysqlImplCollection) {
+        this.servizioMysqlImplCollection = servizioMysqlImplCollection;
     }
 
     @XmlTransient
-    @Override
-    public Collection<UserMysqlImpl> getUserCollection() {
-        return userCollection;
+    public Collection<UserMysqlImpl> getUserMysqlImplCollection() {
+        return userMysqlImplCollection;
     }
 
-    @Override
-    public void setUserCollection(Collection<UserMysqlImpl> userCollection) {
-        this.userCollection = userCollection;
+    public void setUserMysqlImplCollection(Collection<UserMysqlImpl> userMysqlImplCollection) {
+        this.userMysqlImplCollection = userMysqlImplCollection;
     }
 
     @Override
@@ -128,7 +122,27 @@ public class GruppoMysqlImpl implements Serializable, Gruppo {
 
     @Override
     public String toString() {
-        return "it.univaq.idw.librionline.model.impl.Gruppo[ id=" + id + " ]";
+        return "it.univaq.idw.librionline.model.impl.GruppoMysqlImpl[ id=" + id + " ]";
+    }
+
+    @Override
+    public Collection<Servizio> getServizioCollection() {
+         return (Collection) getServizioMysqlImplCollection();
+    }
+
+    @Override
+    public Collection<User> getUserCollection() {
+        return (Collection) getUserMysqlImplCollection();
+    }
+
+    @Override
+    public void setServizioCollection(Collection<Servizio> servizioCollection) {
+        setServizioMysqlImplCollection((Collection) servizioCollection);
+    }
+
+    @Override
+    public void setUserCollection(Collection<User> userCollection) {
+        setUserMysqlImplCollection((Collection) userCollection);
     }
     
 }

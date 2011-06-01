@@ -16,7 +16,7 @@ public interface Copiaelettronica {
 
     Integer getId();
 
-    LibroMysqlImpl getLibro();
+    Libro getLibro();
 
     String getMimetype();
 
@@ -26,7 +26,7 @@ public interface Copiaelettronica {
 
     void setId(Integer id);
 
-    void setLibro(LibroMysqlImpl libro);
+    void setLibro(Libro libro);
 
     void setMimetype(String mimetype);
 

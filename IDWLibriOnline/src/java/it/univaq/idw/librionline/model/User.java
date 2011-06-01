@@ -4,8 +4,7 @@
  */
 package it.univaq.idw.librionline.model;
 
-import it.univaq.idw.librionline.model.impl.GruppoMysqlImpl;
-import it.univaq.idw.librionline.model.impl.PrestitoMysqlImpl;
+
 import java.util.Collection;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -27,7 +26,7 @@ public interface User {
 
     String getEmail();
 
-    GruppoMysqlImpl getGruppo();
+    Gruppo getGruppo();
 
     Integer getId();
 
@@ -38,7 +37,7 @@ public interface User {
     String getPassword();
 
     @XmlTransient
-    Collection<PrestitoMysqlImpl> getPrestitoCollection();
+    Collection<Prestito> getPrestitoCollection();
 
     String getProvincia();
 
@@ -58,7 +57,7 @@ public interface User {
 
     void setEmail(String email);
 
-    void setGruppo(GruppoMysqlImpl gruppo);
+    void setGruppo(Gruppo gruppo);
 
     void setId(Integer id);
 
@@ -68,7 +67,7 @@ public interface User {
 
     void setPassword(String password);
 
-    void setPrestitoCollection(Collection<PrestitoMysqlImpl> prestitoCollection);
+    void setPrestitoCollection(Collection<Prestito> prestitoCollection);
 
     void setProvincia(String provincia);
 

@@ -4,7 +4,6 @@
  */
 package it.univaq.idw.librionline.model;
 
-import it.univaq.idw.librionline.model.impl.GruppoMysqlImpl;
 import java.util.Collection;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -17,7 +16,7 @@ public interface Servizio {
     boolean equals(Object object);
 
     @XmlTransient
-    Collection<GruppoMysqlImpl> getGruppoCollection();
+    Collection<Gruppo> getGruppoCollection();
 
     Integer getId();
 
@@ -25,7 +24,7 @@ public interface Servizio {
 
     int hashCode();
 
-    void setGruppoCollection(Collection<GruppoMysqlImpl> gruppoCollection);
+    void setGruppoCollection(Collection<Gruppo> gruppoCollection);
 
     void setId(Integer id);
 

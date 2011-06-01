@@ -4,6 +4,7 @@
  */
 package it.univaq.idw.librionline.model.impl;
 
+import it.univaq.idw.librionline.model.Gruppo;
 import it.univaq.idw.librionline.model.Servizio;
 import java.io.Serializable;
 import java.util.Collection;
@@ -28,9 +29,9 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "servizio")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Servizio.findAll", query = "SELECT s FROM Servizio s"),
-    @NamedQuery(name = "Servizio.findById", query = "SELECT s FROM Servizio s WHERE s.id = :id"),
-    @NamedQuery(name = "Servizio.findByServizio", query = "SELECT s FROM Servizio s WHERE s.servizio = :servizio")})
+    @NamedQuery(name = "ServizioMysqlImpl.findAll", query = "SELECT s FROM ServizioMysqlImpl s"),
+    @NamedQuery(name = "ServizioMysqlImpl.findById", query = "SELECT s FROM ServizioMysqlImpl s WHERE s.id = :id"),
+    @NamedQuery(name = "ServizioMysqlImpl.findByServizio", query = "SELECT s FROM ServizioMysqlImpl s WHERE s.servizio = :servizio")})
 public class ServizioMysqlImpl implements Serializable, Servizio {
     private static final long serialVersionUID = 1L;
     @Id
@@ -41,8 +42,8 @@ public class ServizioMysqlImpl implements Serializable, Servizio {
     @Basic(optional = false)
     @Column(name = "servizio")
     private String servizio;
-    @ManyToMany(mappedBy = "servizioCollection")
-    private Collection<GruppoMysqlImpl> gruppoCollection;
+    @ManyToMany(mappedBy = "servizioMysqlImplCollection")
+    private Collection<GruppoMysqlImpl> gruppoMysqlImplCollection;
 
     public ServizioMysqlImpl() {
     }
@@ -56,35 +57,29 @@ public class ServizioMysqlImpl implements Serializable, Servizio {
         this.servizio = servizio;
     }
 
-    @Override
     public Integer getId() {
         return id;
     }
 
-    @Override
     public void setId(Integer id) {
         this.id = id;
     }
 
-    @Override
     public String getServizio() {
         return servizio;
     }
 
-    @Override
     public void setServizio(String servizio) {
         this.servizio = servizio;
     }
 
     @XmlTransient
-    @Override
-    public Collection<GruppoMysqlImpl> getGruppoCollection() {
-        return gruppoCollection;
+    public Collection<GruppoMysqlImpl> getGruppoMysqlImplCollection() {
+        return gruppoMysqlImplCollection;
     }
 
-    @Override
-    public void setGruppoCollection(Collection<GruppoMysqlImpl> gruppoCollection) {
-        this.gruppoCollection = gruppoCollection;
+    public void setGruppoMysqlImplCollection(Collection<GruppoMysqlImpl> gruppoMysqlImplCollection) {
+        this.gruppoMysqlImplCollection = gruppoMysqlImplCollection;
     }
 
     @Override
@@ -109,7 +104,17 @@ public class ServizioMysqlImpl implements Serializable, Servizio {
 
     @Override
     public String toString() {
-        return "it.univaq.idw.librionline.model.impl.Servizio[ id=" + id + " ]";
+        return "it.univaq.idw.librionline.model.impl.ServizioMysqlImpl[ id=" + id + " ]";
+    }
+
+    @Override
+    public Collection<Gruppo> getGruppoCollection() {
+        return (Collection) getGruppoMysqlImplCollection();
+    }
+
+    @Override
+    public void setGruppoCollection(Collection<Gruppo> gruppoCollection) {
+        setGruppoMysqlImplCollection((Collection) gruppoCollection);
     }
     
 }

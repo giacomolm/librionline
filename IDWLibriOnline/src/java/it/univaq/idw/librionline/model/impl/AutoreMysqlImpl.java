@@ -5,7 +5,7 @@
 package it.univaq.idw.librionline.model.impl;
 
 import it.univaq.idw.librionline.model.Autore;
-import it.univaq.idw.librionline.model.impl.LibroMysqlImpl;
+import it.univaq.idw.librionline.model.Libro;
 import java.io.Serializable;
 import java.util.Collection;
 import javax.persistence.Basic;
@@ -29,10 +29,10 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "autore")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Autore.findAll", query = "SELECT a FROM Autore a"),
-    @NamedQuery(name = "Autore.findById", query = "SELECT a FROM Autore a WHERE a.id = :id"),
-    @NamedQuery(name = "Autore.findByNome", query = "SELECT a FROM Autore a WHERE a.nome = :nome")})
-public class AutoreMysqlImpl implements Serializable, Autore {
+    @NamedQuery(name = "AutoreMysqlImpl.findAll", query = "SELECT a FROM AutoreMysqlImpl a"),
+    @NamedQuery(name = "AutoreMysqlImpl.findById", query = "SELECT a FROM AutoreMysqlImpl a WHERE a.id = :id"),
+    @NamedQuery(name = "AutoreMysqlImpl.findByNome", query = "SELECT a FROM AutoreMysqlImpl a WHERE a.nome = :nome")})
+public class AutoreMysqlImpl implements Serializable,Autore {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -42,8 +42,8 @@ public class AutoreMysqlImpl implements Serializable, Autore {
     @Basic(optional = false)
     @Column(name = "nome")
     private String nome;
-    @ManyToMany(mappedBy = "autoreCollection")
-    private Collection<LibroMysqlImpl> libroCollection;
+    @ManyToMany(mappedBy = "autoreMysqlImplCollection")
+    private Collection<LibroMysqlImpl> libroMysqlImplCollection;
 
     public AutoreMysqlImpl() {
     }
@@ -57,35 +57,29 @@ public class AutoreMysqlImpl implements Serializable, Autore {
         this.nome = nome;
     }
 
-    @Override
     public Integer getId() {
         return id;
     }
 
-    @Override
     public void setId(Integer id) {
         this.id = id;
     }
 
-    @Override
     public String getNome() {
         return nome;
     }
 
-    @Override
     public void setNome(String nome) {
         this.nome = nome;
     }
 
     @XmlTransient
-    @Override
-    public Collection<LibroMysqlImpl> getLibroCollection() {
-        return libroCollection;
+    public Collection<LibroMysqlImpl> getLibroMysqlImplCollection() {
+        return libroMysqlImplCollection;
     }
 
-    @Override
-    public void setLibroCollection(Collection<LibroMysqlImpl> libroCollection) {
-        this.libroCollection = libroCollection;
+    public void setLibroMysqlImplCollection(Collection<LibroMysqlImpl> libroMysqlImplCollection) {
+        this.libroMysqlImplCollection = libroMysqlImplCollection;
     }
 
     @Override
@@ -110,7 +104,17 @@ public class AutoreMysqlImpl implements Serializable, Autore {
 
     @Override
     public String toString() {
-        return "it.univaq.idw.librionline.model.impl.Autore[ id=" + id + " ]";
+        return "it.univaq.idw.librionline.model.impl.AutoreMysqlImpl[ id=" + id + " ]";
+    }
+
+    @Override
+    public Collection<Libro> getLibroCollection() {
+        return (Collection) getLibroMysqlImplCollection();
+    }
+
+    @Override
+    public void setLibroCollection(Collection<Libro> libroCollection) {
+        setLibroMysqlImplCollection((Collection) libroCollection);
     }
     
 }
