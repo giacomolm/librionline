@@ -1,6 +1,12 @@
 /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
+ * 
+CREATE TABLE IF NOT EXISTS `lingua` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `lingua` varchar(25) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
  */
 package it.univaq.idw.librionline.model.impl;
 
@@ -45,39 +51,63 @@ public class LinguaMysqlImpl implements Serializable,Lingua {
     @OneToMany(mappedBy = "lingua")
     private Collection<LibroMysqlImpl> libroMysqlImplCollection;
 
+    /**
+     * 
+     */
     public LinguaMysqlImpl() {
     }
 
+    /**
+     * 
+     * @param id
+     */
     public LinguaMysqlImpl(Integer id) {
         this.id = id;
     }
 
+    /**
+     * 
+     * @param id
+     * @param lingua
+     */
     public LinguaMysqlImpl(Integer id, String lingua) {
         this.id = id;
         this.lingua = lingua;
     }
 
+    @Override
     public Integer getId() {
         return id;
     }
 
+    @Override
     public void setId(Integer id) {
         this.id = id;
     }
 
+    @Override
     public String getLingua() {
         return lingua;
     }
 
+    @Override
     public void setLingua(String lingua) {
         this.lingua = lingua;
     }
 
+    /**
+     * 
+     * @return
+     */
     @XmlTransient
     public Collection<LibroMysqlImpl> getLibroMysqlImplCollection() {
         return libroMysqlImplCollection;
     }
 
+    /**
+     * 
+     * @param libroMysqlImplCollection
+     */
     public void setLibroMysqlImplCollection(Collection<LibroMysqlImpl> libroMysqlImplCollection) {
         this.libroMysqlImplCollection = libroMysqlImplCollection;
     }

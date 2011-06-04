@@ -1,6 +1,13 @@
 /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
+ * 
+CREATE TABLE IF NOT EXISTS `tag` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `tag` varchar(25) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
  */
 package it.univaq.idw.librionline.model.impl;
 
@@ -45,39 +52,63 @@ public class TagMysqlImpl implements Serializable, Tag {
     @ManyToMany(mappedBy = "tagMysqlImplCollection")
     private Collection<LibroMysqlImpl> libroMysqlImplCollection;
 
+    /**
+     * 
+     */
     public TagMysqlImpl() {
     }
 
+    /**
+     * 
+     * @param id
+     */
     public TagMysqlImpl(Integer id) {
         this.id = id;
     }
 
+    /**
+     * 
+     * @param id
+     * @param tag
+     */
     public TagMysqlImpl(Integer id, String tag) {
         this.id = id;
         this.tag = tag;
     }
 
+    @Override
     public Integer getId() {
         return id;
     }
 
+    @Override
     public void setId(Integer id) {
         this.id = id;
     }
 
+    @Override
     public String getTag() {
         return tag;
     }
 
+    @Override
     public void setTag(String tag) {
         this.tag = tag;
     }
 
+    /**
+     * 
+     * @return
+     */
     @XmlTransient
     public Collection<LibroMysqlImpl> getLibroMysqlImplCollection() {
         return libroMysqlImplCollection;
     }
 
+    /**
+     * 
+     * @param libroMysqlImplCollection
+     */
     public void setLibroMysqlImplCollection(Collection<LibroMysqlImpl> libroMysqlImplCollection) {
         this.libroMysqlImplCollection = libroMysqlImplCollection;
     }

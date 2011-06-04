@@ -1,6 +1,17 @@
 /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
+ * 
+CREATE TABLE IF NOT EXISTS `libro` (
+  `isbn` varchar(10) NOT NULL,
+  `titolo` varchar(50) NOT NULL,
+  `editore` varchar(25) DEFAULT NULL,
+  `annoPubblicazione` int(4) DEFAULT NULL,
+  `recensione` text,
+  `lingua` int(11) DEFAULT NULL,
+  PRIMARY KEY (`isbn`),
+  KEY `lingua` (`lingua`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
  */
 package it.univaq.idw.librionline.model.impl;
 
@@ -83,112 +94,186 @@ public class LibroMysqlImpl implements Serializable,Libro {
     @ManyToOne
     private LinguaMysqlImpl lingua;
 
+    /**
+     * 
+     */
     public LibroMysqlImpl() {
     }
 
+    /**
+     * 
+     * @param isbn
+     */
     public LibroMysqlImpl(String isbn) {
         this.isbn = isbn;
     }
 
+    /**
+     * 
+     * @param isbn
+     * @param titolo
+     */
     public LibroMysqlImpl(String isbn, String titolo) {
         this.isbn = isbn;
         this.titolo = titolo;
     }
 
+    @Override
     public String getIsbn() {
         return isbn;
     }
 
+    @Override
     public void setIsbn(String isbn) {
         this.isbn = isbn;
     }
 
+    @Override
     public String getTitolo() {
         return titolo;
     }
 
+    @Override
     public void setTitolo(String titolo) {
         this.titolo = titolo;
     }
 
+    @Override
     public String getEditore() {
         return editore;
     }
 
+    @Override
     public void setEditore(String editore) {
         this.editore = editore;
     }
 
+    @Override
     public Integer getAnnoPubblicazione() {
         return annoPubblicazione;
     }
 
+    @Override
     public void setAnnoPubblicazione(Integer annoPubblicazione) {
         this.annoPubblicazione = annoPubblicazione;
     }
 
+    @Override
     public String getRecensione() {
         return recensione;
     }
 
+    @Override
     public void setRecensione(String recensione) {
         this.recensione = recensione;
     }
 
+    /**
+     * 
+     * @return
+     */
     @XmlTransient
     public Collection<AutoreMysqlImpl> getAutoreMysqlImplCollection() {
         return autoreMysqlImplCollection;
     }
 
+    /**
+     * 
+     * @param autoreMysqlImplCollection
+     */
     public void setAutoreMysqlImplCollection(Collection<AutoreMysqlImpl> autoreMysqlImplCollection) {
         this.autoreMysqlImplCollection = autoreMysqlImplCollection;
     }
 
+    /**
+     * 
+     * @return
+     */
     @XmlTransient
     public Collection<TagMysqlImpl> getTagMysqlImplCollection() {
         return tagMysqlImplCollection;
     }
 
+    /**
+     * 
+     * @param tagMysqlImplCollection
+     */
     public void setTagMysqlImplCollection(Collection<TagMysqlImpl> tagMysqlImplCollection) {
         this.tagMysqlImplCollection = tagMysqlImplCollection;
     }
 
+    /**
+     * 
+     * @return
+     */
     @XmlTransient
     public Collection<LibroMysqlImpl> getLibroMysqlImplCollection() {
         return libroMysqlImplCollection;
     }
 
+    /**
+     * 
+     * @param libroMysqlImplCollection
+     */
     public void setLibroMysqlImplCollection(Collection<LibroMysqlImpl> libroMysqlImplCollection) {
         this.libroMysqlImplCollection = libroMysqlImplCollection;
     }
 
+    /**
+     * 
+     * @return
+     */
     @XmlTransient
     public Collection<LibroMysqlImpl> getLibroMysqlImplCollection1() {
         return libroMysqlImplCollection1;
     }
 
+    /**
+     * 
+     * @param libroMysqlImplCollection1
+     */
     public void setLibroMysqlImplCollection1(Collection<LibroMysqlImpl> libroMysqlImplCollection1) {
         this.libroMysqlImplCollection1 = libroMysqlImplCollection1;
     }
 
+    /**
+     * 
+     * @return
+     */
     @XmlTransient
     public Collection<CopiaelettronicaMysqlImpl> getCopiaelettronicaMysqlImplCollection() {
         return copiaelettronicaMysqlImplCollection;
     }
 
+    /**
+     * 
+     * @param copiaelettronicaMysqlImplCollection
+     */
     public void setCopiaelettronicaMysqlImplCollection(Collection<CopiaelettronicaMysqlImpl> copiaelettronicaMysqlImplCollection) {
         this.copiaelettronicaMysqlImplCollection = copiaelettronicaMysqlImplCollection;
     }
 
+    /**
+     * 
+     * @return
+     */
     @XmlTransient
     public Collection<VolumeMysqlImpl> getVolumeMysqlImplCollection() {
         return volumeMysqlImplCollection;
     }
 
+    /**
+     * 
+     * @param volumeMysqlImplCollection
+     */
     public void setVolumeMysqlImplCollection(Collection<VolumeMysqlImpl> volumeMysqlImplCollection) {
         this.volumeMysqlImplCollection = volumeMysqlImplCollection;
     }
 
+    /**
+     * 
+     * @param lingua
+     */
     public void setLingua(LinguaMysqlImpl lingua) {
         this.lingua = lingua;
     }

@@ -1,6 +1,11 @@
 /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
+ * CREATE TABLE IF NOT EXISTS `gruppo` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `gruppo` varchar(25) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
  */
 package it.univaq.idw.librionline.model.impl;
 
@@ -54,48 +59,80 @@ public class GruppoMysqlImpl implements Serializable,Gruppo {
     @OneToMany(mappedBy = "gruppo")
     private Collection<UserMysqlImpl> userMysqlImplCollection;
 
+    /**
+     * 
+     */
     public GruppoMysqlImpl() {
     }
 
+    /**
+     * 
+     * @param id
+     */
     public GruppoMysqlImpl(Integer id) {
         this.id = id;
     }
 
+    /**
+     * 
+     * @param id
+     * @param gruppo
+     */
     public GruppoMysqlImpl(Integer id, String gruppo) {
         this.id = id;
         this.gruppo = gruppo;
     }
 
+    @Override
     public Integer getId() {
         return id;
     }
 
+    @Override
     public void setId(Integer id) {
         this.id = id;
     }
 
+    @Override
     public String getGruppo() {
         return gruppo;
     }
 
+    @Override
     public void setGruppo(String gruppo) {
         this.gruppo = gruppo;
     }
 
+    /**
+     * 
+     * @return
+     */
     @XmlTransient
     public Collection<ServizioMysqlImpl> getServizioMysqlImplCollection() {
         return servizioMysqlImplCollection;
     }
 
+    /**
+     * 
+     * @param servizioMysqlImplCollection
+     */
     public void setServizioMysqlImplCollection(Collection<ServizioMysqlImpl> servizioMysqlImplCollection) {
         this.servizioMysqlImplCollection = servizioMysqlImplCollection;
     }
 
+    /**
+     * 
+     * @return
+     */
     @XmlTransient
     public Collection<UserMysqlImpl> getUserMysqlImplCollection() {
         return userMysqlImplCollection;
     }
 
+    /**
+     * 
+     * @param userMysqlImplCollection
+     */
     public void setUserMysqlImplCollection(Collection<UserMysqlImpl> userMysqlImplCollection) {
         this.userMysqlImplCollection = userMysqlImplCollection;
     }

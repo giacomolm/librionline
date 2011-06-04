@@ -1,6 +1,12 @@
 /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
+ * 
+CREATE TABLE IF NOT EXISTS `servizio` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `servizio` varchar(25) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
  */
 package it.univaq.idw.librionline.model.impl;
 
@@ -45,39 +51,63 @@ public class ServizioMysqlImpl implements Serializable, Servizio {
     @ManyToMany(mappedBy = "servizioMysqlImplCollection")
     private Collection<GruppoMysqlImpl> gruppoMysqlImplCollection;
 
+    /**
+     * 
+     */
     public ServizioMysqlImpl() {
     }
 
+    /**
+     * 
+     * @param id
+     */
     public ServizioMysqlImpl(Integer id) {
         this.id = id;
     }
 
+    /**
+     * 
+     * @param id
+     * @param servizio
+     */
     public ServizioMysqlImpl(Integer id, String servizio) {
         this.id = id;
         this.servizio = servizio;
     }
 
+    @Override
     public Integer getId() {
         return id;
     }
 
+    @Override
     public void setId(Integer id) {
         this.id = id;
     }
 
+    @Override
     public String getServizio() {
         return servizio;
     }
 
+    @Override
     public void setServizio(String servizio) {
         this.servizio = servizio;
     }
 
+    /**
+     * 
+     * @return
+     */
     @XmlTransient
     public Collection<GruppoMysqlImpl> getGruppoMysqlImplCollection() {
         return gruppoMysqlImplCollection;
     }
 
+    /**
+     * 
+     * @param gruppoMysqlImplCollection
+     */
     public void setGruppoMysqlImplCollection(Collection<GruppoMysqlImpl> gruppoMysqlImplCollection) {
         this.gruppoMysqlImplCollection = gruppoMysqlImplCollection;
     }

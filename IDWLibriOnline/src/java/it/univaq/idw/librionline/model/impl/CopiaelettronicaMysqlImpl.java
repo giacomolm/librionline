@@ -1,6 +1,14 @@
 /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
+ * CREATE TABLE IF NOT EXISTS `copiaelettronica` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `mimetype` varchar(25) NOT NULL,
+  `url` varchar(50) NOT NULL,
+  `libro` varchar(10) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `libro` (`libro`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
  */
 package it.univaq.idw.librionline.model.impl;
 
@@ -49,44 +57,67 @@ public class CopiaelettronicaMysqlImpl implements Serializable, Copiaelettronica
     @ManyToOne(optional = false)
     private LibroMysqlImpl libro;
 
+    /**
+     * 
+     */
     public CopiaelettronicaMysqlImpl() {
     }
 
+    /**
+     * 
+     * @param id
+     */
     public CopiaelettronicaMysqlImpl(Integer id) {
         this.id = id;
     }
 
+    /**
+     * 
+     * @param id
+     * @param mimetype
+     * @param url
+     */
     public CopiaelettronicaMysqlImpl(Integer id, String mimetype, String url) {
         this.id = id;
         this.mimetype = mimetype;
         this.url = url;
     }
 
+    @Override
     public Integer getId() {
         return id;
     }
 
+    @Override
     public void setId(Integer id) {
         this.id = id;
     }
 
+    @Override
     public String getMimetype() {
         return mimetype;
     }
 
+    @Override
     public void setMimetype(String mimetype) {
         this.mimetype = mimetype;
     }
 
+    @Override
     public String getUrl() {
         return url;
     }
 
+    @Override
     public void setUrl(String url) {
         this.url = url;
     }
 
 
+    /**
+     * 
+     * @param libro
+     */
     public void setLibro(LibroMysqlImpl libro) {
         this.libro = libro;
     }

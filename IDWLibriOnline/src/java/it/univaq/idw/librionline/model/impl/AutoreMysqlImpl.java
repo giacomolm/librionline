@@ -1,7 +1,13 @@
 /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
+ *    CREATE TABLE IF NOT EXISTS `autore` (
+      `id` int(11) NOT NULL AUTO_INCREMENT,
+      `nome` varchar(50) NOT NULL,
+      PRIMARY KEY (`id`)
+    ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
  */
+
 package it.univaq.idw.librionline.model.impl;
 
 import it.univaq.idw.librionline.model.Autore;
@@ -45,39 +51,63 @@ public class AutoreMysqlImpl implements Serializable,Autore {
     @ManyToMany(mappedBy = "autoreMysqlImplCollection")
     private Collection<LibroMysqlImpl> libroMysqlImplCollection;
 
+    /**
+     * 
+     */
     public AutoreMysqlImpl() {
     }
 
+    /**
+     * 
+     * @param id
+     */
     public AutoreMysqlImpl(Integer id) {
         this.id = id;
     }
 
+    /**
+     * 
+     * @param id
+     * @param nome
+     */
     public AutoreMysqlImpl(Integer id, String nome) {
         this.id = id;
         this.nome = nome;
     }
 
+    @Override
     public Integer getId() {
         return id;
     }
 
+    @Override
     public void setId(Integer id) {
         this.id = id;
     }
 
+    @Override
     public String getNome() {
         return nome;
     }
 
+    @Override
     public void setNome(String nome) {
         this.nome = nome;
     }
 
+    /**
+     * 
+     * @return
+     */
     @XmlTransient
     public Collection<LibroMysqlImpl> getLibroMysqlImplCollection() {
         return libroMysqlImplCollection;
     }
 
+    /**
+     * 
+     * @param libroMysqlImplCollection
+     */
     public void setLibroMysqlImplCollection(Collection<LibroMysqlImpl> libroMysqlImplCollection) {
         this.libroMysqlImplCollection = libroMysqlImplCollection;
     }

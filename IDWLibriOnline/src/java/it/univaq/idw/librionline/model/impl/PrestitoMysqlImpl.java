@@ -1,6 +1,18 @@
 /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
+ * 
+CREATE TABLE IF NOT EXISTS `prestito` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `dataPrestito` date NOT NULL,
+  `dataRestituzione` date NOT NULL,
+  `restituito` tinyint(1) NOT NULL DEFAULT '0',
+  `volume` int(11) NOT NULL,
+  `user` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `volume` (`volume`,`user`),
+  KEY `user` (`user`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
  */
 package it.univaq.idw.librionline.model.impl;
 
@@ -62,13 +74,27 @@ public class PrestitoMysqlImpl implements Serializable, Prestito {
     @ManyToOne(optional = false)
     private VolumeMysqlImpl volume;
 
+    /**
+     * 
+     */
     public PrestitoMysqlImpl() {
     }
 
+    /**
+     * 
+     * @param id
+     */
     public PrestitoMysqlImpl(Integer id) {
         this.id = id;
     }
 
+    /**
+     * 
+     * @param id
+     * @param dataPrestito
+     * @param dataRestituzione
+     * @param restituito
+     */
     public PrestitoMysqlImpl(Integer id, Date dataPrestito, Date dataRestituzione, boolean restituito) {
         this.id = id;
         this.dataPrestito = dataPrestito;
@@ -76,18 +102,22 @@ public class PrestitoMysqlImpl implements Serializable, Prestito {
         this.restituito = restituito;
     }
 
+    @Override
     public Integer getId() {
         return id;
     }
 
+    @Override
     public void setId(Integer id) {
         this.id = id;
     }
 
+    @Override
     public Date getDataPrestito() {
         return dataPrestito;
     }
 
+    @Override
     public void setDataPrestito(Date dataPrestito) {
         this.dataPrestito = dataPrestito;
     }
@@ -97,14 +127,17 @@ public class PrestitoMysqlImpl implements Serializable, Prestito {
         return dataRestituzione;
     }
 
+    @Override
     public void setDataRestituzione(Date dataRestituzione) {
         this.dataRestituzione = dataRestituzione;
     }
 
+    @Override
     public boolean getRestituito() {
         return restituito;
     }
 
+    @Override
     public void setRestituito(boolean restituito) {
         this.restituito = restituito;
     }

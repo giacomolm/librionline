@@ -1,6 +1,12 @@
 /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
+ * 
+CREATE TABLE IF NOT EXISTS `stato` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `stato` varchar(25) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
  */
 package it.univaq.idw.librionline.model.impl;
 
@@ -45,39 +51,63 @@ public class StatoMysqlImpl implements Serializable,Stato {
     @OneToMany(mappedBy = "stato")
     private Collection<VolumeMysqlImpl> volumeMysqlImplCollection;
 
+    /**
+     * 
+     */
     public StatoMysqlImpl() {
     }
 
+    /**
+     * 
+     * @param id
+     */
     public StatoMysqlImpl(Integer id) {
         this.id = id;
     }
 
+    /**
+     * 
+     * @param id
+     * @param stato
+     */
     public StatoMysqlImpl(Integer id, String stato) {
         this.id = id;
         this.stato = stato;
     }
 
+    @Override
     public Integer getId() {
         return id;
     }
 
+    @Override
     public void setId(Integer id) {
         this.id = id;
     }
 
+    @Override
     public String getStato() {
         return stato;
     }
 
+    @Override
     public void setStato(String stato) {
         this.stato = stato;
     }
 
+    /**
+     * 
+     * @return
+     */
     @XmlTransient
     public Collection<VolumeMysqlImpl> getVolumeMysqlImplCollection() {
         return volumeMysqlImplCollection;
     }
 
+    /**
+     * 
+     * @param volumeMysqlImplCollection
+     */
     public void setVolumeMysqlImplCollection(Collection<VolumeMysqlImpl> volumeMysqlImplCollection) {
         this.volumeMysqlImplCollection = volumeMysqlImplCollection;
     }

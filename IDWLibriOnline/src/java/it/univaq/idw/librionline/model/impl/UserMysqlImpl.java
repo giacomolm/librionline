@@ -1,6 +1,24 @@
 /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
+ * 
+CREATE TABLE IF NOT EXISTS `user` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `username` varchar(25) NOT NULL,
+  `password` varchar(25) NOT NULL,
+  `email` varchar(25) DEFAULT NULL,
+  `telefono` varchar(25) DEFAULT NULL,
+  `nome` varchar(25) NOT NULL,
+  `cognome` varchar(25) NOT NULL,
+  `codiceFiscale` varchar(16) NOT NULL,
+  `indirizzo` varchar(50) NOT NULL,
+  `citta` varchar(50) NOT NULL,
+  `provincia` varchar(25) NOT NULL,
+  `cap` int(5) NOT NULL,
+  `gruppo` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `gruppo` (`gruppo`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
  */
 package it.univaq.idw.librionline.model.impl;
 
@@ -90,13 +108,33 @@ public class UserMysqlImpl implements Serializable, User {
     @ManyToOne
     private GruppoMysqlImpl gruppo;
 
+    /**
+     * 
+     */
     public UserMysqlImpl() {
     }
 
+    /**
+     * 
+     * @param id
+     */
     public UserMysqlImpl(Integer id) {
         this.id = id;
     }
 
+    /**
+     * 
+     * @param id
+     * @param username
+     * @param password
+     * @param nome
+     * @param cognome
+     * @param codiceFiscale
+     * @param indirizzo
+     * @param citta
+     * @param provincia
+     * @param cap
+     */
     public UserMysqlImpl(Integer id, String username, String password, String nome, String cognome, String codiceFiscale, String indirizzo, String citta, String provincia, int cap) {
         this.id = id;
         this.username = username;
@@ -110,111 +148,144 @@ public class UserMysqlImpl implements Serializable, User {
         this.cap = cap;
     }
 
+    @Override
     public Integer getId() {
         return id;
     }
 
+    @Override
     public void setId(Integer id) {
         this.id = id;
     }
 
+    @Override
     public String getUsername() {
         return username;
     }
 
+    @Override
     public void setUsername(String username) {
         this.username = username;
     }
 
+    @Override
     public String getPassword() {
         return password;
     }
 
+    @Override
     public void setPassword(String password) {
         this.password = password;
     }
 
+    @Override
     public String getEmail() {
         return email;
     }
 
+    @Override
     public void setEmail(String email) {
         this.email = email;
     }
 
+    @Override
     public String getTelefono() {
         return telefono;
     }
 
+    @Override
     public void setTelefono(String telefono) {
         this.telefono = telefono;
     }
 
+    @Override
     public String getNome() {
         return nome;
     }
 
+    @Override
     public void setNome(String nome) {
         this.nome = nome;
     }
 
+    @Override
     public String getCognome() {
         return cognome;
     }
 
+    @Override
     public void setCognome(String cognome) {
         this.cognome = cognome;
     }
 
+    @Override
     public String getCodiceFiscale() {
         return codiceFiscale;
     }
 
+    @Override
     public void setCodiceFiscale(String codiceFiscale) {
         this.codiceFiscale = codiceFiscale;
     }
 
+    @Override
     public String getIndirizzo() {
         return indirizzo;
     }
 
+    @Override
     public void setIndirizzo(String indirizzo) {
         this.indirizzo = indirizzo;
     }
 
+    @Override
     public String getCitta() {
         return citta;
     }
 
+    @Override
     public void setCitta(String citta) {
         this.citta = citta;
     }
 
+    @Override
     public String getProvincia() {
         return provincia;
     }
 
+    @Override
     public void setProvincia(String provincia) {
         this.provincia = provincia;
     }
 
+    @Override
     public int getCap() {
         return cap;
     }
 
+    @Override
     public void setCap(int cap) {
         this.cap = cap;
     }
 
+    /**
+     * 
+     * @return
+     */
     @XmlTransient
     public Collection<PrestitoMysqlImpl> getPrestitoMysqlImplCollection() {
         return prestitoMysqlImplCollection;
     }
 
+    /**
+     * 
+     * @param prestitoMysqlImplCollection
+     */
     public void setPrestitoMysqlImplCollection(Collection<PrestitoMysqlImpl> prestitoMysqlImplCollection) {
         this.prestitoMysqlImplCollection = prestitoMysqlImplCollection;
     }
 
+    @Override
     public GruppoMysqlImpl getGruppo() {
         return gruppo;
     }

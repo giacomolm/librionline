@@ -1,6 +1,15 @@
 /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
+ * 
+CREATE TABLE IF NOT EXISTS `volume` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `stato` int(11) DEFAULT NULL,
+  `libro` varchar(10) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `stato` (`stato`),
+  KEY `libro` (`libro`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
  */
 package it.univaq.idw.librionline.model.impl;
 
@@ -52,34 +61,53 @@ public class VolumeMysqlImpl implements Serializable, Volume {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "volume")
     private Collection<PrestitoMysqlImpl> prestitoMysqlImplCollection;
 
+    /**
+     * 
+     */
     public VolumeMysqlImpl() {
     }
 
+    /**
+     * 
+     * @param id
+     */
     public VolumeMysqlImpl(Integer id) {
         this.id = id;
     }
 
+    @Override
     public Integer getId() {
         return id;
     }
 
+    @Override
     public void setId(Integer id) {
         this.id = id;
     }
 
+    @Override
     public LibroMysqlImpl getLibro() {
         return libro;
     }
 
+    @Override
     public StatoMysqlImpl getStato() {
         return stato;
     }
 
+    /**
+     * 
+     * @return
+     */
     @XmlTransient
     public Collection<PrestitoMysqlImpl> getPrestitoMysqlImplCollection() {
         return prestitoMysqlImplCollection;
     }
 
+    /**
+     * 
+     * @param prestitoMysqlImplCollection
+     */
     public void setPrestitoMysqlImplCollection(Collection<PrestitoMysqlImpl> prestitoMysqlImplCollection) {
         this.prestitoMysqlImplCollection = prestitoMysqlImplCollection;
     }
