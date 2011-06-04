@@ -17,13 +17,13 @@
                         <a id="login" href="#">login</a>
                 </div>
                 <div id="header_logo"> 
-                    <a id="titolo_header" href="#"><img src="img/header2.png" alt="LibriOnLine" /></a>
+                    <a id="titolo_header" href="home"><img src="img/header2.png" alt="LibriOnLine" /></a>
                 </div>
             </div>
             <div class="menu">
                 <div class="title">Navigazione</div>
                     <ul>
-                        <li><a href="#">Homepage</a></li>
+                        <li><a href="home">Homepage</a></li>
                         <li><a href="#">News</a></li>
                         <li><a href="#">Chi siamo</a></li>			
                         <li><a href="#">Libri</a></li>
@@ -53,7 +53,9 @@
                 </div>
             </div>
             <div id="footer">
-                Copyright &copy; 2011 LibriOnLine
+                Copyright &copy; 2011 LibriOnLine <br />
+                ${defaults.author} <br /> 
+                Pagina compilata il ${compiled_on?datetime}
             </div>
         </div>	
     </body>
