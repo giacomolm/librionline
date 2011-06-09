@@ -1,3 +1,7 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package it.univaq.idw.librionline.controller;
 
 import it.univaq.idw.librionline.framework.util.TemplateResult;
@@ -9,10 +13,14 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author Giuseppe Della Penna
+ * @author Zilfio
  */
-public class Home extends HttpServlet {
-
+public class Login extends HttpServlet {
+    
+    private void analizza_form(HttpServletRequest request) {
+        
+    }
+    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
      * @param request servlet request
@@ -24,11 +32,20 @@ public class Home extends HttpServlet {
             throws ServletException, IOException {
 
         TemplateResult res = new TemplateResult(getServletContext());
-        //verrà usato automaticamente il template di outline spcificato tra i context parameters
-        res.activate("home.ftl.html", request, response);
-    }
-
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+        
+        String s = request.getParameter("Invia");
+        
+        if(s == null){
+            res.activate("form_login.ftl.html", request, response);
+        }
+        else{
+            analizza_form(request);
+            res.activate("home.ftl.html", request, response);
+        }
+        
+        
+        
+    }  // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /** 
      * Handles the HTTP <code>GET</code> method.
      * @param request servlet request
@@ -61,6 +78,6 @@ public class Home extends HttpServlet {
      */
     @Override
     public String getServletInfo() {
-        return "Servlet Home";
+        return "Servelt Login";
     }// </editor-fold>
 }

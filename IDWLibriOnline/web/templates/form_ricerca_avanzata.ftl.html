@@ -1,0 +1,36 @@
+<h2> Ricerca avanzata </h2>
+
+<form action="RicercaAvanzata" method="get">
+    <fieldset><legend>Ricerca Titolo</legend>
+        <label>Titolo</label> <input type="text" size="20" name="titolo_avanzato" />
+        <select name="tipo_titolo">
+            <option value="all" selected="selected">Testo esatto</option>
+            <option value="1">Almeno Una Parola</option>
+            <option value="2">Inizia per</option>
+            <option value="3">Tutte le Parole</option>
+        </select>
+    </fieldset>
+    <br/>
+    <fieldset><legend>Ricerca Tag</legend>
+        <label>Tag</label> <input type="text" size="20" name="tag_avanzato" />
+        <select name="tipo_tag">
+            <option value="1" selected="selected">Un Tag</option>
+            <option value="all">Pi&ugrave; Tag</option>
+        </select>
+    </fieldset>
+    <br />
+    <fieldset><legend>Ricerca Autore</legend>
+        <label>Autore</label> <input type="text" size="20" name="autore_avanzato" />
+        <select name="tipo_autori">
+            <option value="1" selected="selected">Un Autore</option>
+            <option value="all">Pi&ugrave; Autori</option>
+        </select>
+    </fieldset>
+    <br />
+    <fieldset><legend>Ricerca ISBN</legend>
+        <label>Codice ISBN</label> <input type="text" size="20" name="isbn_avanzato" />
+    </fieldset>
+    <br />
+    <input type="submit" value="Invia richiesta" name="Invia" /> 
+    <input type="reset" value="Cancella Modulo" name="Cancella" />
+</form>

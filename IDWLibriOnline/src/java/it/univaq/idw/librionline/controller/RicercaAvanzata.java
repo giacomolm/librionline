@@ -1,7 +1,15 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package it.univaq.idw.librionline.controller;
 
 import it.univaq.idw.librionline.framework.util.TemplateResult;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -9,10 +17,24 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author Giuseppe Della Penna
+ * @author Zilfio
  */
-public class Home extends HttpServlet {
-
+public class RicercaAvanzata extends HttpServlet {
+    
+    private Map analizza_form(HttpServletRequest request) throws IOException, ServletException {
+        //per elaborare tutti i campi della request, ne richiedo la mappa
+        //se volessi accedere a un campo particolare, potrei usare direttamente request.getParameter
+        Map m = request.getParameterMap();
+        Set<Entry<String, String[]>> fieldset = m.entrySet();
+        for (Entry<String, String[]> field : fieldset) {
+            //itero sui vari campi
+            String nome = field.getKey();
+            //il valore, anche se semplice, è sempre un array
+            String[] valori = field.getValue();
+        }
+        return m;
+    }
+    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
      * @param request servlet request
@@ -22,12 +44,21 @@ public class Home extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
-        TemplateResult res = new TemplateResult(getServletContext());
-        //verrà usato automaticamente il template di outline spcificato tra i context parameters
-        res.activate("home.ftl.html", request, response);
-    }
-
+                
+                PrintWriter w = response.getWriter();
+                TemplateResult res = new TemplateResult(getServletContext());
+                
+                String s = request.getParameter("Invia");
+                
+                if(s == null){
+                    res.activate("form_ricerca_avanzata.ftl.html", request, response);
+                }
+                else{
+                    request.setAttribute("headers", analizza_form(request));
+                    res.activate("risultati_ricerca_avanzata.ftl.html", request, response);
+                }
+        }
+    
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /** 
      * Handles the HTTP <code>GET</code> method.
@@ -61,6 +92,7 @@ public class Home extends HttpServlet {
      */
     @Override
     public String getServletInfo() {
-        return "Servlet Home";
+        return "Servlet RicercaAvanzata";
     }// </editor-fold>
+
 }

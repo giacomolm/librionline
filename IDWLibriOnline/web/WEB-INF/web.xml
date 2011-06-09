@@ -20,13 +20,38 @@
         <param-name>view.encoding</param-name>
         <param-value>ISO-8859-1</param-value>
     </context-param>
+    <filter>
+        <filter-name>postfilter</filter-name>
+        <filter-class>it.univaq.idw.librionline.framework.util.MultipartFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>postfilter</filter-name>
+        <url-pattern>*</url-pattern>
+        <dispatcher>REQUEST</dispatcher>
+    </filter-mapping>
     <servlet>
         <servlet-name>Home</servlet-name>
         <servlet-class>it.univaq.idw.librionline.controller.Home</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>Login</servlet-name>
+        <servlet-class>it.univaq.idw.librionline.controller.Login</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>RicercaAvanzata</servlet-name>
+        <servlet-class>it.univaq.idw.librionline.controller.RicercaAvanzata</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Home</servlet-name>
-        <url-pattern>/home</url-pattern>
+        <url-pattern>/Home</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Login</servlet-name>
+        <url-pattern>/Login</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>RicercaAvanzata</servlet-name>
+        <url-pattern>/RicercaAvanzata</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
@@ -34,6 +59,6 @@
         </session-timeout>
     </session-config>
     <welcome-file-list>
-        <welcome-file>templates/index.ftl.html</welcome-file>
+        <welcome-file>Home</welcome-file>
     </welcome-file-list>
 </web-app>
