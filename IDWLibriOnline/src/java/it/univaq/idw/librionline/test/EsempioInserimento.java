@@ -6,6 +6,7 @@ package it.univaq.idw.librionline.test;
 import it.univaq.idw.librionline.model.Autore;
 import it.univaq.idw.librionline.model.Libro;
 import it.univaq.idw.librionline.model.impl.AutoreMysqlImpl;
+import it.univaq.idw.librionline.model.impl.LibriOnLineDataLayerMysqlImpl;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -29,7 +30,7 @@ public class EsempioInserimento {
      */
     public static void main(String[] args) {
         // TODO code application logic here
-        EntityManagerFactory factory = Persistence.createEntityManagerFactory("IDWLibriOnlinePU");
+        /*EntityManagerFactory factory = Persistence.createEntityManagerFactory("IDWLibriOnlinePU");
         EntityManager manager = factory.createEntityManager();
         Libro l = new LibroMysqlImpl("90", "Giuliano Pisapia");
         l.setEditore("Mondadori");
@@ -45,8 +46,11 @@ public class EsempioInserimento {
         for ( Iterator i = ca.iterator(); i.hasNext(); ) {
             Autore element = (Autore) i.next();
             System.out.println( "Il nome dell'autore del libro "+b.getTitolo()+" è " + element.getNome() );
-        }
+        }*/
         //Collection<Libro> lc = get
-        //System.out.println(ca[0]);       
+        //System.out.println(ca[0]);
+        //Libro l = new LibroMysqlImpl("910", "Giorgio Forattini");
+        //LibriOnLineDataLayerMysqlImpl dl = new LibriOnLineDataLayerMysqlImpl();
+        //System.out.println(dl.insertBook(l));
     }
 }
