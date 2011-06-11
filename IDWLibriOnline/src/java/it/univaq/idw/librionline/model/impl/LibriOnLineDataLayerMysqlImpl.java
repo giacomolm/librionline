@@ -6,8 +6,10 @@ package it.univaq.idw.librionline.model.impl;
 
 import it.univaq.idw.librionline.model.LibriOnLineDataLayer;
 import it.univaq.idw.librionline.model.Autore;
+import it.univaq.idw.librionline.model.Gruppo;
 import it.univaq.idw.librionline.model.Libro;
 import it.univaq.idw.librionline.model.Lingua;
+import it.univaq.idw.librionline.model.User;
 import java.util.Collection;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -120,7 +122,76 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
             bl=null;
             System.out.println("Ci sono");
         }
+        manager.getTransaction().commit();
         return bl;
     }
     
+    /*
+     * Il metodo prevede la registrazione degli utenti al sistema. Il metodo controlla
+     * anticipatamente se esiste un altro utente iscritto con lo stesso username. Se ciò
+     * accada, si interrompe la registrazione
+     * @param username, password, nome, cognome, codfisc, indirizzo, citta, prov, cap
+     * @return true se la registrazione è stata eseguita correttamente, false altrimenti
+     */
+    @Override
+    public boolean insertUser(String username,String password,String email,String telefono,String nome,String cognome,String codfisc,String indirizzo,String citta,String prov,int cap,Gruppo gruppo){
+        if(!isThisUsername(username)){
+            manager.getTransaction().begin();
+            //Instanzio l'oggetto utente che voglio inserire nel database
+            User u = new UserMysqlImpl(null, username, password, nome, cognome, codfisc, indirizzo, citta, prov, cap);
+            u.setEmail(email);
+            u.setTelefono(telefono);
+            //Imposto il gruppo di appartenenza dell'utente, definito dal biblotecario
+            u.setGruppo(gruppo);
+            //Memorizzo fisicamente l'utente sul database
+            manager.persist(u);
+            manager.getTransaction().commit();
+            return true;
+        }
+        else return false;
+    }
+    
+    /*
+     * Questo metodo verifica se una particolare username è già presente nel DB.
+     * @param username String rappresentante l'username
+     * @retur true se l'username inserito è già stato utilizzato da un altro utente
+     */
+    @Override
+    public boolean isThisUsername(String username){
+        manager.getTransaction().begin();
+        User u = null;
+        try{
+            //Verifico se un utente con quella username è già presente nel database
+            u = (User) manager.createNamedQuery("UserMysqlImpl.findByUsername").setParameter("username", username).getSingleResult();
+        }catch (NoResultException e){
+            //Non esiste alcun utente con quell'username
+        }
+        manager.getTransaction().commit();
+        if(u==null) return false;
+        else return true;
+    }
+    
+    /*
+     * Questo metodo fornisce la funzionalità di login al sistema.
+     * @param username e password necessari per l'autenticazione al sistema
+     * @return User; se il logging va a buon fine viene restituito l'oggetto user
+     * che si appena loggato, altrimenti restituisce null se c'è stato qualche 
+     * problema nella procedura.
+     */
+    @Override
+    public User login(String username, String password){
+        manager.getTransaction().begin();
+        User u = null;
+        try{
+            User temp = (User) manager.createNamedQuery("UserMysqlImpl.findByUsername").setParameter("username", username).getSingleResult();
+            //Controllo se la password inserita è corretta, altrimento l'utente rimane nullo
+            if(temp.getPassword().equals(password)){
+                u = temp;
+            }
+        }catch (NoResultException e){
+            //Non esiste alcun utente con quell'username
+        }
+        manager.getTransaction().commit();
+        return u;
+    }
 }

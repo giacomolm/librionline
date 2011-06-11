@@ -13,6 +13,9 @@ import java.util.Collection;
  */
 public interface LibriOnLineDataLayer {
 
+    boolean isThisUsername(String username);
+    User login(String username, String password);
     Collection<Libro> simpleBookSearch(String titolo);
+    boolean insertUser(String username,String password,String email,String telefono,String nome,String cognome,String codfisc,String indirizzo,String citta,String prov,int cap,Gruppo gruppo);
     
 }
