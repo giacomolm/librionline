@@ -20,7 +20,7 @@ public class EsempioRicerca {
         //Questo è l'oggetto che devi dichiarare per qualsiasi interazione con il DB
         LibriOnLineDataLayer dl = new LibriOnLineDataLayerMysqlImpl();
         //Inserisci un libro a mano sul DB e inserisci qui sotto il suo titolo
-        String l = "Tito";
+        String l = "Sviluppare siti con gli standard";
         //Questa è la funzione da richiamare per la ricerca base
         //Attenzion! restituisco una collezione di libri! Perchè più libri potrebbero avere lo stesso titolo
         Collection<Libro> bc = dl.simpleBookSearch(l);
