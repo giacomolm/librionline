@@ -11,6 +11,7 @@ import it.univaq.idw.librionline.model.Libro;
 import it.univaq.idw.librionline.model.Lingua;
 import it.univaq.idw.librionline.model.User;
 import java.util.Collection;
+import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.NoResultException;
@@ -111,10 +112,10 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
      * coincidere tra i diversi libri
      */
     @Override
-    public Collection<Libro> simpleBookSearch(String titolo){
+    public List<Libro> simpleBookSearch(String titolo){
     
         manager.getTransaction().begin();
-        Collection<Libro> bl=null;
+        List<Libro> bl=null;
         try{
             //Sfruttiamo la funzione messa a disposizione della libreria JPA che effettua la ricerca per titolo
             bl =  manager.createQuery("SELECT l FROM LibroMysqlImpl l WHERE l.titolo LIKE :keyword").setParameter("keyword", "%"+titolo+"%").getResultList();
@@ -141,7 +142,7 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
             User u = new UserMysqlImpl(null, username, password, nome, cognome, codfisc, indirizzo, citta, prov, cap);
             u.setEmail(email);
             u.setTelefono(telefono);
-            //Imposto il gruppo di appartenenza dell'utente, definito dal biblotecario
+            //Imposto il gruppo di appartenenza dell'utente, definito dal biblotecario se è egli stesso a registrarlo, altrimenti viene assegnato quello di default
             u.setGruppo(gruppo);
             //Memorizzo fisicamente l'utente sul database
             manager.persist(u);
@@ -193,5 +194,27 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
         }
         manager.getTransaction().commit();
         return u;
+    }
+    
+    /*
+     * Questa funzione restituisce il gruppo relativo un particolare tipo. Ad esempio
+     * se presente nella entità gruppo un tipo Amministrazione, passando questa stringa
+     * come parametro viene restituito l'oggetto gruppo riferito.
+     * @param tipo del gruppo che si vuole ricevere
+     * @return gruppo di appartenza del tipo
+     */
+    
+    @Override
+    public Gruppo getGruppo(String tipo){
+        manager.getTransaction().begin();
+        Gruppo g = null;
+        try{
+            g = (Gruppo) manager.createNamedQuery("GruppoMysqlImpl.findByGruppo").setParameter("gruppo",tipo).getSingleResult();
+        }
+        catch(NoResultException e){
+        
+        }
+        manager.getTransaction().commit();
+        return g;
     }
 }

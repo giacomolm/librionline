@@ -5,7 +5,7 @@
 package it.univaq.idw.librionline.model;
 
 import it.univaq.idw.librionline.model.Libro;
-import java.util.Collection;
+import java.util.List;
 
 /**
  *
@@ -15,7 +15,8 @@ public interface LibriOnLineDataLayer {
 
     boolean isThisUsername(String username);
     User login(String username, String password);
-    Collection<Libro> simpleBookSearch(String titolo);
+    List<Libro> simpleBookSearch(String titolo);
     boolean insertUser(String username,String password,String email,String telefono,String nome,String cognome,String codfisc,String indirizzo,String citta,String prov,int cap,Gruppo gruppo);
+    Gruppo getGruppo(String tipo);
     
 }
