@@ -71,7 +71,7 @@ public class Ricerca extends HttpServlet {
                     res.activate("risultati_ricerca_avanzata.ftl.html", request, response);
                 }
                 else if("Ricerca".equals(s)){
-                    request.setAttribute("titolo",analizza_ricerca_base(request));
+                    request.setAttribute("libri",analizza_ricerca_base(request));
                     res.activate("risultati_ricerca_base.ftl.html", request, response);
                     response.sendRedirect("Home");
                 }

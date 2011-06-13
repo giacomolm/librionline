@@ -5,6 +5,7 @@
         <link rel="stylesheet" href="style/style.css" type="text/css"/>
         <link rel="SHORTCUT ICON" href="img/libro.gif" type="image/x-icon" />
         <script type="text/javascript" src="javascript/controllo_login.js"></script>
+        <script type="text/javascript" src="javascript/controllo_ricerca.js"></script>
         <title>LibriOnLine</title>
         <meta content="text/html; charset=iso-8859-1" http-equiv="Content-Type" />
         <meta name="description" content="Biblioteca LibriOnLine" />
@@ -33,9 +34,9 @@
             <div id="right">
                 <div id="title">Ricerca</div>
                 <br />
-                <form id="ricerca" method="get" action="Ricerca" >
+                <form id="ricerca_base" method="get" action="Ricerca" >
                     <label>Titolo del libro:</label>
-                    <input type="text" name="titolo" size="18" /> <br /> <br />
+                    <input type="text" name="titolo" id="titolo" size="18" /> <br /> <br />
                     <input type="submit" value="Ricerca" name="Invia" /> 
                     <input type="reset" value="Reset" name="Cancella" />
                 </form>

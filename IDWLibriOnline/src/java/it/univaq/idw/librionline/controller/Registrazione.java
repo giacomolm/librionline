@@ -6,9 +6,11 @@ package it.univaq.idw.librionline.controller;
 
 import it.univaq.idw.librionline.framework.util.Md5;
 import it.univaq.idw.librionline.framework.util.TemplateResult;
+import it.univaq.idw.librionline.model.Gruppo;
 import it.univaq.idw.librionline.model.LibriOnLineDataLayer;
 import it.univaq.idw.librionline.model.impl.LibriOnLineDataLayerMysqlImpl;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.security.NoSuchAlgorithmException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -24,7 +26,9 @@ import javax.servlet.http.HttpServletResponse;
 
 public class Registrazione extends HttpServlet {
     
-    private boolean analizza_form_registrazione(HttpServletRequest request, HttpServletResponse response) throws NoSuchAlgorithmException {
+    private boolean analizza_form_registrazione(HttpServletRequest request, HttpServletResponse response) throws NoSuchAlgorithmException, IOException {
+        
+        PrintWriter w = response.getWriter();
         
         //prendo in post tutti i campi del form_registrazione
         String user = request.getParameter("user_reg");
@@ -45,8 +49,11 @@ public class Registrazione extends HttpServlet {
         //Questo è l'oggetto che devi dichiarare per qualsiasi interazione con il DB
         LibriOnLineDataLayer dl = new LibriOnLineDataLayerMysqlImpl();
         
+        //Ottengo il gruppo che voglio inserire
+        Gruppo g = dl.getGruppo("registrato");
+        
         //Eseguiamo la registrazione
-        if(dl.insertUser(user, pass, email, tel, nome, cognome, codicefiscale, indirizzo, citta, provincia, cap2, null)){
+        if(dl.insertUser(user, pass, email, tel, nome, cognome, codicefiscale, indirizzo, citta, provincia, cap2, g)){
             return true;
         }
         return false;

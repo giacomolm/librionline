@@ -1,3 +1,11 @@
 <h2> Risultati ricerca base </h2>
 
-<p>Il titolo che hai inserito: ${titolo}</p>
+<#if (libri?size > 0)>
+<ul>
+    <#list libri as libro>
+    <li>${libro.titolo}</li>
+    </#list>
+</ul>
+<#else>
+    <p> Nessun libro trovato </p> 
+</#if>

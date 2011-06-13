@@ -42,7 +42,7 @@ function checkpass() {
 }
 
 //funzione per il controllo dell'intera form durante la submission
-function checkForm() {
+function checkFormLogin() {
 	//eseguiamo i controlli dui due campi, e ritorniamo l'AND dei loro risultati
 	return (checkuser() && checkpass());
 	//in questo modo, se uno dei due ritorna false, la form non verrà sottomessa
@@ -56,5 +56,5 @@ window.onload = function() {
 	//impostiamo i listener corretti sulla form e sui suoi campi
 	user.onchange = function() {return checkuser();}
 	pass.onchange = function() {return checkpass();}
-	login.onsubmit = function() {return checkForm();}
+	login.onsubmit = function() {return checkFormLogin();}
 }
