@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 3.2.0.1
+-- version 3.3.9
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generato il: 11 mag, 2011 at 01:06 PM
--- Versione MySQL: 5.1.36
--- Versione PHP: 5.3.0
+-- Generato il: 13 giu, 2011 at 12:57 PM
+-- Versione MySQL: 5.5.8
+-- Versione PHP: 5.3.5
 
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 
@@ -66,12 +66,15 @@ CREATE TABLE IF NOT EXISTS `gruppo` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `gruppo` varchar(25) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
 
 --
 -- Dump dei dati per la tabella `gruppo`
 --
 
+INSERT INTO `gruppo` (`id`, `gruppo`) VALUES
+(1, 'bibliotecario'),
+(2, 'registrato');
 
 -- --------------------------------------------------------
 
@@ -98,7 +101,7 @@ CREATE TABLE IF NOT EXISTS `gruppo_servizio` (
 --
 
 CREATE TABLE IF NOT EXISTS `libro` (
-  `isbn` varchar(10) NOT NULL,
+  `isbn` varchar(13) NOT NULL,
   `titolo` varchar(50) NOT NULL,
   `editore` varchar(25) DEFAULT NULL,
   `annoPubblicazione` int(4) DEFAULT NULL,
@@ -112,6 +115,8 @@ CREATE TABLE IF NOT EXISTS `libro` (
 -- Dump dei dati per la tabella `libro`
 --
 
+INSERT INTO `libro` (`isbn`, `titolo`, `editore`, `annoPubblicazione`, `recensione`, `lingua`) VALUES
+('9788850329649', 'Sviluppare siti con gli standard web', NULL, 2010, 'Questo libro (tutto a colori) si rivolge a progettisti web, sviluppatori software, imprenditori e manager che vogliono disporre di siti web a costi ridotti, che funzionino al meglio e che siano in grado di raggiungere il maggior numero di persone, e tutto questo non solo tenendo conto di browser, dispositivi mobili e altri sistemi di visualizzazione presenti al momento, ma anche di apparecchiature che l’evoluzione tecnologica saprà proporre in futuro.\r\n\r\nChi lavora sul Web conosce bene l’obsolescenza che caratterizza lo sviluppo frenetico della tecnologia. Si realizzano siti solo per ricostruirli continuamente. Accade troppo spesso che la ricostruzione di un sito debba essere effettuata non tanto per aumentare o perfezionare le funzionalità di accesso e navigazione, ma semplicemente per tenere il passo di browser e dispositivi che sembrano sempre più avanzati dei cicli di design e sviluppo di un sito web. \r\n\r\nQuesta situazione è così consolidata da apparire più che normale, al punto da costituire il prezzo da pagare per il corretto mantenimento di un sito professionale. È altrettanto vero però che si tratta di un prezzo sempre più difficile da affrontare.\r\n\r\nGli standard web permettono di porre fine a tutto questo.', NULL);
 
 -- --------------------------------------------------------
 
@@ -267,7 +272,7 @@ CREATE TABLE IF NOT EXISTS `traduzione` (
 CREATE TABLE IF NOT EXISTS `user` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `username` varchar(25) NOT NULL,
-  `password` varchar(25) NOT NULL,
+  `password` varchar(32) NOT NULL,
   `email` varchar(25) DEFAULT NULL,
   `telefono` varchar(25) DEFAULT NULL,
   `nome` varchar(25) NOT NULL,
@@ -280,12 +285,15 @@ CREATE TABLE IF NOT EXISTS `user` (
   `gruppo` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `gruppo` (`gruppo`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
 
 --
 -- Dump dei dati per la tabella `user`
 --
 
+INSERT INTO `user` (`id`, `username`, `password`, `email`, `telefono`, `nome`, `cognome`, `codiceFiscale`, `indirizzo`, `citta`, `provincia`, `cap`, `gruppo`) VALUES
+(1, 'zilfio', '8759ded2b55ddaf88bc34a4625bc1ae7', 'zilfio88@gmail.com', '3487145593', 'Silvio', 'D''Orazio', 'DRZSLV88L24A515D', 'Via Fiume, 99', 'Roccavivi', 'AQ', 67050, 1),
+(2, 'alessio', 'd2462e55381a20059ed811cefd42493e', 'alessio@gmail.com', '390939239', 'Alessio', 'Felicioni', 'JCJNCNRENCREJNCR', 'Via Fiume, 9', 'Roccavivi', 'AQ', 67050, NULL);
 
 -- --------------------------------------------------------
 

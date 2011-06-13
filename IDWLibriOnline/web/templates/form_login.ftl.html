@@ -1,10 +1,12 @@
 <h2> Sistema di Autenticazione </h2>
-
-<form action="Login" method="post" enctype="multipart/form-data">
+<p> Usa il tuo username e la tua password qui sotto per fare il Login. </p>
+<p> Se non sei ancora registrato, puoi registrarti seguendo questo link: <a href="Registrazione">Registrati</a>
+<form action="Login" method="post" enctype="multipart/form-data" id="form_login">
     <fieldset><legend>Dati di autenticazione</legend>
-        <label>Username</label> <input type="text" name="username" /> <br />
-        <label>Password</label> <input type="password" name="password" />
+        <br />
+        <label>Username</label> <input type="text" name="username" id="user" /> <br /> <br />
+        <label>Password</label> <input type="password" name="password" id="pass" />
     </fieldset> <br />
-    <input type="submit" value="Invia richiesta" name="Invia" /> 
+    <input type="submit" value="Login" name="Login" /> 
     <input type="reset" value="Cancella Modulo" name="Cancella" />
 </form>

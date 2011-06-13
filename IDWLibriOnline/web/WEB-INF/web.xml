@@ -38,20 +38,52 @@
         <servlet-class>it.univaq.idw.librionline.controller.Login</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>RicercaAvanzata</servlet-name>
-        <servlet-class>it.univaq.idw.librionline.controller.RicercaAvanzata</servlet-class>
+        <servlet-name>Ricerca</servlet-name>
+        <servlet-class>it.univaq.idw.librionline.controller.Ricerca</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ChiSiamo</servlet-name>
+        <servlet-class>it.univaq.idw.librionline.controller.ChiSiamo</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>Registrazione</servlet-name>
+        <servlet-class>it.univaq.idw.librionline.controller.Registrazione</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>Logout</servlet-name>
+        <servlet-class>it.univaq.idw.librionline.controller.Logout</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>StatoConnessione</servlet-name>
+        <servlet-class>it.univaq.idw.librionline.controller.StatoConnessione</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>Home</servlet-name>
         <url-pattern>/Home</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
+        <servlet-name>Ricerca</servlet-name>
+        <url-pattern>/Ricerca</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
         <servlet-name>Login</servlet-name>
         <url-pattern>/Login</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>RicercaAvanzata</servlet-name>
-        <url-pattern>/RicercaAvanzata</url-pattern>
+        <servlet-name>ChiSiamo</servlet-name>
+        <url-pattern>/ChiSiamo</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Registrazione</servlet-name>
+        <url-pattern>/Registrazione</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Logout</servlet-name>
+        <url-pattern>/Logout</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>StatoConnessione</servlet-name>
+        <url-pattern>/StatoConnessione</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

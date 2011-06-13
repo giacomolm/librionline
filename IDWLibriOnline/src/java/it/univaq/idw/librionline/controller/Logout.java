@@ -1,6 +1,10 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package it.univaq.idw.librionline.controller;
 
-import it.univaq.idw.librionline.framework.util.TemplateResult;
+import it.univaq.idw.librionline.framework.util.SecurityLayer;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -9,9 +13,9 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author Giuseppe Della Penna
+ * @author Zilfio
  */
-public class Home extends HttpServlet {
+public class Logout extends HttpServlet {
 
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -22,10 +26,9 @@ public class Home extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
-        TemplateResult res = new TemplateResult(getServletContext());
         
-        res.activate("home.ftl.html", request, response);
+        SecurityLayer.disposeSession(request);
+        response.sendRedirect("Login");
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -61,6 +64,6 @@ public class Home extends HttpServlet {
      */
     @Override
     public String getServletInfo() {
-        return "Servlet Home";
+        return "Short description";
     }// </editor-fold>
 }

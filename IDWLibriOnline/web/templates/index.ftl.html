@@ -4,7 +4,8 @@
     <head>
         <link rel="stylesheet" href="style/style.css" type="text/css"/>
         <link rel="SHORTCUT ICON" href="img/libro.gif" type="image/x-icon" />
-        <title>LibriOnLine</title>	
+        <script type="text/javascript" src="javascript/controllo_login.js"></script>
+        <title>LibriOnLine</title>
         <meta content="text/html; charset=iso-8859-1" http-equiv="Content-Type" />
         <meta name="description" content="Biblioteca LibriOnLine" />
         <meta name="keywords" content="biblioteca,librionline,libri,libro,italy" />
@@ -24,21 +25,22 @@
                 <div class="title">Navigazione</div>
                     <ul>
                         <li><a href="Home">Homepage</a></li>
-                        <li><a href="#">News</a></li>
-                        <li><a href="#">Chi siamo</a></li>			
+                        <li><a href="ChiSiamo">Chi siamo</a></li>			
                         <li><a href="#">Libri</a></li>
-                        <li><a href="#">Contatti</a></li>
+                        <li><a href="Registrazione">Registrati</a></li>
                     </ul>
             </div>
             <div id="right">
                 <div id="title">Ricerca</div>
                 <br />
-                <form id="ricerca" method="get" action="#" >
-                    <input type="text" value="Titolo del libro" name="titolo" size="18" />
-                    <input type="submit" value="Ricerca" />
+                <form id="ricerca" method="get" action="Ricerca" >
+                    <label>Titolo del libro:</label>
+                    <input type="text" name="titolo" size="18" /> <br /> <br />
+                    <input type="submit" value="Ricerca" name="Invia" /> 
+                    <input type="reset" value="Reset" name="Cancella" />
                 </form>
                 <div id="ricerca_avanzata">
-                    <a href="RicercaAvanzata">Ricerca avanzata</a>
+                    <a href="Ricerca">Ricerca avanzata</a>
                 </div>
                 <hr />
             </div>

@@ -5,10 +5,8 @@
 package it.univaq.idw.librionline.controller;
 
 import it.univaq.idw.librionline.framework.util.Md5;
-import it.univaq.idw.librionline.framework.util.SecurityLayer;
 import it.univaq.idw.librionline.framework.util.TemplateResult;
 import it.univaq.idw.librionline.model.LibriOnLineDataLayer;
-import it.univaq.idw.librionline.model.User;
 import it.univaq.idw.librionline.model.impl.LibriOnLineDataLayerMysqlImpl;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
@@ -18,31 +16,39 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author Zilfio
  */
-public class Login extends HttpServlet {
+
+public class Registrazione extends HttpServlet {
     
-    private boolean analizza_form_login(HttpServletRequest request,HttpServletResponse response) throws IOException, NoSuchAlgorithmException {
+    private boolean analizza_form_registrazione(HttpServletRequest request, HttpServletResponse response) throws NoSuchAlgorithmException {
         
-        String username = request.getParameter("username");
-        String password = request.getParameter("password");
+        //prendo in post tutti i campi del form_registrazione
+        String user = request.getParameter("user_reg");
+        String pass = Md5.md5(request.getParameter("pass_reg"));
+        String email = request.getParameter("email");
+        String tel = request.getParameter("tel");
         
-        // converto la password inserita in md5
-        password = Md5.md5(password);
+        String nome = request.getParameter("nome");
+        String cognome = request.getParameter("cognome");
+        String codicefiscale = request.getParameter("codicefiscale");
+        String indirizzo = request.getParameter("indirizzo");
+        String citta = request.getParameter("citta");
+        String provincia = request.getParameter("provincia");
+        String cap = request.getParameter("cap");
         
+        int cap2 = Integer.parseInt(cap); 
+        
+        //Questo è l'oggetto che devi dichiarare per qualsiasi interazione con il DB
         LibriOnLineDataLayer dl = new LibriOnLineDataLayerMysqlImpl();
         
-        //Questa è la funzione da richiamare per il login
-        //Attenzione! restituisco un'oggetto user! Se non esiste alcun utente o se c'è stato qualche problema di autenticazione viene restituito un oggetto null
-        User u = dl.login(username, password);
-        
-        if(u != null){
+        //Eseguiamo la registrazione
+        if(dl.insertUser(user, pass, email, tel, nome, cognome, codicefiscale, indirizzo, citta, provincia, cap2, null)){
             return true;
-        }     
+        }
         return false;
     }
     
@@ -56,29 +62,26 @@ public class Login extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, NoSuchAlgorithmException {
         
-        TemplateResult res = new TemplateResult(getServletContext()); 
-        HttpSession s = SecurityLayer.checkSession(request);
-        String login = request.getParameter("Login");
-
-        if(s != null){
-            response.sendRedirect("StatoConnessione");
+        TemplateResult res = new TemplateResult(getServletContext());
+        
+        String registrazione = request.getParameter("Registrazione");
+        
+        if(registrazione == null){
+            res.activate("form_registrazione.ftl.html", request, response);
         }
         else{
-            if("Login".equals(login)){
-                if(analizza_form_login(request,response)){
-                    SecurityLayer.createSession(request, request.getParameter("username") , 1);
-                    response.sendRedirect("StatoConnessione");
-                }
-                else{
-                    res.activate("form_login.ftl.html", request, response); // nel caso il login fallisce
-                }
+            if(analizza_form_registrazione(request,response)){
+                request.setAttribute("message","Registrazione eseguita correttamente!");
+                res.activate("message.ftl.html", request, response);
             }
             else{
-                res.activate("form_login.ftl.html", request, response);
+                request.setAttribute("message","Registrazione non eseguita!");
+                res.activate("message.ftl.html", request, response);
             }
         }
-        
-    }  // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+    }
+
+    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /** 
      * Handles the HTTP <code>GET</code> method.
      * @param request servlet request
@@ -92,7 +95,7 @@ public class Login extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (NoSuchAlgorithmException ex) {
-            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Registrazione.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -109,7 +112,7 @@ public class Login extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (NoSuchAlgorithmException ex) {
-            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Registrazione.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -119,6 +122,7 @@ public class Login extends HttpServlet {
      */
     @Override
     public String getServletInfo() {
-        return "Servelt Login";
+        return "Short description";
     }// </editor-fold>
+
 }

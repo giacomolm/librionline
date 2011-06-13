@@ -1,0 +1,25 @@
+<h2> Sistema di Registrazione </h2>
+<p> Se non ti sei ancora registrato fallo adesso. Basta compilare i campi sottostanti. </p>
+<form action="Registrazione" method="post" enctype="multipart/form-data">
+    <fieldset><legend>Dati registrazione</legend>
+        <br />
+        <label>Username</label> <input type="text" name="user_reg" />
+        <label>Password</label> <input type="password" name="pass_reg" /> <br /> <br />
+        <label>Email</label> <input type="text" name="email" size="30" /> <br /> <br />
+        <label>Telefono</label> <input type="text" name="tel" size="20" /> <br /> <br />
+    </fieldset> 
+    <br />
+    <fieldset><legend>Anagrafica utente</legend>
+        <br />
+        <label>Nome</label> <input type="text" name="nome" size="25" />
+        <label>Cognome</label> <input type="text" name="cognome" size="25" /> <br /> <br />
+        <label>Codice Fiscale</label> <input type="text" name="codicefiscale" size="25" maxlength="16" /> <br /> <br />
+        <label>Indirizzo</label> <input type="text" name="indirizzo" size="49" /> <br /> <br />
+        <label>Citt&agrave;</label> <input type="text" name="citta" />
+        <label>Provincia</label> <input type="text" name="provincia" size="1" maxlength="2" />
+        <label>CAP</label> <input type="text" name="cap" size="4" maxlength="5" /> <br /> <br />
+    </fieldset>
+    <br />
+    <input type="submit" value="Registrazione" name="Registrazione" /> 
+    <input type="reset" value="Cancella Modulo" name="Cancella" />
+</form>

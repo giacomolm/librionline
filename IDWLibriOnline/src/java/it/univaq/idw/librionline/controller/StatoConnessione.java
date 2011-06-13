@@ -4,37 +4,24 @@
  */
 package it.univaq.idw.librionline.controller;
 
+import it.univaq.idw.librionline.framework.util.SecurityLayer;
 import it.univaq.idw.librionline.framework.util.TemplateResult;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author Zilfio
  */
-public class RicercaAvanzata extends HttpServlet {
-    
-    private Map analizza_form(HttpServletRequest request) throws IOException, ServletException {
-        //per elaborare tutti i campi della request, ne richiedo la mappa
-        //se volessi accedere a un campo particolare, potrei usare direttamente request.getParameter
-        Map m = request.getParameterMap();
-        Set<Entry<String, String[]>> fieldset = m.entrySet();
-        for (Entry<String, String[]> field : fieldset) {
-            //itero sui vari campi
-            String nome = field.getKey();
-            //il valore, anche se semplice, è sempre un array
-            String[] valori = field.getValue();
-        }
-        return m;
-    }
-    
+
+public class StatoConnessione extends HttpServlet {
+
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
      * @param request servlet request
@@ -44,21 +31,22 @@ public class RicercaAvanzata extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-                
-                PrintWriter w = response.getWriter();
-                TemplateResult res = new TemplateResult(getServletContext());
-                
-                String s = request.getParameter("Invia");
-                
-                if(s == null){
-                    res.activate("form_ricerca_avanzata.ftl.html", request, response);
-                }
-                else{
-                    request.setAttribute("headers", analizza_form(request));
-                    res.activate("risultati_ricerca_avanzata.ftl.html", request, response);
-                }
+
+        TemplateResult res = new TemplateResult(getServletContext());
+        HttpSession s = SecurityLayer.checkSession(request);
+        SimpleDateFormat f = new SimpleDateFormat();
+
+        if (s == null) {
+            res.activate("form_login.ftl.html", request, response);
+        } else {
+            request.setAttribute("loggato",true);
+            request.setAttribute("username",(String) s.getAttribute("username"));
+            request.setAttribute("ip",(String) s.getAttribute("ip"));
+            request.setAttribute("date",f.format(((Calendar) s.getAttribute("inizio-sessione")).getTime()));
+            res.activate("statoconnessione.ftl.html", request, response);
         }
-    
+    }
+
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /** 
      * Handles the HTTP <code>GET</code> method.
@@ -92,7 +80,6 @@ public class RicercaAvanzata extends HttpServlet {
      */
     @Override
     public String getServletInfo() {
-        return "Servlet RicercaAvanzata";
+        return "Short description";
     }// </editor-fold>
-
 }
