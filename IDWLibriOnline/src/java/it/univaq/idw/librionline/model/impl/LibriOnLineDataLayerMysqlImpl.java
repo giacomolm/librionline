@@ -10,6 +10,7 @@ import it.univaq.idw.librionline.model.Gruppo;
 import it.univaq.idw.librionline.model.Libro;
 import it.univaq.idw.librionline.model.Lingua;
 import it.univaq.idw.librionline.model.User;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -124,13 +125,13 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
             ric += lista[i]+"%";
         }
         //System.out.println(ric);
-        List<Libro> bl=null;
+        List<Libro> bl=new ArrayList<Libro>();
         try{
             //Sfruttiamo la funzione messa a disposizione della libreria JPA che effettua la ricerca per titolo
             bl =  manager.createQuery("SELECT l FROM LibroMysqlImpl l WHERE l.titolo LIKE :keyword").setParameter("keyword", ric).getResultList();
         }catch(NoResultException e){
-            bl=null;
-            System.out.println("Ci sono");
+            //bl=null;
+            //System.out.println("Ci sono");
         }
         manager.getTransaction().commit();
         return bl;
