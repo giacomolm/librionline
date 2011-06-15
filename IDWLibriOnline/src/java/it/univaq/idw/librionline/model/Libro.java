@@ -5,6 +5,7 @@
 package it.univaq.idw.librionline.model;
 
 import java.util.Collection;
+import java.util.Date;
 import javax.xml.bind.annotation.XmlTransient;
 
 /**
@@ -183,4 +184,14 @@ public interface Libro {
      */
     String toString();
     
+    /*
+     * Restituisce la data di inserimento di un libro
+     */
+    Date getDataIns();
+    
+    /*
+     * Imposta la data di inserimento di un libro, in modo tale che i libri 
+     * più recenti possano essere più visibili rispetto ad altri
+     */
+    void setDataIns(Date dataIns);
 }

@@ -23,6 +23,7 @@ import it.univaq.idw.librionline.model.Tag;
 import it.univaq.idw.librionline.model.Volume;
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -37,6 +38,8 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -54,6 +57,10 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "LibroMysqlImpl.findByEditore", query = "SELECT l FROM LibroMysqlImpl l WHERE l.editore = :editore"),
     @NamedQuery(name = "LibroMysqlImpl.findByAnnoPubblicazione", query = "SELECT l FROM LibroMysqlImpl l WHERE l.annoPubblicazione = :annoPubblicazione")})
 public class LibroMysqlImpl implements Serializable,Libro {
+    @Basic(optional = false)
+    @Column(name = "data_ins")
+    @Temporal(TemporalType.DATE)
+    private Date dataIns;
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -371,6 +378,16 @@ public class LibroMysqlImpl implements Serializable,Libro {
     @Override
     public void setVolumeCollection(Collection<Volume> volumeCollection) {
        setVolumeMysqlImplCollection((Collection) volumeCollection);
+    }
+
+    @Override
+    public Date getDataIns() {
+        return dataIns;
+    }
+
+    @Override
+    public void setDataIns(Date dataIns) {
+        this.dataIns = dataIns;
     }
     
 }

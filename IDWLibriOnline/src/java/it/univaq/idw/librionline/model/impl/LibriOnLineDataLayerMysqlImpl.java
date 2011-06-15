@@ -9,9 +9,11 @@ import it.univaq.idw.librionline.model.Autore;
 import it.univaq.idw.librionline.model.Gruppo;
 import it.univaq.idw.librionline.model.Libro;
 import it.univaq.idw.librionline.model.Lingua;
+import it.univaq.idw.librionline.model.Tag;
 import it.univaq.idw.librionline.model.User;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -42,7 +44,8 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
         manager = factory.createEntityManager();
     }
     
-    /* Inserisce un libro nella libreria, controllondo anticipatamente
+    /**
+     * Inserisce un libro nella libreria, controllondo anticipatamente
      * se questo è presente già nella libreria, tramite il metodo bookIsThis(Libro).
      * È importante notare come gli autori vengono passati come una collezione 
      * dell'oggetto autore: gli utilizzatori della funzione devono prima creare
@@ -80,7 +83,8 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
         }
         else return false;
     }
-    /* Il controllo di presenza viene effettuato in relazione all'isbn. 
+    /**
+     * Il controllo di presenza viene effettuato in relazione all'isbn. 
      * @param isbn 
      * @return true se il libro passato come parametro è presente nella libreria
      */
@@ -105,7 +109,8 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
         else return true;
     }
     
-    /* Questo metodo viene utilizzato nella fase di ricerca base: i visitatori
+    /**
+     * Questo metodo viene utilizzato nella fase di ricerca base: i visitatori
      * possono eseguire una ricerca rapida per trovare il libro desiderato. Abbiamo
      * assunto che questo tipo di ricerca si basi solo sul titolo del libro.
      * @param String titolo indicannte il titolo del libro che si vuole cercare
@@ -138,7 +143,7 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
         }else return null;
     }
     
-    /*
+    /**
      * Il metodo prevede la registrazione degli utenti al sistema. Il metodo controlla
      * anticipatamente se esiste un altro utente iscritto con lo stesso username. Se ciò
      * accada, si interrompe la registrazione
@@ -163,7 +168,7 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
         else return false;
     }
     
-    /*
+    /**
      * Questo metodo verifica se una particolare username è già presente nel DB.
      * @param username String rappresentante l'username
      * @retur true se l'username inserito è già stato utilizzato da un altro utente
@@ -183,7 +188,7 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
         else return true;
     }
     
-    /*
+    /**
      * Questo metodo fornisce la funzionalità di login al sistema.
      * @param username e password necessari per l'autenticazione al sistema
      * @return User; se il logging va a buon fine viene restituito l'oggetto user
@@ -207,7 +212,7 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
         return u;
     }
     
-    /*
+    /**
      * Questa funzione restituisce il gruppo relativo un particolare tipo. Ad esempio
      * se presente nella entità gruppo un tipo Amministrazione, passando questa stringa
      * come parametro viene restituito l'oggetto gruppo riferito.
@@ -227,5 +232,66 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
         }
         manager.getTransaction().commit();
         return g;
+    }
+    
+    /**
+     * Ricerca per tag: la ricerca consiste nella individuazione dei libri che
+     * appartengono a quell'insieme di tag. Si procede con la ricerca dei libri 
+     * associati al primo tag della lista; poi si verifica se questi appartengono
+     * anche a quello successivo, raffinando progressivamente la lista.
+     * @param String indicante la lista di tag separati da uno spazio
+     * @return List di libri appartenente a quell'insieme di tag
+    */
+    @Override
+    public List<Libro> searchByTags(String tc){
+        manager.getTransaction().begin();
+        String[] lista = tc.split(" ");
+        
+        List<Libro> cl = (List) new ArrayList<LibroMysqlImpl>();
+        
+        try{
+            cl = manager.createNamedQuery("TagMysqlImpl.findByTag").setParameter("tag", lista[0]).getResultList();
+        }
+        catch(NoResultException e){
+
+        }
+        
+        for(int i=1; i<lista.length; i++){
+            try{
+                List<Libro> res = (List) new ArrayList<LibroMysqlImpl>();
+                Collection<Libro> temp = manager.createNamedQuery("TagMysqlImpl.findByTag").setParameter("tag", lista[i]).getResultList();
+                for ( Iterator it = temp.iterator(); it.hasNext(); ) {
+                    LibroMysqlImpl element = (LibroMysqlImpl) it.next();
+                    if(cl.contains(element)) res.add(element);
+                }
+                cl =  res;
+            }
+            catch(NoResultException e){
+
+            }
+        }
+        manager.getTransaction().commit();
+        return cl;
+    }
+
+    /**
+     * Il metodo ricerca un libro in base al suo isbn. Restituisce il libro, se viene
+     * trovato, altrimenti torna null.
+     * @param isbn Stringa indicante l'isbn
+     * @return Libro, se esiste, relativo all'isbn indicato; altrimenti restituisce null
+     */
+    @Override
+    public Libro searchByIsbn(String isbn) {
+        manager.getTransaction().begin();
+        
+        Libro l = null;
+        try{
+            l = (Libro) manager.createNamedQuery("LibroMysqlImpl.findByIsbn").setParameter("isbn",isbn).getSingleResult();
+        }
+        catch(NoResultException e){
+            //nessun libro trovato
+        }
+        manager.getTransaction().commit();
+        return l;
     }
 }
