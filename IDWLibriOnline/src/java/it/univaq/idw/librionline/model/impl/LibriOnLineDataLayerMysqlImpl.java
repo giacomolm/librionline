@@ -114,27 +114,28 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
      */
     @Override
     public List<Libro> simpleBookSearch(String titolo){
-    
-        manager.getTransaction().begin();
-        //Piccola funzione di editing per le stringhe in modo da poterle utilizzare con il LIKE
-        String[] lista = titolo.split(" ");
-        String ric = "%"+lista[0]+"%";
-        //System.out.println(lista[0]);
-        for (int i=1; i<lista.length; i++){
-            //System.out.println(lista[i]);
-            ric += lista[i]+"%";
-        }
-        //System.out.println(ric);
-        List<Libro> bl=null;
-        try{
-            //Sfruttiamo la funzione messa a disposizione della libreria JPA che effettua la ricerca per titolo
-            bl =  manager.createQuery("SELECT l FROM LibroMysqlImpl l WHERE l.titolo LIKE :keyword").setParameter("keyword", ric).getResultList();
-        }catch(NoResultException e){
-            //bl=null;
-            //System.out.println("Ci sono");
-        }
-        manager.getTransaction().commit();
-        return bl;
+        if (!titolo.equals("")){
+            manager.getTransaction().begin();
+            //Piccola funzione di editing per le stringhe in modo da poterle utilizzare con il LIKE
+            String[] lista = titolo.split(" ");
+            String ric = "%"+lista[0]+"%";
+            //System.out.println(lista[0]);
+            for (int i=1; i<lista.length; i++){
+                //System.out.println(lista[i]);
+                ric += lista[i]+"%";
+            }
+            //System.out.println(ric);
+            List<Libro> bl=null;
+            try{
+                //Sfruttiamo la funzione messa a disposizione della libreria JPA che effettua la ricerca per titolo
+                bl =  manager.createQuery("SELECT l FROM LibroMysqlImpl l WHERE l.titolo LIKE :keyword").setParameter("keyword", ric).getResultList();
+            }catch(NoResultException e){
+                //bl=null;
+                //System.out.println("Ci sono");
+            }
+            manager.getTransaction().commit();
+            return bl;
+        }else return null;
     }
     
     /*
