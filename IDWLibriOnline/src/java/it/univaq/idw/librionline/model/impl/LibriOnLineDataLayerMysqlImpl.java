@@ -125,7 +125,7 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
             ric += lista[i]+"%";
         }
         //System.out.println(ric);
-        List<Libro> bl=new ArrayList<Libro>();
+        List<Libro> bl=null;
         try{
             //Sfruttiamo la funzione messa a disposizione della libreria JPA che effettua la ricerca per titolo
             bl =  manager.createQuery("SELECT l FROM LibroMysqlImpl l WHERE l.titolo LIKE :keyword").setParameter("keyword", ric).getResultList();
