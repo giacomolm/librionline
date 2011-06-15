@@ -1,6 +1,47 @@
 ///riferimenti agli oggetti controllati
 var login,user,pass;
 var ricerca,titolo;
+var regist, username, password;
+
+//funzione di controllo per il campo di input testuale user
+function checkuser_reg() {
+	if (username.value == "") {
+		//attiviamo il campo
+		username.focus();
+		//selezioniamo il testo errato
+		username.select();
+		//e bordiamo di rosso il campo da correggere
+		username.style.border="1px solid red";
+                //finestra che indica l'errore
+                alert("Lunghezza del campo \'Username\' vuoto!");
+		//ritorniamo false per indicare che l'azione è fallita
+		return false;		
+	} else {
+		username.style.border="";
+		//ritorniamo true per indicare che l'azione è andata a buon fine
+		return true;
+	}
+}
+
+//funzione di controllo per il campo di input "password" pass
+function checkpass_reg() {
+	if (password.value == "") {
+		//attiviamo il campo
+		password.focus();
+		//selezioniamo il testo errato
+		password.select();
+		//e bordiamo di rosso il campo da correggere
+		password.style.border="1px solid red";
+                //finestra che indica l'errore
+                alert("Lunghezza del campo \'Password\' vuoto!");
+		//ritorniamo false per indicare che l'azione è fallita
+		return false;		
+	} else {
+		password.style.border="";
+		//ritorniamo true per indicare che l'azione è andata a buon fine
+		return true;
+	}
+}
 
 //funzione di controllo per il campo di input testuale user
 function checkuser() {
@@ -76,6 +117,13 @@ function checkFormRicerca() {
 	//in questo modo, se uno dei due ritorna false, la form non verrà sottomessa
 }
 
+//funzione per il controllo dell'intera form durante la submission
+function checkFormReg() {
+	//eseguiamo i controlli dui due campi, e ritorniamo l'AND dei loro risultati
+	return (checkuser_reg() && checkpass_reg());
+	//in questo modo, se uno dei due ritorna false, la form non verrà sottomessa
+}
+
 window.onload = function() {
 
         
@@ -91,7 +139,20 @@ window.onload = function() {
 	user = document.getElementById('user');
 	pass = document.getElementById('pass');	
 	//impostiamo i listener corretti sulla form e sui suoi campi
-	user.onchange = function() {return checkuser();}
-	pass.onchange = function() {return checkpass();}
-	login.onsubmit = function() {return checkFormLogin();}
+        if(user && pass){
+            user.onchange = function() {return checkuser();}
+            pass.onchange = function() {return checkpass();}
+            login.onsubmit = function() {return checkFormLogin();}
+        }
+        
+        //acquisiamo i riferimenti alla form e ai camp che volgiamo controllare
+        regist = document.getElementById("registrazione");
+        username = document.getElementById("user_reg");
+        password = document.getElementById("pass_reg");
+        //impostiamo i listener corretti sulla form e sui suoi campi
+        if(username && password){
+            username.onchange = function() {return checkuser_reg();}
+            password.onchange = function() {return checkpass_reg();}
+            regist.onsubmit = function() {return checkFormReg();}
+        }
 }

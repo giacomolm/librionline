@@ -31,6 +31,10 @@ public class Login extends HttpServlet {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
         
+        if((username == null) || (password == null)){
+            return false;
+        }
+        
         // converto la password inserita in md5
         password = Md5.md5(password);
         

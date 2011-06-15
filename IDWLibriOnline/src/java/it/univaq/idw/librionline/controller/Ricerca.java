@@ -10,7 +10,7 @@ import it.univaq.idw.librionline.model.Libro;
 import it.univaq.idw.librionline.model.impl.LibriOnLineDataLayerMysqlImpl;
 import java.io.IOException;
 import java.util.Collection;
-import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -40,14 +40,21 @@ public class Ricerca extends HttpServlet {
     }
     
     private Collection analizza_ricerca_base(HttpServletRequest request) {
+        
+        List<Libro> bl = null;
+        
         String titolo = request.getParameter("titolo");
+        
+        if(titolo.equals("")){
+            return bl;
+        }
         
         //Questo è l'oggetto che devi dichiarare per qualsiasi interazione con il DB
         LibriOnLineDataLayer dl = new LibriOnLineDataLayerMysqlImpl();
 
         //Questa è la funzione da richiamare per la ricerca base
         //Attenzion! restituisco una collezione di libri! Perchè più libri potrebbero avere lo stesso titolo
-        Collection<Libro> bc = dl.simpleBookSearch(titolo);
+        List<Libro> bc = dl.simpleBookSearch(titolo);
         
         return bc;
     }

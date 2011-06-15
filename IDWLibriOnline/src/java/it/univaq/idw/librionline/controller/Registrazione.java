@@ -44,6 +44,10 @@ public class Registrazione extends HttpServlet {
         String provincia = request.getParameter("provincia");
         String cap = request.getParameter("cap");
         
+        if(user.equals("") || pass.equals("") || email.equals("") || tel.equals("") || nome.equals("") || cognome.equals("") || codicefiscale.equals("") || indirizzo.equals("") || citta.equals("") || provincia.equals("") || cap.equals("")){
+            return false;
+        }
+        
         int cap2 = Integer.parseInt(cap); 
         
         //Questo è l'oggetto che devi dichiarare per qualsiasi interazione con il DB
