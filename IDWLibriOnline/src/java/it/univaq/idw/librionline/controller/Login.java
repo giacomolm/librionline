@@ -31,7 +31,7 @@ public class Login extends HttpServlet {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
         
-        if((username == null) || (password == null)){
+        if((username.equals("")) || (password.equals(""))){
             return false;
         }
         
@@ -74,10 +74,12 @@ public class Login extends HttpServlet {
                     response.sendRedirect("StatoConnessione");
                 }
                 else{
+                    request.setAttribute("title","Login");
                     res.activate("form_login.ftl.html", request, response); // nel caso il login fallisce
                 }
             }
             else{
+                request.setAttribute("title","Login");
                 res.activate("form_login.ftl.html", request, response);
             }
         }

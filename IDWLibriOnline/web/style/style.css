@@ -170,12 +170,12 @@ a:link,a:visited{
     padding: 5px;
 }
 
-#ricerca{
-    padding: 2px;
+#form_ricerca_base{
+    padding: 3px;
 }
 
 #ricerca_avanzata{
-    padding: 5px;
+    padding: 3px;
 }
 
 #footer {

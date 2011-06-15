@@ -6,6 +6,7 @@ package it.univaq.idw.librionline.controller;
 
 import it.univaq.idw.librionline.framework.util.TemplateResult;
 import java.io.IOException;
+import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -15,7 +16,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Zilfio
  */
-public class ChiSiamo extends HttpServlet {
+public class SchedaDettaglioLibro extends HttpServlet {
 
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -28,9 +29,8 @@ public class ChiSiamo extends HttpServlet {
             throws ServletException, IOException {
         
         TemplateResult res = new TemplateResult(getServletContext());
-        
-        request.setAttribute("title","Chi Siamo");
-        res.activate("chisiamo.ftl.html", request, response);
+        request.setAttribute("title","Scheda Dettaglio Libro");
+        res.activate("schedalibro.ftl.html", request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

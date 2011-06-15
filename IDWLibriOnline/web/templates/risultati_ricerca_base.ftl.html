@@ -1,11 +1,11 @@
 <h2> Risultati ricerca base </h2>
 
 <#if (libri??)>
-<ul>
-    <#list libri as libro>
-    <li>${libro.titolo}</li>
-    </#list>
-</ul>
+    <ul>
+        <#list libri as libro>
+        <li><a href="SchedaDettaglioLibro?isbn=${libro.isbn}">${libro.titolo}</a> - </li>
+        </#list>
+    </ul>
 <#else>
     <p> Nessun libro trovato </p> 
 </#if>

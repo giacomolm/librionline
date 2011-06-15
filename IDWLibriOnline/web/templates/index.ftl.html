@@ -5,7 +5,7 @@
         <link rel="stylesheet" href="style/style.css" type="text/css"/>
         <link rel="SHORTCUT ICON" href="img/libro.gif" type="image/x-icon" />
         <script type="text/javascript" src="javascript/controlli_form.js"></script>
-        <title>LibriOnLine</title>
+        <title>LibriOnLine - ${title}</title>
         <meta content="text/html; charset=iso-8859-1" http-equiv="Content-Type" />
         <meta name="description" content="Biblioteca LibriOnLine" />
         <meta name="keywords" content="biblioteca,librionline,libri,libro,italy" />
@@ -15,7 +15,7 @@
         <div id="layout">
             <div id="header">
                 <div id="header_menu">
-                        <a id="login" href="Login">login</a>
+                       <a id="login" href="Login">login</a>
                 </div>
                 <div id="header_logo"> 
                     <a id="titolo_header" href="Home"><img src="img/header2.png" alt="LibriOnLine" /></a>
@@ -25,8 +25,7 @@
                 <div class="title">Navigazione</div>
                     <ul>
                         <li><a href="Home">Homepage</a></li>
-                        <li><a href="ChiSiamo">Chi siamo</a></li>			
-                        <li><a href="#">Libri</a></li>
+                        <li><a href="ChiSiamo">Chi siamo</a></li>
                         <li><a href="Registrazione">Registrati</a></li>
                     </ul>
             </div>
@@ -34,11 +33,14 @@
                 <div id="title">Ricerca</div>
                 <br />
                 <form id="form_ricerca_base" method="get" action="Ricerca" >
+                    <div>
                     <label>Titolo del libro:</label>
                     <input type="text" name="titolo" id="titolo" size="18" /> <br /> <br />
                     <input type="submit" value="Ricerca" name="Invia" /> 
                     <input type="reset" value="Reset" name="Cancella" />
+                    </div>
                 </form>
+                <br />
                 <div id="ricerca_avanzata">
                     <a href="Ricerca">Ricerca avanzata</a>
                 </div>

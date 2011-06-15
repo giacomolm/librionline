@@ -25,6 +25,7 @@ public class Home extends HttpServlet {
 
         TemplateResult res = new TemplateResult(getServletContext());
         
+        request.setAttribute("title","Homepage");
         res.activate("home.ftl.html", request, response);
     }
 

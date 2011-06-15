@@ -37,12 +37,13 @@ public class StatoConnessione extends HttpServlet {
         SimpleDateFormat f = new SimpleDateFormat();
 
         if (s == null) {
+            request.setAttribute("title","Login");
             res.activate("form_login.ftl.html", request, response);
         } else {
-            request.setAttribute("loggato",true);
             request.setAttribute("username",(String) s.getAttribute("username"));
             request.setAttribute("ip",(String) s.getAttribute("ip"));
             request.setAttribute("date",f.format(((Calendar) s.getAttribute("inizio-sessione")).getTime()));
+            request.setAttribute("title","Stato Connessione");
             res.activate("statoconnessione.ftl.html", request, response);
         }
     }

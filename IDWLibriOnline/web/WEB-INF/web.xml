@@ -57,6 +57,10 @@
         <servlet-name>StatoConnessione</servlet-name>
         <servlet-class>it.univaq.idw.librionline.controller.StatoConnessione</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>SchedaDettaglioLibro</servlet-name>
+        <servlet-class>it.univaq.idw.librionline.controller.SchedaDettaglioLibro</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Home</servlet-name>
         <url-pattern>/Home</url-pattern>
@@ -84,6 +88,10 @@
     <servlet-mapping>
         <servlet-name>StatoConnessione</servlet-name>
         <url-pattern>/StatoConnessione</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SchedaDettaglioLibro</servlet-name>
+        <url-pattern>/SchedaDettaglioLibro</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
