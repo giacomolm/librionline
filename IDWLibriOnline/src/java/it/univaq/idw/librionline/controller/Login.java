@@ -75,7 +75,8 @@ public class Login extends HttpServlet {
                 }
                 else{
                     request.setAttribute("title","Login");
-                    res.activate("form_login.ftl.html", request, response); // nel caso il login fallisce
+                    request.setAttribute("messaggio","Login Fallito: inserire correttamente 'username' e 'password'");
+                    res.activate("form_login.ftl.html", request, response);
                 }
             }
             else{

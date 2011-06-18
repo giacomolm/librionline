@@ -83,11 +83,13 @@ public class Registrazione extends HttpServlet {
         }
         else{
             if(analizza_form_registrazione(request,response)){
-                request.setAttribute("title","Login");
-                res.activate("form_login.ftl.html", request, response);
+                request.setAttribute("title","Registrazione");
+                request.setAttribute("messaggio","Registrazione effettuata con successo!");
+                res.activate("form_registrazione.ftl.html", request, response);
             }
             else{
                 request.setAttribute("title","Registrazione");
+                request.setAttribute("messaggio","Registrazione fallita! Si prega di compilare bene i campi sottostanti!");
                 res.activate("form_registrazione.ftl.html", request, response);
             }
         }

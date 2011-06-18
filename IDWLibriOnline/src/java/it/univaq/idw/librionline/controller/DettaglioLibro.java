@@ -32,11 +32,11 @@ public class DettaglioLibro extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        PrintWriter w = response.getWriter();
         TemplateResult template = new TemplateResult(getServletContext());
-	response.setContentType("text/html;charset=UTF-8");
 	//controllo validita dell'ID del libro
 	String isbn = request.getParameter("isbn");
-	System.out.println(isbn);
+	w.println(isbn);
 	if (isbn == null){
 	    //ERRORE
 	}

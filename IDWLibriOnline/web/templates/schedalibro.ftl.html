@@ -1,4 +1,4 @@
 <h2> Scheda dettaglio del libro </h2>
-
-<h3> ${libro.isbn} </h3>
-<h3> ${libro.titolo} </h3>
+<#if (libro??)>
+<h3> Titolo del libro: ${libro.titolo} </h3>
+</#if>
