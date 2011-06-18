@@ -2,7 +2,9 @@
 <p> Se non ti sei ancora registrato fallo adesso. Basta compilare i campi sottostanti. </p>
 <form action="Registrazione" method="post" enctype="multipart/form-data" id="registrazione">
     <#if (messaggio??)>
+    <div class="messaggio">
         <p><b>${messaggio}</b></p>
+    </div>
     </#if>
     <br />
     <div>

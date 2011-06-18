@@ -3,7 +3,9 @@
 <p> Se non sei ancora registrato, puoi registrarti seguendo questo link: <a href="Registrazione">Registrati</a></p>
 <form action="Login" method="post" enctype="multipart/form-data" id="form_login">
     <#if (messaggio??)>
+    <div class="messaggio">
         <p><b>${messaggio}</b></p>
+    </div>
     </#if>
     <br />
     <div>

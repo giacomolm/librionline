@@ -190,3 +190,8 @@ a:link,a:visited{
     background-color: #e8effb;
     padding: 5px;
 }
+
+.messaggio{
+    border: 1px solid;
+    background-color: red;
+}
