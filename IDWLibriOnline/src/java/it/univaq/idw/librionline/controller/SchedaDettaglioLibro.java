@@ -5,8 +5,10 @@
 package it.univaq.idw.librionline.controller;
 
 import it.univaq.idw.librionline.framework.util.TemplateResult;
+import it.univaq.idw.librionline.model.LibriOnLineDataLayer;
+import it.univaq.idw.librionline.model.Libro;
+import it.univaq.idw.librionline.model.impl.LibriOnLineDataLayerMysqlImpl;
 import java.io.IOException;
-import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -28,9 +30,27 @@ public class SchedaDettaglioLibro extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        TemplateResult res = new TemplateResult(getServletContext());
-        request.setAttribute("title","Scheda Dettaglio Libro");
-        res.activate("schedalibro.ftl.html", request, response);
+        TemplateResult template = new TemplateResult(getServletContext());
+	response.setContentType("text/html;charset=UTF-8");
+	//controllo validita dell'ID del libro
+	String isbn = request.getParameter("isbn");
+	System.out.println(isbn);
+	if (isbn == null){
+	    //ERRORE
+	}
+	else{
+	    LibriOnLineDataLayer model = new LibriOnLineDataLayerMysqlImpl();
+	    Libro l = model.searchByIsbn(isbn);
+	    if (l == null){
+		// ERRORE
+	    }
+	    else{
+		// carico template
+		request.setAttribute("libro", l);
+		request.setAttribute("title", l.getTitolo());
+		template.activate("schedalibro.ftl.html", request, response);
+	    }
+	}
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
