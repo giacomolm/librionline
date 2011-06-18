@@ -11,6 +11,7 @@ import it.univaq.idw.librionline.model.Libro;
 import it.univaq.idw.librionline.model.Lingua;
 import it.univaq.idw.librionline.model.Tag;
 import it.univaq.idw.librionline.model.User;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -248,18 +249,22 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
         String[] lista = tc.split(" ");
         
         List<Libro> cl = (List) new ArrayList<LibroMysqlImpl>();
-        
-        try{
-            cl = manager.createNamedQuery("TagMysqlImpl.findByTag").setParameter("tag", lista[0]).getResultList();
-        }
-        catch(NoResultException e){
+        List<Tag> tl = (List) new ArrayList<TagMysqlImpl>();
+        int k=0;
+        for(int i=0; i<lista.length; i++){
+            try{
+                tl.add((Tag) manager.createNamedQuery("TagMysqlImpl.findByTag").setParameter("tag", lista[i]).getSingleResult());
+            }
+            catch(NoResultException e){
 
+            }
         }
+        cl = (List) tl.get(0).getLibroCollection();
         
-        for(int i=1; i<lista.length; i++){
+        for(int i=1; i<tl.size(); i++){
             try{
                 List<Libro> res = (List) new ArrayList<LibroMysqlImpl>();
-                Collection<Libro> temp = manager.createNamedQuery("TagMysqlImpl.findByTag").setParameter("tag", lista[i]).getResultList();
+                Collection<Libro> temp = (List) tl.get(i).getLibroCollection();
                 for ( Iterator it = temp.iterator(); it.hasNext(); ) {
                     LibroMysqlImpl element = (LibroMysqlImpl) it.next();
                     if(cl.contains(element)) res.add(element);
@@ -291,6 +296,7 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
         catch(NoResultException e){
             //nessun libro trovato
         }
+
         manager.getTransaction().commit();
         return l;
     }

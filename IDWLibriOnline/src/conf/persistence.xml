@@ -19,6 +19,10 @@
       <property name="javax.persistence.jdbc.password" value=""/>
       <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
       <property name="javax.persistence.jdbc.user" value="root"/>
+      <property name="eclipselink.jdbc.read-connections.max" value="10"/>
+      <property name="eclipselink.jdbc.read-connections.min" value="5"/>
+      <property name="eclipselink.jdbc.write-connections.max" value="5"/>
+      <property name="eclipselink.jdbc.write-connections.min" value="3"/>
     </properties>
   </persistence-unit>
 </persistence>

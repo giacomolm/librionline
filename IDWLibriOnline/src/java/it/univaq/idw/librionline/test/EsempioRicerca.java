@@ -32,5 +32,13 @@ public class EsempioRicerca {
             System.out.println( "Codice ISBN "+element.getIsbn());
         }
 
+        //ricerca per isbn
+        Libro li = dl.searchByIsbn("9788850329649");
+        System.out.println( "Titolo "+li.getTitolo());
+        Collection<Libro> list = dl.searchByTags("programmazione ");
+        for ( Iterator i = list.iterator(); i.hasNext(); ) {
+            Libro element = (Libro) i.next();
+            System.out.println( "Titolo Tag "+element.getTitolo());
+        }
     }
 }
