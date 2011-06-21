@@ -3,7 +3,7 @@
 <#if (libri??)>
     <ul>
         <#list libri as libro>
-            <li><a href="SchedaDettaglioLibro?isbn=${libro.isbn}">${libro.titolo}</a> - ${libro.editore} - ${annoPubblicazione}</li> 
+            <li><a href="SchedaDettaglioLibro?isbn=${libro.isbn}">${libro.titolo}</a> - ${libro.editore} - ${libro.annoPubblicazione?string("yyyy")}</li> 
         </#list>
     </ul>
 <#else>

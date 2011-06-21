@@ -3,7 +3,7 @@
 <p> <b> ISBN: </b> ${libro.isbn} </p>
 <p> <b> Titolo del libro: </b> ${libro.titolo!"Non presente"} </p>
 <p> <b> Editore: </b> ${libro.editore!"Non presente"} </p>
-<p> <b> Anno di Pubblicazione: </b> ${libro.annoPubblicazione!"Non presente"} </p>
+<p> <b> Anno di Pubblicazione: </b> ${libro.annoPubblicazione?string("yyyy")!"Non presente"} </p>
 <p> <b> Recensione: </b> ${libro.recensione!"Non presente"} </p>
 <p> <b> Lingua: </b> ${lingua.lingua} </p>
 <p> <b> Autore: </b>

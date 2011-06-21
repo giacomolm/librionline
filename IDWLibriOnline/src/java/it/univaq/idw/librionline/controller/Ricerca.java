@@ -71,19 +71,17 @@ public class Ricerca extends HttpServlet {
                 
                 TemplateResult res = new TemplateResult(getServletContext());
                 
-                String s = request.getParameter("Invia");
-                
-                List<Libro> lc = analizza_ricerca_base(request);
+                String s = request.getParameter("Invia");                             
                 
                 if("Ricerca avanzata".equals(s)){
                     request.setAttribute("title","Risultati Ricerca Avanzata");
-                    request.setAttribute("headers", lc);
+                    request.setAttribute("headers", analizza_ricerca_base(request));
                     res.activate("risultati_ricerca_avanzata.ftl.html", request, response);
                 }
                 else if("Ricerca".equals(s)){
                     request.setAttribute("title","Risultati Ricerca Base"); 
-                    request.setAttribute("libri",lc);
-                    request.setAttribute("annoPubblicazione",lc);
+                    request.setAttribute("libri",analizza_ricerca_base(request));
+                    //request.setAttribute("annoPubblicazione",lc);
                     res.activate("risultati_ricerca_base.ftl.html", request, response);
                     response.sendRedirect("Home");
                 }
