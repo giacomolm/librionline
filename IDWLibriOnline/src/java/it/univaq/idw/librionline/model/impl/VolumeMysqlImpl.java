@@ -46,6 +46,9 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "VolumeMysqlImpl.findAll", query = "SELECT v FROM VolumeMysqlImpl v"),
     @NamedQuery(name = "VolumeMysqlImpl.findById", query = "SELECT v FROM VolumeMysqlImpl v WHERE v.id = :id")})
 public class VolumeMysqlImpl implements Serializable, Volume {
+    @Basic(optional = false)
+    @Column(name = "durataMax")
+    private int durataMax;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -155,6 +158,14 @@ public class VolumeMysqlImpl implements Serializable, Volume {
     @Override
     public void setStato(Stato stato) {
         this.stato = (StatoMysqlImpl) stato;
+    }
+
+    public int getDurataMax() {
+        return durataMax;
+    }
+
+    public void setDurataMax(int durataMax) {
+        this.durataMax = durataMax;
     }
     
 }

@@ -83,6 +83,7 @@ public class Ricerca extends HttpServlet {
                 else if("Ricerca".equals(s)){
                     request.setAttribute("title","Risultati Ricerca Base"); 
                     request.setAttribute("libri",lc);
+                    request.setAttribute("annoPubblicazione",lc);
                     res.activate("risultati_ricerca_base.ftl.html", request, response);
                     response.sendRedirect("Home");
                 }

@@ -26,7 +26,7 @@ public interface Libro {
      * Restituisce l'anno di pubblicazione del libro
      * @return intero rappresentante l'anno
      */
-    Integer getAnnoPubblicazione();
+    Date getAnnoPubblicazione();
 
     /**
      * Restituisce l'insieme degli autori del libro
@@ -110,7 +110,7 @@ public interface Libro {
      * Imposta l'anno di pubblicazione del libro
      * @param annoPubblicazione
      */
-    void setAnnoPubblicazione(Integer annoPubblicazione);
+    void setAnnoPubblicazione(Date annoPubblicazione);
 
     /**
      * Imposta l'insieme di autori che hanno scritto quel libro

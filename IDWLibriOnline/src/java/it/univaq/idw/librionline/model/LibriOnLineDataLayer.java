@@ -92,4 +92,13 @@ public interface LibriOnLineDataLayer {
      * @return List<Libro> scritti dall'autore rappresento da quell'id
      */
      List<Libro> searchLibriAutoriById(int id);
+     
+         /**
+     * Questo tipo di ricerca fa riferimento esclusivamente al titolo del libro:
+     * vengono considerati tutti i titoli che matchano con il titolo completo o 
+     * parte di esso.
+     * @param String titolo rappresentante il titolo completo o parte di esso
+     * @return List di libri rappresentante il risultato della ricerca
+     */
+    List<Libro> searchByTitle(String titolo);
 }

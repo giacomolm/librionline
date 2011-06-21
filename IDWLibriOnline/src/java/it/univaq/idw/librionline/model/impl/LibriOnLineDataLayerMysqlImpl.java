@@ -9,11 +9,14 @@ import it.univaq.idw.librionline.model.Autore;
 import it.univaq.idw.librionline.model.Gruppo;
 import it.univaq.idw.librionline.model.Libro;
 import it.univaq.idw.librionline.model.Lingua;
+import it.univaq.idw.librionline.model.Prestito;
 import it.univaq.idw.librionline.model.Tag;
 import it.univaq.idw.librionline.model.User;
+import it.univaq.idw.librionline.model.Volume;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -55,7 +58,7 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
      * @param l Libro da inserire
      * @return true se il l'inserimento è stato effettuato in maniera corretta
      */
-    public boolean insertBook(String isbn, String titolo, String editore, int annopubbl, String recens, Lingua lingua,Collection<Autore> autori){
+    public boolean insertBook(String isbn, String titolo, String editore, Date annopubbl, String recens, Lingua lingua,Collection<Autore> autori){
         if(!bookIsThis(isbn)){
             manager.getTransaction().begin();
             //Inseriamo i campi opportuni nel nuovo oggetto libro
@@ -398,5 +401,29 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
         }
         manager.getTransaction().commit();
         return l;
+    }
+    
+    /**
+     * 
+     * @param isbn
+     * @return 
+     */
+    public int getNumeroCopie(String isbn){
+        Libro l = searchByIsbn(isbn);
+        return l.getVolumeCollection().size();
+    }
+    
+    public int getNumeroCopieDisponibili(String isbn){
+        Libro l = searchByIsbn(isbn);
+        List<Volume> lv =(List) l.getVolumeCollection();
+        for ( Iterator it = lv.iterator(); it.hasNext(); ) {
+            VolumeMysqlImpl vol = (VolumeMysqlImpl) it.next();
+            Collection<Prestito> cp =  vol.getPrestitoCollection();
+            for ( Iterator ite = cp.iterator(); ite.hasNext(); ) {
+                PrestitoMysqlImpl prestito = (PrestitoMysqlImpl) ite.next();
+                //prestito.
+            }
+        }
+        return 0;
     }
 }

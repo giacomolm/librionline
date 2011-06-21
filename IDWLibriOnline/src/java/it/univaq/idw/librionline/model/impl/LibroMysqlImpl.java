@@ -57,6 +57,9 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "LibroMysqlImpl.findByEditore", query = "SELECT l FROM LibroMysqlImpl l WHERE l.editore = :editore"),
     @NamedQuery(name = "LibroMysqlImpl.findByAnnoPubblicazione", query = "SELECT l FROM LibroMysqlImpl l WHERE l.annoPubblicazione = :annoPubblicazione")})
 public class LibroMysqlImpl implements Serializable,Libro {
+    @Column(name =     "annoPubblicazione")
+    @Temporal(TemporalType.DATE)
+    private Date annoPubblicazione;
     @Basic(optional = false)
     @Column(name = "data_ins")
     @Temporal(TemporalType.DATE)
@@ -71,8 +74,6 @@ public class LibroMysqlImpl implements Serializable,Libro {
     private String titolo;
     @Column(name = "editore")
     private String editore;
-    @Column(name = "annoPubblicazione")
-    private Integer annoPubblicazione;
     @Lob
     @Column(name = "recensione")
     private String recensione;
@@ -153,16 +154,6 @@ public class LibroMysqlImpl implements Serializable,Libro {
     @Override
     public void setEditore(String editore) {
         this.editore = editore;
-    }
-
-    @Override
-    public Integer getAnnoPubblicazione() {
-        return annoPubblicazione;
-    }
-
-    @Override
-    public void setAnnoPubblicazione(Integer annoPubblicazione) {
-        this.annoPubblicazione = annoPubblicazione;
     }
 
     @Override
@@ -389,5 +380,30 @@ public class LibroMysqlImpl implements Serializable,Libro {
     public void setDataIns(Date dataIns) {
         this.dataIns = dataIns;
     }
-    
+
+    /*public Date getAnnoPubblicazione() {
+        return annoPubblicazione;
+    }
+
+    public void setAnnoPubblicazione(Date annoPubblicazione) {
+        this.annoPubblicazione = annoPubblicazione;
+    }
+
+    public Date getDataIns() {
+        return dataIns;
+    }
+
+    public void setDataIns(Date dataIns) {
+        this.dataIns = dataIns;
+    }*/
+
+    @Override
+    public Date getAnnoPubblicazione() {
+        return annoPubblicazione;
+    }
+
+    @Override
+    public void setAnnoPubblicazione(Date annoPubblicazione) {
+        this.annoPubblicazione = annoPubblicazione;
+    }
 }
