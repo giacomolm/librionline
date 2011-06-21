@@ -122,36 +122,17 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
     @Override
     public List<Libro> simpleBookSearch(String titolo){
         if (!titolo.equals("")){
-            manager.getTransaction().begin();
-            //Piccola funzione di editing per le stringhe in modo da poterle utilizzare con il LIKE
-            String[] lista = titolo.split(" ");
-            String ric = "%"+lista[0]+"%";
-            //System.out.println(lista[0]);
-            for (int i=1; i<lista.length; i++){
-                //System.out.println(lista[i]);
-                ric += lista[i]+"%";
-            }
-            //System.out.println(ric);
-            List<Libro> bl=null;
-            try{
-                bl = manager.createNamedQuery("LibroMysqlImpl.findByIsbn").setParameter("isbn",titolo).getResultList();                
-            }catch(NoResultException e){
-                //bl=null;
-                //System.out.println("Ci sono");
-            }
-            try{                
-                bl.addAll(manager.createNamedQuery("LibroMysqlImpl.findByTitolo").setParameter("titolo",titolo).getResultList());
-            }catch(NoResultException e){
-                //bl=null;
-                //System.out.println("Ci sono");
-            }
-            try{                
+            //manager.getTransaction().begin();
+
+            List<Libro> bl= (List) new ArrayList<LibroMysqlImpl>();
+            
+                //bl = manager.createNamedQuery("LibroMysqlImpl.findByIsbn").setParameter("isbn",titolo).getResultList();                
+                bl.add(searchByIsbn(titolo));                            
+                bl.addAll(searchByTitle(titolo));               
                 bl.addAll(manager.createNamedQuery("LibroMysqlImpl.findByEditore").setParameter("editore",titolo).getResultList());
-            }catch(NoResultException e){
-                //bl=null;
-                //System.out.println("Ci sono");
-            }
-            manager.getTransaction().commit();
+                bl.addAll(searchByAutori(titolo));
+                
+            //manager.getTransaction().commit();
             return bl;
         }else return null;
     }
