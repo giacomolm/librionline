@@ -9,6 +9,7 @@
 <p> <b> Autore: </b>
     <#list autori as autore>
         <a href="RicercaLibroAutore?id=${autore.id}">${autore.cognome!"Nessun autore trovato"} ${autore.nome!"Nessun autore trovato"}</a>
+    <#if autore_has_next>, </#if>
     </#list>
 </p>
 <p> <b> Tag associati: </b>

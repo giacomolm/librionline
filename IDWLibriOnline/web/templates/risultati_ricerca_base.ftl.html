@@ -3,7 +3,12 @@
 <#if (libri??)>
     <ul>
         <#list libri as libro>
-            <li><a href="SchedaDettaglioLibro?isbn=${libro.isbn}">${libro.titolo}</a> - ${libro.editore} - ${libro.annoPubblicazione?string("yyyy")}</li> 
+            <li><a href="SchedaDettaglioLibro?isbn=${libro.isbn}">${libro.titolo}</a> -
+             <#list libro.autoreCollection as autore>
+                ${autore.nome} ${autore.cognome}
+            <#if autore_has_next>, </#if>
+            </#list>
+            - ${libro.editore} - ${libro.annoPubblicazione?string("yyyy")}</li> 
         </#list>
     </ul>
 <#else>

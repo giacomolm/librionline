@@ -9,11 +9,8 @@ import it.univaq.idw.librionline.model.LibriOnLineDataLayer;
 import it.univaq.idw.librionline.model.Libro;
 import it.univaq.idw.librionline.model.impl.LibriOnLineDataLayerMysqlImpl;
 import java.io.IOException;
-import java.util.Collection;
+import java.io.PrintWriter;
 import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -25,18 +22,24 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class Ricerca extends HttpServlet {
     
-    private Map analizza_ricerca_avanzata(HttpServletRequest request) throws IOException, ServletException {
-        //per elaborare tutti i campi della request, ne richiedo la mappa
-        //se volessi accedere a un campo particolare, potrei usare direttamente request.getParameter
-        Map m = request.getParameterMap();
-        Set<Entry<String, String[]>> fieldset = m.entrySet();
-        for (Entry<String, String[]> field : fieldset) {
-            //itero sui vari campi
-            String nome = field.getKey();
-            //il valore, anche se semplice, è sempre un array
-            String[] valori = field.getValue();
+    private void analizza_ricerca_avanzata(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+        PrintWriter w = response.getWriter();
+        
+        String titolo = request.getParameter("titolo");
+        String tag = request.getParameter("tag");
+        String autore = request.getParameter("autore");
+        String isbn = request.getParameter("isbn");
+        
+        w.println(titolo);
+        w.println(tag);
+        w.println(autore);
+        w.println(isbn);
+        
+        LibriOnLineDataLayer dl = new LibriOnLineDataLayerMysqlImpl();
+        
+        if(titolo != null){
+            List<Libro> lc = dl.searchByTitle(titolo);
         }
-        return m;
     }
     
     private List analizza_ricerca_base(HttpServletRequest request) {
@@ -81,7 +84,6 @@ public class Ricerca extends HttpServlet {
                 else if("Ricerca".equals(s)){
                     request.setAttribute("title","Risultati Ricerca Base"); 
                     request.setAttribute("libri",analizza_ricerca_base(request));
-                    //request.setAttribute("annoPubblicazione",lc);
                     res.activate("risultati_ricerca_base.ftl.html", request, response);
                     response.sendRedirect("Home");
                 }
