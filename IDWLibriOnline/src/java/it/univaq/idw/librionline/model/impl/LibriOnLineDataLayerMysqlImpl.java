@@ -127,9 +127,15 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
             List<Libro> bl= (List) new ArrayList<LibroMysqlImpl>();
             
                 //bl = manager.createNamedQuery("LibroMysqlImpl.findByIsbn").setParameter("isbn",titolo).getResultList();                
-                bl.add(searchByIsbn(titolo));                            
-                bl.addAll(searchByTitle(titolo));               
-                bl.addAll(manager.createNamedQuery("LibroMysqlImpl.findByEditore").setParameter("editore",titolo).getResultList());
+                //bl.add(searchByIsbn(titolo)); 
+                //System.out.println("ci sono");
+                bl.addAll(searchByTitle(titolo));
+                
+                try{
+                    bl.addAll(manager.createNamedQuery("LibroMysqlImpl.findByEditore").setParameter("editore",titolo).getResultList());
+                }catch (NoResultException e){
+            
+                }
                 bl.addAll(searchByAutori(titolo));
                 
             //manager.getTransaction().commit();
