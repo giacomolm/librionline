@@ -39,7 +39,7 @@ public class Ricerca extends HttpServlet {
         return m;
     }
     
-    private Collection analizza_ricerca_base(HttpServletRequest request) {
+    private List analizza_ricerca_base(HttpServletRequest request) {
         
         List<Libro> bl = null;
         
@@ -73,14 +73,16 @@ public class Ricerca extends HttpServlet {
                 
                 String s = request.getParameter("Invia");
                 
+                List<Libro> lc = analizza_ricerca_base(request);
+                
                 if("Ricerca avanzata".equals(s)){
                     request.setAttribute("title","Risultati Ricerca Avanzata");
-                    request.setAttribute("headers", analizza_ricerca_avanzata(request));
+                    request.setAttribute("headers", lc);
                     res.activate("risultati_ricerca_avanzata.ftl.html", request, response);
                 }
                 else if("Ricerca".equals(s)){
-                    request.setAttribute("title","Risultati Ricerca Base");
-                    request.setAttribute("libri",analizza_ricerca_base(request));
+                    request.setAttribute("title","Risultati Ricerca Base"); 
+                    request.setAttribute("libri",lc);
                     res.activate("risultati_ricerca_base.ftl.html", request, response);
                     response.sendRedirect("Home");
                 }

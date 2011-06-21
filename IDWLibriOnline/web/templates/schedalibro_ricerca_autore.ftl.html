@@ -1,0 +1,10 @@
+<h2 class="page_title"> Libri dell'autore </h2>
+<#if (libri??)>
+    <ul>
+        <#list libri as libro>
+            <li><a href="SchedaDettaglioLibro?isbn=${libro.isbn}">${libro.titolo}</a></li>
+        </#list>
+    </ul>
+<#else>
+    <p> Nessun libro trovato </p> 
+</#if>

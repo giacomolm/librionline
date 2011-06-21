@@ -5,12 +5,11 @@
 package it.univaq.idw.librionline.controller;
 
 import it.univaq.idw.librionline.framework.util.TemplateResult;
-import it.univaq.idw.librionline.model.Autore;
 import it.univaq.idw.librionline.model.LibriOnLineDataLayer;
 import it.univaq.idw.librionline.model.Libro;
 import it.univaq.idw.librionline.model.impl.LibriOnLineDataLayerMysqlImpl;
 import java.io.IOException;
-import java.util.Iterator;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -20,7 +19,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Zilfio
  */
-public class SchedaDettaglioLibro extends HttpServlet {
+public class RicercaLibroTag extends HttpServlet {
 
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -31,33 +30,16 @@ public class SchedaDettaglioLibro extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
         TemplateResult template = new TemplateResult(getServletContext());
-	//controllo validita dell'ID del libro
-	String isbn = request.getParameter("isbn");
-	if (isbn == null){
-	    request.setAttribute("title", "Errore");
-            request.setAttribute("error", "Attenzione: Codice ISBN non immesso!");
-            template.activate("error.ftl.html", request, response);
-	}
-	else{
-	    LibriOnLineDataLayer model = new LibriOnLineDataLayerMysqlImpl();
-	    Libro l = model.searchByIsbn(isbn);
-	    if (l == null){
-                request.setAttribute("title", "Errore");
-		request.setAttribute("error", "Attenzione: Codice ISBN non presente nel DB!");
-                template.activate("error.ftl.html", request, response);
-	    }
-	    else{
-		// carico template
-                request.setAttribute("title", l.getTitolo());
-		request.setAttribute("libro", l);
-                request.setAttribute("lingua", l.getLingua());
-                request.setAttribute("autori", l.getAutoreCollection());
-                request.setAttribute("tags", l.getTagCollection());
-		template.activate("schedalibro.ftl.html", request, response);
-	    }
-	}
+        
+        String tag = request.getParameter("tag");
+        LibriOnLineDataLayer model = new LibriOnLineDataLayerMysqlImpl();
+        List<Libro> l = model.searchByTags(tag);
+        
+        request.setAttribute("tag", tag);
+        request.setAttribute("title", "Ricerca per Tag");
+        request.setAttribute("libri", l);
+        template.activate("schedalibro_ricerca_tag.ftl.html", request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

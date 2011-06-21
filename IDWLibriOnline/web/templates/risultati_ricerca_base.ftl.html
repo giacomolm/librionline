@@ -1,9 +1,9 @@
-<h2> Risultati ricerca base </h2>
+<h2 class="page_title"> Risultati ricerca base </h2>
 
 <#if (libri??)>
     <ul>
         <#list libri as libro>
-        <li><a href="SchedaDettaglioLibro?isbn=${libro.isbn}">${libro.titolo}</a> - </li>
+            <li><a href="SchedaDettaglioLibro?isbn=${libro.isbn}">${libro.titolo}</a> - ${libro.editore} - ${libro.annoPubblicazione}</li> 
         </#list>
     </ul>
 <#else>

@@ -1,4 +1,19 @@
-<h2> Scheda dettaglio del libro </h2>
+<h2 class="page_title"> Scheda dettaglio del libro: ${libro.titolo} </h2>
 <#if (libro??)>
-<h3> Titolo del libro: ${libro.titolo} </h3>
+<p> <b> ISBN: </b> ${libro.isbn} </p>
+<p> <b> Titolo del libro: </b> ${libro.titolo!"Non presente"} </p>
+<p> <b> Editore: </b> ${libro.editore!"Non presente"} </p>
+<p> <b> Anno di Pubblicazione: </b> ${libro.annoPubblicazione!"Non presente"} </p>
+<p> <b> Recensione: </b> ${libro.recensione!"Non presente"} </p>
+<p> <b> Lingua: </b> ${lingua.lingua} </p>
+<p> <b> Autore: </b>
+    <#list autori as autore>
+        <a href="RicercaLibroAutore?id=${autore.id}">${autore.cognome!"Nessun autore trovato"} ${autore.nome!"Nessun autore trovato"}</a>
+    </#list>
+</p>
+<p> <b> Tag associati: </b>
+    <#list tags as tag>
+        <a href="RicercaLibroTag?tag=${tag.tag}">${tag.tag!"Nessun tag trovato"}</a>
+    </#list>
+</p>
 </#if>

@@ -61,6 +61,14 @@
         <servlet-name>SchedaDettaglioLibro</servlet-name>
         <servlet-class>it.univaq.idw.librionline.controller.SchedaDettaglioLibro</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>RicercaLibroTag</servlet-name>
+        <servlet-class>it.univaq.idw.librionline.controller.RicercaLibroTag</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>RicercaLibroAutore</servlet-name>
+        <servlet-class>it.univaq.idw.librionline.controller.RicercaLibroAutore</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Home</servlet-name>
         <url-pattern>/Home</url-pattern>
@@ -92,6 +100,14 @@
     <servlet-mapping>
         <servlet-name>SchedaDettaglioLibro</servlet-name>
         <url-pattern>/SchedaDettaglioLibro</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>RicercaLibroAutore</servlet-name>
+        <url-pattern>/RicercaLibroAutore</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>RicercaLibroTag</servlet-name>
+        <url-pattern>/RicercaLibroTag</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
