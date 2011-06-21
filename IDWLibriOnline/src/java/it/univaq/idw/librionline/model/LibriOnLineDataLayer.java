@@ -82,4 +82,14 @@ public interface LibriOnLineDataLayer {
      * @return Lista indicante l'insieme dei libri scritti dagli autori indicati
      */
     List<Libro> searchByAutori(String autori);
+    
+      /**
+     * Questa funziona si dimostra essere necessaria in quanto potrebbero esistere
+     * due o più autori con lo stesso nome: in questo modo possiamo accedere alla
+     * lista dei libri scritti dall'autore desiderato tramite il suo id in modo tale da evitare
+     * delle inesattezze
+     * @param id dell'autore
+     * @return List<Libro> scritti dall'autore rappresento da quell'id
+     */
+     List<Libro> searchLibriAutoriById(int id);
 }

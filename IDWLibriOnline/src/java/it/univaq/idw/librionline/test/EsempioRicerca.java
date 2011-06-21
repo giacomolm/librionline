@@ -7,6 +7,7 @@ package it.univaq.idw.librionline.test;
 import it.univaq.idw.librionline.model.Autore;
 import it.univaq.idw.librionline.model.LibriOnLineDataLayer;
 import it.univaq.idw.librionline.model.Libro;
+import it.univaq.idw.librionline.model.Tag;
 import it.univaq.idw.librionline.model.impl.LibriOnLineDataLayerMysqlImpl;
 import java.util.Collection;
 import java.util.Iterator;
@@ -41,6 +42,13 @@ public class EsempioRicerca {
             Autore element = (Autore) i.next();
             System.out.println("Cognome "+element.getCognome());
         } 
+        
+        Collection<Tag> tc = li.getTagCollection();
+        for ( Iterator i = tc.iterator(); i.hasNext(); ) {
+            Tag element = (Tag) i.next();
+            System.out.print(element.getTag()+" ");
+        }
+        System.out.println("");
         Collection<Libro> list = dl.searchByTags("programmazione ");
         for ( Iterator i = list.iterator(); i.hasNext(); ) {
             Libro element = (Libro) i.next();
@@ -51,6 +59,12 @@ public class EsempioRicerca {
         for ( Iterator i = list.iterator(); i.hasNext(); ) {
             Libro element = (Libro) i.next();
             System.out.println( "Autore "+element.getTitolo());                           
+        }
+        
+        list = dl.searchLibriAutoriById(1);
+        for ( Iterator i = list.iterator(); i.hasNext(); ) {
+            Libro element = (Libro) i.next();
+            System.out.println( "Libro Autore "+element.getTitolo());                           
         }
     }
 }

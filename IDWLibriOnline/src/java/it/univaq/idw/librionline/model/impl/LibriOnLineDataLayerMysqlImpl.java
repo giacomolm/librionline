@@ -376,4 +376,27 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
             return cl;
         }else return null;
     }
+    
+    /**
+     * Questa funziona si dimostra essere necessaria in quanto potrebbero esistere
+     * due o più autori con lo stesso nome: in questo modo possiamo accedere alla
+     * lista dei libri scritti dall'autore desiderato tramite il suo id in modo tale da evitare
+     * delle inesattezze
+     * @param id dell'autore
+     * @return List<Libro> scritti dall'autore rappresento da quell'id
+     */
+    @Override
+    public List<Libro> searchLibriAutoriById(int id){
+        manager.getTransaction().begin();
+        List<Libro> l = null;
+        try{
+            Autore a = (Autore) manager.createNamedQuery("AutoreMysqlImpl.findById").setParameter("id",id).getSingleResult();
+            l = (List) a.getLibroCollection();
+        }
+        catch(NoResultException e){
+
+        }
+        manager.getTransaction().commit();
+        return l;
+    }
 }
