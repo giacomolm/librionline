@@ -113,7 +113,8 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
     /**
      * Questo metodo viene utilizzato nella fase di ricerca base: i visitatori
      * possono eseguire una ricerca rapida per trovare il libro desiderato. Abbiamo
-     * assunto che questo tipo di ricerca si basi solo sul titolo del libro.
+     * assunto che questo tipo di ricerca si basi sul titolo del libro, sull'editore,
+     * sul suo isbn, e sul nome degli autori
      * @param String titolo indicannte il titolo del libro che si vuole cercare
      * @return Collection<Libro> restituisce una collezione di libri, in quanto il titolo potrebbe
      * coincidere tra i diversi libri
@@ -133,8 +134,19 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
             //System.out.println(ric);
             List<Libro> bl=null;
             try{
-                //Sfruttiamo la funzione messa a disposizione della libreria JPA che effettua la ricerca per titolo
-                bl =  manager.createQuery("SELECT l FROM LibroMysqlImpl l WHERE l.titolo LIKE :keyword").setParameter("keyword", ric).getResultList();
+                bl = manager.createNamedQuery("LibroMysqlImpl.findByIsbn").setParameter("isbn",titolo).getResultList();                
+            }catch(NoResultException e){
+                //bl=null;
+                //System.out.println("Ci sono");
+            }
+            try{                
+                bl.addAll(manager.createNamedQuery("LibroMysqlImpl.findByTitolo").setParameter("titolo",titolo).getResultList());
+            }catch(NoResultException e){
+                //bl=null;
+                //System.out.println("Ci sono");
+            }
+            try{                
+                bl.addAll(manager.createNamedQuery("LibroMysqlImpl.findByEditore").setParameter("editore",titolo).getResultList());
             }catch(NoResultException e){
                 //bl=null;
                 //System.out.println("Ci sono");
@@ -299,5 +311,82 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
 
         manager.getTransaction().commit();
         return l;
+    }
+    
+    /**
+     * Questo tipo di ricerca fa riferimento esclusivamente al titolo del libro:
+     * vengono considerati tutti i titoli che matchano con il titolo completo o 
+     * parte di esso.
+     * @param String titolo rappresentante il titolo completo o parte di esso
+     * @return List di libri rappresentante il risultato della ricerca
+     */
+    public List<Libro> searchByTitle(String titolo){  
+     if (!titolo.equals("")){
+            manager.getTransaction().begin();
+            //Piccola funzione di editing per le stringhe in modo da poterle utilizzare con il LIKE
+            String[] lista = titolo.split(" ");
+            String ric = "%"+lista[0]+"%";
+            //System.out.println(lista[0]);
+            for (int i=1; i<lista.length; i++){
+                //System.out.println(lista[i]);
+                ric += lista[i]+"%";
+            }
+            //System.out.println(ric);
+            List<Libro> bl=null;
+            try{
+                //Sfruttiamo la funzione messa a disposizione della libreria JPA che effettua la ricerca per titolo
+                bl =  manager.createQuery("SELECT l FROM LibroMysqlImpl l WHERE l.titolo LIKE :keyword").setParameter("keyword", ric).getResultList();                                
+            }catch(NoResultException e){
+                //bl=null;
+                //System.out.println("Ci sono");
+            }
+            manager.getTransaction().commit();
+            return bl;
+        }else return null;
+    }
+    /**
+     * 
+     */
+    @Override
+    public List<Libro> searchByAutori(String autori){  
+     if (!autori.equals("")){
+            manager.getTransaction().begin();
+            //Piccola funzione di editing per le stringhe in modo da poterle utilizzare con il LIKE
+            String[] lista = autori.split(" ");
+            String ric = "%"+lista[0]+"%";
+            //System.out.println(lista[0]);
+            for (int i=1; i<lista.length; i++){
+                //System.out.println(lista[i]);
+                ric += lista[i]+"%";
+            }
+            List<Autore> bl=null;
+            try{
+                //Sfruttiamo la funzione messa a disposizione della libreria JPA che effettua la ricerca per titolo
+                bl =  manager.createQuery("SELECT a FROM AutoreMysqlImpl a WHERE a.cognome LIKE :keyword").setParameter("keyword", ric).getResultList();                                
+            }catch(NoResultException e){
+                //bl=null;
+                
+            }
+            
+            List<Libro> cl = (List) new ArrayList<LibroMysqlImpl>();
+            for(int i=0; i<bl.size(); i++){
+            try{
+                //Ottengo l'elemtento, cioè l'autore i-esimo della lista
+  
+                Collection<Libro> temp = (List) bl.get(i).getLibroCollection();
+                
+                //Estraggo tutti quanti libri che ha scritto
+                for ( Iterator it = temp.iterator(); it.hasNext(); ) {
+                    LibroMysqlImpl element = (LibroMysqlImpl) it.next();
+                    if(!cl.contains(element)) cl.add(element);
+                }
+            }
+            catch(NoResultException e){
+
+            }
+        }
+            manager.getTransaction().commit();
+            return cl;
+        }else return null;
     }
 }

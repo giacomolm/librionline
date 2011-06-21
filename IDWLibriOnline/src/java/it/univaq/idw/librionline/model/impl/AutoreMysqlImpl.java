@@ -39,6 +39,9 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "AutoreMysqlImpl.findById", query = "SELECT a FROM AutoreMysqlImpl a WHERE a.id = :id"),
     @NamedQuery(name = "AutoreMysqlImpl.findByNome", query = "SELECT a FROM AutoreMysqlImpl a WHERE a.nome = :nome")})
 public class AutoreMysqlImpl implements Serializable,Autore {
+    @Basic(optional = false)
+    @Column(name = "cognome")
+    private String cognome;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -145,6 +148,14 @@ public class AutoreMysqlImpl implements Serializable,Autore {
     @Override
     public void setLibroCollection(Collection<Libro> libroCollection) {
         setLibroMysqlImplCollection((Collection) libroCollection);
+    }
+
+    public String getCognome() {
+        return cognome;
+    }
+
+    public void setCognome(String cognome) {
+        this.cognome = cognome;
     }
     
 }

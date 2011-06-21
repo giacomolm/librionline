@@ -28,7 +28,7 @@ public interface Autore {
     Integer getId();
 
     /**
-     * Restituisce l'insieme di libri che rappresentano una traduzione di quel libro in un particolare lingua
+     * Restituisce l'insieme di libri che sono stati scritti da un particolare autore
      * @return collezione di libri
      */
     @XmlTransient
@@ -39,6 +39,19 @@ public interface Autore {
      * @return una stringa rappresentante il nome
      */
     String getNome();
+    
+    /**
+     * Resituisce il cognome dell'autore
+     * @return Stringa indicante il cognome dell'autore
+     */
+    String getCognome() ;
+
+    /**
+     * Imposta il cognome di un autore
+     * @param cognome Stringa indicante il cognome dell'autore
+     */
+    void setCognome(String cognome);
+    
 
     /**
      * 

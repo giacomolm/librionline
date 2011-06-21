@@ -74,5 +74,12 @@ public interface LibriOnLineDataLayer {
      * @return Libro, se esiste, relativo all'isbn indicato; altrimenti restituisce null
      */
     Libro searchByIsbn(String isbn);
-
+    
+    /**
+     * Ricerca i libri associati ad una lista di autori passati in input per 
+     * mezzo del parametro autori.
+     * @param autori
+     * @return Lista indicante l'insieme dei libri scritti dagli autori indicati
+     */
+    List<Libro> searchByAutori(String autori);
 }
