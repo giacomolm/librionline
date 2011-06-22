@@ -524,7 +524,7 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
         List<Libro> ll = null;
         manager.getTransaction().begin();
         try{
-            ll = manager.createQuery("SELECT l FROM LibroMysqlImpl l ORDER BY l.dataIns ASC").getResultList();
+            ll = manager.createQuery("SELECT l FROM LibroMysqlImpl l ORDER BY l.dataIns DESC").getResultList();
         }
         catch(NoResultException e){
             //Nessun libro trovato
