@@ -101,4 +101,12 @@ public interface LibriOnLineDataLayer {
      * @return List di libri rappresentante il risultato della ricerca
      */
     List<Libro> searchByTitle(String titolo);
+    
+        /**
+     * Il metodo ha il compito di cercare un insieme di un certo numero di libri,
+     * in questo caso ne assumiamo 10, che sono stati aggiunti più di recente nella
+     * biblioteca
+     * @return Lista di libri aggiunta di recente
+     */
+    public List<Libro> getLastAdded();
 }

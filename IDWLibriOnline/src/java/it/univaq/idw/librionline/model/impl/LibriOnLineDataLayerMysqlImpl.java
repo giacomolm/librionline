@@ -15,6 +15,7 @@ import it.univaq.idw.librionline.model.User;
 import it.univaq.idw.librionline.model.Volume;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
@@ -404,26 +405,134 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
     }
     
     /**
-     * 
+     * Restituisce il numero di copie, quindi il numero dei volumi, appartententi alla
+     * libreria relativi all'isbn passato come parametro
      * @param isbn
-     * @return 
+     * @return int indicante il numero delle copie che appartengono alla libreria
      */
     public int getNumeroCopie(String isbn){
-        Libro l = searchByIsbn(isbn);
-        return l.getVolumeCollection().size();
+        if(bookIsThis(isbn)){
+            Libro l = searchByIsbn(isbn);
+            return l.getVolumeCollection().size();
+        }
+        else return -1;
     }
     
+    /**
+     * Restituisco il numero delle copie di un libro disponibili al prestito, cioè
+     * il numero delle copiè che per quel determinato momento possono essere prestate
+     * @param isbn indicante quello del libro
+     * @return int indicante il numero delle copie disponibili
+     */
     public int getNumeroCopieDisponibili(String isbn){
-        Libro l = searchByIsbn(isbn);
-        List<Volume> lv =(List) l.getVolumeCollection();
-        for ( Iterator it = lv.iterator(); it.hasNext(); ) {
-            VolumeMysqlImpl vol = (VolumeMysqlImpl) it.next();
-            Collection<Prestito> cp =  vol.getPrestitoCollection();
-            for ( Iterator ite = cp.iterator(); ite.hasNext(); ) {
-                PrestitoMysqlImpl prestito = (PrestitoMysqlImpl) ite.next();
-                //prestito.
+        if(bookIsThis(isbn)){
+            Libro l = searchByIsbn(isbn);
+            manager.getTransaction().begin();
+            int numdisp = getNumeroCopie(isbn);
+            List<Volume> lv =(List) l.getVolumeCollection();
+            for ( Iterator it = lv.iterator(); it.hasNext(); ) {
+                VolumeMysqlImpl vol = (VolumeMysqlImpl) it.next();
+                Collection<Prestito> cp =  vol.getPrestitoCollection();
+                for ( Iterator ite = cp.iterator(); ite.hasNext(); ) {
+                    PrestitoMysqlImpl prestito = (PrestitoMysqlImpl) ite.next();
+                    if(!prestito.getRestituito()) numdisp--;
+                }
             }
+            manager.getTransaction().commit();
+            return numdisp;
         }
-        return 0;
+        else return -1;
+    }
+    
+    /**
+     * Restituisco la data di restituzione del volume più vicina, in modo tale 
+     * da informare chi di interesse quando potrà essere reperibile un determinato
+     * volume
+     * @param  del libro interessato
+     * @return data indicante la restituzione più prossima della prima copia
+     */
+    public Date getProssimoData(String isbn){
+        
+        long dataInit;
+        VolumeMysqlImpl vol;
+        
+        
+        Date min= null;
+        
+        if(getNumeroCopieDisponibili(isbn)==0){
+            //Avvio la ricerca del libro per isbn
+            Libro l = searchByIsbn(isbn);
+            //Ricevo la lista dei volumi, cioè delle copie concrete associate a quel libro
+            List<Volume> lv =(List) l.getVolumeCollection();
+            //inizializzo a quella attuale per esigenze di inizializzazio
+            min = new Date();
+            manager.getTransaction().begin();
+            Iterator it = lv.iterator();
+            if(it.hasNext()){
+                  long minTemp=0;
+                
+                  vol = (VolumeMysqlImpl) it.next();
+                  
+                  //itero sui prestiti esercitati su quel libro per inizializzare la data della restituzione più vicina
+                  Collection<Prestito> cp =  vol.getPrestitoCollection();
+                  for ( Iterator ite = cp.iterator(); ite.hasNext(); ) {
+                    PrestitoMysqlImpl prestito = (PrestitoMysqlImpl) ite.next();
+                    //nel caso individuo il record relativo al prestito in corso, memorizzo la data
+                    if(!prestito.getRestituito()){
+                        min = prestito.getDataPrestito();
+                        minTemp = min.getTime()+((long) vol.getDurataMax());
+                    }
+                  }
+                  
+                  //itero sugli altri volumi cercando quello con data di restituzione più prossima
+                  for ( it = lv.iterator(); it.hasNext(); ) {
+                    vol = (VolumeMysqlImpl) it.next();
+                    //inizializzo la durata del prestito a quella del volume attuale
+                    long durata = (long) vol.getDurataMax();
+                    cp =  vol.getPrestitoCollection();
+                    for ( Iterator ite = cp.iterator(); ite.hasNext(); ) {
+                        PrestitoMysqlImpl prestito = (PrestitoMysqlImpl) ite.next();
+                        //Sono sul record relativo al prestito in corso
+                        if(!prestito.getRestituito()){
+                            //calcolo la durata del prestito relativo al volume attuale
+                            dataInit = prestito.getDataPrestito().getTime()+durata;
+                            //confronto se la data di restituzione attuale è minore di quella minima finora calcolata
+                            if(dataInit<(minTemp)){
+                                //aggiorno i campi
+                                min = prestito.getDataPrestito();
+                                minTemp = dataInit;
+                            }
+                        }        
+                    }
+
+                  }
+            }
+            manager.getTransaction().commit();
+        }
+        return min;
+    }
+    
+    /**
+     * Il metodo ha il compito di cercare un insieme di un certo numero di libri,
+     * in questo caso ne assumiamo 10, che sono stati aggiunti più di recente nella
+     * biblioteca
+     * @return Lista di libri aggiunta di recente
+     */
+    @Override
+    public List<Libro> getLastAdded(){
+    
+        List<Libro> ll = null;
+        manager.getTransaction().begin();
+        try{
+            ll = manager.createQuery("SELECT l FROM LibroMysqlImpl l ORDER BY l.dataIns ASC").getResultList();
+        }
+        catch(NoResultException e){
+            //Nessun libro trovato
+        }
+        
+        manager.getTransaction().commit();
+        if(ll.size()>10)
+            return ll.subList(0, 9);
+        else return ll.subList(0, ll.size());
     }
 }

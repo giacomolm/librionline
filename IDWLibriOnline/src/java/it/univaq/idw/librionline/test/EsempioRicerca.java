@@ -10,6 +10,7 @@ import it.univaq.idw.librionline.model.Libro;
 import it.univaq.idw.librionline.model.Tag;
 import it.univaq.idw.librionline.model.impl.LibriOnLineDataLayerMysqlImpl;
 import java.util.Collection;
+import java.util.Date;
 import java.util.Iterator;
 
 /**
@@ -65,6 +66,12 @@ public class EsempioRicerca {
         for ( Iterator i = list.iterator(); i.hasNext(); ) {
             Libro element = (Libro) i.next();
             System.out.println( "Libro Autore "+element.getTitolo());                           
+        }
+        
+        list = dl.getLastAdded();
+        for ( Iterator i = list.iterator(); i.hasNext(); ) {
+            Libro element = (Libro) i.next();
+            System.out.println( "Anno : "+element.getDataIns());                           
         }
     }
 }
