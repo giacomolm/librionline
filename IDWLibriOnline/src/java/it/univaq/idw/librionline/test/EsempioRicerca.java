@@ -73,5 +73,7 @@ public class EsempioRicerca {
             Libro element = (Libro) i.next();
             System.out.println( "Anno : "+element.getDataIns());                           
         }
+        System.out.println( "Numero copie : "+dl.getNumeroCopie("9788861142879")); 
+        
     }
 }

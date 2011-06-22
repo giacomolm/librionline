@@ -410,6 +410,7 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
      * @param isbn
      * @return int indicante il numero delle copie che appartengono alla libreria
      */
+    @Override
     public int getNumeroCopie(String isbn){
         if(bookIsThis(isbn)){
             Libro l = searchByIsbn(isbn);
@@ -535,4 +536,6 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
             return ll.subList(0, 9);
         else return ll.subList(0, ll.size());
     }
+    
+    //public List<Libro> 
 }

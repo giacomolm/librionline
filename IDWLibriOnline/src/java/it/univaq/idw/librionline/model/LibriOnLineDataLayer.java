@@ -108,5 +108,13 @@ public interface LibriOnLineDataLayer {
      * biblioteca
      * @return Lista di libri aggiunta di recente
      */
-    public List<Libro> getLastAdded();
+    List<Libro> getLastAdded();
+    
+        /**
+     * Restituisce il numero di copie, quindi il numero dei volumi, appartententi alla
+     * libreria relativi all'isbn passato come parametro
+     * @param isbn
+     * @return int indicante il numero delle copie che appartengono alla libreria
+     */
+    int getNumeroCopie(String isbn);
 }
