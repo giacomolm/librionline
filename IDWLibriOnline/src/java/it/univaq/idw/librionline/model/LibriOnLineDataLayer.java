@@ -5,6 +5,7 @@
 package it.univaq.idw.librionline.model;
 
 import it.univaq.idw.librionline.model.Libro;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -149,4 +150,12 @@ public interface LibriOnLineDataLayer {
      * @return int indicante il numero delle copie disponibili
      */
     public int getNumeroCopieDisponibili(String isbn);
+        /**
+     * Restituisco la data di restituzione del volume più vicina, in modo tale 
+     * da informare chi di interesse quando potrà essere reperibile un determinato
+     * volume
+     * @param  del libro interessato
+     * @return data indicante la restituzione più prossima della prima copia
+     */
+    public Date getProssimoData(String isbn);
 }

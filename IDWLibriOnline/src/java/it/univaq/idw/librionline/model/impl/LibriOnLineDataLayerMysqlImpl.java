@@ -457,6 +457,7 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
      * @param  del libro interessato
      * @return data indicante la restituzione più prossima della prima copia
      */
+    @Override
     public Date getProssimoData(String isbn){
         
         long dataInit;

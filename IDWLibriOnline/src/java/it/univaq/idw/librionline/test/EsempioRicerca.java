@@ -80,5 +80,6 @@ public class EsempioRicerca {
         System.out.println("Zilgio "+dl.getGruppoByUsername("zilfio"));
         System.out.println("Zilfio "+dl.isAdmin("zilfio"));
         dl.getNumeroCopieDisponibili(l);
+        dl.getProssimoData(li.getIsbn());
     }
 }
