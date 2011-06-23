@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generato il: 23 giu, 2011 at 02:11 PM
+-- Generato il: 23 giu, 2011 at 03:54 PM
 -- Versione MySQL: 5.5.8
 -- Versione PHP: 5.3.5
 
@@ -243,7 +243,7 @@ CREATE TABLE IF NOT EXISTS `prestito` (
   PRIMARY KEY (`id`),
   KEY `volume` (`volume`,`user`),
   KEY `user` (`user`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
 
 --
 -- Dump dei dati per la tabella `prestito`
@@ -251,7 +251,8 @@ CREATE TABLE IF NOT EXISTS `prestito` (
 
 INSERT INTO `prestito` (`id`, `dataPrestito`, `dataRestituzione`, `restituito`, `volume`, `user`) VALUES
 (1, '2011-06-22', NULL, 0, 1, 3),
-(2, '2011-06-22', NULL, 0, 9, 2);
+(2, '2011-06-22', NULL, 0, 9, 2),
+(3, '2011-06-23', NULL, 0, 2, 4);
 
 -- --------------------------------------------------------
 

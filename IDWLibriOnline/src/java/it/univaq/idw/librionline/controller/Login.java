@@ -70,7 +70,8 @@ public class Login extends HttpServlet {
         else{
             if("Login".equals(login)){
                 if(analizza_form_login(request,response)){
-                    SecurityLayer.createSession(request, request.getParameter("username") , 1);
+                    LibriOnLineDataLayer dl = new LibriOnLineDataLayerMysqlImpl();
+                    SecurityLayer.createSession(request, request.getParameter("username") , dl.getGruppoByUsername(request.getParameter("username")));
                     response.sendRedirect("StatoConnessione");
                 }
                 else{

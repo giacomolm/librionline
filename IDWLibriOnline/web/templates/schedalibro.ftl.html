@@ -1,4 +1,4 @@
-<h2 class="page_title"> Scheda dettaglio del libro: ${libro.titolo} </h2>
+<h2 class="page_title"> Scheda dettaglio libro</h2>
 <#if (libro??)>
 <p> <b> ISBN: </b> ${libro.isbn} </p>
 <p> <b> Titolo del libro: </b> ${libro.titolo!"Non presente"} </p>
@@ -21,6 +21,14 @@
 
 <#if (copietotali??)>
     <p> <b> Copie Totali: </b> ${copietotali} </p>
+</#if>
+
+<#if (copiedisponibili??)>
+    <p> <b> Copie Disponibili: </b> ${copiedisponibili} </p>
+</#if>
+
+<#if (datapresuntarestituzione??)>
+<p> <b> Data Presunta Restituzione</b> (<i>pi&ugrave; vicina</i>)<b> :</b> ${datapresuntarestituzione?date} </p>
 </#if>
 
 </#if>

@@ -73,6 +73,14 @@
         <servlet-name>InserisciLibro</servlet-name>
         <servlet-class>it.univaq.idw.librionline.controller.InserisciLibro</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>InserisciTag</servlet-name>
+        <servlet-class>it.univaq.idw.librionline.controller.InserisciTag</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>InserisciAutore</servlet-name>
+        <servlet-class>it.univaq.idw.librionline.controller.InserisciAutore</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Home</servlet-name>
         <url-pattern>/Home</url-pattern>
@@ -116,6 +124,14 @@
     <servlet-mapping>
         <servlet-name>InserisciLibro</servlet-name>
         <url-pattern>/InserisciLibro</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>InserisciTag</servlet-name>
+        <url-pattern>/InserisciTag</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>InserisciAutore</servlet-name>
+        <url-pattern>/InserisciAutore</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
