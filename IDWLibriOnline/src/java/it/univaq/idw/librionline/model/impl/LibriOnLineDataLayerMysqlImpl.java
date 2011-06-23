@@ -567,7 +567,9 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
             lc = (List) new ArrayList<LibroMysqlImpl>(10);
             int i=9;
             do{
-                lc.add((LibroMysqlImpl) it.next());
+                Libro ltemp = (LibroMysqlImpl) it.next();
+                if(ltemp.getVolumeCollection().size()>0)
+                    lc.add(ltemp);
                 i--;
             }
             while(it.hasNext()&&i>0);
