@@ -433,7 +433,7 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
     public int getNumeroCopieDisponibili(String isbn){
         if(bookIsThis(isbn)){
             Libro l = searchByIsbn(isbn);
-            manager.getTransaction().begin();
+            
             int numdisp = getNumeroCopie(isbn);
             List<Volume> lv =(List) l.getVolumeCollection();
             for ( Iterator it = lv.iterator(); it.hasNext(); ) {
@@ -444,7 +444,7 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
                     if(!prestito.getRestituito()) numdisp--;
                 }
             }
-            manager.getTransaction().commit();
+            
             return numdisp;
         }
         else return -1;
