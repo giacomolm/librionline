@@ -125,4 +125,12 @@ public interface LibriOnLineDataLayer {
      * @return lista dei libri maggiormente prestati
      */
     public List<Libro> getMostProvided();
+    
+        /**
+     * il metodo si occupa di ricerca qual'è l'id del gruppo che appartiene ad
+     * un determina utente
+     * @param un String username
+     * @return intero indicante l'id del gruppo
+     */
+    public int getGruppoByUsername(String un);
 }

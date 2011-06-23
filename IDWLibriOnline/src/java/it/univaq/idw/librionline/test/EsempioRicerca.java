@@ -76,5 +76,7 @@ public class EsempioRicerca {
         System.out.println( "Numero copie : "+dl.getNumeroCopie("9788861142879")); 
         
         dl.getMostProvided();
+        
+        System.out.println("Zilgio "+dl.getGruppoByUsername("zilfio"));
     }
 }

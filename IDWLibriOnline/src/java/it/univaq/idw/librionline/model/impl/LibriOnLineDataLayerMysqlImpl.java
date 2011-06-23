@@ -572,6 +572,7 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
                 Libro ltemp = (LibroMysqlImpl) it.next();
                 Collection<Volume> volcol = ltemp.getVolumeCollection();
                 Iterator<Volume> iv;
+                //Calcolo la somma dei prestiti per quel libro
                 int sum=0;
                 for(iv = volcol.iterator(); iv.hasNext();){
                     sum+=((Volume) iv.next()).getPrestitoCollection().size();
@@ -639,5 +640,26 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
             }
         }
         return min;
+    }
+    
+    /**
+     * il metodo si occupa di ricerca qual'è l'id del gruppo che appartiene ad
+     * un determina utente
+     * @param un String username
+     * @return intero indicante l'id del gruppo
+     */
+    @Override
+    public int getGruppoByUsername(String un){
+        int id = -1;
+        User u;
+        //Verifico se l'username passato è presente
+        if(isThisUsername(un)){
+             manager.getTransaction().begin();
+             //Cerco lo user con quell'username
+             u = (User) manager.createNamedQuery("UserMysqlImpl.findByUsername").setParameter("username", un).getSingleResult();
+             id = u.getGruppo().getId();
+             manager.getTransaction().commit();
+        }
+        return id;
     }
 }
