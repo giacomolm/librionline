@@ -78,5 +78,6 @@ public class EsempioRicerca {
         dl.getMostProvided();
         
         System.out.println("Zilgio "+dl.getGruppoByUsername("zilfio"));
+        System.out.println("Zilfio "+dl.isAdmin("zilfio"));
     }
 }

@@ -662,4 +662,26 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
         }
         return id;
     }
+    
+    /**
+     * Verifico se l'username passato come parametro appartiene al gruppo 
+     * amministratore
+     * @param un stringa username
+     * @return true se lo user appartiene all'amministrazione
+     */
+    @Override
+    public boolean isAdmin(String un){
+        boolean res = false;
+        User u;
+        //Verifico se l'username passato è presente
+        if(isThisUsername(un)){
+             manager.getTransaction().begin();
+             //Cerco lo user con quell'username
+             u = (User) manager.createNamedQuery("UserMysqlImpl.findByUsername").setParameter("username", un).getSingleResult();
+             //Verifico se l'user è amministratore tramite l'id del suo gruppo (se amministratore -> id_user_gruppo == 1)
+             if (u.getGruppo().getId()==1) res = true;
+             manager.getTransaction().commit();
+        }
+        return res;
+    }
 }

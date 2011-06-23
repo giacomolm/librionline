@@ -133,4 +133,12 @@ public interface LibriOnLineDataLayer {
      * @return intero indicante l'id del gruppo
      */
     public int getGruppoByUsername(String un);
+    
+    /**
+     * Verifico se l'username passato come parametro appartiene al gruppo 
+     * amministratore
+     * @param un stringa username
+     * @return true se lo user appartiene all'amministrazione
+     */
+    public boolean isAdmin(String un);
 }
