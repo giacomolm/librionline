@@ -576,7 +576,7 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
                 for(iv = volcol.iterator(); iv.hasNext();){
                     sum+=((Volume) iv.next()).getPrestitoCollection().size();
                 }
-                lc.put(ltemp.getIsbn(), sum);
+                if(sum>0) lc.put(ltemp.getIsbn(), sum);
                 i--;
             }
             while(it.hasNext()&&i>0);
