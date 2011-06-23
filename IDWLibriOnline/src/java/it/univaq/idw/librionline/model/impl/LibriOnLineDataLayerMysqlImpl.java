@@ -18,9 +18,11 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -550,7 +552,7 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
     
         manager.getTransaction().begin();
         List<Libro> ll = null;
-        List<Libro> lc = null;
+        Map lc = null;
         //Prelevo tutti i libri presenti nella libreria
         
         try{
@@ -564,12 +566,17 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
         Iterator it = ll.iterator();
         if(it.hasNext()){
             //inizializzo la lista di libri ai primi 10 elementi del db
-            lc = (List) new ArrayList<LibroMysqlImpl>(10);
+            lc = (Map) new HashMap(10);
             int i=9;
             do{
                 Libro ltemp = (LibroMysqlImpl) it.next();
-                if(ltemp.getVolumeCollection().size()>0)
-                    lc.add(ltemp);
+                Collection<Volume> volcol = ltemp.getVolumeCollection();
+                Iterator<Volume> iv;
+                int sum=0;
+                for(iv = volcol.iterator(); iv.hasNext();){
+                    sum+=((Volume) iv.next()).getPrestitoCollection().size();
+                }
+                lc.put(ltemp.getIsbn(), sum);
                 i--;
             }
             while(it.hasNext()&&i>0);
@@ -577,22 +584,35 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
             if(i==0){
                  while(it.hasNext()){
                      //Mi riferrico con l al libro corrente nella lista di libri che sto esaminando
-                     Libro l = (Libro) it.next();
+                     Libro l = ((Libro) it.next());
                      //scelgo il libro nella lista che ha il numero minore di prestiti
-                     LibroMysqlImpl temp = (LibroMysqlImpl) lc.get(getMinPrestiti((List) lc));
+                     String temp = (String) lc.get(getMinPrestiti(lc));
                      //se il numero di prestiti riferiti a l sono maggiori di quelli di temp
                      //allora devo procedere con il replace di questo
-                     if(temp.getVolumeCollection().size()<l.getVolumeCollection().size()){
-                         lc.set(getMinPrestiti((List) lc), (LibroMysqlImpl) l);
+                     Collection<Volume> volcol = l.getVolumeCollection();
+                     Iterator<Volume> iv;
+                     int sum=0;
+                     for(iv = volcol.iterator(); iv.hasNext();){
+                            sum+=((Volume) iv.next()).getPrestitoCollection().size();
+                        }
+                     if(sum>Integer.parseInt(temp)){
+                         lc.remove(getMinPrestiti(lc));
+                         lc.put(l.getIsbn(), sum);
                      }
                  }
             }
-            
         }
         manager.getTransaction().commit();
-        return lc;
+        List<Libro> l = (List) new ArrayList<LibroMysqlImpl>(10);
+        Set keys = lc.keySet();
+        for(Iterator iter=keys.iterator(); iter.hasNext();){
+            String k = (String) iter.next();
+            l.add(searchByIsbn(k));
+        }
+        return l;
     }
     
+
     /**
      * Questo metodo è ausiliare al metodo getMostProvided() ed il suo compito è
      * di ritornare l'indice del volume nella lista di libri (passata come parametro)
@@ -600,16 +620,22 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
      * @param list
      * @return int indicante l'indice del libro con meno prestiti nella lista
      */
-    public int getMinPrestiti(List<Libro> list){
+    public String getMinPrestiti(Map m){
     
-        int min=-1,i;
+        int i;
+        String min = null;
+        Set list = m.entrySet();
         if(list.size()>1){
-            min=0;
-            LibroMysqlImpl element;
-            for ( i=1; i<list.size(); i++ ) {
-                if(list.get(i).getVolumeCollection().size() <
-                   list.get(min).getVolumeCollection().size()  )
-                    min = i;
+            Iterator it = list.iterator();
+            if(it.hasNext()){
+                String key = (String) it.next();
+                min=key;
+                while (it.hasNext()) {
+                    key = (String) it.next();
+                    if(Integer.parseInt((String) m.get(key)) <
+                       Integer.parseInt((String) m.get(min))  )
+                        min = key;
+                }
             }
         }
         return min;
