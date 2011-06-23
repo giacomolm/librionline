@@ -552,7 +552,7 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
         List<Libro> ll = null;
         List<Libro> lc = null;
         //Prelevo tutti i libri presenti nella libreria
-        manager.getTransaction().begin();
+        
         try{
             ll = manager.createQuery("SELECT l FROM LibroMysqlImpl l").getResultList();
         }
