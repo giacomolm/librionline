@@ -117,4 +117,12 @@ public interface LibriOnLineDataLayer {
      * @return int indicante il numero delle copie che appartengono alla libreria
      */
     int getNumeroCopie(String isbn);
+    
+        /**
+     * Il metodo ha come compito quello di selezionare l'insieme di libri che sono
+     * stati maggiormente prestati. L'insieme è stato impostato ad una cardinalità
+     * si 10 elementi. 
+     * @return lista dei libri maggiormente prestati
+     */
+    public List<Libro> getMostProvided();
 }

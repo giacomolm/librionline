@@ -19,7 +19,9 @@ import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.NoResultException;
@@ -537,5 +539,77 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
         else return ll.subList(0, ll.size());
     }
     
-    //public List<Libro> 
+    /**
+     * Il metodo ha come compito quello di selezionare l'insieme di libri che sono
+     * stati maggiormente prestati. L'insieme è stato impostato ad una cardinalità
+     * si 10 elementi. 
+     * @return lista dei libri maggiormente prestati
+     */
+    @Override
+    public List<Libro> getMostProvided(){
+    
+        manager.getTransaction().begin();
+        List<Libro> ll = null;
+        List<Libro> lc = null;
+        //Prelevo tutti i libri presenti nella libreria
+        manager.getTransaction().begin();
+        try{
+            ll = manager.createQuery("SELECT l FROM LibroMysqlImpl l").getResultList();
+        }
+        catch(NoResultException e){
+            //Nessun libro trovato
+        }
+        //scorro ciascun libro con l'intenzione di contare quanti prestiti sono
+        //stati eseguiti per ciascuno di essi
+        Iterator it = ll.iterator();
+        if(it.hasNext()){
+            //inizializzo la lista di libri ai primi 10 elementi del db
+            lc = (List) new ArrayList<LibroMysqlImpl>(10);
+            int i=9;
+            do{
+                lc.add((LibroMysqlImpl) it.next());
+                i--;
+            }
+            while(it.hasNext()&&i>0);
+            //Se i libri presenti nella libreria sono maggiori di 10, devo selezionare quali tra questi devo restituire
+            if(i==0){
+                 while(it.hasNext()){
+                     //Mi riferrico con l al libro corrente nella lista di libri che sto esaminando
+                     Libro l = (Libro) it.next();
+                     //scelgo il libro nella lista che ha il numero minore di prestiti
+                     LibroMysqlImpl temp = (LibroMysqlImpl) lc.get(getMinPrestiti((List) lc));
+                     //se il numero di prestiti riferiti a l sono maggiori di quelli di temp
+                     //allora devo procedere con il replace di questo
+                     if(temp.getVolumeCollection().size()<l.getVolumeCollection().size()){
+                         lc.set(getMinPrestiti((List) lc), (LibroMysqlImpl) l);
+                     }
+                 }
+            }
+            
+        }
+        manager.getTransaction().commit();
+        return lc;
+    }
+    
+    /**
+     * Questo metodo è ausiliare al metodo getMostProvided() ed il suo compito è
+     * di ritornare l'indice del volume nella lista di libri (passata come parametro)
+     * che ha subito meno prestiti
+     * @param list
+     * @return int indicante l'indice del libro con meno prestiti nella lista
+     */
+    public int getMinPrestiti(List<Libro> list){
+    
+        int min=-1,i;
+        if(list.size()>1){
+            min=0;
+            LibroMysqlImpl element;
+            for ( i=1; i<list.size(); i++ ) {
+                if(list.get(i).getVolumeCollection().size() <
+                   list.get(min).getVolumeCollection().size()  )
+                    min = i;
+            }
+        }
+        return min;
+    }
 }

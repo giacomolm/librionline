@@ -57,14 +57,14 @@ public class AutoreMysqlImpl implements Serializable,Autore {
     /**
      * 
      */
-    public AutoreMysqlImpl() {
+    AutoreMysqlImpl() {
     }
 
     /**
      * 
      * @param id
      */
-    public AutoreMysqlImpl(Integer id) {
+    AutoreMysqlImpl(Integer id) {
         this.id = id;
     }
 
@@ -73,7 +73,7 @@ public class AutoreMysqlImpl implements Serializable,Autore {
      * @param id
      * @param nome
      */
-    public AutoreMysqlImpl(Integer id, String nome) {
+    AutoreMysqlImpl(Integer id, String nome) {
         this.id = id;
         this.nome = nome;
     }

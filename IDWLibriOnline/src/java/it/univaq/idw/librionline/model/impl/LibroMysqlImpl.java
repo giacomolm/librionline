@@ -105,14 +105,14 @@ public class LibroMysqlImpl implements Serializable,Libro {
     /**
      * 
      */
-    public LibroMysqlImpl() {
+    LibroMysqlImpl() {
     }
 
     /**
      * 
      * @param isbn
      */
-    public LibroMysqlImpl(String isbn) {
+    LibroMysqlImpl(String isbn) {
         this.isbn = isbn;
     }
 
@@ -121,7 +121,7 @@ public class LibroMysqlImpl implements Serializable,Libro {
      * @param isbn
      * @param titolo
      */
-    public LibroMysqlImpl(String isbn, String titolo) {
+    LibroMysqlImpl(String isbn, String titolo) {
         this.isbn = isbn;
         this.titolo = titolo;
     }
