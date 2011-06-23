@@ -4,18 +4,20 @@
  */
 package it.univaq.idw.librionline.controller;
 
+import it.univaq.idw.librionline.framework.util.SecurityLayer;
 import it.univaq.idw.librionline.framework.util.TemplateResult;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author Zilfio
  */
-public class ChiSiamo extends HttpServlet {
+public class Libri extends HttpServlet {
 
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -26,11 +28,16 @@ public class ChiSiamo extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
         TemplateResult res = new TemplateResult(getServletContext());
+        HttpSession session = SecurityLayer.checkSession(request);
         
-        request.setAttribute("title","Chi Siamo");
-        res.activate("chisiamo.ftl.html", request, response);
+        if(session != null){
+                request.setAttribute("stato_log", "logout");
+        }
+        
+        request.setAttribute("title","Libri");
+        request.setAttribute("navigazione","<a href='Home'>Homepage</a>");
+        res.activate("libri.ftl.html", request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

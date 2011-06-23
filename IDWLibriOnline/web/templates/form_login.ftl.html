@@ -1,13 +1,11 @@
 <h2 class="page_title"> Sistema di Autenticazione </h2>
 <p> Usa il tuo username e la tua password qui sotto per fare il Login. </p>
-<p> Se non sei ancora registrato, puoi registrarti seguendo questo link: <a href="Registrazione">Registrati</a></p>
 <form action="Login" method="post" enctype="multipart/form-data" id="form_login">
     <#if (messaggio??)>
     <div class="messaggio">
         <p><b>${messaggio}</b></p>
     </div>
     </#if>
-    <br />
     <div>
     <fieldset><legend>Dati di autenticazione</legend>
         <br />
@@ -15,6 +13,6 @@
         <label>Password</label> <input type="password" name="password" id="pass" maxlength="25" />
     </fieldset> <br />
     <input type="submit" value="Login" name="Login" /> 
-    <input type="reset" value="Cancella Modulo" name="Cancella" />
+    <input type="reset" value="Reset" name="Cancella" />
     </div>
 </form>

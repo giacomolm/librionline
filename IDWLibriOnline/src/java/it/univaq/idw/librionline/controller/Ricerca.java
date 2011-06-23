@@ -4,17 +4,18 @@
  */
 package it.univaq.idw.librionline.controller;
 
+import it.univaq.idw.librionline.framework.util.SecurityLayer;
 import it.univaq.idw.librionline.framework.util.TemplateResult;
 import it.univaq.idw.librionline.model.LibriOnLineDataLayer;
 import it.univaq.idw.librionline.model.Libro;
 import it.univaq.idw.librionline.model.impl.LibriOnLineDataLayerMysqlImpl;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -22,24 +23,26 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class Ricerca extends HttpServlet {
     
-    private void analizza_ricerca_avanzata(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        PrintWriter w = response.getWriter();
+    private List analizza_ricerca_avanzata(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         
-        String titolo = request.getParameter("titolo");
-        String tag = request.getParameter("tag");
-        String autore = request.getParameter("autore");
-        String isbn = request.getParameter("isbn");
-        
-        w.println(titolo);
-        w.println(tag);
-        w.println(autore);
-        w.println(isbn);
+        String titolo = request.getParameter("titolo_avanzato");
+        String tag = request.getParameter("tag_avanzato");
+        String autore = request.getParameter("autore_avanzato");
+        String isbn = request.getParameter("isbn_avanzato");
         
         LibriOnLineDataLayer dl = new LibriOnLineDataLayerMysqlImpl();
         
         if(titolo != null){
             List<Libro> lc = dl.searchByTitle(titolo);
+            
+            if(lc.isEmpty()){
+                return null;
+            }
+            else{
+                return lc;
+            }
         }
+        return null;
     }
     
     private List analizza_ricerca_base(HttpServletRequest request) {
@@ -59,6 +62,10 @@ public class Ricerca extends HttpServlet {
         //Attenzion! restituisco una collezione di libri! Perchè più libri potrebbero avere lo stesso titolo
         List<Libro> bc = dl.simpleBookSearch(titolo);
         
+        if(bc.isEmpty()){
+            return null;
+        }
+        
         return bc;
     }
     
@@ -73,12 +80,17 @@ public class Ricerca extends HttpServlet {
             throws ServletException, IOException {
                 
                 TemplateResult res = new TemplateResult(getServletContext());
+                HttpSession session = SecurityLayer.checkSession(request);
+                
+                if(session != null){
+                    request.setAttribute("stato_log", "logout");
+                }
                 
                 String s = request.getParameter("Invia");                             
                 
                 if("Ricerca avanzata".equals(s)){
                     request.setAttribute("title","Risultati Ricerca Avanzata");
-                    request.setAttribute("headers", analizza_ricerca_base(request));
+                    request.setAttribute("libri", analizza_ricerca_avanzata(request,response));
                     res.activate("risultati_ricerca_avanzata.ftl.html", request, response);
                 }
                 else if("Ricerca".equals(s)){

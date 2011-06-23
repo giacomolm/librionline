@@ -5,6 +5,7 @@
 package it.univaq.idw.librionline.controller;
 
 import it.univaq.idw.librionline.framework.util.Md5;
+import it.univaq.idw.librionline.framework.util.SecurityLayer;
 import it.univaq.idw.librionline.framework.util.TemplateResult;
 import it.univaq.idw.librionline.model.Gruppo;
 import it.univaq.idw.librionline.model.LibriOnLineDataLayer;
@@ -18,6 +19,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -43,15 +45,18 @@ public class Registrazione extends HttpServlet {
         String citta = request.getParameter("citta");
         String provincia = request.getParameter("provincia");
         String cap = request.getParameter("cap");
+        String gruppo = request.getParameter("gruppo");
         
-        if(user.equals("") || pass.equals("") || email.equals("") || tel.equals("") || nome.equals("") || cognome.equals("") || codicefiscale.equals("") || indirizzo.equals("") || citta.equals("") || provincia.equals("") || cap.equals("")){
+        if(user.equals("") || pass.equals("") || email.equals("") || tel.equals("") || nome.equals("") || cognome.equals("") || codicefiscale.equals("") || indirizzo.equals("") || citta.equals("") || provincia.equals("") || cap.equals("") || gruppo.equals("")){
             return false;
         }
         
         int cap2 = Integer.parseInt(cap); 
+        //int gruppo_int = Integer.parseInt(gruppo); 
         
         //Questo è l'oggetto che devi dichiarare per qualsiasi interazione con il DB
         LibriOnLineDataLayer dl = new LibriOnLineDataLayerMysqlImpl();
+ 
         
         //Ottengo il gruppo che voglio inserire
         Gruppo g = dl.getGruppo("registrato");
@@ -74,6 +79,11 @@ public class Registrazione extends HttpServlet {
             throws ServletException, IOException, NoSuchAlgorithmException {
         
         TemplateResult res = new TemplateResult(getServletContext());
+        HttpSession session = SecurityLayer.checkSession(request);
+                
+        if(session != null){
+            request.setAttribute("stato_log", "logout");
+        }
         
         String registrazione = request.getParameter("Registrazione");
         

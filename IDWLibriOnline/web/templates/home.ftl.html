@@ -1,6 +1,6 @@
 <h2 class="page_title"> Homepage </h2>
 
-<div style="border: 1px solid;"> 
+<div class="homepage_book"> 
     <p>Qui avremo, per gli utenti registrati, i libri da riconsegnare a breve</p>
     <p>Qui avremo, per gli utenti registrati, i libri da riconsegnare a breve</p>
     <p>Qui avremo, per gli utenti registrati, i libri da riconsegnare a breve</p>
@@ -8,18 +8,28 @@
     <p>Qui avremo, per gli utenti registrati, i libri da riconsegnare a breve</p>
 </div>
 <br />
-<div style="border: 1px solid;"> 
-    <p>Qui avremo gli ultimi libri aggiunti alla biblioteca</p>
-    <p>Qui avremo gli ultimi libri aggiunti alla biblioteca</p>
-    <p>Qui avremo gli ultimi libri aggiunti alla biblioteca</p>
-    <p>Qui avremo gli ultimi libri aggiunti alla biblioteca</p>
-    <p>Qui avremo gli ultimi libri aggiunti alla biblioteca</p>
+<div class="homepage_book"> 
+    <p><b>Ultimi libri aggiunti alla biblioteca:</b></p>
+    <#if (libri??)>
+    <ul>
+    <#list libri as libro>
+        <li><a href="SchedaDettaglioLibro?isbn=${libro.isbn}">${libro.titolo}</a> ${libro.dataIns?date}</li>
+    </#list>
+    </ul>
+    <#else>
+        <p> Nessun libro presente nella biblioteca </p>
+    </#if>
 </div>
 <br />
-<div style="border: 1px solid;"> 
-    <p>Qui avremo i libri maggiormente prestati</p>
-    <p>Qui avremo i libri maggiormente prestati</p>
-    <p>Qui avremo i libri maggiormente prestati</p>
-    <p>Qui avremo i libri maggiormente prestati</p>
-    <p>Qui avremo i libri maggiormente prestati</p>
+<div class="homepage_book"> 
+    <p><b>Libri maggiormente prestati:</b></p>
+    <#if (libriprestati??)>
+    <ul>
+    <#list libriprestati as libroprestato>
+        <li><a href="SchedaDettaglioLibro?isbn=${libroprestato.isbn}">${libroprestato.titolo}</a></li>
+    </#list>
+    </ul>
+    <#else>
+        <p> Nessun libro prestato </p>
+    </#if>
 </div>

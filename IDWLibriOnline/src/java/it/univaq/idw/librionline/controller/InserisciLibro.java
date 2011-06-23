@@ -6,12 +6,7 @@ package it.univaq.idw.librionline.controller;
 
 import it.univaq.idw.librionline.framework.util.SecurityLayer;
 import it.univaq.idw.librionline.framework.util.TemplateResult;
-import it.univaq.idw.librionline.model.LibriOnLineDataLayer;
-import it.univaq.idw.librionline.model.Libro;
-import it.univaq.idw.librionline.model.impl.LibriOnLineDataLayerMysqlImpl;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -22,7 +17,7 @@ import javax.servlet.http.HttpSession;
  *
  * @author Zilfio
  */
-public class RicercaLibroAutore extends HttpServlet {
+public class InserisciLibro extends HttpServlet {
 
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -33,21 +28,15 @@ public class RicercaLibroAutore extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        TemplateResult template = new TemplateResult(getServletContext());
+        TemplateResult res = new TemplateResult(getServletContext());
         HttpSession session = SecurityLayer.checkSession(request);
-                
+        
         if(session != null){
-            request.setAttribute("stato_log", "logout");
+                request.setAttribute("stato_log", "logout");
         }
         
-        String id = request.getParameter("id");
-       
-        LibriOnLineDataLayer model = new LibriOnLineDataLayerMysqlImpl();
-        List<Libro> l = model.searchLibriAutoriById(Integer.parseInt(id));
-        
-        request.setAttribute("title", "Ricerca per Autore");
-        request.setAttribute("libri", l);
-        template.activate("schedalibro_ricerca_autore.ftl.html", request, response);
+        request.setAttribute("title","Libri");
+        res.activate("backoffice_inseriscilibro.ftl.html", request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

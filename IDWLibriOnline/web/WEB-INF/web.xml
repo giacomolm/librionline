@@ -42,10 +42,6 @@
         <servlet-class>it.univaq.idw.librionline.controller.Ricerca</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>ChiSiamo</servlet-name>
-        <servlet-class>it.univaq.idw.librionline.controller.ChiSiamo</servlet-class>
-    </servlet>
-    <servlet>
         <servlet-name>Registrazione</servlet-name>
         <servlet-class>it.univaq.idw.librionline.controller.Registrazione</servlet-class>
     </servlet>
@@ -69,6 +65,14 @@
         <servlet-name>RicercaLibroAutore</servlet-name>
         <servlet-class>it.univaq.idw.librionline.controller.RicercaLibroAutore</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>Libri</servlet-name>
+        <servlet-class>it.univaq.idw.librionline.controller.Libri</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>InserisciLibro</servlet-name>
+        <servlet-class>it.univaq.idw.librionline.controller.InserisciLibro</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Home</servlet-name>
         <url-pattern>/Home</url-pattern>
@@ -80,10 +84,6 @@
     <servlet-mapping>
         <servlet-name>Login</servlet-name>
         <url-pattern>/Login</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>ChiSiamo</servlet-name>
-        <url-pattern>/ChiSiamo</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>Registrazione</servlet-name>
@@ -108,6 +108,14 @@
     <servlet-mapping>
         <servlet-name>RicercaLibroTag</servlet-name>
         <url-pattern>/RicercaLibroTag</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Libri</servlet-name>
+        <url-pattern>/Libri</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>InserisciLibro</servlet-name>
+        <url-pattern>/InserisciLibro</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

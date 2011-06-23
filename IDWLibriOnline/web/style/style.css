@@ -203,3 +203,8 @@ a:link,a:visited{
     margin-top: 5px;
     font-size: 15px;
 }
+
+.homepage_book{
+    border: 1px solid;
+    padding: 5px;
+}

@@ -1,0 +1,33 @@
+<h2 class="page_title"> Inserimento di un libro nella biblioteca </h2>
+<form action="InserisciLibro" method="post" enctype="multipart/form-data" id="insertbook">
+    <fieldset><legend>Dati libro</legend>
+        <br />
+        <label>Isbn</label> <input type="text" name="insertbook_isbn" id="insertbook_isbn" maxlength="13" /> <br /> <br />
+        <label>Titolo</label> <input type="text" name="insertbook_titolo" id="insertbook_titolo" maxlength="50" size ="50"/> <br /> <br />
+        <label>Editore</label> <input type="text" name="insertbook_editore" id="insertbook_editore" maxlength="25" size ="25" /> <br /> <br />
+        <label>Anno Pubblicazione</label> <input type="text" name="insertbook_annopubblicazione" id="insertbook_annopubblicazione" maxlength="4" size ="5" /> <br /> <br />
+        <label>Recensione</label> <br />
+        <textarea name="insertbook_recensione" id="insertbook_recensione" rows="10" cols="100"></textarea> <br /> <br />
+        <label>Lingua</label>
+        <select name="insertbook_lingua">
+            <option value="1">Italiano</option>
+            <option value="2">Inglese</option>
+        </select> <br /> <br />
+        <p><span class="withtooltip"><label>Autori</label><span class="tooltip"><span class="hidewithcss"> (</span>puoi selezionare anche pi&ugrave; autori, <i>basta tener premuto il tasto "Ctrl"</i><span class="hidewithcss">)</span></span></span></p>
+        <select name="insertbook_autore" multiple="multiple">
+            <option value="1">Lamonaco Giacomo</option>
+            <option value="2">D'Orazio Silvio</option>
+        </select> <br /> <br />
+        <p><span class="withtooltip"><label>Tag</label><span class="tooltip"><span class="hidewithcss"> (</span>puoi selezionare anche pi&ugrave; tag, <i>basta tener premuto il tasto "Ctrl"</i><span class="hidewithcss">)</span></span></span></p>      
+        <select name="insertbook_tag" size="3" multiple="multiple">
+            <option value="1">Informatica</option>
+            <option value="2">Narrativa</option>
+        </select>
+        <br /> <br />
+    </fieldset>
+    <div>
+        <br />
+        <input type="submit" value="Registrazione" name="Registrazione" />
+        <input type="reset" value="Reset" name="Cancella" />
+    </div>
+</form>

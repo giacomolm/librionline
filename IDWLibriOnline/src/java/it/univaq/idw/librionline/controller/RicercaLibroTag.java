@@ -4,6 +4,7 @@
  */
 package it.univaq.idw.librionline.controller;
 
+import it.univaq.idw.librionline.framework.util.SecurityLayer;
 import it.univaq.idw.librionline.framework.util.TemplateResult;
 import it.univaq.idw.librionline.model.LibriOnLineDataLayer;
 import it.univaq.idw.librionline.model.Libro;
@@ -14,6 +15,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -31,6 +33,11 @@ public class RicercaLibroTag extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         TemplateResult template = new TemplateResult(getServletContext());
+        HttpSession session = SecurityLayer.checkSession(request);
+                
+        if(session != null){
+            request.setAttribute("stato_log", "logout");
+        }
         
         String tag = request.getParameter("tag");
         LibriOnLineDataLayer model = new LibriOnLineDataLayerMysqlImpl();

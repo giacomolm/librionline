@@ -33,16 +33,17 @@ public class StatoConnessione extends HttpServlet {
             throws ServletException, IOException {
 
         TemplateResult res = new TemplateResult(getServletContext());
-        HttpSession s = SecurityLayer.checkSession(request);
+        HttpSession session = SecurityLayer.checkSession(request);
         SimpleDateFormat f = new SimpleDateFormat();
 
-        if (s == null) {
+        if (session == null) {
             request.setAttribute("title","Login");
             res.activate("form_login.ftl.html", request, response);
         } else {
-            request.setAttribute("username",(String) s.getAttribute("username"));
-            request.setAttribute("ip",(String) s.getAttribute("ip"));
-            request.setAttribute("date",f.format(((Calendar) s.getAttribute("inizio-sessione")).getTime()));
+            request.setAttribute("stato_log", "logout");
+            request.setAttribute("username",(String) session.getAttribute("username"));
+            request.setAttribute("ip",(String) session.getAttribute("ip"));
+            request.setAttribute("date",f.format(((Calendar) session.getAttribute("inizio-sessione")).getTime()));
             request.setAttribute("title","Stato Connessione");
             res.activate("statoconnessione.ftl.html", request, response);
         }

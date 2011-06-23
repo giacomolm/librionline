@@ -4,17 +4,17 @@
  */
 package it.univaq.idw.librionline.controller;
 
+import it.univaq.idw.librionline.framework.util.SecurityLayer;
 import it.univaq.idw.librionline.framework.util.TemplateResult;
-import it.univaq.idw.librionline.model.Autore;
 import it.univaq.idw.librionline.model.LibriOnLineDataLayer;
 import it.univaq.idw.librionline.model.Libro;
 import it.univaq.idw.librionline.model.impl.LibriOnLineDataLayerMysqlImpl;
 import java.io.IOException;
-import java.util.Iterator;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -33,6 +33,7 @@ public class SchedaDettaglioLibro extends HttpServlet {
             throws ServletException, IOException {
         
         TemplateResult template = new TemplateResult(getServletContext());
+        HttpSession session = SecurityLayer.checkSession(request);
 	//controllo validita dell'ID del libro
 	String isbn = request.getParameter("isbn");
 	if (isbn == null){
@@ -43,6 +44,7 @@ public class SchedaDettaglioLibro extends HttpServlet {
 	else{
 	    LibriOnLineDataLayer model = new LibriOnLineDataLayerMysqlImpl();
 	    Libro l = model.searchByIsbn(isbn);
+            
 	    if (l == null){
                 request.setAttribute("title", "Errore");
 		request.setAttribute("error", "Attenzione: Codice ISBN non presente nel DB!");
@@ -55,6 +57,13 @@ public class SchedaDettaglioLibro extends HttpServlet {
                 request.setAttribute("lingua", l.getLingua());
                 request.setAttribute("autori", l.getAutoreCollection());
                 request.setAttribute("tags", l.getTagCollection());
+                
+                if(session != null){
+                    request.setAttribute("stato_log", "logout");
+                    int numerocopie = model.getNumeroCopie(isbn);
+                    request.setAttribute("copietotali", numerocopie);
+                }
+                
 		template.activate("schedalibro.ftl.html", request, response);
 	    }
 	}

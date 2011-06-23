@@ -3,6 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
         <link rel="stylesheet" href="style/style.css" type="text/css"/>
+        <link rel="stylesheet" href="style/tooltip.css" type="text/css"/>
         <link rel="SHORTCUT ICON" href="img/libro.gif" type="image/x-icon" />
         <script type="text/javascript" src="javascript/controlli_form.js"></script>
         <title>LibriOnLine - ${title}</title>
@@ -15,7 +16,13 @@
         <div id="layout">
             <div id="header">
                 <div id="header_menu">
-                       <a id="login" href="Login">login</a>
+                       <a id="login" href="Login">
+                           <#if (stato_log??)>
+                           ${stato_log}
+                           <#else>
+                           login
+                           </#if>
+                       </a>
                 </div>
                 <div id="header_logo"> 
                     <a id="titolo_header" href="Home"><img src="img/header2.png" alt="LibriOnLine" /></a>
@@ -25,9 +32,18 @@
                 <div class="title">Navigazione</div>
                     <ul>
                         <li><a href="Home">Homepage</a></li>
-                        <li><a href="ChiSiamo">Chi siamo</a></li>
-                        <li><a href="Registrazione">Registrati</a></li>
+                        <li><a href="Libri">Libri</a></li>
                     </ul>
+                <br /> <br /> <br />
+                <#if (stato_log??)>
+                <div class="title">Backoffice</div>
+                    <ul>
+                        <li><a href="Registrazione">Registra Utente</a></li>
+                        <li><a href="InserisciLibro">Inserisci Libro</a></li>
+                        <li><a href="InserisciAutore">Inserisci Autore</a></li>
+                        <li><a href="InserisciTag">Inserisci Tag</a></li>
+                    </ul>
+                </#if>
             </div>
             <div id="right">
                 <div id="title">Ricerca</div>
@@ -48,7 +64,7 @@
             </div>
             <div id="center">
                 <div id="center_menu">
-                    Navigazione
+                    ${navigazione!"Navigazione"}
                 </div>
                 <div id="center_body">
                     

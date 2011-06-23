@@ -61,10 +61,10 @@ public class Login extends HttpServlet {
             throws ServletException, IOException, NoSuchAlgorithmException {
         
         TemplateResult res = new TemplateResult(getServletContext()); 
-        HttpSession s = SecurityLayer.checkSession(request);
+        HttpSession session = SecurityLayer.checkSession(request);
         String login = request.getParameter("Login");
 
-        if(s != null){
+        if(session != null){
             response.sendRedirect("StatoConnessione");
         }
         else{

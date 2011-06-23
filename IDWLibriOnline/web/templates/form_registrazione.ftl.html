@@ -6,7 +6,6 @@
         <p><b>${messaggio}</b></p>
     </div>
     </#if>
-    <br />
     <div>
     <fieldset><legend>Dati registrazione</legend>
         <br />
@@ -27,7 +26,16 @@
         <label>CAP</label> <input type="text" name="cap" id="cap" size="4" maxlength="5" /> <br /> <br />
     </fieldset>
     <br />
+    <fieldset><legend>Gruppo utente</legend>
+        <br />
+        <label>Gruppo</label> 
+        <select name="gruppo">
+            <option value="1">Bibliotecario</option>
+            <option value="2" selected="selected">Utente Registrato</option>
+        </select>
+    </fieldset>
+    <br />
     <input type="submit" value="Registrazione" name="Registrazione" /> 
-    <input type="reset" value="Cancella Modulo" name="Cancella" />
+    <input type="reset" value="Reset" name="Cancella" />
     </div>
 </form>

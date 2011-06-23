@@ -15,6 +15,12 @@
 <p> <b> Tag associati: </b>
     <#list tags as tag>
         <a href="RicercaLibroTag?tag=${tag.tag}">${tag.tag!"Nessun tag trovato"}</a>
+    <#if tag_has_next>, </#if>
     </#list>
 </p>
+
+<#if (copietotali??)>
+    <p> <b> Copie Totali: </b> ${copietotali} </p>
+</#if>
+
 </#if>

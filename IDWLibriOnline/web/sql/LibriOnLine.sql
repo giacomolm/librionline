@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generato il: 21 giu, 2011 at 01:24 PM
+-- Generato il: 23 giu, 2011 at 02:11 PM
 -- Versione MySQL: 5.5.8
 -- Versione PHP: 5.3.5
 
@@ -236,19 +236,22 @@ INSERT INTO `lingua` (`id`, `lingua`) VALUES
 CREATE TABLE IF NOT EXISTS `prestito` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `dataPrestito` date NOT NULL,
-  `dataRestituzione` date NOT NULL,
+  `dataRestituzione` date DEFAULT NULL,
   `restituito` tinyint(1) NOT NULL DEFAULT '0',
   `volume` int(11) NOT NULL,
   `user` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `volume` (`volume`,`user`),
   KEY `user` (`user`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
 
 --
 -- Dump dei dati per la tabella `prestito`
 --
 
+INSERT INTO `prestito` (`id`, `dataPrestito`, `dataRestituzione`, `restituito`, `volume`, `user`) VALUES
+(1, '2011-06-22', NULL, 0, 1, 3),
+(2, '2011-06-22', NULL, 0, 9, 2);
 
 -- --------------------------------------------------------
 
@@ -351,7 +354,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   `gruppo` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `gruppo` (`gruppo`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
 
 --
 -- Dump dei dati per la tabella `user`
@@ -360,7 +363,8 @@ CREATE TABLE IF NOT EXISTS `user` (
 INSERT INTO `user` (`id`, `username`, `password`, `email`, `telefono`, `nome`, `cognome`, `codiceFiscale`, `indirizzo`, `citta`, `provincia`, `cap`, `gruppo`) VALUES
 (1, 'bibliotecario', '18042a2d9336bf77016b1e21d915bed6', 'bibliotecario@biblio.it', '99999999999', 'Bibliotecario', 'Bibliotecario', 'BBBBBBBBBBBBBBBB', 'Via Bo, 30', 'Bibliotecario', 'BB', 99999, 2),
 (2, 'giacomolm', 'e6ab178d6d3a042ff8d779dbc9c60460', 'giacomolm@hotmail.it', '3201534917', 'Giacomo', 'Lamonaco', 'LMNGCM89L22G141E', 'via san migliazzo 21', 'Miglianico', 'CH', 66100, 2),
-(3, 'zilfio', '8759ded2b55ddaf88bc34a4625bc1ae7', 'zilfio88@gmail.com', '3487145593', 'Silvio', 'D''Orazio', 'DRZSLV88L24A515D', 'via Fiume, 99', 'Roccavivi', 'AQ', 67050, 2);
+(3, 'zilfio', '8759ded2b55ddaf88bc34a4625bc1ae7', 'zilfio88@gmail.com', '3487145593', 'Silvio', 'D''Orazio', 'DRZSLV88L24A515D', 'via Fiume, 99', 'Roccavivi', 'AQ', 67050, 2),
+(4, 'prova', '189bbbb00c5f1fb7fba9ad9285f193d1', 'prova@prova.it', '9999999999999999999999999', 'Prova', 'Prova', 'PPPPPPPPPPPPPPPP', 'Via Fiume, 99', 'Prova', 'PP', 0, 2);
 
 -- --------------------------------------------------------
 
