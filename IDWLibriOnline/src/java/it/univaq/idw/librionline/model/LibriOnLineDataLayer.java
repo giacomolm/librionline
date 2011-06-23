@@ -141,4 +141,12 @@ public interface LibriOnLineDataLayer {
      * @return true se lo user appartiene all'amministrazione
      */
     public boolean isAdmin(String un);
+    
+        /**
+     * Restituisco il numero delle copie di un libro disponibili al prestito, cioè
+     * il numero delle copiè che per quel determinato momento possono essere prestate
+     * @param isbn indicante quello del libro
+     * @return int indicante il numero delle copie disponibili
+     */
+    public int getNumeroCopieDisponibili(String isbn);
 }

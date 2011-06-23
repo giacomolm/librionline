@@ -429,6 +429,7 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
      * @param isbn indicante quello del libro
      * @return int indicante il numero delle copie disponibili
      */
+    @Override
     public int getNumeroCopieDisponibili(String isbn){
         if(bookIsThis(isbn)){
             Libro l = searchByIsbn(isbn);
@@ -605,6 +606,7 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
         }
         manager.getTransaction().commit();
         List<Libro> l = (List) new ArrayList<LibroMysqlImpl>(10);
+        //devo convertire le chiavi presenti della mappa in libri concreti
         Set keys = lc.keySet();
         for(Iterator iter=keys.iterator(); iter.hasNext();){
             String k = (String) iter.next();
