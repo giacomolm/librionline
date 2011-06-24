@@ -38,18 +38,15 @@ public class Home extends HttpServlet {
         List<Libro> lp = dl.getMostProvided();
         
         if(session != null){
-                PrintWriter w = response.getWriter();
                 request.setAttribute("stato_log", "logout");
                 List<Prestito> pa = dl.getPrestitiAttivi((String)session.getAttribute("username"));
                 request.setAttribute("libri_da_riconsegnare",pa);
                 
                 if(dl.isAdmin((String)session.getAttribute("username"))){
-                    w.println(dl.isAdmin((String)session.getAttribute("username")));
                     request.setAttribute("bibliotecario",true);
                     request.setAttribute("tipologia_utente","Bibliotecario");
                 }
                 else{
-                    w.println(dl.isAdmin((String)session.getAttribute("username")));
                     request.setAttribute("bibliotecario",false);
                     request.setAttribute("tipologia_utente","Utente");
                 }

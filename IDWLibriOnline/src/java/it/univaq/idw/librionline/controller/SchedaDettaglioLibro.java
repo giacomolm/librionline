@@ -66,11 +66,11 @@ public class SchedaDettaglioLibro extends HttpServlet {
 
                 if(numerocopiedisponibili == 0){
                 request.setAttribute("datapresuntarestituzione", model.getProssimoData(isbn));
+                }
                 
                 if(session != null){
-                    LibriOnLineDataLayer dl = new LibriOnLineDataLayerMysqlImpl();
                 
-                    if(dl.isAdmin((String)session.getAttribute("username"))){
+                    if(model.isAdmin((String)session.getAttribute("username"))){
                         request.setAttribute("bibliotecario",true);
                         request.setAttribute("tipologia_utente","Bibliotecario");
                     }
@@ -80,10 +80,8 @@ public class SchedaDettaglioLibro extends HttpServlet {
                     }
                     
                     request.setAttribute("stato_log", "logout");
-                    }
                 }
-                
-		template.activate("schedalibro.ftl.html", request, response);
+                template.activate("schedalibro.ftl.html", request, response); 
 	    }
 	}
     }

@@ -52,14 +52,14 @@ public class Registrazione extends HttpServlet {
         }
         
         int cap2 = Integer.parseInt(cap); 
-        //int gruppo_int = Integer.parseInt(gruppo); 
+        int gruppo2 = Integer.parseInt(gruppo); 
         
         //Questo è l'oggetto che devi dichiarare per qualsiasi interazione con il DB
         LibriOnLineDataLayer dl = new LibriOnLineDataLayerMysqlImpl();
  
         
         //Ottengo il gruppo che voglio inserire
-        Gruppo g = dl.getGruppo("registrato");
+        Gruppo g = dl.getGruppo(gruppo2);
         
         //Eseguiamo la registrazione
         if(dl.insertUser(user, pass, email, tel, nome, cognome, codicefiscale, indirizzo, citta, provincia, cap2, g)){
@@ -83,17 +83,6 @@ public class Registrazione extends HttpServlet {
                 
         if(session != null){
             request.setAttribute("stato_log", "logout");
-            
-            LibriOnLineDataLayer dl = new LibriOnLineDataLayerMysqlImpl();
-                
-                if(dl.isAdmin((String)session.getAttribute("username"))){
-                    request.setAttribute("bibliotecario",true);
-                    request.setAttribute("tipologia_utente","Bibliotecario");
-                }
-                else{
-                    request.setAttribute("bibliotecario",false);
-                    request.setAttribute("tipologia_utente","Utente");
-                }
         }
         
         String registrazione = request.getParameter("Registrazione");
