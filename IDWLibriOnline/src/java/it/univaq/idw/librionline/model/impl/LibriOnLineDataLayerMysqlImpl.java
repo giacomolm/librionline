@@ -230,11 +230,11 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
      */
     
     @Override
-    public Gruppo getGruppo(String tipo){
+    public Gruppo getGruppo(int gruppo){
         manager.getTransaction().begin();
         Gruppo g = null;
         try{
-            g = (Gruppo) manager.createNamedQuery("GruppoMysqlImpl.findByGruppo").setParameter("gruppo",tipo).getSingleResult();
+            g = (Gruppo) manager.createNamedQuery("GruppoMysqlImpl.findById").setParameter("id",gruppo).getSingleResult();
         }
         catch(NoResultException e){
         
@@ -660,7 +660,7 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
         //Verifico se l'username passato è presente
         if(isThisUsername(un)){
              manager.getTransaction().begin();
-             //Cerco lo user con quell'username
+             //Cerco lo user con quell'usernamenull
              u = (User) manager.createNamedQuery("UserMysqlImpl.findByUsername").setParameter("username", un).getSingleResult();
              id = u.getGruppo().getId();
              manager.getTransaction().commit();

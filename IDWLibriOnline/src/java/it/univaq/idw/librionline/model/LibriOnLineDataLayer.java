@@ -53,10 +53,10 @@ public interface LibriOnLineDataLayer {
      * Questa funzione restituisce il gruppo relativo un particolare tipo. Ad esempio
      * se presente nella entità gruppo un tipo Amministrazione, passando questa stringa
      * come parametro viene restituito l'oggetto gruppo riferito.
-     * @param tipo del gruppo che si vuole ricevere
+     * @param id del tipo del gruppo che si vuole ricevere
      * @return gruppo di appartenza del tipo
      */
-    Gruppo getGruppo(String tipo);
+    Gruppo getGruppo(int gruppo);
     
     /**
      * Ricerca per tag: la ricerca consiste nella individuazione dei libri che

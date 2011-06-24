@@ -17,9 +17,10 @@ public class EsempioUser {
         //Questo è l'oggetto che devi dichiarare per qualsiasi interazione con il DB
         LibriOnLineDataLayer dl = new LibriOnLineDataLayerMysqlImpl();
         //Ottengo il gruppo che voglio inserire;
-        Gruppo g = dl.getGruppo("registrato"); 
+        Gruppo g = dl.getGruppo(1); 
+        System.out.println(g.getGruppo());
         //Eseguiamo l'inserimento e lo stampiamo
-        System.out.println(dl.insertUser("paperino","paperina", "paperino@pluto.it", "12341234", "Nome", "Cognome", "per123te5g51", "Via Roma", "Paperopoli", "Papera", 12412, g));
+        //System.out.println(dl.insertUser("paperino","paperina", "paperino@pluto.it", "12341234", "Nome", "Cognome", "per123te5g51", "Via Roma", "Paperopoli", "Papera", 12412, g));
         //Attenzione! deve esserci una gestione del gruppo, cosa che abbiamo tralasciato
     }
 }
