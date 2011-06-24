@@ -4,8 +4,10 @@ import it.univaq.idw.librionline.framework.util.SecurityLayer;
 import it.univaq.idw.librionline.framework.util.TemplateResult;
 import it.univaq.idw.librionline.model.LibriOnLineDataLayer;
 import it.univaq.idw.librionline.model.Libro;
+import it.univaq.idw.librionline.model.Prestito;
 import it.univaq.idw.librionline.model.impl.LibriOnLineDataLayerMysqlImpl;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -36,7 +38,21 @@ public class Home extends HttpServlet {
         List<Libro> lp = dl.getMostProvided();
         
         if(session != null){
+                PrintWriter w = response.getWriter();
                 request.setAttribute("stato_log", "logout");
+                List<Prestito> pa = dl.getPrestitiAttivi((String)session.getAttribute("username"));
+                request.setAttribute("libri_da_riconsegnare",pa);
+                
+                if(dl.isAdmin((String)session.getAttribute("username"))){
+                    w.println(dl.isAdmin((String)session.getAttribute("username")));
+                    request.setAttribute("bibliotecario",true);
+                    request.setAttribute("tipologia_utente","Bibliotecario");
+                }
+                else{
+                    w.println(dl.isAdmin((String)session.getAttribute("username")));
+                    request.setAttribute("bibliotecario",false);
+                    request.setAttribute("tipologia_utente","Utente");
+                }
         }
         
         request.setAttribute("title","Homepage");

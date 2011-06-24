@@ -66,6 +66,17 @@ public class Login extends HttpServlet {
 
         if(session != null){
             response.sendRedirect("StatoConnessione");
+            
+            LibriOnLineDataLayer dl = new LibriOnLineDataLayerMysqlImpl();
+                
+                if(dl.isAdmin((String)session.getAttribute("username"))){
+                    request.setAttribute("bibliotecario",true);
+                    request.setAttribute("tipologia_utente","Bibliotecario");
+                }
+                else{
+                    request.setAttribute("bibliotecario",false);
+                    request.setAttribute("tipologia_utente","Utente");
+                }
         }
         else{
             if("Login".equals(login)){

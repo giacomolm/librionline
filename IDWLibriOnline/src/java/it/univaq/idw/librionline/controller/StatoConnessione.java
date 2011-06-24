@@ -6,6 +6,8 @@ package it.univaq.idw.librionline.controller;
 
 import it.univaq.idw.librionline.framework.util.SecurityLayer;
 import it.univaq.idw.librionline.framework.util.TemplateResult;
+import it.univaq.idw.librionline.model.LibriOnLineDataLayer;
+import it.univaq.idw.librionline.model.impl.LibriOnLineDataLayerMysqlImpl;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -40,6 +42,17 @@ public class StatoConnessione extends HttpServlet {
             request.setAttribute("title","Login");
             res.activate("form_login.ftl.html", request, response);
         } else {
+            LibriOnLineDataLayer dl = new LibriOnLineDataLayerMysqlImpl();
+
+            if(dl.isAdmin((String)session.getAttribute("username"))){
+                request.setAttribute("bibliotecario",true);
+                request.setAttribute("tipologia_utente","Bibliotecario");
+            }
+            else{
+                request.setAttribute("bibliotecario",false);
+                request.setAttribute("tipologia_utente","Utente");
+            }
+            
             request.setAttribute("stato_log", "logout");
             request.setAttribute("username",(String) session.getAttribute("username"));
             request.setAttribute("ip",(String) session.getAttribute("ip"));

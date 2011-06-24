@@ -6,6 +6,8 @@ package it.univaq.idw.librionline.controller;
 
 import it.univaq.idw.librionline.framework.util.SecurityLayer;
 import it.univaq.idw.librionline.framework.util.TemplateResult;
+import it.univaq.idw.librionline.model.LibriOnLineDataLayer;
+import it.univaq.idw.librionline.model.impl.LibriOnLineDataLayerMysqlImpl;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -34,6 +36,17 @@ public class InserisciAutore extends HttpServlet {
         
         if(session != null){
                 request.setAttribute("stato_log", "logout");
+                
+                LibriOnLineDataLayer dl = new LibriOnLineDataLayerMysqlImpl();
+                
+                if(dl.isAdmin((String)session.getAttribute("username"))){
+                    request.setAttribute("bibliotecario",true);
+                    request.setAttribute("tipologia_utente","Bibliotecario");
+                }
+                else{
+                    request.setAttribute("bibliotecario",false);
+                    request.setAttribute("tipologia_utente","Utente");
+                }
         }
         
         request.setAttribute("title","Autore");

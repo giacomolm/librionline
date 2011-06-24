@@ -36,12 +36,16 @@
                     </ul>
                 <br /> <br /> <br />
                 <#if (stato_log??)>
-                <div class="title">Backoffice</div>
+                <div class="title">Pannello ${tipologia_utente}</div>
                     <ul>
+                        <#if bibliotecario>
                         <li><a href="Registrazione">Registra Utente</a></li>
                         <li><a href="InserisciLibro">Inserisci Libro</a></li>
                         <li><a href="InserisciAutore">Inserisci Autore</a></li>
                         <li><a href="InserisciTag">Inserisci Tag</a></li>
+                        <#else>
+                        <li><a href="Libri">Storico</a></li>
+                        </#if>
                     </ul>
                 </#if>
             </div>

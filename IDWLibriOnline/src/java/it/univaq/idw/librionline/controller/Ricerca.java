@@ -83,6 +83,17 @@ public class Ricerca extends HttpServlet {
                 HttpSession session = SecurityLayer.checkSession(request);
                 
                 if(session != null){
+                    LibriOnLineDataLayer dl = new LibriOnLineDataLayerMysqlImpl();
+                
+                    if(dl.isAdmin((String)session.getAttribute("username"))){
+                        request.setAttribute("bibliotecario",true);
+                        request.setAttribute("tipologia_utente","Bibliotecario");
+                    }
+                    else{
+                        request.setAttribute("bibliotecario",false);
+                        request.setAttribute("tipologia_utente","Utente");
+                    }
+                    
                     request.setAttribute("stato_log", "logout");
                 }
                 

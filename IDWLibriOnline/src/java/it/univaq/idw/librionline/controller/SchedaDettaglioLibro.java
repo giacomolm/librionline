@@ -44,7 +44,7 @@ public class SchedaDettaglioLibro extends HttpServlet {
 	else{
 	    LibriOnLineDataLayer model = new LibriOnLineDataLayerMysqlImpl();
 	    Libro l = model.searchByIsbn(isbn);
-            
+
 	    if (l == null){
                 request.setAttribute("title", "Errore");
 		request.setAttribute("error", "Attenzione: Codice ISBN non presente nel DB!");
@@ -58,17 +58,28 @@ public class SchedaDettaglioLibro extends HttpServlet {
                 request.setAttribute("autori", l.getAutoreCollection());
                 request.setAttribute("tags", l.getTagCollection());
                 
-                if(session != null){
-                    request.setAttribute("stato_log", "logout");
+                int numerocopie = model.getNumeroCopie(isbn);
+                request.setAttribute("copietotali", numerocopie);
                     
-                    int numerocopie = model.getNumeroCopie(isbn);
-                    request.setAttribute("copietotali", numerocopie);
-                    
-                    int numerocopiedisponibili = model.getNumeroCopieDisponibili(isbn);
-                    request.setAttribute("copiedisponibili", numerocopiedisponibili);
+                int numerocopiedisponibili = model.getNumeroCopieDisponibili(isbn);
+                request.setAttribute("copiedisponibili", numerocopiedisponibili);
 
-                    if(numerocopiedisponibili == 0){
-                        request.setAttribute("datapresuntarestituzione", model.getProssimoData(isbn));
+                if(numerocopiedisponibili == 0){
+                request.setAttribute("datapresuntarestituzione", model.getProssimoData(isbn));
+                
+                if(session != null){
+                    LibriOnLineDataLayer dl = new LibriOnLineDataLayerMysqlImpl();
+                
+                    if(dl.isAdmin((String)session.getAttribute("username"))){
+                        request.setAttribute("bibliotecario",true);
+                        request.setAttribute("tipologia_utente","Bibliotecario");
+                    }
+                    else{
+                        request.setAttribute("bibliotecario",false);
+                        request.setAttribute("tipologia_utente","Utente");
+                    }
+                    
+                    request.setAttribute("stato_log", "logout");
                     }
                 }
                 

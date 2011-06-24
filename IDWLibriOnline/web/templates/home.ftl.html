@@ -1,13 +1,27 @@
 <h2 class="page_title"> Homepage </h2>
-
+<#if (stato_log??)>
+<p>Ciao, come utente registrato potrai effettuare ricerche nel sito, visualizzare schede dettaglio dei libri, vedere i libri che hai in prestito e le relative date di rinconsegna.</p> 
+<p>I libri la cui data di riconsegna &egrave; stata superata sono evidenziati!</p>
+<p>Inoltre lei ha a disposizione la sezione <a hfre="Storico">Storico</a> in cui pu&ograve; vedere i volumi gi&agrave; presi in prestito e restituiti!</p>
+<#else>
+<p>Ciao, come utente anonimo potrai effettuare ricerche nel sito e visualizzare schede dettaglio dei libri! Effettua una <a href="Login">login</a> per accedere a tutte le funzionalit&agrave;</p>
+</#if>
+<#if (stato_log??)>
 <div class="homepage_book"> 
-    <p>Qui avremo, per gli utenti registrati, i libri da riconsegnare a breve</p>
-    <p>Qui avremo, per gli utenti registrati, i libri da riconsegnare a breve</p>
-    <p>Qui avremo, per gli utenti registrati, i libri da riconsegnare a breve</p>
-    <p>Qui avremo, per gli utenti registrati, i libri da riconsegnare a breve</p>
-    <p>Qui avremo, per gli utenti registrati, i libri da riconsegnare a breve</p>
+    <p>Libri da riconsegnare:</p>
+    <#if (libri_da_riconsegnare??)>
+    <ul>
+    <#list libri_da_riconsegnare as libro_da_riconsegnare>
+         <li>Volume da restituire: ${libro_da_riconsegnare.volume}</li>
+         <li>Data prestito: ${libro_da_riconsegnare.dataPrestito?date}</li>
+    </#list>
+    </ul>
+    <#else>
+        <p> Nessun libro da riconsegnare nella biblioteca </p>
+    </#if>
 </div>
 <br />
+</#if>
 <div class="homepage_book"> 
     <p><b>Ultimi libri aggiunti alla biblioteca:</b></p>
     <#if (libri??)>
