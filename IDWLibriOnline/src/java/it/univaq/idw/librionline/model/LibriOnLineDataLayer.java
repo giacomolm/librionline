@@ -125,7 +125,7 @@ public interface LibriOnLineDataLayer {
      * si 10 elementi. 
      * @return lista dei libri maggiormente prestati
      */
-    public List<Libro> getMostProvided();
+     List<Libro> getMostProvided();
     
         /**
      * il metodo si occupa di ricerca qual'è l'id del gruppo che appartiene ad
@@ -133,7 +133,7 @@ public interface LibriOnLineDataLayer {
      * @param un String username
      * @return intero indicante l'id del gruppo
      */
-    public int getGruppoByUsername(String un);
+    int getGruppoByUsername(String un);
     
     /**
      * Verifico se l'username passato come parametro appartiene al gruppo 
@@ -141,7 +141,7 @@ public interface LibriOnLineDataLayer {
      * @param un stringa username
      * @return true se lo user appartiene all'amministrazione
      */
-    public boolean isAdmin(String un);
+     boolean isAdmin(String un);
     
         /**
      * Restituisco il numero delle copie di un libro disponibili al prestito, cioè
@@ -149,7 +149,7 @@ public interface LibriOnLineDataLayer {
      * @param isbn indicante quello del libro
      * @return int indicante il numero delle copie disponibili
      */
-    public int getNumeroCopieDisponibili(String isbn);
+    int getNumeroCopieDisponibili(String isbn);
         /**
      * Restituisco la data di restituzione del volume più vicina, in modo tale 
      * da informare chi di interesse quando potrà essere reperibile un determinato
@@ -157,5 +157,20 @@ public interface LibriOnLineDataLayer {
      * @param  del libro interessato
      * @return data indicante la restituzione più prossima della prima copia
      */
-    public Date getProssimoData(String isbn);
+    Date getProssimoData(String isbn);
+        /**
+     * Il metodo si occupa di restituire la lista di libri presi in prestito da parte di un determinato
+     * utente.
+     * @param username dell'utente di cui si vogliono conoscere il libri da lui detenuti
+     * @return lista di libri non ancora restituiti 
+     */
+    List<Prestito> getPrestitiAttivi(String username);
+         /**
+     * Il metodo restituisce la lista dei libri presi in prestito in passato da un
+     * utente, e quindi già restituiti. Nel caso l'utente non abbia preso in prestito 
+     * alcun libro, il metodo restituisce alcuna lista referenziata (NULL).
+     * @param username dell'utente di cui si vogliono conoscere il libri presi in prestito
+     * @return lista di libri presi in prestito e già restituiti
+     */
+    List<Prestito> getPrestitiPassati(String username);
 }

@@ -7,11 +7,13 @@ package it.univaq.idw.librionline.test;
 import it.univaq.idw.librionline.model.Autore;
 import it.univaq.idw.librionline.model.LibriOnLineDataLayer;
 import it.univaq.idw.librionline.model.Libro;
+import it.univaq.idw.librionline.model.Prestito;
 import it.univaq.idw.librionline.model.Tag;
 import it.univaq.idw.librionline.model.impl.LibriOnLineDataLayerMysqlImpl;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
+import java.util.List;
 
 /**
  *
@@ -81,5 +83,11 @@ public class EsempioRicerca {
         System.out.println("Zilfio "+dl.isAdmin("zilfio"));
         dl.getNumeroCopieDisponibili(l);
         dl.getProssimoData(li.getIsbn());
+        
+        List<Prestito> listp = dl.getPrestitiPassati("zilfio");
+        for ( Iterator i = listp.iterator(); i.hasNext(); ) {
+            Prestito element = (Prestito) i.next();
+            System.out.println( "zilfio : "+element.getVolume());                           
+        }
     }
 }

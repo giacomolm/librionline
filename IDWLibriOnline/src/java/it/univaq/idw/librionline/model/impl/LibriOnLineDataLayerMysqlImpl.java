@@ -689,4 +689,62 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
         }
         return res;
     }
+    
+    /**
+     * Il metodo si occupa di restituire la lista di libri presi in prestito da parte di un determinato
+     * utente. Nel caso l'utente non abbia alcun prestito attivo, il metodo restituisce
+     * alcuna lista referenziata (NULL).
+     * @param username dell'utente di cui si vogliono conoscere il libri da lui detenuti
+     * @return lista di libri non ancora restituiti 
+     */
+    @Override
+    public List<Prestito> getPrestitiAttivi(String username){
+        String un = username;
+        User u;
+        List<Prestito> lp = null;
+        if(isThisUsername(un)){
+             manager.getTransaction().begin();
+             //Cerco lo user con quell'username
+             u = (User) manager.createNamedQuery("UserMysqlImpl.findByUsername").setParameter("username", un).getSingleResult();
+             //Verifico se ha preso qualche libro in prestito non ancora restituito
+             try{
+                 lp = manager.createQuery("SELECT p FROM PrestitoMysqlImpl p WHERE p.user = :user AND p.restituito = false").setParameter("user", (UserMysqlImpl) u).getResultList();
+             }
+             catch(NoResultException e){
+                 //Nessun risultato
+             }
+             manager.getTransaction().commit();
+        }
+        //ritorna la lista dei prestiti attivi 
+        return lp;
+    }
+    
+     /**
+     * Il metodo restituisce la lista dei libri presi in prestito in passato da un
+     * utente, e quindi già restituiti. Nel caso l'utente non abbia preso in prestito 
+     * alcun libro, il metodo restituisce alcuna lista referenziata (NULL).
+     * @param username dell'utente di cui si vogliono conoscere il libri presi in prestito
+     * @return lista di libri presi in prestito e già restituiti
+     */
+    @Override
+    public List<Prestito> getPrestitiPassati(String username){
+        String un = username;
+        User u;
+        List<Prestito> lp = null;
+        if(isThisUsername(un)){
+             manager.getTransaction().begin();
+             //Cerco lo user con quell'username
+             u = (User) manager.createNamedQuery("UserMysqlImpl.findByUsername").setParameter("username", un).getSingleResult();
+             //Cerco tutti i volumi che sono stati presi in prestito dall'utente e restituiti
+             try{
+                 lp = manager.createQuery("SELECT p FROM PrestitoMysqlImpl p WHERE p.user = :user AND p.restituito = true").setParameter("user", (UserMysqlImpl) u).getResultList();
+             }
+             catch(NoResultException e){
+                 //Nessun risultato
+             }
+             manager.getTransaction().commit();
+        }
+        //ritorna la lista dei prestiti attivi 
+        return lp;
+    }
 }
