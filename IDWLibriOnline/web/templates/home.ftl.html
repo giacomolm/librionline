@@ -12,8 +12,8 @@
     <#if (libri_da_riconsegnare??)>
     <ul>
     <#list libri_da_riconsegnare as libro_da_riconsegnare>
-         <li>Volume da restituire: ${libro_da_riconsegnare.volume}</li>
-         <li>Data prestito: ${libro_da_riconsegnare.dataPrestito?date}</li>
+        <li>Libro da restituire: <a href="SchedaDettaglioLibro?isbn=${libro_da_riconsegnare.volume.libro.isbn}">${libro_da_riconsegnare.volume.libro.titolo}</a></li>
+        <li>Data prestito: ${libro_da_riconsegnare.dataPrestito?date}</li>
     </#list>
     </ul>
     <#else>
