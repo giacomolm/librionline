@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
@@ -462,7 +463,7 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
         
         long dataInit;
         VolumeMysqlImpl vol;
-        
+        long minTemp=0;
         
         Date min= null;
         
@@ -471,12 +472,12 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
             Libro l = searchByIsbn(isbn);
             //Ricevo la lista dei volumi, cioè delle copie concrete associate a quel libro
             List<Volume> lv =(List) l.getVolumeCollection();
-            //inizializzo a quella attuale per esigenze di inizializzazio
+            //inizializzo a quella attuale per esigenze di inizializzazione
             min = new Date();
             manager.getTransaction().begin();
             Iterator it = lv.iterator();
             if(it.hasNext()){
-                  long minTemp=0;
+                  
                 
                   vol = (VolumeMysqlImpl) it.next();
                   
@@ -487,7 +488,7 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
                     //nel caso individuo il record relativo al prestito in corso, memorizzo la data
                     if(!prestito.getRestituito()){
                         min = prestito.getDataPrestito();
-                        minTemp = min.getTime()+((long) vol.getDurataMax());
+                        minTemp = min.getTime()+(((long) vol.getDurataMax())*86400000);
                     }
                   }
                   
@@ -502,7 +503,7 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
                         //Sono sul record relativo al prestito in corso
                         if(!prestito.getRestituito()){
                             //calcolo la durata del prestito relativo al volume attuale
-                            dataInit = prestito.getDataPrestito().getTime()+durata;
+                            dataInit = prestito.getDataPrestito().getTime()+(durata*86400000);
                             //confronto se la data di restituzione attuale è minore di quella minima finora calcolata
                             if(dataInit<(minTemp)){
                                 //aggiorno i campi
@@ -516,7 +517,8 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
             }
             manager.getTransaction().commit();
         }
-        return min;
+        
+        return new Date(minTemp);
     }
     
     /**

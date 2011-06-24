@@ -27,5 +27,6 @@ public class EsempioLogin {
             System.out.println(u.getNome()+" "+u.getCognome());
         System.out.println(dl.isThisUsername(username));
         System.out.println(dl.isThisUsername("Nduccio"));
+        
     }
 }
