@@ -27,7 +27,7 @@
 <p> <strong> Copie Disponibili: </strong> ${copiedisponibili}</p> 
 <#if (stato_log??)> 
     <#if bibliotecario>
-    <form action="Prestito">
+    <form action="Prestito?id=${libro.isbn}">
         <input type="submit" value="Procedi con il prestito" name="Invia"/>
     </form> 
     </#if>
