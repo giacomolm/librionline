@@ -20,7 +20,7 @@
                            <#if (stato_log??)>
                             ${stato_log}
                            <#else>
-                            login
+                           <strong>Login</strong>
                            </#if>
                        </a>
                 </div>
@@ -44,7 +44,7 @@
                         <li><a href="InserisciAutore">Inserisci Autore</a></li>
                         <li><a href="InserisciTag">Inserisci Tag</a></li>
                         <#else>
-                        <li><a href="Libri">Storico</a></li>
+                        <li><a href="Storico">Storico</a></li>
                         </#if>
                     </ul>
                 </#if>
@@ -78,7 +78,7 @@
             </div>
             <div id="footer">
                 Copyright &copy; 2011 LibriOnLine <br />
-                ${defaults.author} <br /> 
+                <em>${defaults.author}</em> <br /> 
                 Pagina compilata il ${compiled_on?datetime}
             </div>
         </div>	

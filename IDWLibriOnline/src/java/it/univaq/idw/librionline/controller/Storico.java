@@ -7,8 +7,12 @@ package it.univaq.idw.librionline.controller;
 import it.univaq.idw.librionline.framework.util.SecurityLayer;
 import it.univaq.idw.librionline.framework.util.TemplateResult;
 import it.univaq.idw.librionline.model.LibriOnLineDataLayer;
+import it.univaq.idw.librionline.model.Libro;
+import it.univaq.idw.librionline.model.Prestito;
 import it.univaq.idw.librionline.model.impl.LibriOnLineDataLayerMysqlImpl;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -19,7 +23,7 @@ import javax.servlet.http.HttpSession;
  *
  * @author Zilfio
  */
-public class Libri extends HttpServlet {
+public class Storico extends HttpServlet {
 
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -45,12 +49,20 @@ public class Libri extends HttpServlet {
             else{
                 request.setAttribute("bibliotecario",false);
                 request.setAttribute("tipologia_utente","Utente");
+                
+                List<Prestito> lp = dl.getPrestitiPassati((String)session.getAttribute("username"));
+
+                if(lp.isEmpty()){
+                    request.setAttribute("prestiti_passati",null);
+                }else{
+                    request.setAttribute("prestiti_passati",lp);
+                }
             }
         }
         
-        request.setAttribute("title","Libri");
+        request.setAttribute("title","Storico");
         request.setAttribute("navigazione","<a href='Home'>Homepage</a>");
-        res.activate("libri.ftl.html", request, response);
+        res.activate("storico.ftl.html", request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

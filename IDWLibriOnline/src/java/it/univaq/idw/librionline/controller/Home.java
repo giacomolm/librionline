@@ -7,7 +7,6 @@ import it.univaq.idw.librionline.model.Libro;
 import it.univaq.idw.librionline.model.Prestito;
 import it.univaq.idw.librionline.model.impl.LibriOnLineDataLayerMysqlImpl;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -36,11 +35,17 @@ public class Home extends HttpServlet {
         LibriOnLineDataLayer dl = new LibriOnLineDataLayerMysqlImpl();
         List<Libro> bc = dl.getLastAdded();
         List<Libro> lp = dl.getMostProvided();
-        
+
         if(session != null){
                 request.setAttribute("stato_log", "logout");
                 List<Prestito> pa = dl.getPrestitiAttivi((String)session.getAttribute("username"));
-                request.setAttribute("libri_da_riconsegnare",pa);
+
+                if(pa.isEmpty()){
+                    request.setAttribute("libri_da_riconsegnare",null);
+                }
+                else{
+                    request.setAttribute("libri_da_riconsegnare",pa);
+                }
                 
                 if(dl.isAdmin((String)session.getAttribute("username"))){
                     request.setAttribute("bibliotecario",true);

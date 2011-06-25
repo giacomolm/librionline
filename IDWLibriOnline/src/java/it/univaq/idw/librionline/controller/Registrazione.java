@@ -83,6 +83,17 @@ public class Registrazione extends HttpServlet {
                 
         if(session != null){
             request.setAttribute("stato_log", "logout");
+
+            LibriOnLineDataLayer dl = new LibriOnLineDataLayerMysqlImpl();
+
+            if(dl.isAdmin((String)session.getAttribute("username"))){
+                request.setAttribute("bibliotecario",true);
+                request.setAttribute("tipologia_utente","Bibliotecario");
+            }
+            else{
+                request.setAttribute("bibliotecario",false);
+                request.setAttribute("tipologia_utente","Utente");
+            }
         }
         
         String registrazione = request.getParameter("Registrazione");

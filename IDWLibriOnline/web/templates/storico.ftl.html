@@ -1,0 +1,14 @@
+<h2 class="page_title"> Storico </h2>
+<p>Storico dei volumi gi&agrave; presi in prestito e restituiti</p>
+<#if (stato_log??)>
+    <#if !bibliotecario>
+        <#if (prestiti_passati??)>
+            <#list prestiti_passati as prestito_passato>
+            <li><em>Libro restituito:</em> <a href="SchedaDettaglioLibro?isbn=${prestito_passato.volume.libro.isbn}">${prestito_passato.volume.libro.titolo}</a> - <em>Data prestito:</em> ${prestito_passato.dataPrestito?date} - <em>Data restituzione:</em> ${prestito_passato.dataRestituzione?date} </li>
+            </#list>
+            <#else>
+            <p><em> Nota: Nessun libro riconsegnato nella biblioteca </em></p>
+            </#if>
+    </#if>
+</#if>
+        
