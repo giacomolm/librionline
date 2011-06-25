@@ -747,4 +747,25 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
         //ritorna la lista dei prestiti attivi 
         return lp;
     }
+    
+    /**
+     * Restituisce la lista di tutti i libri presenti nel DB, inclusi quelli
+     * prestati.
+     * @return Lista di libri appartenenti alla libreria
+     */
+    @Override
+    public List<Libro> libriTotale(){
+        manager.getTransaction().begin();
+        List<Libro> ll = null;
+        //Prelevo tutti i libri presenti nella libreria
+        
+        try{
+            ll = manager.createQuery("SELECT l FROM LibroMysqlImpl l").getResultList();
+        }
+        catch(NoResultException e){
+            //Nessun libro trovato
+        }
+        manager.getTransaction().commit();
+        return ll;
+    }
 }

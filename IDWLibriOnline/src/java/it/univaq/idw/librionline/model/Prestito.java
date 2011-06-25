@@ -103,4 +103,17 @@ public interface Prestito {
      */
     String toString();
     
+    /**
+     * Calcoliamo la data di presunta restituzione di un prestito, a partire
+     * dalla data di inizio prestito e dalla sua durata
+     * @return la data di presunta restituzione di un volume
+     */
+    Date getDataPresuntaRestituzione();
+    
+    /**
+     * Questo metodo provvede al controllo della data di restituzione del prestito
+     * @return true se il prestito è scaduto
+     */
+    public boolean isExpired();
+    
 }

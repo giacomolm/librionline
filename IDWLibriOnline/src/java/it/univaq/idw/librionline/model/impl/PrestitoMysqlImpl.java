@@ -187,4 +187,28 @@ public class PrestitoMysqlImpl implements Serializable, Prestito {
         this.volume = (VolumeMysqlImpl) volume;
     }
     
+    /**
+     * 
+     * @return la data di presunta restituzione di un libro
+     */
+    @Override
+    public Date getDataPresuntaRestituzione(){
+        long init = this.getDataPrestito().getTime();
+        long durata = (long) (((VolumeMysqlImpl)this.getVolume()).getDurataMax())*86400000;
+        return new Date(init+durata);
+    }
+    
+    /**
+     * Questo metodo provvede al controllo della data di restituzione del prestito
+     * @return true se il prestito è scaduto
+     */
+    @Override
+    public boolean isExpired(){
+        long init = this.getDataPrestito().getTime();
+        long durata = (long) (((VolumeMysqlImpl)this.getVolume()).getDurataMax())*86400000;
+        Date temp = new Date(init+durata);
+        //Controllo se il prestito è scaduto
+        if (temp.before(new Date())) return true;
+        else return false;
+    }
 }

@@ -173,4 +173,10 @@ public interface LibriOnLineDataLayer {
      * @return lista di libri presi in prestito e già restituiti
      */
     List<Prestito> getPrestitiPassati(String username);
+    /**
+     * Restituisce la lista di tutti i libri presenti nel DB, inclusi quelli
+     * prestati.
+     * @return Lista di libri appartenenti alla libreria
+     */
+    public List<Libro> libriTotale();
 }

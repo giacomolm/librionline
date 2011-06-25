@@ -17,7 +17,7 @@
         <#if (libri_da_riconsegnare??)>
         <ul>
         <#list libri_da_riconsegnare as libro_da_riconsegnare>
-        <li><em>Libro da restituire:</em> <a href="SchedaDettaglioLibro?isbn=${libro_da_riconsegnare.volume.libro.isbn}">${libro_da_riconsegnare.volume.libro.titolo}</a> - <em>Data prestito:</em> ${libro_da_riconsegnare.dataPrestito?date} - <em>Restituire entro il:</em> <strong style="color:red">lm come facciamo a gestire questo?</strong></li>
+        <li><em>Libro da restituire:</em> <a href="SchedaDettaglioLibro?isbn=${libro_da_riconsegnare.volume.libro.isbn}">${libro_da_riconsegnare.volume.libro.titolo}</a> - <em>Data prestito:</em> ${libro_da_riconsegnare.dataPrestito?date} - <em>Restituire entro il:</em> ${libro_da_riconsegnare.dataPresuntaRestituzione?date}</li>
         </#list>
         </ul>
         <#else>
