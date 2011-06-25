@@ -79,7 +79,7 @@ public class SchedaDettaglioLibro extends HttpServlet {
                         request.setAttribute("tipologia_utente","Utente");
                     }
                     
-                    request.setAttribute("stato_log", "logout");
+                    request.setAttribute("stato_log", "Logout");
                 }
                 template.activate("schedalibro.ftl.html", request, response); 
 	    }

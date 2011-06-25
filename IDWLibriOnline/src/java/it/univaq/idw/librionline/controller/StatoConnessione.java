@@ -53,7 +53,7 @@ public class StatoConnessione extends HttpServlet {
                 request.setAttribute("tipologia_utente","Utente");
             }
             
-            request.setAttribute("stato_log", "logout");
+            request.setAttribute("stato_log", "Logout");
             request.setAttribute("username",(String) session.getAttribute("username"));
             request.setAttribute("ip",(String) session.getAttribute("ip"));
             request.setAttribute("date",f.format(((Calendar) session.getAttribute("inizio-sessione")).getTime()));

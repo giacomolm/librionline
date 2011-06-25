@@ -47,7 +47,7 @@ public class RicercaLibroTag extends HttpServlet {
                 request.setAttribute("tipologia_utente","Utente");
             }
             
-            request.setAttribute("stato_log", "logout");
+            request.setAttribute("stato_log", "Logout");
         }
         
         String tag = request.getParameter("tag");

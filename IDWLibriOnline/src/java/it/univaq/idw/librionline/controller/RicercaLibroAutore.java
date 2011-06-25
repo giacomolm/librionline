@@ -10,7 +10,6 @@ import it.univaq.idw.librionline.model.LibriOnLineDataLayer;
 import it.univaq.idw.librionline.model.Libro;
 import it.univaq.idw.librionline.model.impl.LibriOnLineDataLayerMysqlImpl;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -48,7 +47,7 @@ public class RicercaLibroAutore extends HttpServlet {
                 request.setAttribute("tipologia_utente","Utente");
             }
             
-            request.setAttribute("stato_log", "logout");
+            request.setAttribute("stato_log", "Logout");
         }
         
         String id = request.getParameter("id");

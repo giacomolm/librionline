@@ -82,7 +82,7 @@ public class Registrazione extends HttpServlet {
         HttpSession session = SecurityLayer.checkSession(request);
                 
         if(session != null){
-            request.setAttribute("stato_log", "logout");
+            request.setAttribute("stato_log", "Logout");
 
             LibriOnLineDataLayer dl = new LibriOnLineDataLayerMysqlImpl();
 

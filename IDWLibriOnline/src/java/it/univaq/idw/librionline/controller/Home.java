@@ -35,9 +35,9 @@ public class Home extends HttpServlet {
         LibriOnLineDataLayer dl = new LibriOnLineDataLayerMysqlImpl();
         List<Libro> bc = dl.getLastAdded();
         List<Libro> lp = dl.getMostProvided();
-
+        
         if(session != null){
-                request.setAttribute("stato_log", "logout");
+                request.setAttribute("stato_log", "Logout");
                 List<Prestito> pa = dl.getPrestitiAttivi((String)session.getAttribute("username"));
 
                 if(pa.isEmpty()){

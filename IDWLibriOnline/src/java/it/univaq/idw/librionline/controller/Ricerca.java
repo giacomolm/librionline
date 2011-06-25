@@ -94,7 +94,7 @@ public class Ricerca extends HttpServlet {
                         request.setAttribute("tipologia_utente","Utente");
                     }
                     
-                    request.setAttribute("stato_log", "logout");
+                    request.setAttribute("stato_log", "Logout");
                 }
                 
                 String s = request.getParameter("Invia");                             
