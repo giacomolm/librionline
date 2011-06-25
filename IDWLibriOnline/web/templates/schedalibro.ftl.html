@@ -27,7 +27,8 @@
 <p> <strong> Copie Disponibili: </strong> ${copiedisponibili}</p> 
 <#if (stato_log??)> 
     <#if bibliotecario>
-    <form action="Prestito?id=${libro.isbn}">
+    <form action="Prestito" method="get">
+        <input type="text" value="${libro.isbn}" name="isbn" hidden="hidden"/>
         <input type="submit" value="Procedi con il prestito" name="Invia"/>
     </form> 
     </#if>
@@ -39,9 +40,10 @@
 <p> <strong> Data Presunta Restituzione</strong> (<i>pi&ugrave; vicina</i>)<strong> :</strong> ${datapresuntarestituzione?date} </p>
 </#if>
 
-</#if>
 
 <#if (stato_log??)> 
-<#if bibliotecario>
-<strong> Verifica: </strong> <a href="PrestitiPresenti">Prestiti Presenti</a> - <a href="PrestitiPassati">Prestiti Passati</a>
-</#if> </#if>
+    <#if bibliotecario>
+    <strong> Verifica: </strong> <a href="PrestitiPresenti">Prestiti Presenti</a> - <a href="PrestitiPassati">Prestiti Passati</a>
+    </#if> 
+</#if>
+</#if>

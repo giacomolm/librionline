@@ -1,3 +1,18 @@
 <h2 class="page_title"> Libri </h2>
 
-<p> Lista di tutti i libri presenti nella Biblioteca </p>
+<#if (libri??)>
+    <ul>
+        <#list libri as libro>
+            <li><a href="SchedaDettaglioLibro?isbn=${libro.isbn}">${libro.titolo}</a> -
+            <em>
+             <#list libro.autoreCollection as autore>
+                ${autore.nome} ${autore.cognome}
+             <#if autore_has_next>, </#if>
+             </#list>
+             - ${libro.editore} - ${libro.annoPubblicazione?string("yyyy")}</em>
+             </li> 
+        </#list>
+    </ul>
+<#else>
+    <p> Nessun libro trovato </p> 
+</#if>

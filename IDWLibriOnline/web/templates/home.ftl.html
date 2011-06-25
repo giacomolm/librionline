@@ -15,11 +15,15 @@
     <div class="homepage_book"> 
         <p><strong>Libri da riconsegnare:</strong></p>
         <#if (libri_da_riconsegnare??)>
-        <ul>
-        <#list libri_da_riconsegnare as libro_da_riconsegnare>
-        <li><em>Libro da restituire:</em> <a href="SchedaDettaglioLibro?isbn=${libro_da_riconsegnare.volume.libro.isbn}">${libro_da_riconsegnare.volume.libro.titolo}</a> - <em>Data prestito:</em> ${libro_da_riconsegnare.dataPrestito?date} - <em>Restituire entro il:</em> ${libro_da_riconsegnare.dataPresuntaRestituzione?date}</li>
-        </#list>
-        </ul>
+            <ul>
+            <#list libri_da_riconsegnare as libro_da_riconsegnare>
+                <#if libro_da_riconsegnare.isExpired>
+                <li style="color:red"><em>Libro da restituire:</em> <a href="SchedaDettaglioLibro?isbn=${libro_da_riconsegnare.volume.libro.isbn}">${libro_da_riconsegnare.volume.libro.titolo}</a> - <em>Data prestito:</em> ${libro_da_riconsegnare.dataPrestito?date} - <em>Restituire entro il:</em> ${libro_da_riconsegnare.dataPresuntaRestituzione?date}</li>
+                <#else>
+                <li><em>Libro da restituire:</em> <a href="SchedaDettaglioLibro?isbn=${libro_da_riconsegnare.volume.libro.isbn}">${libro_da_riconsegnare.volume.libro.titolo}</a> - <em>Data prestito:</em> ${libro_da_riconsegnare.dataPrestito?date} - <em>Restituire entro il:</em> ${libro_da_riconsegnare.dataPresuntaRestituzione?date}</li>
+                </#if>
+            </#list>
+            </ul>
         <#else>
             <p> Nessun libro da riconsegnare nella biblioteca </p>
         </#if>

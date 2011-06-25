@@ -7,8 +7,10 @@ package it.univaq.idw.librionline.controller;
 import it.univaq.idw.librionline.framework.util.SecurityLayer;
 import it.univaq.idw.librionline.framework.util.TemplateResult;
 import it.univaq.idw.librionline.model.LibriOnLineDataLayer;
+import it.univaq.idw.librionline.model.Libro;
 import it.univaq.idw.librionline.model.impl.LibriOnLineDataLayerMysqlImpl;
 import java.io.IOException;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -32,11 +34,10 @@ public class Libri extends HttpServlet {
             throws ServletException, IOException {
         TemplateResult res = new TemplateResult(getServletContext());
         HttpSession session = SecurityLayer.checkSession(request);
+        LibriOnLineDataLayer dl = new LibriOnLineDataLayerMysqlImpl();
         
         if(session != null){
             request.setAttribute("stato_log", "Logout");
-
-            LibriOnLineDataLayer dl = new LibriOnLineDataLayerMysqlImpl();
 
             if(dl.isAdmin((String)session.getAttribute("username"))){
                 request.setAttribute("bibliotecario",true);
@@ -48,8 +49,13 @@ public class Libri extends HttpServlet {
             }
         }
         
+        List<Libro> ll = dl.libriTotale();
+        
         request.setAttribute("title","Libri");
         request.setAttribute("navigazione","<a href='Home'>Homepage</a>");
+        
+        request.setAttribute("libri",ll);
+        
         res.activate("libri.ftl.html", request, response);
     }
 
