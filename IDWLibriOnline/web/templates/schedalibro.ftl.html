@@ -24,7 +24,15 @@
 </#if>
 
 <#if (copiedisponibili??)>
-    <p> <strong> Copie Disponibili: </strong> ${copiedisponibili} <#if (stato_log??)> <#if bibliotecario> - <a href="VolumiDisponibili">Volumi disponibili</a> </#if> </#if> </p>
+<p> <strong> Copie Disponibili: </strong> ${copiedisponibili}</p> 
+<#if (stato_log??)> 
+    <#if bibliotecario>
+    <form action="Prestito">
+        <input type="submit" value="Procedi con il prestito" name="Invia"/>
+    </form> 
+    </#if>
+    <br />
+</#if> 
 </#if>
 
 <#if (datapresuntarestituzione??)>
