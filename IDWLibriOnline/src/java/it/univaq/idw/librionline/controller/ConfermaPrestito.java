@@ -1,13 +1,15 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package it.univaq.idw.librionline.controller;
 
 import it.univaq.idw.librionline.framework.util.SecurityLayer;
 import it.univaq.idw.librionline.framework.util.TemplateResult;
 import it.univaq.idw.librionline.model.LibriOnLineDataLayer;
-import it.univaq.idw.librionline.model.Libro;
-import it.univaq.idw.librionline.model.Prestito;
 import it.univaq.idw.librionline.model.impl.LibriOnLineDataLayerMysqlImpl;
 import java.io.IOException;
-import java.util.List;
+import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -18,7 +20,29 @@ import javax.servlet.http.HttpSession;
  *
  * @author Zilfio
  */
-public class Home extends HttpServlet {
+public class ConfermaPrestito extends HttpServlet {
+    
+    private boolean analizza_form_prestito(HttpServletRequest request, HttpServletResponse response) {
+        LibriOnLineDataLayer dl = new LibriOnLineDataLayerMysqlImpl();
+        
+        String isbn = request.getParameter("isbn");
+        String prestito_volumi = request.getParameter("prestito_volumi");
+        String prestito_utenti = request.getParameter("prestito_utenti");
+        
+        if((isbn == null) || (prestito_volumi.isEmpty()) || (prestito_utenti==null)){
+            return false;
+        }
+        
+        int id_vol = Integer.parseInt(prestito_volumi);
+        int id_user = Integer.parseInt(prestito_utenti);
+        
+        if(dl.registraPrestito(isbn, id_vol, id_user)){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
 
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -29,38 +53,29 @@ public class Home extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
-        TemplateResult res = new TemplateResult(getServletContext());
+        TemplateResult res = new TemplateResult(getServletContext()); 
         HttpSession session = SecurityLayer.checkSession(request);
         LibriOnLineDataLayer dl = new LibriOnLineDataLayerMysqlImpl();
-        List<Libro> bc = dl.getLastAdded();
-        List<Libro> lp = dl.getMostProvided();
-        
-        if(session != null){
-                request.setAttribute("stato_log", "Logout");
-                List<Prestito> pa = dl.getPrestitiAttivi((String)session.getAttribute("username"));
 
-                if(pa.isEmpty()){
-                    request.setAttribute("libri_da_riconsegnare",null);
+        if(session != null){     
+            if(dl.isAdmin((String)session.getAttribute("username"))){
+                request.setAttribute("bibliotecario",true);
+                request.setAttribute("tipologia_utente","Bibliotecario");
+                boolean result = analizza_form_prestito(request,response);
+                if(result){
+                    request.setAttribute("error","OK");
                 }
                 else{
-                    request.setAttribute("libri_da_riconsegnare",pa);
+                    request.setAttribute("error","NOT OK");
                 }
-                
-                if(dl.isAdmin((String)session.getAttribute("username"))){
-                    request.setAttribute("bibliotecario",true);
-                    request.setAttribute("tipologia_utente","Bibliotecario");
-                }
-                else{
-                    request.setAttribute("bibliotecario",false);
-                    request.setAttribute("tipologia_utente","Utente");
-                }
+                request.setAttribute("title","Prestito");
+                res.activate("error.ftl.html", request, response);
+            }
+            else{
+                request.setAttribute("bibliotecario",false);
+                request.setAttribute("tipologia_utente","Utente");
+            }
         }
-        
-        request.setAttribute("title","Homepage");
-        request.setAttribute("libri",bc);
-        request.setAttribute("libriprestati",lp);
-        res.activate("home.ftl.html", request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -96,6 +111,7 @@ public class Home extends HttpServlet {
      */
     @Override
     public String getServletInfo() {
-        return "Servlet Home";
+        return "Short description";
     }// </editor-fold>
+
 }

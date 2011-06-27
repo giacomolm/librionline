@@ -1,12 +1,12 @@
 <h2 class="page_title"> Sistema di Autenticazione </h2>
 <p> Usa il tuo username e la tua password qui sotto per fare il Login. </p>
-<form action="Login" method="post" enctype="multipart/form-data" id="form_login">
-    <#if (messaggio??)>
+<#if (messaggio??)>
     <div class="messaggio">
         <p><strong>${messaggio}</strong></p>
     </div>
     <div><br /></div>
-    </#if>
+</#if>
+<form action="Login" method="post" enctype="multipart/form-data" id="form_login">
     <div>
     <fieldset><legend>Dati di autenticazione</legend>
         <br />

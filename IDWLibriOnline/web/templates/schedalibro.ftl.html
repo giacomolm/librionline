@@ -43,7 +43,7 @@
 
 <#if (stato_log??)> 
     <#if bibliotecario>
-    <strong> Verifica: </strong> <a href="PrestitiPresenti">Prestiti Presenti</a> - <a href="PrestitiPassati">Prestiti Passati</a>
+    <strong> Verifica: </strong> <a href="PrestitiAttiviLibro?isbn=${libro.isbn}">Prestiti Presenti</a> - <a href="PrestitiPassiviLibro?isbn=${libro.isbn}">Prestiti Passati</a>
     </#if> 
 </#if>
 </#if>

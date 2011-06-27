@@ -1,12 +1,16 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package it.univaq.idw.librionline.controller;
 
 import it.univaq.idw.librionline.framework.util.SecurityLayer;
 import it.univaq.idw.librionline.framework.util.TemplateResult;
 import it.univaq.idw.librionline.model.LibriOnLineDataLayer;
-import it.univaq.idw.librionline.model.Libro;
 import it.univaq.idw.librionline.model.Prestito;
 import it.univaq.idw.librionline.model.impl.LibriOnLineDataLayerMysqlImpl;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -18,7 +22,7 @@ import javax.servlet.http.HttpSession;
  *
  * @author Zilfio
  */
-public class Home extends HttpServlet {
+public class PrestitiAttiviLibro extends HttpServlet {
 
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -29,38 +33,37 @@ public class Home extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
         TemplateResult res = new TemplateResult(getServletContext());
         HttpSession session = SecurityLayer.checkSession(request);
         LibriOnLineDataLayer dl = new LibriOnLineDataLayerMysqlImpl();
-        List<Libro> bc = dl.getLastAdded();
-        List<Libro> lp = dl.getMostProvided();
         
         if(session != null){
-                request.setAttribute("stato_log", "Logout");
-                List<Prestito> pa = dl.getPrestitiAttivi((String)session.getAttribute("username"));
+            request.setAttribute("stato_log", "Logout");
 
-                if(pa.isEmpty()){
-                    request.setAttribute("libri_da_riconsegnare",null);
+            if(dl.isAdmin((String)session.getAttribute("username"))){
+                request.setAttribute("bibliotecario",true);
+                request.setAttribute("tipologia_utente","Bibliotecario");
+                
+                String isbn = request.getParameter("isbn");
+                
+                List<Prestito> pal = dl.prestitiAttiviLibro(isbn);
+                if(pal.isEmpty()){
+                    request.setAttribute("prestitiattivi",null);
                 }
                 else{
-                    request.setAttribute("libri_da_riconsegnare",pa);
+                    request.setAttribute("prestitiattivi",pal);
                 }
                 
-                if(dl.isAdmin((String)session.getAttribute("username"))){
-                    request.setAttribute("bibliotecario",true);
-                    request.setAttribute("tipologia_utente","Bibliotecario");
-                }
-                else{
-                    request.setAttribute("bibliotecario",false);
-                    request.setAttribute("tipologia_utente","Utente");
-                }
+                request.setAttribute("title","Prestiti Attivi");
+                res.activate("prestitiattivilibro.ftl.html", request, response);
+            }
+            else{
+                request.setAttribute("bibliotecario",false);
+                request.setAttribute("tipologia_utente","Utente");
+            }
         }
         
-        request.setAttribute("title","Homepage");
-        request.setAttribute("libri",bc);
-        request.setAttribute("libriprestati",lp);
-        res.activate("home.ftl.html", request, response);
+        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -96,6 +99,6 @@ public class Home extends HttpServlet {
      */
     @Override
     public String getServletInfo() {
-        return "Servlet Home";
+        return "Short description";
     }// </editor-fold>
 }

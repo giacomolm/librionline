@@ -1,0 +1,15 @@
+<h2 class="page_title"> Prestiti Scaduti </h2>
+
+<#if (stato_log??)>
+    <#if bibliotecario>
+    <#if (prestitiscaduti??)>
+    <#list prestitiscaduti as prestitoscaduto>
+    <ul>
+        <li><em>Libro da restituire:</em> <a href="SchedaDettaglioLibro?isbn=${prestitoscaduto.volume.libro.isbn}">${prestitoscaduto.volume.libro.titolo}</a> - <em>Data prestito:</em> ${prestitoscaduto.dataPrestito?date} - <em>Restituire entro il:</em> ${prestitoscaduto.dataPresuntaRestituzione?date} - <em>Utente:</em> <a href="SchedaUtente?id=${prestitoscaduto.user.id}">${prestitoscaduto.user.username}</a></li>
+    </ul>
+    </#list>
+    <#else>
+        <p> Nessun prestito scaduto </p>
+    </#if>
+    </#if>
+</#if>

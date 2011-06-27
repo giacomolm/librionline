@@ -17,8 +17,8 @@
         <#if (libri_da_riconsegnare??)>
             <ul>
             <#list libri_da_riconsegnare as libro_da_riconsegnare>
-                <#if libro_da_riconsegnare.isExpired>
-                <li style="color:red"><em>Libro da restituire:</em> <a href="SchedaDettaglioLibro?isbn=${libro_da_riconsegnare.volume.libro.isbn}">${libro_da_riconsegnare.volume.libro.titolo}</a> - <em>Data prestito:</em> ${libro_da_riconsegnare.dataPrestito?date} - <em>Restituire entro il:</em> ${libro_da_riconsegnare.dataPresuntaRestituzione?date}</li>
+                <#if libro_da_riconsegnare.expired>
+                <li style="color:red"> <strong>PRESTITO SCADUTO</strong> - <em>Libro da restituire:</em> <a href="SchedaDettaglioLibro?isbn=${libro_da_riconsegnare.volume.libro.isbn}">${libro_da_riconsegnare.volume.libro.titolo}</a> - <em>Data prestito:</em> ${libro_da_riconsegnare.dataPrestito?date} - <em>Restituire entro il:</em> ${libro_da_riconsegnare.dataPresuntaRestituzione?date}</li>
                 <#else>
                 <li><em>Libro da restituire:</em> <a href="SchedaDettaglioLibro?isbn=${libro_da_riconsegnare.volume.libro.isbn}">${libro_da_riconsegnare.volume.libro.titolo}</a> - <em>Data prestito:</em> ${libro_da_riconsegnare.dataPrestito?date} - <em>Restituire entro il:</em> ${libro_da_riconsegnare.dataPresuntaRestituzione?date}</li>
                 </#if>

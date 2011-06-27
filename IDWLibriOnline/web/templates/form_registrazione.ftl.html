@@ -1,12 +1,12 @@
 <h2 class="page_title"> Sistema di Registrazione </h2>
 <p> Se non ti sei ancora registrato fallo adesso. Basta compilare i campi sottostanti. </p>
-<form action="Registrazione" method="post" enctype="multipart/form-data" id="registrazione">
-    <#if (messaggio??)>
+<#if (messaggio??)>
     <div class="messaggio">
         <p><strong>${messaggio}</strong></p>
     </div>
     <div><br /></div>
-    </#if>
+</#if>
+<form action="Registrazione" method="post" enctype="multipart/form-data" id="registrazione">
     <div>
     <fieldset><legend>Dati registrazione</legend>
         <br />

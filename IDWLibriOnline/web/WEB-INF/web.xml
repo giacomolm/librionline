@@ -85,6 +85,26 @@
         <servlet-name>Storico</servlet-name>
         <servlet-class>it.univaq.idw.librionline.controller.Storico</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>PrestitiAttiviLibro</servlet-name>
+        <servlet-class>it.univaq.idw.librionline.controller.PrestitiAttiviLibro</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>PrestitiPassiviLibro</servlet-name>
+        <servlet-class>it.univaq.idw.librionline.controller.PrestitiPassiviLibro</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>PrestitiScaduti</servlet-name>
+        <servlet-class>it.univaq.idw.librionline.controller.PrestitiScaduti</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>Prestito</servlet-name>
+        <servlet-class>it.univaq.idw.librionline.controller.Prestito</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ConfermaPrestito</servlet-name>
+        <servlet-class>it.univaq.idw.librionline.controller.ConfermaPrestito</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Home</servlet-name>
         <url-pattern>/Home</url-pattern>
@@ -140,6 +160,26 @@
     <servlet-mapping>
         <servlet-name>Storico</servlet-name>
         <url-pattern>/Storico</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>PrestitiAttiviLibro</servlet-name>
+        <url-pattern>/PrestitiAttiviLibro</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>PrestitiPassiviLibro</servlet-name>
+        <url-pattern>/PrestitiPassiviLibro</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>PrestitiScaduti</servlet-name>
+        <url-pattern>/PrestitiScaduti</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Prestito</servlet-name>
+        <url-pattern>/Prestito</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ConfermaPrestito</servlet-name>
+        <url-pattern>/ConfermaPrestito</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
