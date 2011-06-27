@@ -212,5 +212,14 @@ public interface LibriOnLineDataLayer {
      * @param isbn indicante il libro di cui si vogliono analizzare i volumi
      * @return Lista di volumi disponibili
      */
-    public List<Volume> getVolumiDisponibili(String isbn);
+    List<Volume> getVolumiDisponibili(String isbn);
+    /**
+     * Il metodo registra nella base di dati il prestito eseguito da un
+     * bibliotecario, in relazione ai parametri passati
+     * @param isbn del libro che vogliamo prestare
+     * @param id_vol della capia fisica che rilasciamo all'utente
+     * @param id_user che vuole prendere in prestito il libro indicato
+     * @return true se il prestito va a buon fine
+     */
+    boolean registraPrestito(String isbn, int id_vol, int id_user);
 }

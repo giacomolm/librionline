@@ -900,7 +900,7 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
                 for(Iterator ite=lp.iterator(); ite.hasNext()&&!trovato;){
                     //per ciascun prestito, verifico se è scaduto
                     Prestito p =  (Prestito) ite.next();
-                    if(!p.getRestituito()) trovato = false;
+                    if(!p.getRestituito()) trovato = true;
                 }
                 if(!trovato) res.add(v);
             }
@@ -911,28 +911,51 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
     }
     
     /**
-     * 
-     * @param isbn
-     * @param username
-     * @return 
+     * Il metodo registra nella base di dati il prestito eseguito da un
+     * bibliotecario, in relazione ai parametri passati
+     * @param isbn del libro che vogliamo prestare
+     * @param id_vol della capia fisica che rilasciamo all'utente
+     * @param id_user che vuole prendere in prestito il libro indicato
+     * @return true se il prestito va a buon fine
      */
-    public boolean registraPrestito(String isbn, String username){
+    @Override
+    public boolean registraPrestito(String isbn, int id_vol, int id_user){
+        //Cerchiamo il libro che vogliamo dare in prestito
         Libro l = searchByIsbn(isbn);
+        Volume vol = null;
         User u=null;
         if(l!=null){
+            //Dobbiamo recuperare l'oggetto che fa riferimento al volume fisico   
+            List<Volume> lv = (List) l.getVolumeCollection();
+            boolean trovato=false;
+            //Scorriamo la lista di volumi
+            for(Iterator it = lv.iterator(); it.hasNext()&&!trovato;){
+                Volume v = (Volume) it.next();
+                if(v.getId()==id_vol){
+                    //Abbiamo trovato il volume di nostro interesse!
+                    vol = v;
+                    trovato = true;
+                }
+            }
             manager.getTransaction().begin();
             try{
                 //Verifico se un utente con quella username è presente nel database
-                u = (User) manager.createNamedQuery("UserMysqlImpl.findByUsername").setParameter("username", username).getSingleResult();
+                u = (User) manager.createNamedQuery("UserMysqlImpl.findById").setParameter("id", id_user).getSingleResult();
 
             }catch (NoResultException e){
                 //Non esiste alcun utente con quell'username
             }
-            if(u!=null){
+            if(u!=null&&vol!=null){
+                //Registro il nuovo prestito
                 Prestito p = new PrestitoMysqlImpl(null, new Date(), null, false);
+                //Registro l'utente interessato
                 p.setUser(u);
-                //p.setVolume(getFirstVolume(isbn));
+                //Imposto il volume selezionato dal bibliotecario
+                p.setVolume(vol);
+                return true;
             }
+            manager.getTransaction().commit();
+            
         }
         return false;
     }
