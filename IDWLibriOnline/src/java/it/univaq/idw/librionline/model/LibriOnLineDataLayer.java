@@ -200,4 +200,17 @@ public interface LibriOnLineDataLayer {
      * @return 
      */
     List<Prestito> getPrestitiScaduti();
+    /**
+     * Il metodo restituisce l'insieme di tutti gli utenti iscritti alla libreria
+     * @return Lista di tutti gli utenti registrati
+     */
+    List<User> allUser();
+    
+    /**
+     * Il metodo analizza quali sono i volumi disponibili per il libro indicato
+     * nell'isbn e procede con la restituzione dell'insieme di questi
+     * @param isbn indicante il libro di cui si vogliono analizzare i volumi
+     * @return Lista di volumi disponibili
+     */
+    public List<Volume> getVolumiDisponibili(String isbn);
 }

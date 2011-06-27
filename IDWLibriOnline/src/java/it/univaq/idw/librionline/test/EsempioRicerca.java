@@ -9,6 +9,8 @@ import it.univaq.idw.librionline.model.LibriOnLineDataLayer;
 import it.univaq.idw.librionline.model.Libro;
 import it.univaq.idw.librionline.model.Prestito;
 import it.univaq.idw.librionline.model.Tag;
+import it.univaq.idw.librionline.model.User;
+import it.univaq.idw.librionline.model.Volume;
 import it.univaq.idw.librionline.model.impl.LibriOnLineDataLayerMysqlImpl;
 import java.util.Collection;
 import java.util.Date;
@@ -104,5 +106,17 @@ public class EsempioRicerca {
             Prestito element = (Prestito) i.next();
             System.out.println( "Scaduto : "+element.getVolume());                           
         }
+        List<User> listu = dl.allUser();
+        for ( Iterator i = listu.iterator(); i.hasNext(); ) {
+            User element = (User) i.next();
+            System.out.println( "User : "+element.getUsername());                           
+        }
+        
+        List<Volume> vl = dl.getVolumiDisponibili("9788871923031");
+        for( Iterator i = vl.iterator(); i.hasNext(); ) {
+            Volume element = (Volume) i.next();
+            System.out.println( "Volume : "+element.getId());                           
+        }
+        
     }
 }

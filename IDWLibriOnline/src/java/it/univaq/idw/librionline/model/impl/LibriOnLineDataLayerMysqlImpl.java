@@ -858,6 +858,64 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
         return list;
     }
     
+    /**
+     * Il metodo restituisce l'insieme di tutti gli utenti iscritti alla libreria
+     * @return Lista di tutti gli utenti registrati
+     */
+    @Override
+    public List<User> allUser(){
+        List<User> ul= new ArrayList<User>();
+        manager.getTransaction().begin();
+        try{
+            //Restituisco tutti gli utenti con gruppo di appartenenza id 1
+            ul = manager.createQuery("SELECT u FROM UserMysqlImpl u WHERE u.gruppo.id = 2").getResultList();
+        }
+        catch(NoResultException e){
+            //Nessun utente registrato
+        }
+        manager.getTransaction().commit();
+        return ul;
+    }
+    
+    /**
+     * Il metodo analizza quali sono i volumi disponibili per il libro indicato
+     * nell'isbn e procede con la restituzione dell'insieme di questi
+     * @param isbn indicante il libro di cui si vogliono analizzare i volumi
+     * @return Lista di volumi disponibili
+     */
+    @Override
+    public List<Volume> getVolumiDisponibili(String isbn){
+        List<Volume> res = new ArrayList<Volume>();
+        //cerco l'oggetto libro associato a quell'isbn
+        Libro l = searchByIsbn(isbn);
+        if(l!=null){
+            //se il libro esiste, prelevo l'intero insieme dei volumi
+            List<Volume> vl = (List) l.getVolumeCollection();
+            for(Iterator it = vl.iterator(); it.hasNext();){
+                Volume v = (Volume) it.next();
+                //di ciascun volume analizza la propria storia relativi ai prestiti
+                List<Prestito> lp = (List) v.getPrestitoCollection();
+                boolean trovato = false;
+                //verifico se il volume è presente nella bibilioteca oppure se è stato prestato
+                for(Iterator ite=lp.iterator(); ite.hasNext()&&!trovato;){
+                    //per ciascun prestito, verifico se è scaduto
+                    Prestito p =  (Prestito) ite.next();
+                    if(!p.getRestituito()) trovato = false;
+                }
+                if(!trovato) res.add(v);
+            }
+            //restituisco la lista finale
+            return res;
+        }
+        else return null;
+    }
+    
+    /**
+     * 
+     * @param isbn
+     * @param username
+     * @return 
+     */
     public boolean registraPrestito(String isbn, String username){
         Libro l = searchByIsbn(isbn);
         User u=null;
