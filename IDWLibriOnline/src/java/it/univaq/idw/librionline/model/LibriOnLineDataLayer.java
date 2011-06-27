@@ -179,4 +179,18 @@ public interface LibriOnLineDataLayer {
      * @return Lista di libri appartenenti alla libreria
      */
     public List<Libro> libriTotale();
+    /**
+     * Il metodo si occupa di restituire l'insieme dei prestiti attivi legati 
+     * a ciascun volume di un libro. 
+     * @param isbn del libro
+     * @return  Lista di prestiti legati a quel libro
+     */
+    List<Prestito> prestitiAttiviLibro(String isbn);
+    /**
+     * Il metodo si occupa di restituire l'insieme dei prestiti passati legati 
+     * a ciascun volume di un libro. 
+     * @param isbn del libro
+     * @return  Lista di prestiti legati a quel libro
+     */
+    public List<Prestito> prestitiPassiviLibro(String isbn);
 }

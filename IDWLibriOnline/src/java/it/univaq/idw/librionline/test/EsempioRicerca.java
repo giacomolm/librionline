@@ -84,10 +84,11 @@ public class EsempioRicerca {
         dl.getNumeroCopieDisponibili(l);
         dl.getProssimoData(li.getIsbn());
         
-        List<Prestito> listp = dl.getPrestitiPassati("zilfio");
+        List<Prestito> listp = dl.getPrestitiPassati("prova");
         for ( Iterator i = listp.iterator(); i.hasNext(); ) {
             Prestito element = (Prestito) i.next();
-            System.out.println( "zilfio : "+element.getVolume());                           
+            System.out.println( "giacomolm : "+element.getVolume());                           
         }
+        listp = dl.prestitiAttiviLibro("9788861142879");
     }
 }

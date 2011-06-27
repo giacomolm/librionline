@@ -760,12 +760,77 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
         //Prelevo tutti i libri presenti nella libreria
         
         try{
-            ll = manager.createQuery("SELECT l FROM LibroMysqlImpl l").getResultList();
+            ll = manager.createQuery("SELECT l FROM LibroMysqlImpl l ORDER BY l.titolo").getResultList();
         }
         catch(NoResultException e){
             //Nessun libro trovato
         }
         manager.getTransaction().commit();
         return ll;
+    }
+    
+    /**
+     * Il metodo si occupa di restituire l'insieme dei prestiti attivi legati 
+     * a ciascun volume di un libro. 
+     * @param isbn del libro
+     * @return  Lista di prestiti legati a quel libro
+     */
+    @Override
+    public List<Prestito> prestitiAttiviLibro(String isbn){
+        Libro l = null;
+        List<Prestito> lp = null;
+        manager.getTransaction().begin();
+        try{
+            l = (Libro) manager.createNamedQuery("LibroMysqlImpl.findByIsbn").setParameter("isbn",isbn).getSingleResult();
+            //Per ciascun libro esamino ciascun volume 
+            Collection<Volume> cv = l.getVolumeCollection();
+            for(Iterator iter=cv.iterator(); iter.hasNext();){
+                //restituisce la lista dei prestiti legati a quel volume
+                Collection<Prestito> cp =  ((Volume) iter.next()).getPrestitoCollection();
+                for(Iterator it=cp.iterator(); it.hasNext();){
+                    Prestito p =  ((Prestito) it.next());
+                    //Se il libro non ancora è stato restituito allora viene aggiunto
+                    if(!p.getRestituito()) lp.add(p);
+                }
+            }
+            //lp = manager.createQuery("SELECT p FROM PrestitoMysqlImpl p WHERE p.libro = :libro AND p.restituito = true").setParameter("libro", l.getTitolo()).getResultList();
+        }
+        catch(NoResultException e){
+            //nessun libro trovato
+        }
+        manager.getTransaction().commit();
+        return lp;
+    }
+        /**
+     * Il metodo si occupa di restituire l'insieme dei prestiti passati legati 
+     * a ciascun volume di un libro. 
+     * @param isbn del libro
+     * @return  Lista di prestiti legati a quel libro
+     */
+    @Override
+    public List<Prestito> prestitiPassiviLibro(String isbn){
+        Libro l = null;
+        List<Prestito> lp = null;
+        manager.getTransaction().begin();
+        try{
+            l = (Libro) manager.createNamedQuery("LibroMysqlImpl.findByIsbn").setParameter("isbn",isbn).getSingleResult();
+            //Per ciascun libro esamino ciascun volume 
+            Collection<Volume> cv = l.getVolumeCollection();
+            for(Iterator iter=cv.iterator(); iter.hasNext();){
+                //restituisce la lista dei prestiti legati a quel volume
+                Collection<Prestito> cp =  ((Volume) iter.next()).getPrestitoCollection();
+                for(Iterator it=cp.iterator(); it.hasNext();){
+                    Prestito p =  ((Prestito) it.next());
+                    //Se il libro è stato restituito allora viene aggiunto
+                    if(p.getRestituito()) lp.add(p);
+                }
+            }
+            //lp = manager.createQuery("SELECT p FROM PrestitoMysqlImpl p WHERE p.libro = :libro AND p.restituito = true").setParameter("libro", l.getTitolo()).getResultList();
+        }
+        catch(NoResultException e){
+            //nessun libro trovato
+        }
+        manager.getTransaction().commit();
+        return lp;
     }
 }
