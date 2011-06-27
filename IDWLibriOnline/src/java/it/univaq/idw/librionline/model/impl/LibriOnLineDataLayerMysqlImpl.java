@@ -778,7 +778,7 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
     @Override
     public List<Prestito> prestitiAttiviLibro(String isbn){
         Libro l = null;
-        List<Prestito> lp = null;
+        List<Prestito> lp = new ArrayList<Prestito>();
         manager.getTransaction().begin();
         try{
             l = (Libro) manager.createNamedQuery("LibroMysqlImpl.findByIsbn").setParameter("isbn",isbn).getSingleResult();
@@ -810,7 +810,7 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
     @Override
     public List<Prestito> prestitiPassiviLibro(String isbn){
         Libro l = null;
-        List<Prestito> lp = null;
+        List<Prestito> lp = new ArrayList<Prestito>();
         manager.getTransaction().begin();
         try{
             l = (Libro) manager.createNamedQuery("LibroMysqlImpl.findByIsbn").setParameter("isbn",isbn).getSingleResult();

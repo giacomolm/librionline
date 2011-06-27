@@ -89,6 +89,15 @@ public class EsempioRicerca {
             Prestito element = (Prestito) i.next();
             System.out.println( "giacomolm : "+element.getVolume());                           
         }
-        listp = dl.prestitiAttiviLibro("9788861142879");
+        listp = dl.prestitiAttiviLibro("9788871923031");
+        for ( Iterator i = listp.iterator(); i.hasNext(); ) {
+            Prestito element = (Prestito) i.next();
+            System.out.println( "Attivo : "+element.getVolume());                           
+        }
+        listp = dl.prestitiPassiviLibro("9788861142879");
+        for ( Iterator i = listp.iterator(); i.hasNext(); ) {
+            Prestito element = (Prestito) i.next();
+            System.out.println( "Attivo : "+element.getVolume());                           
+        }
     }
 }
