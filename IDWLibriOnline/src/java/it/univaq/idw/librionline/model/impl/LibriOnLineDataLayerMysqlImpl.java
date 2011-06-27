@@ -833,4 +833,49 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
         manager.getTransaction().commit();
         return lp;
     }
+    
+    /**
+     * Il metodo ha il compito di esaminare quali sono i prestiti che sono
+     * scaduti, in modo tale da poter essere avvisati da un bibliotecario
+     * @return 
+     */
+    @Override
+    public List<Prestito> getPrestitiScaduti(){
+        
+        List<Prestito> list = new ArrayList<Prestito>();
+        //Prelevo tutti quanti i libri che sono nel db
+        List<Libro> ll = libriTotale();
+        for(Iterator it = ll.iterator(); it.hasNext();){
+            Libro l = (Libro) it.next();
+            //Per ciascun libro, esamino quali volumi sono in prestito
+            List<Prestito> lp = prestitiAttiviLibro(l.getIsbn());
+            for(Iterator ite=lp.iterator(); ite.hasNext();){
+                //per ciascun prestito, verifico se è scaduto
+                Prestito p =  (Prestito) ite.next();
+                if(p.isExpired()) list.add(p);
+            }
+        }
+        return list;
+    }
+    
+    public boolean registraPrestito(String isbn, String username){
+        Libro l = searchByIsbn(isbn);
+        User u=null;
+        if(l!=null){
+            manager.getTransaction().begin();
+            try{
+                //Verifico se un utente con quella username è presente nel database
+                u = (User) manager.createNamedQuery("UserMysqlImpl.findByUsername").setParameter("username", username).getSingleResult();
+
+            }catch (NoResultException e){
+                //Non esiste alcun utente con quell'username
+            }
+            if(u!=null){
+                Prestito p = new PrestitoMysqlImpl(null, new Date(), null, false);
+                p.setUser(u);
+                //p.setVolume(getFirstVolume(isbn));
+            }
+        }
+        return false;
+    }
 }

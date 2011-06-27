@@ -192,5 +192,12 @@ public interface LibriOnLineDataLayer {
      * @param isbn del libro
      * @return  Lista di prestiti legati a quel libro
      */
-    public List<Prestito> prestitiPassiviLibro(String isbn);
+    List<Prestito> prestitiPassiviLibro(String isbn);
+    
+    /**
+     * Il metodo ha il compito di esaminare quali sono i prestiti che sono
+     * scaduti, in modo tale da poter essere avvisati da un bibliotecario
+     * @return 
+     */
+    List<Prestito> getPrestitiScaduti();
 }

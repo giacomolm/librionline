@@ -94,10 +94,15 @@ public class EsempioRicerca {
             Prestito element = (Prestito) i.next();
             System.out.println( "Attivo : "+element.getVolume());                           
         }
-        listp = dl.prestitiPassiviLibro("9788861142879");
+        listp = dl.prestitiPassiviLibro("9788871923031");
         for ( Iterator i = listp.iterator(); i.hasNext(); ) {
             Prestito element = (Prestito) i.next();
-            System.out.println( "Attivo : "+element.getVolume());                           
+            System.out.println( "Passivo : "+element.getVolume());                           
+        }
+        listp = dl.getPrestitiScaduti();
+                for ( Iterator i = listp.iterator(); i.hasNext(); ) {
+            Prestito element = (Prestito) i.next();
+            System.out.println( "Scaduto : "+element.getVolume());                           
         }
     }
 }
