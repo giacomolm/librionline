@@ -49,7 +49,7 @@ public class InserisciAutore extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-         TemplateResult res = new TemplateResult(getServletContext());
+        TemplateResult res = new TemplateResult(getServletContext());
         HttpSession session = SecurityLayer.checkSession(request);
         
         if(session != null){

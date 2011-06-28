@@ -12,6 +12,7 @@ import it.univaq.idw.librionline.model.Lingua;
 import it.univaq.idw.librionline.model.Tag;
 import it.univaq.idw.librionline.model.impl.LibriOnLineDataLayerMysqlImpl;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -25,7 +26,7 @@ import javax.servlet.http.HttpSession;
  */
 public class InserisciLibro extends HttpServlet {
     
-    private boolean analizza_form_libro(HttpServletRequest request, HttpServletResponse response) {
+    private boolean analizza_form_libro(HttpServletRequest request, HttpServletResponse response) throws IOException {
       
         String isbn = request.getParameter("insertbook_isbn");
         String titolo = request.getParameter("insertbook_titolo");
@@ -33,21 +34,16 @@ public class InserisciLibro extends HttpServlet {
         String annoPubblicazione = request.getParameter("insertbook_annopubblicazione");
         String recensione = request.getParameter("insertbook_recensione");
         String lingua = request.getParameter("insertbook_lingua");
-        String autore = request.getParameter("insertbook_autore");
-        String tag = request.getParameter("insertbook_tag");
+        String[] autore = request.getParameterValues("insertbook_autore");
+        String[] tag = request.getParameterValues("insertbook_tag");
         
-        if(tag == null || tag.isEmpty()){
+        PrintWriter  w = response.getWriter();
+        w.println(tag);
+        
+        if(isbn == null || isbn.isEmpty()){
             return false;
         }
-        
-        LibriOnLineDataLayer dl = new LibriOnLineDataLayerMysqlImpl();
-
-        if(dl.insertTag(tag)){
-            return true;
-        }
-        else{
-            return false;
-        }
+        return true;
     }
 
     /** 
@@ -74,21 +70,22 @@ public class InserisciLibro extends HttpServlet {
                 List<Lingua> lingue = dl.getAllLingua();
                 List<Autore> autori = dl.getAllAutori();
                 List<Tag> tags = dl.getAllTag();
-                
+
                 request.setAttribute("title","Libri");
                 request.setAttribute("lingue",lingue);
                 request.setAttribute("autori",autori);
                 request.setAttribute("tags",tags);
                 
-                String insert_book = request.getParameter("Inserisci Libro");
+                String insert_tag = request.getParameter("Inserisci Libro");
                 
-                if(insert_book == null){
-                    request.setAttribute("title","Inserisci Libro");    
+                if(insert_tag == null){
+                    request.setAttribute("title","Inserisci Libro");
                     res.activate("backoffice_inseriscilibro.ftl.html", request, response);
                 }
-                boolean result = analizza_form_libro(request,response);
+                else{
+                    boolean result = analizza_form_libro(request,response);
                     if(result){
-                        request.setAttribute("title","Inserisci Libro");
+                        request.setAttribute("title","Inserisci Autore");
                         request.setAttribute("messaggio","Il Libro è stato inserito correttamente!");
                         res.activate("backoffice_inseriscilibro.ftl.html", request, response);
                     }
@@ -96,7 +93,8 @@ public class InserisciLibro extends HttpServlet {
                         request.setAttribute("title","Inserisci Libro");
                         request.setAttribute("messaggio","Inserimento Libro fallito: Si prega di compilare bene i campi sottostanti!");
                         res.activate("backoffice_inseriscilibro.ftl.html", request, response);
-                    }         
+                    }
+                    
                 }
             }
             else{
@@ -104,6 +102,7 @@ public class InserisciLibro extends HttpServlet {
                 request.setAttribute("tipologia_utente","Utente");
             }
         }
+    }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /** 
