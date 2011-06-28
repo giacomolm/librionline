@@ -9,7 +9,6 @@ import it.univaq.idw.librionline.framework.util.TemplateResult;
 import it.univaq.idw.librionline.model.LibriOnLineDataLayer;
 import it.univaq.idw.librionline.model.impl.LibriOnLineDataLayerMysqlImpl;
 import java.io.IOException;
-import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -29,7 +28,7 @@ public class ConfermaPrestito extends HttpServlet {
         String prestito_volumi = request.getParameter("prestito_volumi");
         String prestito_utenti = request.getParameter("prestito_utenti");
         
-        if((isbn == null) || (prestito_volumi.isEmpty()) || (prestito_utenti==null)){
+        if((isbn == null) || (prestito_volumi == null) || (prestito_utenti == null)){
             return false;
         }
         
@@ -69,6 +68,7 @@ public class ConfermaPrestito extends HttpServlet {
                     request.setAttribute("error","NOT OK");
                 }
                 request.setAttribute("title","Prestito");
+                request.setAttribute("error_title","Prestito Esito");
                 res.activate("error.ftl.html", request, response);
             }
             else{

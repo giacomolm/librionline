@@ -28,8 +28,10 @@
 <#if (stato_log??)> 
     <#if bibliotecario>
     <form action="Prestito" method="get">
-        <input type="text" value="${libro.isbn}" name="isbn" hidden="hidden"/>
+        <div>
+        <input type="hidden" value="${libro.isbn}" name="isbn" />
         <input type="submit" value="Procedi con il prestito" name="Invia"/>
+        </div>
     </form> 
     </#if>
     <br />

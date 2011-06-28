@@ -1,15 +1,20 @@
 <h2 class="page_title"> Homepage </h2>
+<div id="alert">
 <#if (stato_log??)>
 <#if bibliotecario>
-<p>Ciao, bibliotecario!</p>
+<p>Ciao, come bibliotecario potrai registrare un Prestito ad un Utente (nella Scheda di dettaglio del Libro)!</p>
+<p>Inoltre hai a disposizione la sezione <a href="PrestitiScaduti">Lista Prestiti</a> dove puoi vedere tutti i libri in prestito e anche i libri la cui data di restituzione &egrave; scaduta! </p>
+<p>Hai a disposizione anche un Pannello Bibliotecario (<strong>Backoffice</strong>), sotto il men&ugrave; a sinistra, tramite il quale puoi inserire e modificare tutti i dati associati ai libri! </p>
 <#else>
 <p>Ciao, come utente registrato potrai effettuare ricerche nel sito, visualizzare schede dettaglio dei libri, vedere i libri che hai in prestito e le relative date di rinconsegna.</p> 
 <p>I libri la cui data di riconsegna &egrave; stata superata sono evidenziati!</p>
 <p>Inoltre lei ha a disposizione la sezione <a href="Storico">Storico</a> in cui pu&ograve; vedere i volumi gi&agrave; presi in prestito e restituiti!</p>
 </#if>
 <#else>
-<p>Ciao, come utente anonimo potrai effettuare ricerche nel sito e visualizzare schede dettaglio dei libri! Effettua una <a href="Login">login</a> per accedere a tutte le funzionalit&agrave;</p>
+<p>Ciao, come utente anonimo potrai effettuare ricerche nel sito e visualizzare schede dettaglio dei libri! </p>
+<p>Effettua una <a href="Login">Login</a> per accedere a tutte le funzionalit&agrave;!</p>
 </#if>
+</div>
 <#if (stato_log??)>
     <#if !bibliotecario>
     <div class="homepage_book"> 

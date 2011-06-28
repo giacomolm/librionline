@@ -11,7 +11,6 @@ import it.univaq.idw.librionline.model.Gruppo;
 import it.univaq.idw.librionline.model.LibriOnLineDataLayer;
 import it.univaq.idw.librionline.model.impl.LibriOnLineDataLayerMysqlImpl;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.security.NoSuchAlgorithmException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -29,8 +28,6 @@ import javax.servlet.http.HttpSession;
 public class Registrazione extends HttpServlet {
     
     private boolean analizza_form_registrazione(HttpServletRequest request, HttpServletResponse response) throws NoSuchAlgorithmException, IOException {
-        
-        PrintWriter w = response.getWriter();
         
         //prendo in post tutti i campi del form_registrazione
         String user = request.getParameter("user_reg");
@@ -89,29 +86,29 @@ public class Registrazione extends HttpServlet {
             if(dl.isAdmin((String)session.getAttribute("username"))){
                 request.setAttribute("bibliotecario",true);
                 request.setAttribute("tipologia_utente","Bibliotecario");
+                
+                String registrazione = request.getParameter("Registrazione");
+        
+                if(registrazione == null){
+                    request.setAttribute("title","Registrazione");
+                    res.activate("form_registrazione.ftl.html", request, response);
+                }
+                else{
+                    if(analizza_form_registrazione(request,response)){
+                        request.setAttribute("title","Registrazione");
+                        request.setAttribute("messaggio","Registrazione effettuata con successo!");
+                        res.activate("form_registrazione.ftl.html", request, response);
+                    }
+                    else{
+                        request.setAttribute("title","Registrazione");
+                        request.setAttribute("messaggio","Registrazione fallita! Si prega di compilare bene i campi sottostanti!");
+                        res.activate("form_registrazione.ftl.html", request, response);
+                    }
+                }  
             }
             else{
                 request.setAttribute("bibliotecario",false);
                 request.setAttribute("tipologia_utente","Utente");
-            }
-        }
-        
-        String registrazione = request.getParameter("Registrazione");
-        
-        if(registrazione == null){
-            request.setAttribute("title","Registrazione");
-            res.activate("form_registrazione.ftl.html", request, response);
-        }
-        else{
-            if(analizza_form_registrazione(request,response)){
-                request.setAttribute("title","Registrazione");
-                request.setAttribute("messaggio","Registrazione effettuata con successo!");
-                res.activate("form_registrazione.ftl.html", request, response);
-            }
-            else{
-                request.setAttribute("title","Registrazione");
-                request.setAttribute("messaggio","Registrazione fallita! Si prega di compilare bene i campi sottostanti!");
-                res.activate("form_registrazione.ftl.html", request, response);
             }
         }
     }

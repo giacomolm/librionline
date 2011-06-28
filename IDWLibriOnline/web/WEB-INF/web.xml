@@ -105,6 +105,10 @@
         <servlet-name>ConfermaPrestito</servlet-name>
         <servlet-class>it.univaq.idw.librionline.controller.ConfermaPrestito</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>SchedaUtente</servlet-name>
+        <servlet-class>it.univaq.idw.librionline.controller.SchedaUtente</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Home</servlet-name>
         <url-pattern>/Home</url-pattern>
@@ -180,6 +184,10 @@
     <servlet-mapping>
         <servlet-name>ConfermaPrestito</servlet-name>
         <url-pattern>/ConfermaPrestito</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SchedaUtente</servlet-name>
+        <url-pattern>/SchedaUtente</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

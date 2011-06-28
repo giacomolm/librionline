@@ -7,10 +7,9 @@ package it.univaq.idw.librionline.controller;
 import it.univaq.idw.librionline.framework.util.SecurityLayer;
 import it.univaq.idw.librionline.framework.util.TemplateResult;
 import it.univaq.idw.librionline.model.LibriOnLineDataLayer;
-import it.univaq.idw.librionline.model.Prestito;
+import it.univaq.idw.librionline.model.User;
 import it.univaq.idw.librionline.model.impl.LibriOnLineDataLayerMysqlImpl;
 import java.io.IOException;
-import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -21,7 +20,7 @@ import javax.servlet.http.HttpSession;
  *
  * @author Zilfio
  */
-public class Storico extends HttpServlet {
+public class SchedaUtente extends HttpServlet {
 
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -32,36 +31,47 @@ public class Storico extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        TemplateResult res = new TemplateResult(getServletContext());
+        TemplateResult template = new TemplateResult(getServletContext());
         HttpSession session = SecurityLayer.checkSession(request);
+        LibriOnLineDataLayer model = new LibriOnLineDataLayerMysqlImpl();
         
-        if(session != null){
-            request.setAttribute("stato_log", "Logout");
-
-            LibriOnLineDataLayer dl = new LibriOnLineDataLayerMysqlImpl();
-
-            if(dl.isAdmin((String)session.getAttribute("username"))){
+        if(session != null){      
+            if(model.isAdmin((String)session.getAttribute("username"))){
                 request.setAttribute("bibliotecario",true);
                 request.setAttribute("tipologia_utente","Bibliotecario");
+                
+                //controllo validita dell'ID dell'user
+                String id_user = request.getParameter("id");
+
+                if (id_user == null){
+                    request.setAttribute("title", "Errore");
+                    request.setAttribute("error_title", "Errore");
+                    request.setAttribute("error", "Attenzione: ID Utente non immesso!");
+                    template.activate("error.ftl.html", request, response);
+                }
+                else{
+                    User u = null; // qui ci va la funzione da chiamare
+                    if (u == null){
+                        request.setAttribute("title", "Errore");
+                        request.setAttribute("error_title", "Errore");
+                        request.setAttribute("error", "Attenzione: ID Utente non presente nel DB!");
+                        template.activate("error.ftl.html", request, response);
+                    }
+                    else{
+                        request.setAttribute("title", "Scheda Utente: " + u.getUsername());
+                        request.setAttribute("schedautente", u);
+                        template.activate("schedautente.ftl.html", request, response); 
+                    }
+                }   
             }
             else{
                 request.setAttribute("bibliotecario",false);
                 request.setAttribute("tipologia_utente","Utente");
-                
-                List<Prestito> lp = dl.getPrestitiPassati((String)session.getAttribute("username"));
-                
-                if(lp.isEmpty()){
-                    request.setAttribute("prestiti_passati",null);
-                }
-                else{
-                    request.setAttribute("prestiti_passati",lp);
-                }
-                request.setAttribute("title","Storico");
-                request.setAttribute("navigazione","<a href='Home'>Homepage</a>");
-                res.activate("storico.ftl.html", request, response);
             }
+            request.setAttribute("stato_log", "Logout");
         }
     }
+
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /** 

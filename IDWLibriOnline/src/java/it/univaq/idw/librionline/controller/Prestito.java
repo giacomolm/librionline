@@ -11,7 +11,6 @@ import it.univaq.idw.librionline.model.User;
 import it.univaq.idw.librionline.model.Volume;
 import it.univaq.idw.librionline.model.impl.LibriOnLineDataLayerMysqlImpl;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;

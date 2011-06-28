@@ -1,14 +1,18 @@
 <h2 class="page_title"> Inserimento di un autore </h2>
-<form action="InserisciAutore" method="get" id="insertauthor">
-    <fieldset><legend>Dati Autore</legend>
-        <br />
-        <label>Cognome</label> <input type="text" name="insertauthor_cognome" id="insertauthor_cognome" maxlength="50" /> <br /> <br />
-        <label>Nome</label> <input type="text" name="insertauthor_nome" id="insertauthor_nome" maxlength="50" /> <br />
-        <br />
-    </fieldset>
-    <div>
-        <br />
-        <input type="submit" value="Inserisci Autore" name="Inserisci Tag" />
-        <input type="reset" value="Reset" name="Cancella" />
-    </div>
-</form>
+<#if (stato_log??)>
+    <#if bibliotecario>
+    <form action="InserisciAutore" method="get" id="insertauthor">
+        <fieldset><legend>Dati Autore</legend>
+            <br />
+            <label>Cognome</label> <input type="text" name="insertauthor_cognome" id="insertauthor_cognome" maxlength="50" /> <br /> <br />
+            <label>Nome</label> <input type="text" name="insertauthor_nome" id="insertauthor_nome" maxlength="50" /> <br />
+            <br />
+        </fieldset>
+        <div>
+            <br />
+            <input type="submit" value="Inserisci Autore" name="Inserisci Tag" />
+            <input type="reset" value="Reset" name="Cancella" />
+        </div>
+    </form>
+    </#if>
+</#if>

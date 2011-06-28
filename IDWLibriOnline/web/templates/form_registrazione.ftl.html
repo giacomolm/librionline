@@ -6,6 +6,8 @@
     </div>
     <div><br /></div>
 </#if>
+<#if (stato_log??)>
+<#if bibliotecario>
 <form action="Registrazione" method="post" enctype="multipart/form-data" id="registrazione">
     <div>
     <fieldset><legend>Dati registrazione</legend>
@@ -40,3 +42,5 @@
     <input type="reset" value="Reset" name="Cancella" />
     </div>
 </form>
+</#if>
+</#if>

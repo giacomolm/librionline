@@ -9,7 +9,6 @@ import it.univaq.idw.librionline.framework.util.TemplateResult;
 import it.univaq.idw.librionline.model.LibriOnLineDataLayer;
 import it.univaq.idw.librionline.model.impl.LibriOnLineDataLayerMysqlImpl;
 import java.io.IOException;
-import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -35,22 +34,22 @@ public class InserisciTag extends HttpServlet {
         HttpSession session = SecurityLayer.checkSession(request);
         
         if(session != null){
-                request.setAttribute("stato_log", "Logout");
-                
-                LibriOnLineDataLayer dl = new LibriOnLineDataLayerMysqlImpl();
-                
-                if(dl.isAdmin((String)session.getAttribute("username"))){
-                    request.setAttribute("bibliotecario",true);
-                    request.setAttribute("tipologia_utente","Bibliotecario");
-                }
-                else{
-                    request.setAttribute("bibliotecario",false);
-                    request.setAttribute("tipologia_utente","Utente");
-                }
+            request.setAttribute("stato_log", "Logout");
+
+            LibriOnLineDataLayer dl = new LibriOnLineDataLayerMysqlImpl();
+
+            if(dl.isAdmin((String)session.getAttribute("username"))){
+                request.setAttribute("bibliotecario",true);
+                request.setAttribute("tipologia_utente","Bibliotecario");
+
+                request.setAttribute("title","Tag");
+                res.activate("backoffice_inseriscitag.ftl.html", request, response);
+            }
+            else{
+                request.setAttribute("bibliotecario",false);
+                request.setAttribute("tipologia_utente","Utente");
+            }
         }
-        
-        request.setAttribute("title","Tag");
-        res.activate("backoffice_inseriscitag.ftl.html", request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
