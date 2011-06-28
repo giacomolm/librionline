@@ -879,6 +879,28 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
     }
     
     /**
+     * Il metodo ha come compito quello di cercare tutti i volumi
+     * che sono stati prestati agli utenti della libreria e non 
+     * ancora restituiti
+     * @return lista di tutti i prestiti in corso
+     */
+    @Override
+    public List<Prestito> getAllActivePrestiti(){
+        List<Prestito> list = new ArrayList<Prestito>();
+        List<Libro> ll = libriTotale();
+        for(Iterator it = ll.iterator(); it.hasNext();){
+            Libro l = (Libro) it.next();
+            //Per ciascun libro, esamino quali volumi sono in prestito
+            List<Prestito> lp = prestitiAttiviLibro(l.getIsbn());
+            for(Iterator ite=lp.iterator(); ite.hasNext();){
+                //ciascun prestito attivo lo aggiungo alla lista risultato
+                list.add((Prestito) ite.next());
+            }
+        }
+        return list;
+    }
+    
+    /**
      * Il metodo restituisce l'insieme di tutti gli utenti iscritti alla libreria
      * @return Lista di tutti gli utenti registrati
      */

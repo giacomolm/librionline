@@ -229,4 +229,11 @@ public interface LibriOnLineDataLayer {
      * @return oggetto User relativo quell'id
      */
     User getUser(int id_user);
+    /**
+     * Il metodo ha come compito quello di cercare tutti i volumi
+     * che sono stati prestati agli utenti della libreria e non 
+     * ancora restituiti
+     * @return lista di tutti i prestiti in corso
+     */
+    List<Prestito> getAllActivePrestiti();
 }
