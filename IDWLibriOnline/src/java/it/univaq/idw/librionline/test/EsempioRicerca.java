@@ -117,6 +117,7 @@ public class EsempioRicerca {
             Volume element = (Volume) i.next();
             System.out.println( "Volume : "+element.getId());                           
         }
-        
+        System.out.println( "Utente : "+dl.getUser(1));    
+        dl.registraPrestito(li.getIsbn(), 7, dl.getUser(2).getId());
     }
 }

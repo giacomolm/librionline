@@ -178,6 +178,26 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
     }
     
     /**
+     * Il metodo restituisce l'oggetto user in modo tale da poter fornire delle 
+     * informazioni utili su di esso.
+     * @param id_user
+     * @return oggetto User relativo quell'id
+     */
+    @Override
+    public User getUser(int id_user){
+        manager.getTransaction().begin();
+        User u = null;
+        try{
+            //Verifico se un utente con quella username è già presente nel database
+            u = (User) manager.createNamedQuery("UserMysqlImpl.findById").setParameter("id", id_user).getSingleResult();
+        }catch (NoResultException e){
+            //Non esiste alcun utente con quell'username
+        }
+        manager.getTransaction().commit();
+        return u;
+    }
+    
+    /**
      * Questo metodo verifica se una particolare username è già presente nel DB.
      * @param username String rappresentante l'username
      * @retur true se l'username inserito è già stato utilizzato da un altro utente
@@ -925,6 +945,7 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
         Volume vol = null;
         User u=null;
         if(l!=null){
+           
             //Dobbiamo recuperare l'oggetto che fa riferimento al volume fisico   
             List<Volume> lv = (List) l.getVolumeCollection();
             boolean trovato=false;
@@ -937,6 +958,7 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
                     trovato = true;
                 }
             }
+            
             manager.getTransaction().begin();
             try{
                 //Verifico se un utente con quella username è presente nel database
@@ -944,7 +966,8 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
 
             }catch (NoResultException e){
                 //Non esiste alcun utente con quell'username
-            }
+            } 
+            
             if(u!=null&&vol!=null){
                 //Registro il nuovo prestito
                 Prestito p = new PrestitoMysqlImpl(null, new Date(), null, false);
@@ -952,6 +975,8 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
                 p.setUser(u);
                 //Imposto il volume selezionato dal bibliotecario
                 p.setVolume(vol);
+                manager.persist(p);
+                manager.getTransaction().commit();
                 return true;
             }
             manager.getTransaction().commit();

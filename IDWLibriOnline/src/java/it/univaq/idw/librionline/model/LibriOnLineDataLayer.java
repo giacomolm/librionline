@@ -222,4 +222,11 @@ public interface LibriOnLineDataLayer {
      * @return true se il prestito va a buon fine
      */
     boolean registraPrestito(String isbn, int id_vol, int id_user);
+    /**
+     * Il metodo restituisce l'oggetto user in modo tale da poter fornire delle 
+     * informazioni utili su di esso.
+     * @param id_user dell'utente sul quale vogliamo reperire informazioni
+     * @return oggetto User relativo quell'id
+     */
+    User getUser(int id_user);
 }
