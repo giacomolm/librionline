@@ -260,4 +260,20 @@ public interface LibriOnLineDataLayer {
      * @return Lista di tag presenti nel database
      */
     List<Tag> getAllTag();
+    
+    /**
+     * Il metodo permette di prelevare tutti quanti gli autori presenti nel database
+     * in modo tale da poter essere visualizzati agli utenti che hanno bisogno
+     * di manipolarli
+     * @return Lista di autori presenti nel database
+     */
+    List<Autore> getAllAutori();
+    
+    /**
+     * Il metodo permette di prelevare tutte quante le lingue presenti nel database
+     * in modo tale da poter essere visualizzati agli utenti che hanno bisogno
+     * di manipolarli
+     * @return Lista di Lingua presenti nel database
+     */
+    public List<Lingua> getAllLingua();
 }

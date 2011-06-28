@@ -7,6 +7,7 @@ package it.univaq.idw.librionline.test;
 import it.univaq.idw.librionline.model.Autore;
 import it.univaq.idw.librionline.model.LibriOnLineDataLayer;
 import it.univaq.idw.librionline.model.Libro;
+import it.univaq.idw.librionline.model.Lingua;
 import it.univaq.idw.librionline.model.Prestito;
 import it.univaq.idw.librionline.model.Tag;
 import it.univaq.idw.librionline.model.User;
@@ -123,6 +124,16 @@ public class EsempioRicerca {
         for( Iterator i = tl.iterator(); i.hasNext(); ) {
             Tag element = (Tag) i.next();
             System.out.println( "Volume : "+element.getTag());                           
+        }
+        List<Autore> al = dl.getAllAutori();
+        for( Iterator i = al.iterator(); i.hasNext(); ) {
+            Autore element = (Autore) i.next();
+            System.out.println( "Volume : "+element.getNome());                           
+        }
+        List<Lingua> ll = dl.getAllLingua();
+        for( Iterator i = ll.iterator(); i.hasNext(); ) {
+            Lingua element = (Lingua) i.next();
+            System.out.println( "Lingua : "+element.getLingua());                           
         }
     }
 }

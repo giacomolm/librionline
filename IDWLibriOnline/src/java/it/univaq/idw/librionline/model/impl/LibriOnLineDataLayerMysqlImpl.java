@@ -1081,4 +1081,42 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
         return tl;
     }
     
+    /**
+     * Il metodo permette di prelevare tutti quanti gli autori presenti nel database
+     * in modo tale da poter essere visualizzati agli utenti che hanno bisogno
+     * di manipolarli
+     * @return Lista di autori presenti nel database
+     */
+    @Override
+    public List<Autore> getAllAutori(){
+        List<Autore> al = (List) new ArrayList<AutoreMysqlImpl>();
+        manager.getTransaction().begin();
+        try{
+            al = manager.createNamedQuery("AutoreMysqlImpl.findAll").getResultList();
+        }
+        catch(NoResultException e){
+            //Nessun tag presente nel database
+        }
+        manager.getTransaction().commit();
+        return al;
+    }
+    /**
+     * Il metodo permette di prelevare tutte quante le lingue presenti nel database
+     * in modo tale da poter essere visualizzati agli utenti che hanno bisogno
+     * di manipolarli
+     * @return Lista di Lingua presenti nel database
+     */
+    @Override
+    public List<Lingua> getAllLingua(){
+        List<Lingua> ll = (List) new ArrayList<LinguaMysqlImpl>();
+        manager.getTransaction().begin();
+        try{
+            ll = manager.createNamedQuery("LinguaMysqlImpl.findAll").getResultList();
+        }
+        catch(NoResultException e){
+            //Nessun tag presente nel database
+        }
+        manager.getTransaction().commit();
+        return ll;
+    }
 }
