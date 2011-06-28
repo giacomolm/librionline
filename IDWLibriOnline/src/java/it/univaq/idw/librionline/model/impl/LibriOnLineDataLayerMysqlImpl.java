@@ -970,17 +970,22 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
            
             //Dobbiamo recuperare l'oggetto che fa riferimento al volume fisico   
             List<Volume> lv = (List) l.getVolumeCollection();
-            boolean trovato=false;
-            //Scorriamo la lista di volumi
-            for(Iterator it = lv.iterator(); it.hasNext()&&!trovato;){
+            boolean trovato=false,already=false;
+            //Scorriamo la lista di volumi per poter registrare il prestito
+            for(Iterator it = lv.iterator(); it.hasNext()&&!trovato&&!already;){
                 Volume v = (Volume) it.next();
+                //Attenzione, dobbiamo anche controllare se l'utente ha
+                //già in prestito una copia diversa dello stesso libro
+                if(isAlreadyOwner(v, id_user)) already = true;
                 if(v.getId()==id_vol){
                     //Abbiamo trovato il volume di nostro interesse!
                     vol = v;
                     trovato = true;
                 }
             }
-            
+            //Devo controllore se la variabile booleana already è true, cioè
+            //se un'altra copia fisica dello stesso libro è stata già presa in prestito
+            if(already) return false;
             manager.getTransaction().begin();
             try{
                 //Verifico se un utente con quella username è presente nel database
@@ -1118,5 +1123,65 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
         }
         manager.getTransaction().commit();
         return ll;
+    }
+    
+    /**
+     * Verifica se la lingua passata come parametro è presente nella tabella lingua
+     * @param lingua di cui vogliamo controllare la presenza
+     * @return true se la lingua è gia presente
+     */
+    @Override
+    public boolean linguaIsThis(String lingua){
+        boolean res=false;
+        manager.getTransaction().begin();
+        try{
+            Lingua t = (Lingua) manager.createNamedQuery("LinguaMysqlImpl.findByLingua").setParameter("lingua", lingua).getSingleResult();
+            res = true;
+        }
+        catch(NoResultException e){
+            //nessun tag trovato
+        }
+        manager.getTransaction().commit();
+        return res;
+    }
+    
+    /**
+     * Inserisce una nuova lingua nella base di dati, se questa non esiste
+     * @param lingua che vogliamo inserire
+     * @return true se l'inserimento è andato a buon fine
+     */
+    @Override
+    public boolean insertLingua(String lingua){
+        if(!linguaIsThis(lingua)){
+            manager.getTransaction().begin();
+            Lingua l = new LinguaMysqlImpl(null, lingua);
+            manager.persist(l);
+            manager.getTransaction().commit();
+            return true;
+        }
+        else return false;
+    }
+    
+    /**
+     * Il metodo verifica se un'altra copia fisica dello stesso libro è già 
+     * in possesso dallo stesso utente
+     * @param v
+     * @param id_user
+     * @return 
+     */
+    public boolean isAlreadyOwner(Volume v, int id_user){
+        
+        User u = getUser(id_user);
+        //Prelevo tutti quanti i prestiti relativi al volume considerato
+        if(u != null){
+            Collection<Prestito> cp = v.getPrestitoCollection();
+            for(Iterator ite = cp.iterator(); ite.hasNext(); ){
+                Prestito p = (Prestito) ite.next();
+                //Per ciascun prestito, verifico se è in corso e se l'utente
+                //indicato dal parametro passato in input
+                if(!p.getRestituito() && (p.getUser().equals(u))) return true;
+            }
+        }
+        return false;
     }
 }

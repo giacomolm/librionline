@@ -276,4 +276,16 @@ public interface LibriOnLineDataLayer {
      * @return Lista di Lingua presenti nel database
      */
     public List<Lingua> getAllLingua();
+    /**
+     * Verifica se la lingua passata come parametro è presente nella tabella lingua
+     * @param lingua di cui vogliamo controllare la presenza
+     * @return true se la lingua è gia presente
+     */
+    boolean linguaIsThis(String lingua);
+    /**
+     * Inserisce una nuova lingua nella base di dati, se questa non esiste
+     * @param lingua che vogliamo inserire
+     * @return true se l'inserimento è andato a buon fine
+     */
+    boolean insertLingua(String lingua);
 }

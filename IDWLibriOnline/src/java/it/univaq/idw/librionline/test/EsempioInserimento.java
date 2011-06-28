@@ -55,5 +55,6 @@ public class EsempioInserimento {
         //System.out.println(dl.insertBook(l));
         LibriOnLineDataLayer dl = new LibriOnLineDataLayerMysqlImpl();
         System.out.println(dl.insertTag("botanica"));
+        System.out.println(dl.insertLingua("turco"));
     }
 }
