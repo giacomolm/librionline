@@ -9,6 +9,7 @@ import it.univaq.idw.librionline.framework.util.TemplateResult;
 import it.univaq.idw.librionline.model.LibriOnLineDataLayer;
 import it.univaq.idw.librionline.model.impl.LibriOnLineDataLayerMysqlImpl;
 import java.io.IOException;
+import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -21,7 +22,7 @@ import javax.servlet.http.HttpSession;
  */
 public class InserisciTag extends HttpServlet {
     
-    private boolean analizza_form_prestito(HttpServletRequest request, HttpServletResponse response) {
+    private boolean analizza_form_tag(HttpServletRequest request, HttpServletResponse response) {
       
         String tag = request.getParameter("inserttag_tag");
         
@@ -60,17 +61,25 @@ public class InserisciTag extends HttpServlet {
                 request.setAttribute("bibliotecario",true);
                 request.setAttribute("tipologia_utente","Bibliotecario");
                 
-                boolean result = analizza_form_prestito(request,response);
-                if(result){
-                    request.setAttribute("messaggio","Il Tag è stato inserito correttamente!");
+                String insert_tag = request.getParameter("Inserisci Tag");
+                
+                if(insert_tag == null){
+                    request.setAttribute("title","Inserisci Tag");
+                    res.activate("backoffice_inseriscitag.ftl.html", request, response);
                 }
                 else{
-                    request.setAttribute("messaggio","Inserimento Tag fallito: Si prega di compilare bene i campi sottostanti!");
+                    boolean result = analizza_form_tag(request,response);
+                    if(result){
+                        request.setAttribute("title","Inserisci Tag");
+                        request.setAttribute("messaggio","Il Tag è stato inserito correttamente!");
+                        res.activate("backoffice_inseriscitag.ftl.html", request, response);
+                    }
+                    else{
+                        request.setAttribute("title","Inserisci Tag");
+                        request.setAttribute("messaggio","Inserimento Tag fallito: Si prega di compilare bene i campi sottostanti!");
+                        res.activate("backoffice_inseriscitag.ftl.html", request, response);
+                    }         
                 }
-                
-                request.setAttribute("title","Inserisci Tag");
-                res.activate("backoffice_inseriscitag.ftl.html", request, response);
-                
             }
             else{
                 request.setAttribute("bibliotecario",false);

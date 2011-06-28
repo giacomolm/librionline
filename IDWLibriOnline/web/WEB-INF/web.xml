@@ -109,6 +109,10 @@
         <servlet-name>PrestitiTotali</servlet-name>
         <servlet-class>it.univaq.idw.librionline.controller.PrestitiTotali</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>InserisciLingua</servlet-name>
+        <servlet-class>it.univaq.idw.librionline.controller.InserisciLingua</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Home</servlet-name>
         <url-pattern>/Home</url-pattern>
@@ -188,6 +192,10 @@
     <servlet-mapping>
         <servlet-name>PrestitiTotali</servlet-name>
         <url-pattern>/PrestitiTotali</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>InserisciLingua</servlet-name>
+        <url-pattern>/InserisciLingua</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

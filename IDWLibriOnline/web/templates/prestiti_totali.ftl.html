@@ -10,7 +10,7 @@
     </ul>
     <#else>
     <ul>
-        <li><em>Libro da restituire:</em> <a href="SchedaDettaglioLibro?isbn=${prestitototale.volume.libro.isbn}">${prestitototale.volume.libro.titolo}</a> - <em>Data prestito:</em> ${prestitototale.dataPrestito?date} - <em>Restituire entro il:</em> ${prestitototale.dataPresuntaRestituzione?date}</li>
+        <li><em>Libro da restituire:</em> <a href="SchedaDettaglioLibro?isbn=${prestitototale.volume.libro.isbn}">${prestitototale.volume.libro.titolo}</a> - <em>Data prestito:</em> ${prestitototale.dataPrestito?date} - <em>Restituire entro il:</em> ${prestitototale.dataPresuntaRestituzione?date} - <em>Utente:</em> <a href="SchedaUtente?id=${prestitototale.user.id}">${prestitototale.user.username}</a></li>
     </ul>
     </#if>
     </#list>

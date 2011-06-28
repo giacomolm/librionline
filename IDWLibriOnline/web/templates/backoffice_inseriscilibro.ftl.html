@@ -1,6 +1,12 @@
 <h2 class="page_title"> Inserimento di un libro nella biblioteca </h2>
 <#if (stato_log??)>
     <#if bibliotecario>
+    <#if (messaggio??)>
+        <div class="messaggio">
+            <p><strong>${messaggio}</strong></p>
+        </div>
+        <div><br /></div>
+    </#if>
     <form action="InserisciLibro" method="post" enctype="multipart/form-data" id="insertbook">
         <fieldset><legend>Dati libro</legend>
             <br />
@@ -10,26 +16,29 @@
             <label>Anno Pubblicazione</label> <input type="text" name="insertbook_annopubblicazione" id="insertbook_annopubblicazione" maxlength="4" size ="5" /> <br /> <br />
             <label>Recensione</label> <br />
             <textarea name="insertbook_recensione" id="insertbook_recensione" rows="10" cols="100"></textarea> <br /> <br />
-            <label>Lingua</label>
+            <p><label>Lingua</label> - Se non c'&egrave; una lingua puoi accedere a questa <a href="InserisciLingua">pagina</a> per inserirla </p> 
             <select name="insertbook_lingua">
-                <option value="1">Italiano</option>
-                <option value="2">Inglese</option>
+                <#list lingue as lingua>
+                <option value="${lingua.id}">${lingua.lingua}</option>
+                </#list>
             </select> <br /> <br />
             <p><span class="withtooltip"><label>Autori</label><span class="tooltip"><span class="hidewithcss"> (</span>puoi selezionare anche pi&ugrave; autori, <i>basta tener premuto il tasto "Ctrl"</i><span class="hidewithcss">)</span></span></span> - Se non c'&egrave; un autore puoi accedere a questa <a href="InserisciAutore">pagina</a> per inserirlo</p>
             <select name="insertbook_autore" multiple="multiple">
-                <option value="1">Lamonaco Giacomo</option>
-                <option value="2">D'Orazio Silvio</option>
+                <#list autori as autore>
+                <option value="${autore.id}">${autore.cognome} ${autore.nome}</option>
+                </#list>
             </select> <br /> <br />
             <p><span class="withtooltip"><label>Tag</label><span class="tooltip"><span class="hidewithcss"> (</span>puoi selezionare anche pi&ugrave; tag, <i>basta tener premuto il tasto "Ctrl"</i><span class="hidewithcss">)</span></span></span> - Se non c'&egrave; un tag puoi accedere a questa <a href="InserisciTag">pagina</a> per inserirlo</p>      
             <select name="insertbook_tag" size="3" multiple="multiple">
-                <option value="1">Informatica</option>
-                <option value="2">Narrativa</option>
+                <#list tags as tag>
+                <option value="${tag.id}">${tag.tag}</option>
+                </#list>
             </select>
             <br /> <br />
         </fieldset>
         <div>
             <br />
-            <input type="submit" value="Registrazione" name="Registrazione" />
+            <input type="submit" value="Inserisci Libro" name="Inserisci Libro" />
             <input type="reset" value="Reset" name="Cancella" />
         </div>
     </form>

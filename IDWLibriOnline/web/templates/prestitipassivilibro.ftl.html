@@ -5,7 +5,7 @@
     <#if (prestitipassivi??)>
     <#list prestitipassivi as prestitopassivo>
     <ul>
-        <li><em>Libro restituito:</em> <a href="SchedaDettaglioLibro?isbn=${prestitopassivo.volume.libro.isbn}">${prestitopassivo.volume.libro.titolo}</a> - <em>Data prestito:</em> ${prestitopassivo.dataPrestito?date} - <em>Data Restutuzione:</em> ${prestitopassivo.dataRestituzione?date} - <em>Utente:</em> ${prestitopassivo.user.username}</li>
+        <li><em>Libro restituito:</em> <a href="SchedaDettaglioLibro?isbn=${prestitopassivo.volume.libro.isbn}">${prestitopassivo.volume.libro.titolo}</a> - <em>Data prestito:</em> ${prestitopassivo.dataPrestito?date} - <em>Data Restutuzione:</em> ${prestitopassivo.dataRestituzione?date} - <em>Utente:</em> <a href="SchedaUtente?id=${prestitopassivo.user.id}">${prestitopassivo.user.username}</a></li>
     </ul>
     </#list>
     <#else>

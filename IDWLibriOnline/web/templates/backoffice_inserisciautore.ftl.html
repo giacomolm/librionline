@@ -1,6 +1,12 @@
 <h2 class="page_title"> Inserimento di un autore </h2>
 <#if (stato_log??)>
     <#if bibliotecario>
+    <#if (messaggio??)>
+        <div class="messaggio">
+            <p><strong>${messaggio}</strong></p>
+        </div>
+        <div><br /></div>
+    </#if>
     <form action="InserisciAutore" method="get" id="insertauthor">
         <fieldset><legend>Dati Autore</legend>
             <br />
@@ -10,7 +16,7 @@
         </fieldset>
         <div>
             <br />
-            <input type="submit" value="Inserisci Autore" name="Inserisci Tag" />
+            <input type="submit" value="Inserisci Autore" name="Inserisci Autore" />
             <input type="reset" value="Reset" name="Cancella" />
         </div>
     </form>

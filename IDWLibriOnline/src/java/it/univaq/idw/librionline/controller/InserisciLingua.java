@@ -9,6 +9,7 @@ import it.univaq.idw.librionline.framework.util.TemplateResult;
 import it.univaq.idw.librionline.model.LibriOnLineDataLayer;
 import it.univaq.idw.librionline.model.impl.LibriOnLineDataLayerMysqlImpl;
 import java.io.IOException;
+import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -19,20 +20,19 @@ import javax.servlet.http.HttpSession;
  *
  * @author Zilfio
  */
-public class InserisciAutore extends HttpServlet {
+public class InserisciLingua extends HttpServlet {
     
-    private boolean analizza_form_autore(HttpServletRequest request, HttpServletResponse response) {
+    private boolean analizza_form_lingua(HttpServletRequest request, HttpServletResponse response) {
       
-        String cognome = request.getParameter("insertauthor_cognome");
-        String nome = request.getParameter("insertauthor_nome");
+        String lingua = request.getParameter("insertlanguage_language");
         
-        if((cognome == null || cognome.isEmpty())||(nome == null || nome.isEmpty())){
+        if(lingua == null || lingua.isEmpty()){
             return false;
         }
         
         LibriOnLineDataLayer dl = new LibriOnLineDataLayerMysqlImpl();
 
-        if(dl.insertAutore(cognome, nome)){
+        if(dl.insertLingua(lingua)){
             return true;
         }
         else{
@@ -49,7 +49,7 @@ public class InserisciAutore extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-         TemplateResult res = new TemplateResult(getServletContext());
+        TemplateResult res = new TemplateResult(getServletContext());
         HttpSession session = SecurityLayer.checkSession(request);
         
         if(session != null){
@@ -61,23 +61,23 @@ public class InserisciAutore extends HttpServlet {
                 request.setAttribute("bibliotecario",true);
                 request.setAttribute("tipologia_utente","Bibliotecario");
                 
-                String insert_tag = request.getParameter("Inserisci Autore");
+                String insert_language = request.getParameter("Inserisci Lingua");
                 
-                if(insert_tag == null){
-                    request.setAttribute("title","Inserisci Autore");
-                    res.activate("backoffice_inserisciautore.ftl.html", request, response);
+                if(insert_language == null){
+                    request.setAttribute("title","Inserisci Lingua");
+                    res.activate("backoffice_inseriscilingua.ftl.html", request, response);
                 }
                 else{
-                    boolean result = analizza_form_autore(request,response);
+                    boolean result = analizza_form_lingua(request,response);
                     if(result){
-                        request.setAttribute("title","Inserisci Autore");
-                        request.setAttribute("messaggio","L'Autore è stato inserito correttamente!");
-                        res.activate("backoffice_inserisciautore.ftl.html", request, response);
+                        request.setAttribute("title","Inserisci Lingua");
+                        request.setAttribute("messaggio","La Lingua è stata inserita correttamente!");
+                        res.activate("backoffice_inseriscilingua.ftl.html", request, response);
                     }
                     else{
-                        request.setAttribute("title","Inserisci Autore");
-                        request.setAttribute("messaggio","Inserimento Autore fallito: Si prega di compilare bene i campi sottostanti!");
-                        res.activate("backoffice_inserisciautore.ftl.html", request, response);
+                        request.setAttribute("title","Inserisci Lingua");
+                        request.setAttribute("messaggio","Inserimento Lingua fallito: Si prega di compilare bene i campi sottostanti!");
+                        res.activate("backoffice_inseriscilingua.ftl.html", request, response);
                     }
                     
                 }

@@ -6,9 +6,13 @@ package it.univaq.idw.librionline.controller;
 
 import it.univaq.idw.librionline.framework.util.SecurityLayer;
 import it.univaq.idw.librionline.framework.util.TemplateResult;
+import it.univaq.idw.librionline.model.Autore;
 import it.univaq.idw.librionline.model.LibriOnLineDataLayer;
+import it.univaq.idw.librionline.model.Lingua;
+import it.univaq.idw.librionline.model.Tag;
 import it.univaq.idw.librionline.model.impl.LibriOnLineDataLayerMysqlImpl;
 import java.io.IOException;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -20,6 +24,31 @@ import javax.servlet.http.HttpSession;
  * @author Zilfio
  */
 public class InserisciLibro extends HttpServlet {
+    
+    private boolean analizza_form_libro(HttpServletRequest request, HttpServletResponse response) {
+      
+        String isbn = request.getParameter("insertbook_isbn");
+        String titolo = request.getParameter("insertbook_titolo");
+        String editore = request.getParameter("insertbook_editore");
+        String annoPubblicazione = request.getParameter("insertbook_annopubblicazione");
+        String recensione = request.getParameter("insertbook_recensione");
+        String lingua = request.getParameter("insertbook_lingua");
+        String autore = request.getParameter("insertbook_autore");
+        String tag = request.getParameter("insertbook_tag");
+        
+        if(tag == null || tag.isEmpty()){
+            return false;
+        }
+        
+        LibriOnLineDataLayer dl = new LibriOnLineDataLayerMysqlImpl();
+
+        if(dl.insertTag(tag)){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
 
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -41,16 +70,40 @@ public class InserisciLibro extends HttpServlet {
             if(dl.isAdmin((String)session.getAttribute("username"))){
                 request.setAttribute("bibliotecario",true);
                 request.setAttribute("tipologia_utente","Bibliotecario");
-
+                
+                List<Lingua> lingue = dl.getAllLingua();
+                List<Autore> autori = dl.getAllAutori();
+                List<Tag> tags = dl.getAllTag();
+                
                 request.setAttribute("title","Libri");
-                res.activate("backoffice_inseriscilibro.ftl.html", request, response);
+                request.setAttribute("lingue",lingue);
+                request.setAttribute("autori",autori);
+                request.setAttribute("tags",tags);
+                
+                String insert_book = request.getParameter("Inserisci Libro");
+                
+                if(insert_book == null){
+                    request.setAttribute("title","Inserisci Libro");    
+                    res.activate("backoffice_inseriscilibro.ftl.html", request, response);
+                }
+                boolean result = analizza_form_libro(request,response);
+                    if(result){
+                        request.setAttribute("title","Inserisci Libro");
+                        request.setAttribute("messaggio","Il Libro è stato inserito correttamente!");
+                        res.activate("backoffice_inseriscilibro.ftl.html", request, response);
+                    }
+                    else{
+                        request.setAttribute("title","Inserisci Libro");
+                        request.setAttribute("messaggio","Inserimento Libro fallito: Si prega di compilare bene i campi sottostanti!");
+                        res.activate("backoffice_inseriscilibro.ftl.html", request, response);
+                    }         
+                }
             }
             else{
                 request.setAttribute("bibliotecario",false);
                 request.setAttribute("tipologia_utente","Utente");
             }
         }
-    }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /** 
