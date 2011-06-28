@@ -1,10 +1,4 @@
 <h2 class="page_title"> Prestito </h2>
-<#if (messaggio??)>
-    <div class="messaggio">
-        <p><strong>${messaggio}</strong></p>
-    </div>
-    <div><br /></div>
-</#if>
 <form action="ConfermaPrestito" method="post" enctype="multipart/form-data" id="form_prestito">
     <fieldset><legend>Dati del libro</legend>
         <input type="hidden" value="${isbn}" name="prestito_isbn" id="prestito_isbn" />
