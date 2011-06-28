@@ -1013,6 +1013,7 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
      * @param tag stringa indicante il tag che si vuole inserire
      * @return true se il tag è già presente
      */
+    @Override
     public boolean tagIsThis(String tag){
         boolean res=false;
         manager.getTransaction().begin();
@@ -1033,6 +1034,7 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
      * @param tag stringa indicante il tag
      * @return true se l'inserimento è andato a buon fine
      */
+    @Override
     public boolean insertTag(String tag){
         
         if(!tagIsThis(tag)){
@@ -1044,4 +1046,39 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
         }
         else return false;
     }
+
+    public boolean autoreIsThis(String cognome, String nome){
+        boolean res=false;
+        manager.getTransaction().begin();
+        try{
+            User t = (User) manager.createQuery("SELECT u FROM UserMysqlImpl u WHERE u.nome=:nome AND u.cognome=:cognome").setParameter("nome", nome).setParameter("cognome", cognome).getSingleResult();
+            res = true;
+        }
+        catch(NoResultException e){
+            //nessun tag trovato
+        }
+        manager.getTransaction().commit();
+        return res;
+    }
+    
+    /**
+     * Il metodo permette di prelevare tutti quanti i tag presenti nel database
+     * in modo tale da poter essere visualizzati agli utenti che hanno bisogno
+     * di manipolarli
+     * @return Lista di tag presenti nel database
+     */
+    @Override
+    public List<Tag> getAllTag(){
+        List<Tag> tl = (List) new ArrayList<TagMysqlImpl>();
+        manager.getTransaction().begin();
+        try{
+            tl = manager.createNamedQuery("TagMysqlImpl.findAll").getResultList();
+        }
+        catch(NoResultException e){
+            //Nessun tag presente nel database
+        }
+        manager.getTransaction().commit();
+        return tl;
+    }
+    
 }

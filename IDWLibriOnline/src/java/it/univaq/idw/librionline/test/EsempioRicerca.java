@@ -119,5 +119,10 @@ public class EsempioRicerca {
         }
         System.out.println( "Utente : "+dl.getUser(1));    
         //dl.registraPrestito(li.getIsbn(), 7, dl.getUser(2).getId());
+        List<Tag> tl = dl.getAllTag();
+        for( Iterator i = tl.iterator(); i.hasNext(); ) {
+            Tag element = (Tag) i.next();
+            System.out.println( "Volume : "+element.getTag());                           
+        }
     }
 }

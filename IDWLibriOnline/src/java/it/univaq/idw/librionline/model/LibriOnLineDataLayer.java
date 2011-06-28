@@ -252,4 +252,12 @@ public interface LibriOnLineDataLayer {
      * @return true se l'inserimento è andato a buon fine
      */
     boolean insertTag(String tag);
+    
+    /**
+     * Il metodo permette di prelevare tutti quanti i tag presenti nel database
+     * in modo tale da poter essere visualizzati agli utenti che hanno bisogno
+     * di manipolarli
+     * @return Lista di tag presenti nel database
+     */
+    List<Tag> getAllTag();
 }
