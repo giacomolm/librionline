@@ -5,6 +5,7 @@
 package it.univaq.idw.librionline.model;
 
 import it.univaq.idw.librionline.model.Libro;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
@@ -14,6 +15,18 @@ import java.util.List;
  */
 public interface LibriOnLineDataLayer {
 
+        /**
+     * Inserisce un libro nella libreria, controllondo anticipatamente
+     * se questo è presente già nella libreria, tramite il metodo bookIsThis(Libro).
+     * È importante notare come gli autori vengono passati come una collezione 
+     * dell'oggetto autore: gli utilizzatori della funzione devono prima creare
+     * una collezione di autori relativi il libro e succesivamente passarlo alla
+     * funzione che effettua l'inserimento del libro.
+     * @param l Libro da inserire
+     * @return true se il l'inserimento è stato effettuato in maniera corretta
+     */
+    boolean insertBook(String isbn, String titolo, String editore, Date annopubbl, String recens, Lingua lingua,Collection<Autore> autori, Collection<Tag> tag);
+    
     /**
      * Questo metodo verifica se una particolare username è già presente nel DB.
      * @param username String rappresentante l'username
@@ -304,4 +317,24 @@ public interface LibriOnLineDataLayer {
      * @return true se un autore con quei dati è già presente
      */
     boolean autoreIsThis(String cognome, String nome);
+    
+    /**
+     * Il metodo restituisce un oggetto Autore a partire dal suo ID
+     * @param id_autore che vogliamo cercare
+     * @return Autore relativo a quell'id, se esiste, altrimenti null
+     */
+    Autore getAutore(int id_autore);
+    
+    /**
+     * Il metodo restituisce un oggetto Tag a partire dal suo ID
+     * @param id_tag
+     * @return Tag relativo quell'id se esiste, altrimenti null
+     */
+    Tag getTag(int id_tag);
+    /**
+     * Il metodo restituisce un oggetto Lingua a partire dal suo ID
+     * @param id_lingua
+     * @return Lingua relativo quell'id se esiste, altrimenti null
+     */
+    Lingua getLingua(int id_lingua);
 }

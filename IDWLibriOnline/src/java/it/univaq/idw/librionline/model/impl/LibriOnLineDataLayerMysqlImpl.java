@@ -64,7 +64,8 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
      * @param l Libro da inserire
      * @return true se il l'inserimento è stato effettuato in maniera corretta
      */
-    public boolean insertBook(String isbn, String titolo, String editore, Date annopubbl, String recens, Lingua lingua,Collection<Autore> autori){
+    @Override
+    public boolean insertBook(String isbn, String titolo, String editore, Date annopubbl, String recens, Lingua lingua,Collection<Autore> autori, Collection<Tag> tag){
         if(!bookIsThis(isbn)){
             manager.getTransaction().begin();
             //Inseriamo i campi opportuni nel nuovo oggetto libro
@@ -1211,5 +1212,61 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
             }
         }
         return false;
+    }
+    
+    /**
+     * Il metodo restituisce un oggetto Autore a partire dal suo ID
+     * @param id_autore che vogliamo cercare
+     * @return Autore relativo a quell'id, se esiste, altrimenti null
+     */
+    @Override
+    public Autore getAutore(int id_autore){ 
+        Autore a=null;
+        manager.getTransaction().begin();
+        try{
+            a = (Autore) manager.createNamedQuery("AutoreMysqlImpl.findById").setParameter("id", id_autore).getSingleResult();
+        }
+        catch(NoResultException e){
+            //nessun tag trovato
+        }
+        manager.getTransaction().commit();
+        return a;
+    }
+    
+    /**
+     * Il metodo restituisce un oggetto Tag a partire dal suo ID
+     * @param id_tag
+     * @return Tag relativo quell'id se esiste, altrimenti null
+     */
+    @Override
+    public Tag getTag(int id_tag){ 
+        Tag t = null;
+        manager.getTransaction().begin();
+        try{
+            t = (Tag) manager.createNamedQuery("TagMysqlImpl.findById").setParameter("id", id_tag).getSingleResult();
+        }
+        catch(NoResultException e){
+            //nessun tag trovato
+        }
+        manager.getTransaction().commit();
+        return t;
+    }
+    /**
+     * Il metodo restituisce un oggetto Lingua a partire dal suo ID
+     * @param id_lingua
+     * @return Lingua relativo quell'id se esiste, altrimenti null
+     */
+    @Override
+    public Lingua getLingua(int id_lingua){ 
+        Lingua l = null;
+        manager.getTransaction().begin();
+        try{
+            l = (Lingua) manager.createNamedQuery("LinguaMysqlImpl.findById").setParameter("id", id_lingua).getSingleResult();
+        }
+        catch(NoResultException e){
+            //nessun tag trovato
+        }
+        manager.getTransaction().commit();
+        return l;
     }
 }
