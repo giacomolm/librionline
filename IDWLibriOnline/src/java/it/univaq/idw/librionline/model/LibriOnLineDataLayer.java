@@ -288,4 +288,20 @@ public interface LibriOnLineDataLayer {
      * @return true se l'inserimento è andato a buon fine
      */
     boolean insertLingua(String lingua);
+    
+    /**
+     * Il metodo permette l'aggiunta di un nuovo tag nel database, nel caso
+     * la libreria non abbia ancora incluso una particolare categoria di libri
+     * @param tag stringa indicante il tag
+     * @return true se l'inserimento è andato a buon fine
+     */
+    boolean insertAutore(String cognome,String nome);
+    /**
+     * Controllo se l'autore è già presente nel database, attraverso il suo nome
+     * e cognome
+     * @param cognome dell'autore che vogliamo inserire
+     * @param nome dell'autore che vogliamo inserire
+     * @return true se un autore con quei dati è già presente
+     */
+    boolean autoreIsThis(String cognome, String nome);
 }

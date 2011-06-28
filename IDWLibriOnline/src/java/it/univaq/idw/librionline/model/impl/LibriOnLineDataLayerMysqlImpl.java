@@ -1052,11 +1052,19 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
         else return false;
     }
 
+    /**
+     * Controllo se l'autore è già presente nel database, attraverso il suo nome
+     * e cognome
+     * @param cognome dell'autore che vogliamo inserire
+     * @param nome dell'autore che vogliamo inserire
+     * @return true se un autore con quei dati è già presente
+     */
+    @Override
     public boolean autoreIsThis(String cognome, String nome){
         boolean res=false;
         manager.getTransaction().begin();
         try{
-            User t = (User) manager.createQuery("SELECT u FROM UserMysqlImpl u WHERE u.nome=:nome AND u.cognome=:cognome").setParameter("nome", nome).setParameter("cognome", cognome).getSingleResult();
+            User t = (User) manager.createQuery("SELECT u FROM AutoreMysqlImpl u WHERE u.nome=:nome AND u.cognome=:cognome").setParameter("nome", nome).setParameter("cognome", cognome).getSingleResult();
             res = true;
         }
         catch(NoResultException e){
@@ -1064,6 +1072,26 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
         }
         manager.getTransaction().commit();
         return res;
+    }
+    
+    /**
+     * Il metodo permette l'aggiunta di un nuovo tag nel database, nel caso
+     * la libreria non abbia ancora incluso una particolare categoria di libri
+     * @param tag stringa indicante il tag
+     * @return true se l'inserimento è andato a buon fine
+     */
+    @Override
+    public boolean insertAutore(String cognome,String nome){
+        
+        if(!autoreIsThis(cognome, nome)){
+            manager.getTransaction().begin();
+            Autore a = new AutoreMysqlImpl(null, nome);
+            a.setCognome(cognome);
+            manager.persist(a);
+            manager.getTransaction().commit();
+            return true;
+        }
+        else return false;
     }
     
     /**
