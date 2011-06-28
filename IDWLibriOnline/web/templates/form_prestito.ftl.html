@@ -7,8 +7,7 @@
 </#if>
 <form action="ConfermaPrestito" method="post" enctype="multipart/form-data" id="form_prestito">
     <fieldset><legend>Dati del libro</legend>
-        <br />
-        <label>ISBN: </label><input type="text" value="${isbn}" name="prestito_isbn" id="prestito_isbn" disabled="disabled" /> <br /> <br />
+        <input type="hidden" value="${isbn}" name="prestito_isbn" id="prestito_isbn" />
         <p><label>Volumi disponibili: </label></p>
         <select name="prestito_volumi">
             <#list prestitivolumi as prestitovolume>
@@ -21,7 +20,10 @@
             <option value="${prestitouser.id}">${prestitouser.username}</option>
             </#list>
         </select> <br /> <br />
-    </fieldset> <br />
+    </fieldset>
+    <div>
+    <br />
     <input type="submit" value="Conferma Prestito" name="Conferma Prestito" /> 
     <input type="reset" value="Reset" name="Cancella" />
+    </div>
 </form>

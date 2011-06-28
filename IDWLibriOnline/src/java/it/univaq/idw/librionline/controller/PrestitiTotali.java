@@ -21,7 +21,7 @@ import javax.servlet.http.HttpSession;
  *
  * @author Zilfio
  */
-public class PrestitiScaduti extends HttpServlet {
+public class PrestitiTotali extends HttpServlet {
 
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -43,18 +43,18 @@ public class PrestitiScaduti extends HttpServlet {
                 request.setAttribute("bibliotecario",true);
                 request.setAttribute("tipologia_utente","Bibliotecario");
                 
-                List<Prestito> ps = dl.getPrestitiScaduti();
+                List<Prestito> aap = dl.getAllActivePrestiti();
 
-                if(ps.isEmpty()){
-                    request.setAttribute("prestitiscaduti",null);
+                if(aap.isEmpty()){
+                    request.setAttribute("prestititotali",null);
                 }
                 else{
-                    request.setAttribute("prestitiscaduti",ps);
+                    request.setAttribute("prestititotali",aap);
                 }
                 
-                request.setAttribute("title","Prestiti Scaduti");
+                request.setAttribute("title","Prestiti Totali");
 
-                res.activate("prestitiscaduti.ftl.html", request, response);
+                res.activate("prestiti_totali.ftl.html", request, response);
             }
             else{
                 request.setAttribute("bibliotecario",false);

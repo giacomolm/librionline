@@ -9,6 +9,9 @@ import it.univaq.idw.librionline.framework.util.TemplateResult;
 import it.univaq.idw.librionline.model.LibriOnLineDataLayer;
 import it.univaq.idw.librionline.model.impl.LibriOnLineDataLayerMysqlImpl;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -22,18 +25,28 @@ import javax.servlet.http.HttpSession;
 public class ConfermaPrestito extends HttpServlet {
     
     private boolean analizza_form_prestito(HttpServletRequest request, HttpServletResponse response) {
+        PrintWriter w = null;
+        try {
+            w = response.getWriter();
+        } catch (IOException ex) {
+            Logger.getLogger(ConfermaPrestito.class.getName()).log(Level.SEVERE, null, ex);
+        }
         LibriOnLineDataLayer dl = new LibriOnLineDataLayerMysqlImpl();
         
-        String isbn = request.getParameter("isbn");
+        String isbn = request.getParameter("prestito_isbn");
         String prestito_volumi = request.getParameter("prestito_volumi");
         String prestito_utenti = request.getParameter("prestito_utenti");
         
-        if((isbn == null) || (prestito_volumi == null) || (prestito_utenti == null)){
-            return false;
-        }
-        
         int id_vol = Integer.parseInt(prestito_volumi);
         int id_user = Integer.parseInt(prestito_utenti);
+        
+        w.println(isbn);
+        w.println(id_vol);
+        w.println(id_user);
+        
+        if((isbn == null) || (id_vol <= 0) || (id_user <= 0)){
+            return false;
+        }
         
         if(dl.registraPrestito(isbn, id_vol, id_user)){
             return true;
@@ -56,17 +69,23 @@ public class ConfermaPrestito extends HttpServlet {
         HttpSession session = SecurityLayer.checkSession(request);
         LibriOnLineDataLayer dl = new LibriOnLineDataLayerMysqlImpl();
 
-        if(session != null){     
+        if(session != null){   
+            
+            request.setAttribute("stato_log", "Logout");
+            
             if(dl.isAdmin((String)session.getAttribute("username"))){
                 request.setAttribute("bibliotecario",true);
                 request.setAttribute("tipologia_utente","Bibliotecario");
+                
                 boolean result = analizza_form_prestito(request,response);
+                
                 if(result){
                     request.setAttribute("error","OK");
                 }
                 else{
                     request.setAttribute("error","NOT OK");
                 }
+                
                 request.setAttribute("title","Prestito");
                 request.setAttribute("error_title","Prestito Esito");
                 res.activate("error.ftl.html", request, response);

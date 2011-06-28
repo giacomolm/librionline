@@ -1,17 +1,17 @@
 <h2 class="page_title"> Scheda Utente </h2>
 <#if (stato_log??)>
     <#if bibliotecario>
-        <#if (schedalibro??)>
-            <p><strong>Username:</strong> ${schedalibro.username}</p>
-            <p><strong>Email:</strong> ${schedalibro.email}</p>
-            <p><strong>Telefono: </strong> ${schedalibro.telefono}</p>
-            <p><strong>Nome:</strong> ${schedalibro.nome}</p>
-            <p><strong>Cognome:</strong> ${schedalibro.cognome}</p>
-            <p><strong>Codice Fiscale:</strong> ${schedalibro.codiceFiscale}</p>
-            <p><strong>Indirizzo:</strong> ${schedalibro.indirizzo}</p>
-            <p><strong>Citt&agrave;</strong> ${schedalibro.citta}</p>
-            <p><strong>Provincia:</strong> ${schedalibro.provincia}</p>
-            <p><strong>CAP:</strong> ${schedalibro.cap}</p>
+        <#if (schedautente??)>
+            <p><strong>Username:</strong> ${schedautente.username}</p>
+            <p><strong>Email:</strong> ${schedautente.email}</p>
+            <p><strong>Telefono: </strong> ${schedautente.telefono}</p>
+            <p><strong>Nome:</strong> ${schedautente.nome}</p>
+            <p><strong>Cognome:</strong> ${schedautente.cognome}</p>
+            <p><strong>Codice Fiscale:</strong> ${schedautente.codiceFiscale}</p>
+            <p><strong>Indirizzo:</strong> ${schedautente.indirizzo}</p>
+            <p><strong>Citt&agrave;</strong> ${schedautente.citta}</p>
+            <p><strong>Provincia:</strong> ${schedautente.provincia}</p>
+            <p><strong>CAP:</strong> ${schedautente.cap}</p>
         </#if>
     </#if>
 </#if>

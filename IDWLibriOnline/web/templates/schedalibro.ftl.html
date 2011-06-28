@@ -25,6 +25,8 @@
 
 <#if (copiedisponibili??)>
 <p> <strong> Copie Disponibili: </strong> ${copiedisponibili}</p> 
+</#if>
+<#if (copiedisponibili>0)>
 <#if (stato_log??)> 
     <#if bibliotecario>
     <form action="Prestito" method="get">

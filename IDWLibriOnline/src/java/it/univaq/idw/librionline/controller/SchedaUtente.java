@@ -35,22 +35,26 @@ public class SchedaUtente extends HttpServlet {
         HttpSession session = SecurityLayer.checkSession(request);
         LibriOnLineDataLayer model = new LibriOnLineDataLayerMysqlImpl();
         
-        if(session != null){      
+        if(session != null){    
+            
+            request.setAttribute("stato_log", "Logout");
+            
             if(model.isAdmin((String)session.getAttribute("username"))){
                 request.setAttribute("bibliotecario",true);
                 request.setAttribute("tipologia_utente","Bibliotecario");
                 
                 //controllo validita dell'ID dell'user
-                String id_user = request.getParameter("id");
+                String iduser = request.getParameter("id");
+                int id_user = Integer.parseInt(iduser);
 
-                if (id_user == null){
+                if (id_user <= 0){
                     request.setAttribute("title", "Errore");
                     request.setAttribute("error_title", "Errore");
                     request.setAttribute("error", "Attenzione: ID Utente non immesso!");
                     template.activate("error.ftl.html", request, response);
                 }
                 else{
-                    User u = null; // qui ci va la funzione da chiamare
+                    User u = model.getUser(id_user);
                     if (u == null){
                         request.setAttribute("title", "Errore");
                         request.setAttribute("error_title", "Errore");
@@ -68,7 +72,6 @@ public class SchedaUtente extends HttpServlet {
                 request.setAttribute("bibliotecario",false);
                 request.setAttribute("tipologia_utente","Utente");
             }
-            request.setAttribute("stato_log", "Logout");
         }
     }
 
