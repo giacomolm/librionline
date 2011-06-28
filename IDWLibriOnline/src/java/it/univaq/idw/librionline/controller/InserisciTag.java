@@ -20,6 +20,24 @@ import javax.servlet.http.HttpSession;
  * @author Zilfio
  */
 public class InserisciTag extends HttpServlet {
+    
+    private boolean analizza_form_prestito(HttpServletRequest request, HttpServletResponse response) {
+      
+        String tag = request.getParameter("inserttag_tag");
+        
+        if(tag == null || tag.isEmpty()){
+            return false;
+        }
+        
+        LibriOnLineDataLayer dl = new LibriOnLineDataLayerMysqlImpl();
+
+        if(dl.insertTag(tag)){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
 
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -41,9 +59,18 @@ public class InserisciTag extends HttpServlet {
             if(dl.isAdmin((String)session.getAttribute("username"))){
                 request.setAttribute("bibliotecario",true);
                 request.setAttribute("tipologia_utente","Bibliotecario");
-
-                request.setAttribute("title","Tag");
+                
+                boolean result = analizza_form_prestito(request,response);
+                if(result){
+                    request.setAttribute("messaggio","Il Tag è stato inserito correttamente!");
+                }
+                else{
+                    request.setAttribute("messaggio","Inserimento Tag fallito: Si prega di compilare bene i campi sottostanti!");
+                }
+                
+                request.setAttribute("title","Inserisci Tag");
                 res.activate("backoffice_inseriscitag.ftl.html", request, response);
+                
             }
             else{
                 request.setAttribute("bibliotecario",false);

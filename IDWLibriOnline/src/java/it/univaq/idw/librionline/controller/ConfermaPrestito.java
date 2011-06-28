@@ -25,12 +25,7 @@ import javax.servlet.http.HttpSession;
 public class ConfermaPrestito extends HttpServlet {
     
     private boolean analizza_form_prestito(HttpServletRequest request, HttpServletResponse response) {
-        PrintWriter w = null;
-        try {
-            w = response.getWriter();
-        } catch (IOException ex) {
-            Logger.getLogger(ConfermaPrestito.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        
         LibriOnLineDataLayer dl = new LibriOnLineDataLayerMysqlImpl();
         
         String isbn = request.getParameter("prestito_isbn");
@@ -39,10 +34,6 @@ public class ConfermaPrestito extends HttpServlet {
         
         int id_vol = Integer.parseInt(prestito_volumi);
         int id_user = Integer.parseInt(prestito_utenti);
-        
-        w.println(isbn);
-        w.println(id_vol);
-        w.println(id_user);
         
         if((isbn == null) || (id_vol <= 0) || (id_user <= 0)){
             return false;
@@ -80,14 +71,14 @@ public class ConfermaPrestito extends HttpServlet {
                 boolean result = analizza_form_prestito(request,response);
                 
                 if(result){
-                    request.setAttribute("error","OK");
+                    request.setAttribute("error","Prestito eseguito correttamente");
                 }
                 else{
-                    request.setAttribute("error","NOT OK");
+                    request.setAttribute("error","Prestito fallito!");
                 }
                 
                 request.setAttribute("title","Prestito");
-                request.setAttribute("error_title","Prestito Esito");
+                request.setAttribute("error_title","Esito Prestito");
                 res.activate("error.ftl.html", request, response);
             }
             else{
