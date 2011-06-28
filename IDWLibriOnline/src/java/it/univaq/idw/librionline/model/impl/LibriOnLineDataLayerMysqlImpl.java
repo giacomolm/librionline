@@ -1064,7 +1064,7 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
         boolean res=false;
         manager.getTransaction().begin();
         try{
-            User t = (User) manager.createQuery("SELECT u FROM AutoreMysqlImpl u WHERE u.nome=:nome AND u.cognome=:cognome").setParameter("nome", nome).setParameter("cognome", cognome).getSingleResult();
+            manager.createQuery("SELECT u FROM AutoreMysqlImpl u WHERE u.nome=:nome AND u.cognome=:cognome").setParameter("nome", nome).setParameter("cognome", cognome).getSingleResult();
             res = true;
         }
         catch(NoResultException e){
