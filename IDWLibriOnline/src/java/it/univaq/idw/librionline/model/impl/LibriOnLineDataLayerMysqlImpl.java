@@ -918,7 +918,7 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
         manager.getTransaction().commit();
         return ul;
     }
-    
+
     /**
      * Il metodo analizza quali sono i volumi disponibili per il libro indicato
      * nell'isbn e procede con la restituzione dell'insieme di questi
@@ -1005,5 +1005,43 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
             
         }
         return false;
+    }
+    
+    /**
+     * Questo metodo verifica se un tag è gia presente nella lista dei tag della
+     * libreria: risulta indispensabile quando si vuole inserire un nuovo tag.
+     * @param tag stringa indicante il tag che si vuole inserire
+     * @return true se il tag è già presente
+     */
+    public boolean tagIsThis(String tag){
+        boolean res=false;
+        manager.getTransaction().begin();
+        try{
+            Tag t = (Tag) manager.createNamedQuery("TagMysqlImpl.findByTag").setParameter("tag", tag).getSingleResult();
+            res = true;
+        }
+        catch(NoResultException e){
+            //nessun tag trovato
+        }
+        manager.getTransaction().commit();
+        return res;
+    }
+    
+    /**
+     * Il metodo permette l'aggiunta di un nuovo tag nel database, nel caso
+     * la libreria non abbia ancora incluso una particolare categoria di libri
+     * @param tag stringa indicante il tag
+     * @return true se l'inserimento è andato a buon fine
+     */
+    public boolean insertTag(String tag){
+        
+        if(!tagIsThis(tag)){
+            manager.getTransaction().begin();
+            Tag t = new TagMysqlImpl(null, tag);
+            manager.persist(t);
+            manager.getTransaction().commit();
+            return true;
+        }
+        else return false;
     }
 }

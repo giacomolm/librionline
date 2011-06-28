@@ -4,6 +4,7 @@
  */
 package it.univaq.idw.librionline.test;
 import it.univaq.idw.librionline.model.Autore;
+import it.univaq.idw.librionline.model.LibriOnLineDataLayer;
 import it.univaq.idw.librionline.model.Libro;
 import it.univaq.idw.librionline.model.impl.AutoreMysqlImpl;
 import it.univaq.idw.librionline.model.impl.LibriOnLineDataLayerMysqlImpl;
@@ -52,5 +53,7 @@ public class EsempioInserimento {
         //Libro l = new LibroMysqlImpl("910", "Giorgio Forattini");
         //LibriOnLineDataLayerMysqlImpl dl = new LibriOnLineDataLayerMysqlImpl();
         //System.out.println(dl.insertBook(l));
+        LibriOnLineDataLayer dl = new LibriOnLineDataLayerMysqlImpl();
+        System.out.println(dl.insertTag("botanica"));
     }
 }
