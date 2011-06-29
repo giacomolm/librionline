@@ -23,6 +23,7 @@
       <property name="eclipselink.jdbc.read-connections.min" value="5"/>
       <property name="eclipselink.jdbc.write-connections.max" value="5"/>
       <property name="eclipselink.jdbc.write-connections.min" value="3"/>
+      <property name="eclipselink.cache.type.default" value="SoftWeak"/>
     </properties>
   </persistence-unit>
 </persistence>
