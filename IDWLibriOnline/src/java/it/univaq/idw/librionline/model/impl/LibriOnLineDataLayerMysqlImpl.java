@@ -1004,7 +1004,6 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
                 //Imposto il volume selezionato dal bibliotecario
                 p.setVolume(vol);
                 manager.persist(p);
-                //manager.flush();
                 manager.getTransaction().commit();
                 return true;
             }
@@ -1036,7 +1035,6 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
             //immposto il flag di restituzione a true
             p.setRestituito(true);
             manager.persist(p);
-            //manager.flush();
             manager.getTransaction().commit();
             return true;
         }
