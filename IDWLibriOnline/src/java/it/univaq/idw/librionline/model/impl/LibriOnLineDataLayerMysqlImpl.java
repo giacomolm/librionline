@@ -1269,4 +1269,24 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
         manager.getTransaction().commit();
         return l;
     }
+    /**
+     * Il metodo restituisce l'oggetto user in modo tale da poter fornire delle 
+     * informazioni utili su di esso.
+     * @param username dell'utente, o parte di esso
+     * @return list di oggetti User relativi quell'username
+     */
+    @Override
+    public List<User> getUsers(String username){
+        String un = "%"+username+"%";
+        manager.getTransaction().begin();
+        List<User> ul = null;
+        try{
+            //Verifico se un utente con quella username è già presente nel database
+            ul =  manager.createQuery("SELECT u FROM UserMysqlImpl u WHERE u.username LIKE :username").setParameter("username", un).getResultList();
+        }catch (NoResultException e){
+            //Non esiste alcun utente con quell'username
+        }
+        manager.getTransaction().commit();
+        return ul;
+    }
 }

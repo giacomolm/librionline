@@ -135,5 +135,10 @@ public class EsempioRicerca {
             Lingua element = (Lingua) i.next();
             System.out.println( "Lingua : "+element.getLingua());                           
         }
+        listu = dl.getUsers("zi");
+        for ( Iterator i = listu.iterator(); i.hasNext(); ) {
+            User element = (User) i.next();
+            System.out.println( "UserList : "+element.getUsername());                           
+        }
     }
 }

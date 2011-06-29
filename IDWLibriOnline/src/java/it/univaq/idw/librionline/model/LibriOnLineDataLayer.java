@@ -337,4 +337,12 @@ public interface LibriOnLineDataLayer {
      * @return Lingua relativo quell'id se esiste, altrimenti null
      */
     Lingua getLingua(int id_lingua);
+    
+    /**
+     * Il metodo restituisce l'oggetto user in modo tale da poter fornire delle 
+     * informazioni utili su di esso.
+     * @param username dell'utente, o parte di esso
+     * @return list di oggetti User relativi quell'username
+     */
+    List<User> getUsers(String username);
 }
