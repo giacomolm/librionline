@@ -345,4 +345,11 @@ public interface LibriOnLineDataLayer {
      * @return list di oggetti User relativi quell'username
      */
     List<User> getUsers(String username);
+    /**
+     * Il metodo permette di chiudere un prestito effettuato in precedenza da un
+     * utente.
+     * @param id_prestito che si vuole chiudere
+     * @return true se la chiusura è stata eseguita correttamente
+     */
+    boolean chiudiPrestito(int id_prestito);
 }

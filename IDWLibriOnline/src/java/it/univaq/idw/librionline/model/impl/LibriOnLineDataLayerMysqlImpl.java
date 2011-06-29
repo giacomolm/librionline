@@ -1014,6 +1014,35 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
     }
     
     /**
+     * Il metodo permette di chiudere un prestito effettuato in precedenza da un
+     * utente.
+     * @param id_prestito che si vuole chiudere
+     * @return true se la chiusura è stata eseguita correttamente
+     */
+    @Override
+    public boolean chiudiPrestito(int id_prestito){
+        Prestito p = null;
+        manager.getTransaction().begin();
+        try{
+            p = (Prestito) manager.createNamedQuery("PrestitoMysqlImpl.findById").setParameter("id", id_prestito).getSingleResult();
+        }
+        catch(NoResultException e){
+            //nessun prestito per quell'id
+        }
+        if(p!=null && !p.getRestituito()){
+            //Imposto la data di restituzione a quella odierna
+            p.setDataRestituzione(new Date());
+            //immposto il flag di restituzione a true
+            p.setRestituito(true);
+            manager.persist(p);
+            manager.getTransaction().commit();
+            return true;
+        }
+        manager.getTransaction().commit();
+        return false;
+    }
+    
+    /**
      * Questo metodo verifica se un tag è gia presente nella lista dei tag della
      * libreria: risulta indispensabile quando si vuole inserire un nuovo tag.
      * @param tag stringa indicante il tag che si vuole inserire
@@ -1277,12 +1306,12 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
      */
     @Override
     public List<User> getUsers(String username){
-        String un = "%"+username+"%";
+        String un = ""+username+"%";
         manager.getTransaction().begin();
         List<User> ul = null;
         try{
             //Verifico se un utente con quella username è già presente nel database
-            ul =  manager.createQuery("SELECT u FROM UserMysqlImpl u WHERE u.username LIKE :username").setParameter("username", un).getResultList();
+            ul =  manager.createQuery("SELECT u FROM UserMysqlImpl u WHERE u.username LIKE :username AND u.gruppo.id = 2").setParameter("username", un).getResultList();
         }catch (NoResultException e){
             //Non esiste alcun utente con quell'username
         }

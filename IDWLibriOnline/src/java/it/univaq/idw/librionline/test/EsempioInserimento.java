@@ -57,5 +57,6 @@ public class EsempioInserimento {
         System.out.println(dl.insertTag("botanica"));
         System.out.println(dl.insertLingua("inglese"));
         System.out.println(dl.insertAutore("D'orazio", "Silvio"));
+        System.out.println(dl.chiudiPrestito(4));
     }
 }
