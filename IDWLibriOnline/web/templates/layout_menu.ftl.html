@@ -1,24 +1,29 @@
 <div class="menu">
 <div class="title">Navigazione</div>
-    <ul>
-        <li><a href="Home">Homepage</a></li>
-        <li><a href="Libri">Libri</a></li>
-    </ul>
-<br /> <br /> <br />
+<ul>
+    <li><a href="Home">Homepage</a></li>
+    <li><a href="Libri">Libri</a></li>
+</ul>
 <#if (stato_log??)>
 <div class="title">Pannello ${tipologia_utente}</div>
-    <ul>
-        <#if bibliotecario>
-        <li><a href="RicercaUtente">Ricerca Utente</a></li>
-        <li><a href="PrestitiTotali">Prestiti Totali</a></li>
-        <li><a href="Registrazione">Registra Utente</a></li>
-        <li><a href="InserisciLibro">Inserisci Libro</a></li>
-        <li><a href="InserisciLingua">Inserisci Lingua</a></li>
-        <li><a href="InserisciAutore">Inserisci Autore</a></li>
-        <li><a href="InserisciTag">Inserisci Tag</a></li>
-        <#else>
-        <li><a href="Storico">Storico</a></li>
-        </#if>
-    </ul>
+<ul>
+    <#if bibliotecario>
+    <li><a href="RicercaUtente">Ricerca Utente</a></li>
+    <li><a href="Registrazione">Registra Utente</a></li>
+    <li><a href="PrestitiTotali">Prestiti In Corso</a></li>
+    <li><a href="#">Inserisci<!--[if IE 7]><!--></a><!--<![endif]-->
+    <!--[if lte IE 6]><table><tr><td><![endif]-->
+            <ul>
+                    <li><a href="InserisciLibro">Inserisci Libro</a></li>
+                    <li><a href="InserisciLingua">Inserisci Lingua</a></li>
+                    <li><a href="InserisciAutore">Inserisci Autore</a></li>
+                    <li><a href="InserisciTag">Inserisci Tag</a></li>
+            </ul>
+    <!--[if lte IE 6]></td></tr></table></a><![endif]-->
+    </li>
+    <#else>
+    <li><a href="Storico">Storico</a></li>
+    </#if>
+</ul>
 </#if>
 </div>

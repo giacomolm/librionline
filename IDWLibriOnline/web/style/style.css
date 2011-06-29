@@ -97,57 +97,6 @@ a:link,a:visited{
     text-align:center;
 }*/
 
-.menu {
-    position:absolute; 
-    top:105px; 
-    left:5px; 
-    bottom:0;
-    width: 150px;
-    z-index: 10;
-    height: 500px;
-    margin-top: 5px;
-    overflow:hidden;
-    background-color: #ceddf7;
-    
-    font-size: 90%;
-}
-
-.menu .title {
-    background: black;
-    color: white;
-    font-weight: bold;
-    border: none;
-    padding: 5px;
-}
-
-.menu ul{
-    margin: 0;
-    padding: 0;
-    list-style: none;
-    border: none;
-    background: #cdddf7;
-    width: 150px;
-}
-
-.menu li {
-    margin: 0;
-    position: relative;
-}
-
-.menu li a{
-    display: block;
-    padding: 5px;
-    text-decoration: none;
-    color: black;
-    position: relative;
-    border-bottom: 1px solid #ffffff;	
-}
-
-.menu li a:hover{
-    background-color: #eae8f5;
-    color: black;
-}
-
 #right {
     position:absolute; 
     top:105px; 

@@ -1,0 +1,91 @@
+.menu {
+    position: absolute;
+    width: 150px;
+    font-size: 90%;
+    background-color: #ceddf7;
+    top:105px; 
+    left:5px; 
+    bottom:0;
+    z-index: 10;
+    height: 500px;
+    margin-top: 5px;
+}
+
+.menu .title {
+    background: black;
+    color: white;
+    font-weight: bold;
+    border: none;
+    padding: 5px;
+}
+
+.menu ul{
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    border: none;
+    background: #cdddf7;
+    width: 150px;
+}
+
+.menu li {
+    margin: 0;
+    position: relative;
+}
+
+.menu li a{
+    display: block;
+    padding: 5px;
+    text-decoration: none;
+    color: black;
+    position: relative;
+    border-bottom: 1px solid #ffffff;
+
+}
+
+.menu li a:hover{
+    background-color: #eae8f5;
+    color: black;
+}
+
+/* setting base dei sottomenu */
+.menu ul ul {
+    visibility:hidden;
+    position:absolute;
+    top: 0;
+    left:150px;
+}
+
+/* hover sul primo livello: mostrare secondo livello */
+.menu ul :hover ul {
+    visibility:visible;
+}
+
+/* hover sul secondo livello: mostrare terzo livello */
+.menu ul :hover ul :hover ul{ 
+    visibility:visible;
+}
+
+/* hover sul terzo livello: mostrare quarto livello  */
+.menu ul :hover ul :hover ul :hover ul { 
+    visibility:visible;
+}
+
+/* nascondere i (due) livelli di menu successivi a quello visualizzato */
+.menu ul :hover ul ul{
+    visibility:hidden;
+}
+
+.menu ul :hover ul :hover ul ul{
+    visibility:hidden;
+}		
+
+
+.menu table {
+    position:absolute; 
+    border-collapse:collapse; 
+    top:0; 
+    left:0; 
+    z-index:100; 
+    font-size:1em;
+}

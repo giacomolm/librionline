@@ -17,7 +17,11 @@
             <#if prestitiattivi??>
             <ul>
             <#list prestitiattivi as prestitoattivo>
-            <li><em>Libro da restituire:</em> <a href="SchedaDettaglioLibro?isbn=${prestitoattivo.volume.libro.isbn}">${prestitoattivo.volume.libro.titolo}</a> - <em>Data prestito:</em> ${prestitoattivo.dataPrestito?date} - <em>Restituire entro il:</em> ${prestitoattivo.dataPresuntaRestituzione?date} - <a class="prestito_link" href="ChiudiPrestito?id_prestito=${prestitoattivo.id}">Chiudi Prestito</a> </li>
+            <#if prestitoattivo.expired>
+                <li style="color: red;"><strong>PRESTITO SCADUTO</strong> - <em>Libro da restituire:</em> <a href="SchedaDettaglioLibro?isbn=${prestitoattivo.volume.libro.isbn}">${prestitoattivo.volume.libro.titolo}</a> - <em>Data prestito:</em> ${prestitoattivo.dataPrestito?date} - <em>Doveva restituirlo entro il:</em> ${prestitoattivo.dataPresuntaRestituzione?date} - <a class="prestito_link" href="ChiudiPrestito?id_prestito=${prestitoattivo.id}">Chiudi Prestito</a> </li>
+            <#else>
+                <li><em>Libro da restituire:</em> <a href="SchedaDettaglioLibro?isbn=${prestitoattivo.volume.libro.isbn}">${prestitoattivo.volume.libro.titolo}</a> - <em>Data prestito:</em> ${prestitoattivo.dataPrestito?date} - <em>Restituire entro il:</em> ${prestitoattivo.dataPresuntaRestituzione?date} - <a class="prestito_link" href="ChiudiPrestito?id_prestito=${prestitoattivo.id}">Chiudi Prestito</a> </li>
+            </#if>
             </#list>
             </ul>
             <#else>
