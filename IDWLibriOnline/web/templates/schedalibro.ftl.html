@@ -5,7 +5,7 @@
 <p> <strong> Editore: </strong> ${libro.editore!"Non presente"} </p>
 <p> <strong> Anno di Pubblicazione: </strong> ${libro.annoPubblicazione?string("yyyy")!"Non presente"} </p>
 <p> <strong> Recensione: </strong> ${libro.recensione!"Non presente"} </p>
-<p> <strong> Lingua: </strong> ${lingua.lingua} </p>
+<p> <strong> Lingua: </strong> ${lingua.lingua!"Non presente"} </p>
 <p> <strong> Autore: </strong>
     <#list autori as autore>
         <a href="RicercaLibroAutore?id=${autore.id}">${autore.cognome!"Nessun autore trovato"} ${autore.nome!"Nessun autore trovato"}</a>
@@ -20,11 +20,11 @@
 </p>
 
 <#if (copietotali??)>
-    <p> <strong> Copie Totali: </strong> ${copietotali} </p>
+    <p> <strong> Copie Totali: </strong> ${copietotali!"Non presente"} </p>
 </#if>
 
 <#if (copiedisponibili??)>
-<p> <strong> Copie Disponibili: </strong> ${copiedisponibili}</p> 
+<p> <strong> Copie Disponibili: </strong> ${copiedisponibili!"Non presente"}</p> 
 </#if>
 <#if (copiedisponibili>0)>
 <#if (stato_log??)> 

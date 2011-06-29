@@ -1,14 +1,26 @@
 <h2 class="page_title"> Prestito </h2>
-<form action="ConfermaPrestito" method="post" enctype="multipart/form-data" id="form_prestito">
+<#if (messaggio??)>
+    <div class="messaggio">
+        <p><strong>${messaggio}</strong></p>
+    </div>
+    <div><br /></div>
+</#if>
+<#if (stato_log??)>
+<#if bibliotecario>
+<form action="Prestito" method="post" enctype="multipart/form-data" id="form_prestito">
     <fieldset><legend>Dati del libro</legend>
         <input type="hidden" value="${isbn}" name="prestito_isbn" id="prestito_isbn" />
+        <#if prestitivolumi??>
         <p><label>Volumi disponibili: </label></p>
         <select name="prestito_volumi">
             <#list prestitivolumi as prestitovolume>
             <option value="${prestitovolume.id}">${prestitovolume.libro.titolo} - Copia: ${prestitovolume.id} - ${prestitovolume.stato.stato}</option>
             </#list>
         </select> <br /> <br />
-        <p><label>Utenti: </label></p>
+        <#else>
+            <p><em>Nessun volume del libro disponibile</em></p>
+        </#if>
+        <p><label>Utenti:</label></p>
         <select name="prestito_utenti">
             <#list prestitiusers as prestitouser>
             <option value="${prestitouser.id}">${prestitouser.username}</option>
@@ -21,3 +33,5 @@
     <input type="reset" value="Reset" name="Cancella" />
     </div>
 </form>
+</#if>
+</#if>

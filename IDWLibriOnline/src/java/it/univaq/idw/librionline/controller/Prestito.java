@@ -23,6 +23,29 @@ import javax.servlet.http.HttpSession;
  * @author Zilfio
  */
 public class Prestito extends HttpServlet {
+    
+    private boolean analizza_form_prestito(HttpServletRequest request, HttpServletResponse response) {
+        
+        LibriOnLineDataLayer dl = new LibriOnLineDataLayerMysqlImpl();
+        
+        String isbn = request.getParameter("prestito_isbn");
+        String prestito_volumi = request.getParameter("prestito_volumi");
+        String prestito_utenti = request.getParameter("prestito_utenti");
+        
+        int id_vol = Integer.parseInt(prestito_volumi);
+        int id_user = Integer.parseInt(prestito_utenti);
+        
+        if((isbn == null) || (id_vol <= 0) || (id_user <= 0)){
+            return false;
+        }
+        
+        if(dl.registraPrestito(isbn, id_vol, id_user)){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
 
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -37,6 +60,8 @@ public class Prestito extends HttpServlet {
         HttpSession session = SecurityLayer.checkSession(request);
         LibriOnLineDataLayer dl = new LibriOnLineDataLayerMysqlImpl();
         
+        String isbn = request.getParameter("isbn");
+        
         if(session != null){
             request.setAttribute("stato_log", "Logout");
 
@@ -44,17 +69,38 @@ public class Prestito extends HttpServlet {
                 request.setAttribute("bibliotecario",true);
                 request.setAttribute("tipologia_utente","Bibliotecario");
                 
-                String isbn = request.getParameter("isbn");
+                String prestito = request.getParameter("Conferma Prestito");
                 
-                request.setAttribute("title","Prestito");
-                request.setAttribute("isbn",isbn);
+                if(prestito == null){
                 
-                List<Volume> vd = dl.getVolumiDisponibili(isbn);
-                List<User> allUser = dl.allUser();
-                
-                request.setAttribute("prestitivolumi",vd);
-                request.setAttribute("prestitiusers",allUser);
-                res.activate("form_prestito.ftl.html", request, response);
+                    request.setAttribute("title","Prestito");
+                    request.setAttribute("isbn",isbn);
+
+                    List<Volume> vd = dl.getVolumiDisponibili(isbn);
+                    List<User> allUser = dl.allUser();
+
+                    request.setAttribute("prestitivolumi",vd);
+                    request.setAttribute("prestitiusers",allUser);
+                    res.activate("form_prestito.ftl.html", request, response);
+                }
+                else{
+                    boolean result = analizza_form_prestito(request,response);
+                    
+                    if(result){
+                        request.setAttribute("messaggio","Prestito eseguito correttamente");
+                    }
+                    else{
+                        request.setAttribute("messaggio","Prestito fallito!");
+                    }
+                    request.setAttribute("title","Prestito");
+                    request.setAttribute("isbn",request.getParameter("prestito_isbn"));
+                    List<Volume> vd = dl.getVolumiDisponibili(isbn);
+                    List<User> allUser = dl.allUser();
+
+                    request.setAttribute("prestitivolumi",vd);
+                    request.setAttribute("prestitiusers",allUser);
+                    res.activate("form_prestito.ftl.html", request, response);
+                }
             }
             else{
                 request.setAttribute("bibliotecario",false);
