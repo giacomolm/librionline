@@ -1,0 +1,24 @@
+<div class="menu">
+<div class="title">Navigazione</div>
+    <ul>
+        <li><a href="Home">Homepage</a></li>
+        <li><a href="Libri">Libri</a></li>
+    </ul>
+<br /> <br /> <br />
+<#if (stato_log??)>
+<div class="title">Pannello ${tipologia_utente}</div>
+    <ul>
+        <#if bibliotecario>
+        <li><a href="RicercaUtente">Ricerca Utente</a></li>
+        <li><a href="PrestitiTotali">Prestiti Totali</a></li>
+        <li><a href="Registrazione">Registra Utente</a></li>
+        <li><a href="InserisciLibro">Inserisci Libro</a></li>
+        <li><a href="InserisciLingua">Inserisci Lingua</a></li>
+        <li><a href="InserisciAutore">Inserisci Autore</a></li>
+        <li><a href="InserisciTag">Inserisci Tag</a></li>
+        <#else>
+        <li><a href="Storico">Storico</a></li>
+        </#if>
+    </ul>
+</#if>
+</div>

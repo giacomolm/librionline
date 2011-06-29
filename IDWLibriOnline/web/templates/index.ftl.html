@@ -14,76 +14,11 @@
     </head>
     <body>
         <div id="layout">
-            <div id="header">
-                <div id="header_menu">
-                       <a id="login" href="Login">
-                           <#if (stato_log??)>
-                           <strong>${stato_log}</strong>
-                           <#else>
-                           <strong>Login</strong>
-                           </#if>
-                       </a>
-                </div>
-                <div id="header_logo"> 
-                    <a id="titolo_header" href="Home"><img src="img/header2.png" alt="LibriOnLine" /></a>
-                </div>
-            </div>
-            <div class="menu">
-                <div class="title">Navigazione</div>
-                    <ul>
-                        <li><a href="Home">Homepage</a></li>
-                        <li><a href="Libri">Libri</a></li>
-                    </ul>
-                <br /> <br /> <br />
-                <#if (stato_log??)>
-                <div class="title">Pannello ${tipologia_utente}</div>
-                    <ul>
-                        <#if bibliotecario>
-                        <li><a href="RicercaUtente">Ricerca Utente</a></li>
-                        <li><a href="PrestitiTotali">Prestiti Totali</a></li>
-                        <li><a href="Registrazione">Registra Utente</a></li>
-                        <li><a href="InserisciLibro">Inserisci Libro</a></li>
-                        <li><a href="InserisciLingua">Inserisci Lingua</a></li>
-                        <li><a href="InserisciAutore">Inserisci Autore</a></li>
-                        <li><a href="InserisciTag">Inserisci Tag</a></li>
-                        <#else>
-                        <li><a href="Storico">Storico</a></li>
-                        </#if>
-                    </ul>
-                </#if>
-            </div>
-            <div id="right">
-                <div id="title">Ricerca</div>
-                <br />
-                <form id="form_ricerca_base" method="get" action="Ricerca" >
-                    <div>
-                    <label>Ricerca veloce:</label>
-                    <input type="text" name="titolo" id="titolo" size="16" /> <br /> <br />
-                    <input type="submit" value="Ricerca" name="Invia" /> 
-                    <input type="reset" value="Reset" name="Cancella" />
-                    </div>
-                </form>
-                <br />
-                <div id="ricerca_avanzata">
-                    <a href="Ricerca">Ricerca avanzata</a>
-                </div>
-                <hr />
-            </div>
-            <div id="center">
-                <div id="center_menu">
-                    ${navigazione!"Navigazione"}
-                </div>
-                <div id="center_body">
-                    
-                    <#include content_tpl>
-                    
-                </div>
-            </div>
-            <div id="footer">
-                Copyright &copy; 2011 LibriOnLine <br />
-                <em>${defaults.author}</em> <br /> 
-                Pagina compilata il ${compiled_on?datetime}
-            </div>
+            <#include "layout_header.ftl.html">
+            <#include "layout_menu.ftl.html">
+            <#include "layout_right.ftl.html">
+            <#include "layout_center.ftl.html">
+            <#include "layout_footer.ftl.html">
         </div>	
     </body>
 </html>
