@@ -1,16 +1,15 @@
+package it.univaq.idw.librionline.controller;
+
 /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package it.univaq.idw.librionline.controller;
 
 import it.univaq.idw.librionline.framework.util.SecurityLayer;
 import it.univaq.idw.librionline.framework.util.TemplateResult;
 import it.univaq.idw.librionline.model.LibriOnLineDataLayer;
-import it.univaq.idw.librionline.model.User;
 import it.univaq.idw.librionline.model.impl.LibriOnLineDataLayerMysqlImpl;
 import java.io.IOException;
-import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -21,7 +20,7 @@ import javax.servlet.http.HttpSession;
  *
  * @author Zilfio
  */
-public class SchedaUtente extends HttpServlet {
+public class ChiudiPrestito extends HttpServlet {
 
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -32,52 +31,39 @@ public class SchedaUtente extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        TemplateResult template = new TemplateResult(getServletContext());
+        TemplateResult res = new TemplateResult(getServletContext());
         HttpSession session = SecurityLayer.checkSession(request);
-        LibriOnLineDataLayer model = new LibriOnLineDataLayerMysqlImpl();
+        LibriOnLineDataLayer dl = new LibriOnLineDataLayerMysqlImpl();
         
-        if(session != null){    
-            
+        if(session != null){
             request.setAttribute("stato_log", "Logout");
-            
-            if(model.isAdmin((String)session.getAttribute("username"))){
+
+            if(dl.isAdmin((String)session.getAttribute("username"))){
                 request.setAttribute("bibliotecario",true);
                 request.setAttribute("tipologia_utente","Bibliotecario");
                 
-                //controllo validita dell'ID dell'user
-                String iduser = request.getParameter("id");
-                int id_user = Integer.parseInt(iduser);
+                String id_prestito = request.getParameter("id_prestito");
+                int prestito = Integer.parseInt(id_prestito);
 
-                if (id_user <= 0){
-                    request.setAttribute("title", "Errore");
-                    request.setAttribute("error_title", "Errore");
-                    request.setAttribute("error", "Attenzione: ID Utente non immesso!");
-                    template.activate("error.ftl.html", request, response);
+                if(dl.chiudiPrestito(prestito)){
+                    request.setAttribute("title","Prestito chiuso correttamente");
+                    request.setAttribute("error","Prestito chiuso correttamente");
+                    request.setAttribute("error_title","Esito Chiusura Prestito");
+                    res.activate("error.ftl.html", request, response);  
                 }
                 else{
-                    User u = model.getUser(id_user);
-                    List<it.univaq.idw.librionline.model.Prestito> p = model.getPrestitiAttivi(model.getUser(id_user).getUsername());
-                    if (u == null){
-                        request.setAttribute("title", "Errore");
-                        request.setAttribute("error_title", "Errore");
-                        request.setAttribute("error", "Attenzione: ID Utente non presente nel DB!");
-                        template.activate("error.ftl.html", request, response);
-                    }
-                    else{
-                        request.setAttribute("title", "Scheda Utente: " + u.getUsername());
-                        request.setAttribute("schedautente", u);
-                        request.setAttribute("prestitiattivi", p);
-                        template.activate("schedautente.ftl.html", request, response); 
-                    }
-                }   
-            }
-            else{
-                request.setAttribute("bibliotecario",false);
-                request.setAttribute("tipologia_utente","Utente");
+                    request.setAttribute("title","Chiusura del Prestito fallito!");
+                    request.setAttribute("error","Chiusura del Prestito fallito!");
+                    request.setAttribute("error_title","Esito Chiusura Prestito");
+                    res.activate("error.ftl.html", request, response);
+                }
             }
         }
+        else{
+            request.setAttribute("bibliotecario",false);
+            request.setAttribute("tipologia_utente","Utente");
+        }
     }
-
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /** 

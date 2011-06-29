@@ -24,20 +24,7 @@
 </#if>
 
 <#if (copiedisponibili??)>
-<p> <strong> Copie Disponibili: </strong> ${copiedisponibili!"Non presente"}</p> 
-</#if>
-<#if (copiedisponibili>0)>
-<#if (stato_log??)> 
-    <#if bibliotecario>
-    <form action="Prestito" method="get">
-        <div>
-        <input type="hidden" value="${libro.isbn}" name="isbn" />
-        <input type="submit" value="Procedi con il prestito" name="Invia"/>
-        </div>
-    </form> 
-    </#if>
-    <br />
-</#if> 
+<p> <strong> Copie Disponibili: </strong> ${copiedisponibili!"Non presente"} - <#if (copiedisponibili>0)><#if (stato_log??)><#if bibliotecario><a href="Prestito?isbn=${libro.isbn}">Procedi con il Prestito</a></#if></#if></#if> </p> 
 </#if>
 
 <#if (datapresuntarestituzione??)>

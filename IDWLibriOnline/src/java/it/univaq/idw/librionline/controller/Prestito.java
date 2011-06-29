@@ -60,8 +60,6 @@ public class Prestito extends HttpServlet {
         HttpSession session = SecurityLayer.checkSession(request);
         LibriOnLineDataLayer dl = new LibriOnLineDataLayerMysqlImpl();
         
-        String isbn = request.getParameter("isbn");
-        
         if(session != null){
             request.setAttribute("stato_log", "Logout");
 
@@ -70,6 +68,7 @@ public class Prestito extends HttpServlet {
                 request.setAttribute("tipologia_utente","Bibliotecario");
                 
                 String prestito = request.getParameter("Conferma Prestito");
+                String isbn = request.getParameter("isbn");
                 
                 if(prestito == null){
                 
@@ -87,19 +86,15 @@ public class Prestito extends HttpServlet {
                     boolean result = analizza_form_prestito(request,response);
                     
                     if(result){
-                        request.setAttribute("messaggio","Prestito eseguito correttamente");
+                        request.setAttribute("title","Prestito eseguito correttamente");
+                        request.setAttribute("error","Prestito eseguito correttamente");
                     }
                     else{
-                        request.setAttribute("messaggio","Prestito fallito!");
+                        request.setAttribute("title","Prestito fallito!");
+                        request.setAttribute("error","Prestito fallito!");
                     }
-                    request.setAttribute("title","Prestito");
-                    request.setAttribute("isbn",request.getParameter("prestito_isbn"));
-                    List<Volume> vd = dl.getVolumiDisponibili(isbn);
-                    List<User> allUser = dl.allUser();
-
-                    request.setAttribute("prestitivolumi",vd);
-                    request.setAttribute("prestitiusers",allUser);
-                    res.activate("form_prestito.ftl.html", request, response);
+                    request.setAttribute("error_title","Esito Prestito!");
+                    res.activate("error.ftl.html", request, response);
                 }
             }
             else{

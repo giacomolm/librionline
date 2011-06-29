@@ -12,6 +12,17 @@
             <p><strong>Citt&agrave;</strong> ${schedautente.citta}</p>
             <p><strong>Provincia:</strong> ${schedautente.provincia}</p>
             <p><strong>CAP:</strong> ${schedautente.cap}</p>
+            <br />
+            <p><strong>Prestiti attivi:</strong></p>
+            <#if prestitiattivi??>
+            <ul>
+            <#list prestitiattivi as prestitoattivo>
+            <li><em>Libro da restituire:</em> <a href="SchedaDettaglioLibro?isbn=${prestitoattivo.volume.libro.isbn}">${prestitoattivo.volume.libro.titolo}</a> - <em>Data prestito:</em> ${prestitoattivo.dataPrestito?date} - <em>Restituire entro il:</em> ${prestitoattivo.dataPresuntaRestituzione?date} - <a href="ChiudiPrestito?id_prestito=${prestitoattivo.id}">Chiudi Prestito</a> </li>
+            </#list>
+            </ul>
+            <#else>
+                <p><em>Nota: Nessun prestito attivo</em></p>
+            </#if>
         </#if>
     </#if>
 </#if>

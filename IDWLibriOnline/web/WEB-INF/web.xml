@@ -109,6 +109,14 @@
         <servlet-name>InserisciLingua</servlet-name>
         <servlet-class>it.univaq.idw.librionline.controller.InserisciLingua</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>RicercaUtente</servlet-name>
+        <servlet-class>it.univaq.idw.librionline.controller.RicercaUtente</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ChiudiPrestito</servlet-name>
+        <servlet-class>it.univaq.idw.librionline.controller.ChiudiPrestito</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Home</servlet-name>
         <url-pattern>/Home</url-pattern>
@@ -188,6 +196,14 @@
     <servlet-mapping>
         <servlet-name>InserisciLingua</servlet-name>
         <url-pattern>/InserisciLingua</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>RicercaUtente</servlet-name>
+        <url-pattern>/RicercaUtente</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ChiudiPrestito</servlet-name>
+        <url-pattern>/ChiudiPrestito</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
