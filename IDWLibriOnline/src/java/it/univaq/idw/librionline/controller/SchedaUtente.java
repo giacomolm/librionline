@@ -66,7 +66,12 @@ public class SchedaUtente extends HttpServlet {
                     else{
                         request.setAttribute("title", "Scheda Utente: " + u.getUsername());
                         request.setAttribute("schedautente", u);
-                        request.setAttribute("prestitiattivi", p);
+                        if(p.isEmpty()){
+                            request.setAttribute("prestitiattivi", null);
+                        }
+                        else{
+                            request.setAttribute("prestitiattivi", p);
+                        }
                         template.activate("schedautente.ftl.html", request, response); 
                     }
                 }   
