@@ -1208,7 +1208,7 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
                 Prestito p = (Prestito) ite.next();
                 //Per ciascun prestito, verifico se è in corso e se l'utente
                 //indicato dal parametro passato in input
-                if(!p.getRestituito() && (p.getUser().equals(u))) return true;
+                if((!p.getRestituito()) && (p.getUser().equals(u))) return true;
             }
         }
         return false;
