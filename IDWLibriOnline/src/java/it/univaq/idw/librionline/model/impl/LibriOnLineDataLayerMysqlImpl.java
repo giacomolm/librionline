@@ -1377,11 +1377,12 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
      * che per stato indichiamo le condizioni fisiche di un volume
      * @return Lista di stato
      */
+    @Override
     public List<Stato> getAllStato(){
         List<Stato> sl = new ArrayList<Stato>();
         try{
             //Prelevo tutti quanti gli oggetti stato
-            sl =  manager.createNamedQuery("StatoMysqlImpl.findByAll").getResultList();
+            sl =  manager.createNamedQuery("StatoMysqlImpl.findAll").getResultList();
         }catch (NoResultException e){
             //Non esiste alcun utente con quell'username
         }
