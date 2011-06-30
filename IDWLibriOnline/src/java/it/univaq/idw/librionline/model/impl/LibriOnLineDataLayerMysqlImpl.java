@@ -4,6 +4,7 @@
  */
 package it.univaq.idw.librionline.model.impl;
 
+import com.sun.org.apache.xerces.internal.impl.dv.xs.MonthDV;
 import it.univaq.idw.librionline.model.LibriOnLineDataLayer;
 import it.univaq.idw.librionline.model.Autore;
 import it.univaq.idw.librionline.model.Gruppo;
@@ -66,19 +67,17 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
      * @return true se il l'inserimento è stato effettuato in maniera corretta
      */
     @Override
-    public boolean insertBook(String isbn, String titolo, String editore, Date annopubbl, String recens, int id_lingua,String[] id_autori, String[] id_tag, int n_copie, int id_stato){
+    public boolean insertBook(String isbn, String titolo, String editore, long annopubbl, String recens, int id_lingua,String[] id_autori, String[] id_tag, int n_copie, int id_stato){
         if(!bookIsThis(isbn)){
             List<Autore> autori = new ArrayList<Autore>();
             List<Tag> tags = new ArrayList<Tag>();
             boolean res = true;
-            //Date new
             manager.getTransaction().begin();
             //Inseriamo i campi opportuni nel nuovo oggetto libro
             Libro l = new LibroMysqlImpl(isbn, titolo);
-            l.setEditore(editore);
-            
-            //l.setAnnoPubblicazione(annopubbl.g);
-            l.setRecensione(recens);
+            if(editore != null) l.setEditore(editore);
+            l.setAnnoPubblicazione(new Date((long)((annopubbl*60*24*365.25*1000)-(1970*60*60*24*365.25*1000))));
+            if(recens != null) l.setRecensione(recens);
             l.setDataIns(new Date());
             //Si è deciso di creare un entità separata per le lingue. Per questo motivo
             //dobbiamo recuperare la lingua dall'entità per impostarla nel libro
@@ -1388,5 +1387,22 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
             //Non esiste alcun utente con quell'username
         }
         return sl;
+    }
+    
+    public boolean insertStato(String stato){
+        boolean res = false;
+        try{
+           //Prelevo gli oggetti stato, se esistano
+           manager.createNamedQuery("StatoMysqlImpl.findByStato").setParameter("stato", stato).getResultList();
+        }catch (NoResultException e){
+            //Non esiste alcun utente con quell'username
+            res = true;
+        }
+        if(res){
+            Stato s = new StatoMysqlImpl(null, stato);
+            
+        }
+        
+        return res;
     }
 }

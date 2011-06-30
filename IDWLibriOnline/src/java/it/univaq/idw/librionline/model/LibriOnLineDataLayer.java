@@ -4,8 +4,6 @@
  */
 package it.univaq.idw.librionline.model;
 
-import it.univaq.idw.librionline.model.Libro;
-import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
@@ -15,7 +13,7 @@ import java.util.List;
  */
 public interface LibriOnLineDataLayer {
 
-        /**
+    /**
      * Inserisce un libro nella libreria, controllondo anticipatamente
      * se questo è presente già nella libreria, tramite il metodo bookIsThis(Libro).
      * È importante notare come gli autori vengono passati come una collezione 
@@ -25,7 +23,7 @@ public interface LibriOnLineDataLayer {
      * @param l Libro da inserire
      * @return true se il l'inserimento è stato effettuato in maniera corretta
      */
-    boolean insertBook(String isbn, String titolo, String editore, Date annopubbl, String recens, int id_lingua,String[] id_autori, String[] id_tag, int n_copie, int id_stato);
+    boolean insertBook(String isbn, String titolo, String editore, long annopubbl, String recens, int id_lingua,String[] id_autori, String[] id_tag, int n_copie, int id_stato);
     
     /**
      * Questo metodo verifica se una particolare username è già presente nel DB.
