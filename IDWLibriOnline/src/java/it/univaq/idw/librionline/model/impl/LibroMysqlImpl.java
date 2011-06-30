@@ -58,9 +58,8 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "LibroMysqlImpl.findByAnnoPubblicazione", query = "SELECT l FROM LibroMysqlImpl l WHERE l.annoPubblicazione = :annoPubblicazione")})
 public class LibroMysqlImpl implements Serializable,Libro {
     @Column(name =     "annoPubblicazione")
-    @Temporal(TemporalType.DATE)
-    private Date annoPubblicazione;
-    @Basic(optional = false)
+    private String annoPubblicazione;
+    @Basic(optional =     false)
     @Column(name = "data_ins")
     @Temporal(TemporalType.DATE)
     private Date dataIns;
@@ -102,10 +101,7 @@ public class LibroMysqlImpl implements Serializable,Libro {
     @ManyToOne
     private LinguaMysqlImpl lingua;
 
-    /**
-     * 
-     */
-    LibroMysqlImpl() {
+    public LibroMysqlImpl() {
     }
 
     /**
@@ -398,12 +394,12 @@ public class LibroMysqlImpl implements Serializable,Libro {
     }*/
 
     @Override
-    public Date getAnnoPubblicazione() {
+    public String getAnnoPubblicazione() {
         return annoPubblicazione;
     }
 
     @Override
-    public void setAnnoPubblicazione(Date annoPubblicazione) {
-        this.annoPubblicazione = annoPubblicazione;
+    public void setAnnoPubblicazione(String annoPubblicazione) {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 }

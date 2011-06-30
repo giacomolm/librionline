@@ -67,7 +67,7 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
      * @return true se il l'inserimento è stato effettuato in maniera corretta
      */
     @Override
-    public boolean insertBook(String isbn, String titolo, String editore, long annopubbl, String recens, int id_lingua,String[] id_autori, String[] id_tag, int n_copie, int id_stato){
+    public boolean insertBook(String isbn, String titolo, String editore, String annopubbl, String recens, int id_lingua,String[] id_autori, String[] id_tag, int n_copie, int id_stato){
         if(!bookIsThis(isbn)){
             List<Autore> autori = new ArrayList<Autore>();
             List<Tag> tags = new ArrayList<Tag>();
@@ -76,7 +76,7 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
             //Inseriamo i campi opportuni nel nuovo oggetto libro
             Libro l = new LibroMysqlImpl(isbn, titolo);
             if(editore != null) l.setEditore(editore);
-            l.setAnnoPubblicazione(new Date((long)((annopubbl*60*24*365.25*1000)-(1970*60*60*24*365.25*1000))));
+            l.setAnnoPubblicazione(annopubbl);
             if(recens != null) l.setRecensione(recens);
             l.setDataIns(new Date());
             //Si è deciso di creare un entità separata per le lingue. Per questo motivo

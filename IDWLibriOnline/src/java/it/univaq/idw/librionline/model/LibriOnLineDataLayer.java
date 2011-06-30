@@ -23,7 +23,7 @@ public interface LibriOnLineDataLayer {
      * @param l Libro da inserire
      * @return true se il l'inserimento è stato effettuato in maniera corretta
      */
-    boolean insertBook(String isbn, String titolo, String editore, long annopubbl, String recens, int id_lingua,String[] id_autori, String[] id_tag, int n_copie, int id_stato);
+    boolean insertBook(String isbn, String titolo, String editore, String annopubbl, String recens, int id_lingua,String[] id_autori, String[] id_tag, int n_copie, int id_stato);
     
     /**
      * Questo metodo verifica se una particolare username è già presente nel DB.
