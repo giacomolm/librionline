@@ -665,7 +665,7 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
                      //Mi riferrico con l al libro corrente nella lista di libri che sto esaminando
                      Libro l = ((Libro) it.next());
                      //scelgo il libro nella lista che ha il numero minore di prestiti
-                     int temp = (int) lc.get(getMinPrestiti(lc));
+                     int temp = ((Integer)lc.get(getMinPrestiti(lc)));
                      //se il numero di prestiti riferiti a l sono maggiori di quelli di temp
                      //allora devo procedere con il replace di questo
                      Collection<Volume> volcol = l.getVolumeCollection();
@@ -713,7 +713,7 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
             String key;
             for(i=1; i<list.length; i++){
                 key = (String) list[i];
-                if((int)m.get(key) < (int)m.get(min)) min = key;
+                if(((Integer)m.get(key)) < ((Integer)m.get(min))) min = key;
             }
         }
         return min;
@@ -1393,8 +1393,10 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
      * @param stato
      * @return 
      */
+    @Override
     public boolean insertStato(String stato){
         boolean res = false;
+        manager.getTransaction().begin();
         try{
            //Prelevo gli oggetti stato, se esistono
            manager.createNamedQuery("StatoMysqlImpl.findByStato").setParameter("stato", stato).getResultList();
@@ -1404,9 +1406,10 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
         }
         if(res){
             Stato s = new StatoMysqlImpl(null, stato);
+            //memorizzo sul database
             manager.persist(s);
         }
-        
+        manager.getTransaction().commit();
         return res;
     }
 }
