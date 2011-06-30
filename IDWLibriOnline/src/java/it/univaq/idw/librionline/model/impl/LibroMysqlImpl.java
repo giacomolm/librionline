@@ -400,6 +400,6 @@ public class LibroMysqlImpl implements Serializable,Libro {
 
     @Override
     public void setAnnoPubblicazione(String annoPubblicazione) {
-        throw new UnsupportedOperationException("Not supported yet.");
+       this.annoPubblicazione = annoPubblicazione;
     }
 }
