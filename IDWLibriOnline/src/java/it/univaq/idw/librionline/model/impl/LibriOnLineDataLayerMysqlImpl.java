@@ -91,13 +91,13 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
             //dalla propria entità e poi aggiungerlo al libro che si vuole inserire
             try{
                 for(int i=0; i<id_autori.length; i++){
-                    autori.add((AutoreMysqlImpl)manager.createNamedQuery("AutoreMysqlImpl.findById").setParameter("id", id_autori[i]).getSingleResult());
+                    autori.add((AutoreMysqlImpl)manager.createNamedQuery("AutoreMysqlImpl.findById").setParameter("id", Integer.parseInt(id_autori[i])).getSingleResult());
                 }
                 l.setAutoreCollection(autori);
                 
                 //Facciamo la stessa cosa con i tag
                 for(int i=0; i<id_tag.length; i++){
-                    tags.add((TagMysqlImpl)manager.createNamedQuery("TagMysqlImpl.findById").setParameter("id", id_tag[i]).getSingleResult());
+                    tags.add((TagMysqlImpl)manager.createNamedQuery("TagMysqlImpl.findById").setParameter("id", Integer.parseInt(id_tag[i])).getSingleResult());
                 }
                 l.setTagCollection(tags);
             }catch(NoResultException e){
