@@ -35,6 +35,13 @@
                 </#list>
             </select>
             <br /> <br />
+            <label>Numero volumi: </label><input type="text" name="insertbook_numerocopie" id="insertbook_numerocopie" value="1" size="2" maxlength="3"/>
+            <label>Stato: </label>
+            <select name="insertbook_stato">
+                <#list stati as stato>
+                <option value="${stato.id}">${stato.stato}</option>
+                </#list>
+            </select>
         </fieldset>
         <div>
             <br />

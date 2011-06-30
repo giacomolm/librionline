@@ -9,7 +9,7 @@
                 ${autore.nome} ${autore.cognome}
              <#if autore_has_next>, </#if>
              </#list>
-             - ${libro.editore} - ${libro.annoPubblicazione?string("yyyy")}</em>
+             - ${libro.editore} - ${libro.annoPubblicazione!"Non presente"}</em>
              </li> 
         </#list>
     </ul>

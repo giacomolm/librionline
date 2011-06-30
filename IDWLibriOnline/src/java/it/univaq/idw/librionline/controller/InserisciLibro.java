@@ -9,10 +9,12 @@ import it.univaq.idw.librionline.framework.util.TemplateResult;
 import it.univaq.idw.librionline.model.Autore;
 import it.univaq.idw.librionline.model.LibriOnLineDataLayer;
 import it.univaq.idw.librionline.model.Lingua;
+import it.univaq.idw.librionline.model.Stato;
 import it.univaq.idw.librionline.model.Tag;
 import it.univaq.idw.librionline.model.impl.LibriOnLineDataLayerMysqlImpl;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Date;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -36,14 +38,25 @@ public class InserisciLibro extends HttpServlet {
         String lingua = request.getParameter("insertbook_lingua");
         String[] autore = request.getParameterValues("insertbook_autore");
         String[] tag = request.getParameterValues("insertbook_tag");
+        String copie = request.getParameter("insertbook_numerocopie");
+        String stato = request.getParameter("insertbook_stato");
         
-        PrintWriter  w = response.getWriter();
-        w.println(tag);
-        
-        if(isbn == null || isbn.isEmpty()){
+        if((isbn == null || isbn.isEmpty()) || (titolo == null || titolo.isEmpty()) || (editore == null || editore.isEmpty()) || (annoPubblicazione == null || annoPubblicazione.isEmpty())|| (autore == null) || (tag == null) || (copie == null || copie.isEmpty()) || (stato == null || stato.isEmpty())){
             return false;
         }
-        return true;
+        
+        LibriOnLineDataLayer dl = new LibriOnLineDataLayerMysqlImpl();
+        
+        int id_lingua = Integer.parseInt(lingua);
+        int n_copie = Integer.parseInt(copie);
+        int id_stato = Integer.parseInt(stato);
+        
+        if(dl.insertBook(isbn, titolo, editore, annoPubblicazione, recensione, id_lingua, autore, tag, n_copie, id_stato)){
+            return true;
+        }
+        else{
+            return false;
+        }
     }
 
     /** 
@@ -70,11 +83,13 @@ public class InserisciLibro extends HttpServlet {
                 List<Lingua> lingue = dl.getAllLingua();
                 List<Autore> autori = dl.getAllAutori();
                 List<Tag> tags = dl.getAllTag();
+                List<Stato> stati = dl.getAllStato();
 
                 request.setAttribute("title","Libri");
                 request.setAttribute("lingue",lingue);
                 request.setAttribute("autori",autori);
                 request.setAttribute("tags",tags);
+                request.setAttribute("stati",stati);
                 
                 String insert_tag = request.getParameter("Inserisci Libro");
                 
