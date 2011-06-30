@@ -10,6 +10,7 @@ import it.univaq.idw.librionline.model.Gruppo;
 import it.univaq.idw.librionline.model.Libro;
 import it.univaq.idw.librionline.model.Lingua;
 import it.univaq.idw.librionline.model.Prestito;
+import it.univaq.idw.librionline.model.Stato;
 import it.univaq.idw.librionline.model.Tag;
 import it.univaq.idw.librionline.model.User;
 import it.univaq.idw.librionline.model.Volume;
@@ -65,8 +66,12 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
      * @return true se il l'inserimento è stato effettuato in maniera corretta
      */
     @Override
-    public boolean insertBook(String isbn, String titolo, String editore, Date annopubbl, String recens, Lingua lingua,Collection<Autore> autori, Collection<Tag> tag){
+    public boolean insertBook(String isbn, String titolo, String editore, Date annopubbl, String recens, int id_lingua,String[] id_autori, String[] id_tag, int n_copie, int id_stato){
         if(!bookIsThis(isbn)){
+            List<Autore> autori = new ArrayList<Autore>();
+            List<Tag> tags = new ArrayList<Tag>();
+            boolean res = true;
+            //Date new
             manager.getTransaction().begin();
             //Inseriamo i campi opportuni nel nuovo oggetto libro
             Libro l = new LibroMysqlImpl(isbn, titolo);
@@ -76,7 +81,7 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
             //Si è deciso di creare un entità separata per le lingue. Per questo motivo
             //dobbiamo recuperare la lingua dall'entità per impostarla nel libro
             try{
-                l.setLingua((LinguaMysqlImpl)(manager.createNamedQuery("LinguaMysqlImpl.findByLingua").setParameter("lingua", lingua.getLingua()).getSingleResult()));      
+                l.setLingua((LinguaMysqlImpl)(manager.createNamedQuery("LinguaMysqlImpl.findById").setParameter("id", id_lingua).getSingleResult()));      
             }catch(NoResultException e){
                 //System.out.printlm("Problemi con le lingue");
             }
@@ -84,16 +89,63 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
             //Procediamo con l'inserimento degli autori. Dobbiamo prima recuperare ciascun autore
             //dalla propria entità e poi aggiungerlo al libro che si vuole inserire
             try{
+                for(int i=0; i<id_autori.length; i++){
+                    autori.add((AutoreMysqlImpl)manager.createNamedQuery("AutoreMysqlImpl.findById").setParameter("id", id_autori[i]).getSingleResult());
+                }
                 l.setAutoreCollection(autori);
+                
+                //Facciamo la stessa cosa con i tag
+                for(int i=0; i<id_tag.length; i++){
+                    tags.add((TagMysqlImpl)manager.createNamedQuery("TagMysqlImpl.findById").setParameter("id", id_tag[i]).getSingleResult());
+                }
+                l.setTagCollection(tags);
             }catch(NoResultException e){
-                //Ci sono stati dei problemi nell'aggiunta degli autori
+                //Ci sono stati dei problemi nell'aggiunta degli autori o nell'aggiunta dei tag
+                res = false;
             }
-            //manager.persist(l);
+           
+            //Memorizzo effettivamente sul db le modifiche
+            manager.persist(l);
             manager.getTransaction().commit();
-            return true;
+            
+            //Devo ricordare di impostare anche i volumi
+            
+            
+            return res;
         }
         else return false;
     }
+    
+    /**
+     * Il metodo permette l'inserimento di un volume a partire da un libro 
+     * @param l Libro al quale vogliamo inserire i volumi
+     * @param id_stato stato dei volumi che vogliamo inserire
+     * @return true se l'aggiunta dei volumi viene fatta in maniera corretta
+     */
+    public boolean insertVolume(Libro l, int id_stato){
+        boolean res = true;
+        Volume vol = new VolumeMysqlImpl();
+        //Imposto il libro al nuovo volume creato
+        vol.setLibro(l);
+        
+        manager.getTransaction().begin();
+        try{
+            //cerco l'oggetto stato a partire dal suo id
+            Stato st = (Stato) manager.createNamedQuery("StatoMysqlImpl.findById").setParameter("id", id_stato).getSingleResult();
+            //imposto lo stato sul volume
+            vol.setStato(st);
+            //memorizzo il volume fisicamente sul db
+            manager.persist(vol);
+        }
+        catch(NoResultException e){
+            //se qualcosa è andata storta, avviso il chiamante
+            res = false;
+        }
+        
+        manager.getTransaction().commit();
+        return res;
+    }
+    
     /**
      * Il controllo di presenza viene effettuato in relazione all'isbn. 
      * @param isbn 
