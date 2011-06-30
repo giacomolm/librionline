@@ -14,7 +14,7 @@
     </context-param>
     <context-param>
         <param-name>view.data.author</param-name>
-        <param-value>Silvio D'Orazio - Simone Potenza - Giacomo Lamonaco</param-value>
+        <param-value>Silvio D'Orazio - Giacomo Lamonaco</param-value>
     </context-param>
     <context-param>
         <param-name>view.encoding</param-name>
@@ -117,6 +117,14 @@
         <servlet-name>ChiudiPrestito</servlet-name>
         <servlet-class>it.univaq.idw.librionline.controller.ChiudiPrestito</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>InserisciStato</servlet-name>
+        <servlet-class>it.univaq.idw.librionline.controller.InserisciStato</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>InserisciVolume</servlet-name>
+        <servlet-class>it.univaq.idw.librionline.controller.InserisciVolume</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Home</servlet-name>
         <url-pattern>/Home</url-pattern>
@@ -204,6 +212,14 @@
     <servlet-mapping>
         <servlet-name>ChiudiPrestito</servlet-name>
         <url-pattern>/ChiudiPrestito</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>InserisciStato</servlet-name>
+        <url-pattern>/InserisciStato</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>InserisciVolume</servlet-name>
+        <url-pattern>/InserisciVolume</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

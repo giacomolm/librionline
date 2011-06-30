@@ -24,7 +24,7 @@
 </#if>
 
 <#if (copiedisponibili??)>
-<p> <strong> Copie Disponibili: </strong> ${copiedisponibili!"Non presente"} - <#if (copiedisponibili>0)><#if (stato_log??)><#if bibliotecario><a class="prestito_link" href="Prestito?isbn=${libro.isbn}">Procedi con il Prestito</a></#if></#if></#if> </p> 
+<p> <strong> Copie Disponibili: </strong> ${copiedisponibili!"Non presente"} <#if (copiedisponibili>0)><#if (stato_log??)><#if bibliotecario>- <a class="prestito_link" href="Prestito?isbn=${libro.isbn}">Procedi con il Prestito</a></#if></#if></#if> </p> 
 </#if>
 
 <#if (datapresuntarestituzione??)>

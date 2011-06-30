@@ -3,9 +3,11 @@
 <#if (stato_log??)>
     <#if !bibliotecario>
         <#if (prestiti_passati??)>
+            <ul>
             <#list prestiti_passati as prestito_passato>
-            <li><em>Libro restituito:</em> <a href="SchedaDettaglioLibro?isbn=${prestito_passato.volume.libro.isbn}">${prestito_passato.volume.libro.titolo}</a> - <em>Data prestito:</em> ${prestito_passato.dataPrestito?date} - <em>Data restituzione:</em> ${prestito_passato.dataRestituzione?date} </li>
+                <li><em>Libro restituito:</em> <a href="SchedaDettaglioLibro?isbn=${prestito_passato.volume.libro.isbn}">${prestito_passato.volume.libro.titolo}</a> - <em>Data prestito:</em> ${prestito_passato.dataPrestito?date} - <em>Data restituzione:</em> ${prestito_passato.dataRestituzione?date} </li>
             </#list>
+            </ul>
             <#else>
             <p><em> Nota: Nessun libro riconsegnato nella biblioteca </em></p>
             </#if>

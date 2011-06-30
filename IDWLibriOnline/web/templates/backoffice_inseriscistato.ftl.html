@@ -1,0 +1,23 @@
+<h2 class="page_title"> Inserimento di uno stato </h2>
+<#if (stato_log??)>
+    <#if bibliotecario>
+        <#if (messaggio??)>
+        <div class="messaggio">
+            <p><strong>${messaggio}</strong></p>
+        </div>
+        <div><br /></div>
+        </#if>
+    <form action="InserisciStato" method="get" id="insertstato">
+        <fieldset><legend>Stato</legend>
+            <br />
+            <label>Stato</label> <input type="text" name="insertstato_stato" id="insertstato_stato" maxlength="25" /> <br />
+            <br />
+        </fieldset>
+        <div>
+            <br />
+            <input type="submit" value="Inserisci Stato" name="Inserisci Stato" />
+            <input type="reset" value="Reset" name="Cancella" />
+        </div>
+    </form>
+    </#if>
+</#if>

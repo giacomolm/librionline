@@ -7,8 +7,8 @@
 <p>Hai a disposizione anche un Pannello Bibliotecario (<strong>Backoffice</strong>), sotto il men&ugrave; a sinistra, tramite il quale puoi inserire e modificare tutti i dati associati ai libri! </p>
 <#else>
 <p>Ciao, come utente registrato potrai effettuare ricerche nel sito, visualizzare schede dettaglio dei libri, vedere i libri che hai in prestito e le relative date di rinconsegna.</p> 
-<p>I libri la cui data di riconsegna &egrave; stata superata sono evidenziati!</p>
-<p>Inoltre lei ha a disposizione la sezione <a href="Storico">Storico</a> in cui pu&ograve; vedere i volumi gi&agrave; presi in prestito e restituiti!</p>
+<p>I libri la cui data di riconsegna &egrave; stata superata sono evidenziati in rosso!</p>
+<p>Inoltre hai a disposizione la sezione <a href="Storico">Storico</a> in cui pu&ograve; vedere i volumi gi&agrave; presi in prestito e restituiti!</p>
 </#if>
 <#else>
 <p>Ciao, come utente anonimo potrai effettuare ricerche nel sito e visualizzare schede dettaglio dei libri! </p>
@@ -30,7 +30,7 @@
             </#list>
             </ul>
         <#else>
-            <p> Nessun libro da riconsegnare nella biblioteca </p>
+            <p><em>Nota: Nessun libro da riconsegnare nella biblioteca </em></p>
         </#if>
     </div>
     <br />
@@ -45,7 +45,7 @@
     </#list>
     </ul>
     <#else>
-        <p> Nessun libro presente nella biblioteca </p>
+        <p><em>Nota: Nessun libro presente nella biblioteca </em></p>
     </#if>
 </div>
 <br />
@@ -58,6 +58,6 @@
     </#list>
     </ul>
     <#else>
-        <p> Nessun libro prestato </p>
+        <p><em>Nota: Nessun libro prestato </em></p>
     </#if>
 </div>
