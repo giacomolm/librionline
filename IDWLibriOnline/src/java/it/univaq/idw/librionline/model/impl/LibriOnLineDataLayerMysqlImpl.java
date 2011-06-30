@@ -1387,6 +1387,12 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
         return sl;
     }
     
+    /**
+     * Il metodo provvede all'inserimento di un nuovo stato, cioè di una nuova
+     * condizione fisica del libro
+     * @param stato
+     * @return 
+     */
     public boolean insertStato(String stato){
         boolean res = false;
         try{
@@ -1398,7 +1404,7 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
         }
         if(res){
             Stato s = new StatoMysqlImpl(null, stato);
-            
+            manager.persist(s);
         }
         
         return res;

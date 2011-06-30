@@ -357,4 +357,12 @@ public interface LibriOnLineDataLayer {
      * @return Lista di stato
      */
     List<Stato> getAllStato();
+    
+    /**
+     * Il metodo provvede all'inserimento di un nuovo stato, cioè di una nuova
+     * condizione fisica del libro
+     * @param stato Stringa indicante la nuova condizione fisica
+     * @return true se l'inserimento è stato eseguito in maniera corretta
+     */
+    boolean insertStato(String stato);
 }
