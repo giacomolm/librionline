@@ -24,15 +24,15 @@ public class InserisciStato extends HttpServlet {
     
     private boolean analizza_form_stato(HttpServletRequest request, HttpServletResponse response) {
       
-        String tag = request.getParameter("inserttag_tag");
+        String stato = request.getParameter("insertstato_stato");
         
-        if(tag == null || tag.isEmpty()){
+        if(stato == null || stato.isEmpty()){
             return false;
         }
         
         LibriOnLineDataLayer dl = new LibriOnLineDataLayerMysqlImpl();
 
-        if(dl.insertTag(tag)){
+        if(dl.insertStato(stato)){
             return true;
         }
         else{
@@ -61,9 +61,9 @@ public class InserisciStato extends HttpServlet {
                 request.setAttribute("bibliotecario",true);
                 request.setAttribute("tipologia_utente","Bibliotecario");
                 
-                String insert_tag = request.getParameter("Inserisci Stato");
+                String insert_state = request.getParameter("Inserisci Stato");
                 
-                if(insert_tag == null){
+                if(insert_state == null){
                     request.setAttribute("title","Inserisci Stato");
                     res.activate("backoffice_inseriscistato.ftl.html", request, response);
                 }
