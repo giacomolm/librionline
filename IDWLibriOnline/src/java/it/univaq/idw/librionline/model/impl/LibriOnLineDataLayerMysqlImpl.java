@@ -76,7 +76,8 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
             //Inseriamo i campi opportuni nel nuovo oggetto libro
             Libro l = new LibroMysqlImpl(isbn, titolo);
             l.setEditore(editore);
-            l.setAnnoPubblicazione(annopubbl);
+            
+            //l.setAnnoPubblicazione(annopubbl.g);
             l.setRecensione(recens);
             l.setDataIns(new Date());
             //Si è deciso di creare un entità separata per le lingue. Per questo motivo
