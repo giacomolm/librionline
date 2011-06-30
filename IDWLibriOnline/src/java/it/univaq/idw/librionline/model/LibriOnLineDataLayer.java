@@ -352,4 +352,11 @@ public interface LibriOnLineDataLayer {
      * @return true se la chiusura è stata eseguita correttamente
      */
     boolean chiudiPrestito(int id_prestito);
+    
+    /**
+     * Il metodo fornisce tutti quanti gli stati presenti nel sistema. Ricordiamo
+     * che per stato indichiamo le condizioni fisiche di un volume
+     * @return Lista di stato
+     */
+    List<Stato> getAllStato();
 }
