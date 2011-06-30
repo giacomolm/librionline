@@ -31,6 +31,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.NoResultException;
 import javax.persistence.Persistence;
+import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
 
 /**
  *
@@ -1400,15 +1401,15 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
         try{
            //Prelevo gli oggetti stato, se esistono
            manager.createNamedQuery("StatoMysqlImpl.findByStato").setParameter("stato", stato).getResultList();
+           Stato s = new StatoMysqlImpl(null, stato);
+           //memorizzo sul database
+           manager.persist(s);
+           res = true;
         }catch (NoResultException e){
             //Non esiste alcuno stato con quel nome
-            res = true;
+  
         }
-        if(res){
-            Stato s = new StatoMysqlImpl(null, stato);
-            //memorizzo sul database
-            manager.persist(s);
-        }
+        //System.out.println("Zilfio"+res);
         manager.getTransaction().commit();
         return res;
     }
