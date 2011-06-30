@@ -665,7 +665,7 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
                      //Mi riferrico con l al libro corrente nella lista di libri che sto esaminando
                      Libro l = ((Libro) it.next());
                      //scelgo il libro nella lista che ha il numero minore di prestiti
-                     String temp = (String) lc.get(getMinPrestiti(lc));
+                     int temp = (int) lc.get(getMinPrestiti(lc));
                      //se il numero di prestiti riferiti a l sono maggiori di quelli di temp
                      //allora devo procedere con il replace di questo
                      Collection<Volume> volcol = l.getVolumeCollection();
@@ -674,7 +674,7 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
                      for(iv = volcol.iterator(); iv.hasNext();){
                             sum+=((Volume) iv.next()).getPrestitoCollection().size();
                         }
-                     if(sum>Integer.parseInt(temp)){
+                     if(sum>temp){
                          lc.remove(getMinPrestiti(lc));
                          lc.put(l.getIsbn(), sum);
                      }
@@ -704,18 +704,16 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
     
         int i;
         String min = null;
-        Set list = m.entrySet();
-        if(list.size()>1){
-            Iterator it = list.iterator();
-            if(it.hasNext()){
-                String key = (String) it.next();
-                min=key;
-                while (it.hasNext()) {
-                    key = (String) it.next();
-                    if(Integer.parseInt((String) m.get(key)) <
-                       Integer.parseInt((String) m.get(min))  )
-                        min = key;
-                }
+        Set set = m.keySet();
+        
+        Object[] list = new Object[set.size()];
+        list = set.toArray();
+        if(list.length>1){ 
+            min =(String) list[0];
+            String key;
+            for(i=1; i<list.length; i++){
+                key = (String) list[i];
+                if((int)m.get(key) < (int)m.get(min)) min = key;
             }
         }
         return min;
@@ -1392,10 +1390,10 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
     public boolean insertStato(String stato){
         boolean res = false;
         try{
-           //Prelevo gli oggetti stato, se esistano
+           //Prelevo gli oggetti stato, se esistono
            manager.createNamedQuery("StatoMysqlImpl.findByStato").setParameter("stato", stato).getResultList();
         }catch (NoResultException e){
-            //Non esiste alcun utente con quell'username
+            //Non esiste alcuno stato con quel nome
             res = true;
         }
         if(res){
