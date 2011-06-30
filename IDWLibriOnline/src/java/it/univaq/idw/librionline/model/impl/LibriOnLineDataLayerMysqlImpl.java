@@ -78,6 +78,7 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
             l.setEditore(editore);
             l.setAnnoPubblicazione(annopubbl);
             l.setRecensione(recens);
+            l.setDataIns(new Date());
             //Si è deciso di creare un entità separata per le lingue. Per questo motivo
             //dobbiamo recuperare la lingua dall'entità per impostarla nel libro
             try{
@@ -1369,5 +1370,21 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
         }
         manager.getTransaction().commit();
         return ul;
+    }
+    
+    /**
+     * Il metodo fornisce tutti quanti gli stati presenti nel sistema. Ricordiamo
+     * che per stato indichiamo le condizioni fisiche di un volume
+     * @return Lista di stato
+     */
+    public List<Stato> getAllStato(){
+        List<Stato> sl = new ArrayList<Stato>();
+        try{
+            //Prelevo tutti quanti gli oggetti stato
+            sl =  manager.createNamedQuery("StatoMysqlImpl.findByAll").getResultList();
+        }catch (NoResultException e){
+            //Non esiste alcun utente con quell'username
+        }
+        return sl;
     }
 }
