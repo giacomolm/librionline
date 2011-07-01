@@ -129,6 +129,10 @@
         <servlet-name>InserisciVolume2</servlet-name>
         <servlet-class>it.univaq.idw.librionline.controller.InserisciVolume2</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>Inserisci</servlet-name>
+        <servlet-class>it.univaq.idw.librionline.controller.Inserisci</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Home</servlet-name>
         <url-pattern>/Home</url-pattern>
@@ -228,6 +232,10 @@
     <servlet-mapping>
         <servlet-name>InserisciVolume2</servlet-name>
         <url-pattern>/InserisciVolume2</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Inserisci</servlet-name>
+        <url-pattern>/Inserisci</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

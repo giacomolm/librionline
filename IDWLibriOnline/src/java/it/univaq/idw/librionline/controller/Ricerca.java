@@ -32,17 +32,14 @@ public class Ricerca extends HttpServlet {
         
         LibriOnLineDataLayer dl = new LibriOnLineDataLayerMysqlImpl();
         
-        if(titolo != null){
-            List<Libro> lc = dl.searchByTitle(titolo);
-            
-            if(lc.isEmpty()){
-                return null;
-            }
-            else{
-                return lc;
-            }
+        List<Libro> l = dl.advancedSearch(titolo, tag, autore, isbn);
+        
+        if(l.isEmpty()){
+            return null;
         }
-        return null;
+        else{
+            return l;
+        }
     }
     
     private List analizza_ricerca_base(HttpServletRequest request) {

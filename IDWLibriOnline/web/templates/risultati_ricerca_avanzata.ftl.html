@@ -8,9 +8,9 @@
                 ${autore.nome} ${autore.cognome}
             <#if autore_has_next>, </#if>
             </#list>
-            - ${libro.editore} - ${libro.annoPubblicazione?string("yyyy")}</li> 
+            - ${libro.editore} - ${libro.annoPubblicazione}</li> 
         </#list>
     </ul>
 <#else>
-    <p> Nessun libro trovato </p> 
+    <p><em>Nota: Nessun libro trovato </em></p> 
 </#if>

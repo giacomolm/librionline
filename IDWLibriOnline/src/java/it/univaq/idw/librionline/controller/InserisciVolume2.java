@@ -24,7 +24,7 @@ import javax.servlet.http.HttpSession;
  */
 public class InserisciVolume2 extends HttpServlet {
 
-    private boolean analizza_form_volume(HttpServletRequest request, HttpServletResponse response) {
+    private boolean analizza_form_volume(HttpServletRequest request, HttpServletResponse response) throws IOException {
       
         String numero_volumi = request.getParameter("insertvol_numerocopie");
         String stato = request.getParameter("insertvol_stato");
@@ -40,15 +40,21 @@ public class InserisciVolume2 extends HttpServlet {
         int id_stato = Integer.parseInt(stato);
         int durata_max = Integer.parseInt(durata);
         
-        String isbn = request.getParameter("isbn");
+        String isbn = request.getParameter("insertvol_isbn");
         Libro l = dl.searchByIsbn(isbn);
-
-        for(int i=0;i<volumi;i++){
-            if(!dl.insertVolume(l, durata_max, id_stato)){
-                return false;
+        
+        if(l != null){
+            for(int i=0;i<volumi;i++){
+                if(!dl.insertVolume(l, durata_max, id_stato)){
+                    return false;
+                }
             }
+            return true;
         }
-        return true;
+        else{
+            return false;
+        }
+        
     }
     
     /** 
@@ -71,6 +77,16 @@ public class InserisciVolume2 extends HttpServlet {
             if(dl.isAdmin((String)session.getAttribute("username"))){
                 request.setAttribute("bibliotecario",true);
                 request.setAttribute("tipologia_utente","Bibliotecario");
+                
+                String isbn = request.getParameter("isbn");
+                
+                if(isbn != null){
+                    request.setAttribute("isbn",isbn);
+                }
+                else{
+                    String isbn2 = request.getParameter("insertvol_isbn");
+                    request.setAttribute("isbn",isbn2);
+                }
                 
                 List<Stato> stati = dl.getAllStato();
                 
