@@ -111,8 +111,9 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
             manager.getTransaction().commit();
             
             //Devo ricordare di impostare anche i volumi
-            for(int i=0; i<n_copie; i++) insertVolume(l, durata_max, id_stato);
-            
+            Libro li = searchByIsbn(isbn);
+            for(int i=0; i<n_copie; i++) insertVolume(li, durata_max, id_stato);
+
             return res;
         }
         else return false;
@@ -142,6 +143,7 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
         }
         catch(NoResultException e){
             //se qualcosa è andata storta, avviso il chiamante
+            e.printStackTrace();
             res = false;
         }
         
@@ -1015,7 +1017,7 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
      * @return true se il prestito va a buon fine
      */
     @Override
-    public boolean registraPrestito(String isbn, int id_vol, int id_user){
+    public boolean registraPrestito(String isbn, int id_vol, int id_user, int durata_max){
         //Cerchiamo il libro che vogliamo dare in prestito
         Libro l = searchByIsbn(isbn);
         Volume vol = null;
@@ -1034,6 +1036,7 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
                 if(v.getId()==id_vol){
                     //Abbiamo trovato il volume di nostro interesse!
                     vol = v;
+                    ((VolumeMysqlImpl)vol).setDurataMax(durata_max);
                     trovato = true;
                 }
             }

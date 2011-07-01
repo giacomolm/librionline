@@ -59,5 +59,7 @@ public class EsempioInserimento {
         System.out.println(dl.insertAutore("D'orazio", "Silvio"));
         System.out.println(dl.chiudiPrestito(4));
         System.out.println(dl.insertStato("Ciao"));
+        Libro l = dl.searchByIsbn("9788871923031");
+        dl.insertVolume(l, 655, 1);
     }
 }

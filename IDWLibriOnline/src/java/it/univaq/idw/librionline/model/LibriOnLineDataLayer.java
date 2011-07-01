@@ -230,9 +230,10 @@ public interface LibriOnLineDataLayer {
      * @param isbn del libro che vogliamo prestare
      * @param id_vol della capia fisica che rilasciamo all'utente
      * @param id_user che vuole prendere in prestito il libro indicato
+     * @param durata_max del prestito
      * @return true se il prestito va a buon fine
      */
-    boolean registraPrestito(String isbn, int id_vol, int id_user);
+    boolean registraPrestito(String isbn, int id_vol, int id_user,int durata_max);
     /**
      * Il metodo restituisce l'oggetto user in modo tale da poter fornire delle 
      * informazioni utili su di esso.
