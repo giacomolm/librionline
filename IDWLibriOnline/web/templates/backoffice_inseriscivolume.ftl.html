@@ -1,4 +1,4 @@
-<h2 class="page_title"> Inserimento di un volume </h2>
+<h2 class="page_title"> Inserimento volumi </h2>
 <#if (stato_log??)>
     <#if bibliotecario>
         <#if (messaggio??)>
@@ -7,21 +7,17 @@
         </div>
         <div><br /></div>
         </#if>
-    <form action="InserisciVolume" method="get" id="insertvol">
-        <fieldset><legend>Volume</legend>
+    <form action="InserisciVolume2" method="post" enctype="multipart/form-data" id="insertvol">
+        <fieldset><legend>Dati Volume</legend>
             <br />
+            <label>Numero volumi: </label><input type="text" name="insertvol_numerocopie" id="insertvol_numerocopie" value="1" size="2" maxlength="3"/>
+            <label>Stato: </label>
             <select name="insertvol_stato">
                 <#list stati as stato>
                 <option value="${stato.id}">${stato.stato}</option>
                 </#list>
-            </select> <br /> <br />
-            <label>DurataMax</label> <input type="text" name="insertvol_duratamax" id="insertvol_duratamax" value="30" maxlength="11" /> <br /> <br />
-            <select name="insertvol_libro">
-                <#list libri as libro>
-                <option value="${libro.isbn}">${libro.titolo}</option>
-                </#list>
-            </select> 
-            <br />
+            </select>
+            <label> Durata massima:</label> <input type="text" name="insertvol_duratamax" id="insertvol_duratamax" value="30" size="2" maxlength="2" />
         </fieldset>
         <div>
             <br />

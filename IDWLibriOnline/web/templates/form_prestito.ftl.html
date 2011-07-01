@@ -14,6 +14,7 @@
         <#else>
             <p><em>Nessun volume del libro disponibile</em></p>
         </#if>
+        <label> Durata Prestito: </label> <input type="text" name="prestito_duratamax" id="prestito_duratamax" value="30" maxlength="2" size="2" />
         <p><label>Utenti:</label></p>
         <select name="prestito_utenti">
             <#list prestitiusers as prestitouser>

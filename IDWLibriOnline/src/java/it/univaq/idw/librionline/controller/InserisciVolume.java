@@ -7,9 +7,11 @@ package it.univaq.idw.librionline.controller;
 import it.univaq.idw.librionline.framework.util.SecurityLayer;
 import it.univaq.idw.librionline.framework.util.TemplateResult;
 import it.univaq.idw.librionline.model.LibriOnLineDataLayer;
+import it.univaq.idw.librionline.model.Libro;
 import it.univaq.idw.librionline.model.impl.LibriOnLineDataLayerMysqlImpl;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -22,22 +24,26 @@ import javax.servlet.http.HttpSession;
  */
 public class InserisciVolume extends HttpServlet {
     
-    private boolean analizza_form_volume(HttpServletRequest request, HttpServletResponse response) {
-      
-        String tag = request.getParameter("inserttag_tag");
+    private List analizza_form_ricerca_titolo_libro(HttpServletRequest request, HttpServletResponse response) {
         
-        if(tag == null || tag.isEmpty()){
-            return false;
+        String titolo = request.getParameter("ricerca_libro_titolo");
+        
+        if(titolo == null || titolo.isEmpty()){
+            return null;
         }
         
-        LibriOnLineDataLayer dl = new LibriOnLineDataLayerMysqlImpl();
-
-        if(dl.insertTag(tag)){
-            return true;
+        LibriOnLineDataLayer model = new LibriOnLineDataLayerMysqlImpl();
+        
+        List<Libro> libro = model.searchByTitle(titolo);
+        
+        if(libro.isEmpty()){
+            return null;
         }
         else{
-            return false;
+            return libro;
         }
+        
+        
     }
     
     /** 
@@ -61,24 +67,17 @@ public class InserisciVolume extends HttpServlet {
                 request.setAttribute("bibliotecario",true);
                 request.setAttribute("tipologia_utente","Bibliotecario");
                 
-                String insert_tag = request.getParameter("Inserisci Volume");
+                String search_title = request.getParameter("Ricerca Libro Titolo");
                 
-                if(insert_tag == null){
-                    request.setAttribute("title","Inserisci Volume");
-                    res.activate("backoffice_inseriscivolume.ftl.html", request, response);
+                if(search_title == null){
+                    request.setAttribute("title","Ricerca Libro Titolo");
+                    res.activate("backoffice_ricercalibro.ftl.html", request, response);
                 }
                 else{
-                    boolean result = analizza_form_volume(request,response);
-                    if(result){
-                        request.setAttribute("title","Inserisci Volume");
-                        request.setAttribute("messaggio","Il Volume è stato inserito correttamente!");
-                        res.activate("backoffice_inseriscivolume.ftl.html", request, response);
-                    }
-                    else{
-                        request.setAttribute("title","Inserisci Volume");
-                        request.setAttribute("messaggio","Inserimento Volume fallito: Si prega di compilare bene i campi sottostanti!");
-                        res.activate("backoffice_inseriscivolume.ftl.html", request, response);
-                    }         
+                    List<Libro> libri = analizza_form_ricerca_titolo_libro(request,response);
+                        request.setAttribute("title","Risultati Ricerca Libri");
+                        request.setAttribute("libri",libri);
+                        res.activate("backoffice_risultatiricercalibri.ftl.html", request, response);     
                 }
             }
             else{
@@ -86,9 +85,7 @@ public class InserisciVolume extends HttpServlet {
                 request.setAttribute("tipologia_utente","Utente");
             }
         }
-    }
-
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+    } // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /** 
      * Handles the HTTP <code>GET</code> method.
      * @param request servlet request

@@ -6,14 +6,11 @@ package it.univaq.idw.librionline.controller;
 
 import it.univaq.idw.librionline.framework.util.SecurityLayer;
 import it.univaq.idw.librionline.framework.util.TemplateResult;
-import it.univaq.idw.librionline.model.Autore;
 import it.univaq.idw.librionline.model.LibriOnLineDataLayer;
-import it.univaq.idw.librionline.model.Lingua;
+import it.univaq.idw.librionline.model.Libro;
 import it.univaq.idw.librionline.model.Stato;
-import it.univaq.idw.librionline.model.Tag;
 import it.univaq.idw.librionline.model.impl.LibriOnLineDataLayerMysqlImpl;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -25,42 +22,35 @@ import javax.servlet.http.HttpSession;
  *
  * @author Zilfio
  */
-public class InserisciLibro extends HttpServlet {
-    
-    private boolean analizza_form_libro(HttpServletRequest request, HttpServletResponse response) throws IOException {
+public class InserisciVolume2 extends HttpServlet {
+
+    private boolean analizza_form_volume(HttpServletRequest request, HttpServletResponse response) {
       
-        String isbn = request.getParameter("insertbook_isbn");
-        String titolo = request.getParameter("insertbook_titolo");
-        String editore = request.getParameter("insertbook_editore");
-        String annoPubblicazione = request.getParameter("insertbook_annopubblicazione");
-        String recensione = request.getParameter("insertbook_recensione");
-        String lingua = request.getParameter("insertbook_lingua");
-        String[] autore = request.getParameterValues("insertbook_autore");
-        String[] tag = request.getParameterValues("insertbook_tag");
-        String copie = request.getParameter("insertbook_numerocopie");
-        String stato = request.getParameter("insertbook_stato");
-        String durata_max = request.getParameter("insertbook_duratamax");
-        PrintWriter w = response.getWriter();
+        String numero_volumi = request.getParameter("insertvol_numerocopie");
+        String stato = request.getParameter("insertvol_stato");
+        String durata = request.getParameter("insertvol_duratamax");
         
-        if((isbn == null || isbn.isEmpty()) || (titolo == null || titolo.isEmpty()) || (editore == null || editore.isEmpty()) || (annoPubblicazione == null || annoPubblicazione.isEmpty())|| (autore == null) || (tag == null) || (copie == null || copie.isEmpty()) || (stato == null || stato.isEmpty()) || (durata_max == null || durata_max.isEmpty())){
+        if((numero_volumi == null || numero_volumi.isEmpty()) || (stato == null || stato.isEmpty()) || (durata == null || durata.isEmpty())){
             return false;
         }
         
         LibriOnLineDataLayer dl = new LibriOnLineDataLayerMysqlImpl();
         
-        int id_lingua = Integer.parseInt(lingua);
-        int n_copie = Integer.parseInt(copie);
+        int volumi = Integer.parseInt(numero_volumi);
         int id_stato = Integer.parseInt(stato);
-        int durata = Integer.parseInt(durata_max);
+        int durata_max = Integer.parseInt(durata);
+        
+        String isbn = request.getParameter("isbn");
+        Libro l = dl.searchByIsbn(isbn);
 
-        if(dl.insertBook(isbn, titolo, editore, annoPubblicazione, recensione, id_lingua, autore, tag, n_copie,durata, id_stato)){
-            return true;
+        for(int i=0;i<volumi;i++){
+            if(!dl.insertVolume(l, durata_max, id_stato)){
+                return false;
+            }
         }
-        else{
-            return false;
-        }
+        return true;
     }
-
+    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
      * @param request servlet request
@@ -82,36 +72,28 @@ public class InserisciLibro extends HttpServlet {
                 request.setAttribute("bibliotecario",true);
                 request.setAttribute("tipologia_utente","Bibliotecario");
                 
-                List<Lingua> lingue = dl.getAllLingua();
-                List<Autore> autori = dl.getAllAutori();
-                List<Tag> tags = dl.getAllTag();
                 List<Stato> stati = dl.getAllStato();
-
-                request.setAttribute("title","Libri");
-                request.setAttribute("lingue",lingue);
-                request.setAttribute("autori",autori);
-                request.setAttribute("tags",tags);
+                
                 request.setAttribute("stati",stati);
                 
-                String insert_tag = request.getParameter("Inserisci Libro");
+                String insert_vol = request.getParameter("Inserisci Volume");
                 
-                if(insert_tag == null){
-                    request.setAttribute("title","Inserisci Libro");
-                    res.activate("backoffice_inseriscilibro.ftl.html", request, response);
+                if(insert_vol == null){
+                    request.setAttribute("title","Inserisci Volume");
+                    res.activate("backoffice_inseriscivolume.ftl.html", request, response);
                 }
                 else{
-                    boolean result = analizza_form_libro(request,response);
+                    boolean result = analizza_form_volume(request,response);
                     if(result){
-                        request.setAttribute("title","Inserisci Autore");
-                        request.setAttribute("messaggio","Il Libro è stato inserito correttamente!");
-                        res.activate("backoffice_inseriscilibro.ftl.html", request, response);
+                        request.setAttribute("title","Inserisci Volume");
+                        request.setAttribute("messaggio","Il Volume è stato inserito correttamente!");
+                        res.activate("backoffice_inseriscivolume.ftl.html", request, response);
                     }
                     else{
-                        request.setAttribute("title","Inserisci Libro");
-                        request.setAttribute("messaggio","Inserimento Libro fallito: Si prega di compilare bene i campi sottostanti!");
-                        res.activate("backoffice_inseriscilibro.ftl.html", request, response);
-                    }
-                    
+                        request.setAttribute("title","Inserisci Volume");
+                        request.setAttribute("messaggio","Inserimento Volume fallito: Si prega di compilare bene i campi sottostanti!");
+                        res.activate("backoffice_inseriscivolume.ftl.html", request, response);
+                    }         
                 }
             }
             else{
