@@ -40,8 +40,9 @@ public class InserisciLibro extends HttpServlet {
         String[] tag = request.getParameterValues("insertbook_tag");
         String copie = request.getParameter("insertbook_numerocopie");
         String stato = request.getParameter("insertbook_stato");
+        String durata_max = request.getParameter("insertbook_duratamax");
         
-        if((isbn == null || isbn.isEmpty()) || (titolo == null || titolo.isEmpty()) || (editore == null || editore.isEmpty()) || (annoPubblicazione == null || annoPubblicazione.isEmpty())|| (autore == null) || (tag == null) || (copie == null || copie.isEmpty()) || (stato == null || stato.isEmpty())){
+        if((isbn == null || isbn.isEmpty()) || (titolo == null || titolo.isEmpty()) || (editore == null || editore.isEmpty()) || (annoPubblicazione == null || annoPubblicazione.isEmpty())|| (autore == null) || (tag == null) || (copie == null || copie.isEmpty()) || (stato == null || stato.isEmpty()) || (durata_max == null || durata_max.isEmpty())){
             return false;
         }
         
@@ -50,8 +51,9 @@ public class InserisciLibro extends HttpServlet {
         int id_lingua = Integer.parseInt(lingua);
         int n_copie = Integer.parseInt(copie);
         int id_stato = Integer.parseInt(stato);
+        int durata = Integer.parseInt(durata_max);
         
-        if(dl.insertBook(isbn, titolo, editore, annoPubblicazione, recensione, id_lingua, autore, tag, n_copie, id_stato)){
+        if(dl.insertBook(isbn, titolo, editore, annoPubblicazione, recensione, id_lingua, autore, tag, n_copie, id_stato, durata)){
             return true;
         }
         else{

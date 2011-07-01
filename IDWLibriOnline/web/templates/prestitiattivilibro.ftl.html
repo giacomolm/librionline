@@ -4,9 +4,15 @@
     <#if bibliotecario>
     <#if (prestitiattivi??)>
     <#list prestitiattivi as prestitoattivo>
+    <#if prestitoattivo.expired>
     <ul>
-        <li><em>Libro da restituire:</em> <a href="SchedaDettaglioLibro?isbn=${prestitoattivo.volume.libro.isbn}">${prestitoattivo.volume.libro.titolo}</a> - <em>Data prestito:</em> ${prestitoattivo.dataPrestito?date} - <em>Restituire entro il:</em> ${prestitoattivo.dataPresuntaRestituzione?date} - <em>Utente:</em> <a href="SchedaUtente?id=${prestitoattivo.user.id}">${prestitoattivo.user.username}</a></li>
+        <li style="color:red"> <strong>PRESTITO SCADUTO</strong> - <em>Libro da restituire:</em> <a href="SchedaDettaglioLibro?isbn=${prestitoattivo.volume.libro.isbn}">${prestitoattivo.volume.libro.titolo}</a> - <em>Data prestito:</em> ${prestitoattivo.dataPrestito?date} - <em>Doveva restituirlo entro il:</em> ${prestitoattivo.dataPresuntaRestituzione?date} - <em>Utente:</em> <a href="SchedaUtente?id=${prestitoattivo.user.id}">${prestitoattivo.user.username}</a></li>
     </ul>
+    <#else>
+    <ul>
+        <li> <em>Libro da restituire:</em> <a href="SchedaDettaglioLibro?isbn=${prestitoattivo.volume.libro.isbn}">${prestitoattivo.volume.libro.titolo}</a> - <em>Data prestito:</em> ${prestitoattivo.dataPrestito?date} - <em>Restituire entro il:</em> ${prestitoattivo.dataPresuntaRestituzione?date} - <em>Utente:</em> <a href="SchedaUtente?id=${prestitoattivo.user.id}">${prestitoattivo.user.username}</a></li>
+    </ul>
+    </#if>
     </#list>
     <#else>
         <p><em> Nota: Nessun prestito del libro attivo </em></p>

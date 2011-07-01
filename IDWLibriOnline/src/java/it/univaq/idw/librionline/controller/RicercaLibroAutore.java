@@ -6,6 +6,7 @@ package it.univaq.idw.librionline.controller;
 
 import it.univaq.idw.librionline.framework.util.SecurityLayer;
 import it.univaq.idw.librionline.framework.util.TemplateResult;
+import it.univaq.idw.librionline.model.Autore;
 import it.univaq.idw.librionline.model.LibriOnLineDataLayer;
 import it.univaq.idw.librionline.model.Libro;
 import it.univaq.idw.librionline.model.impl.LibriOnLineDataLayerMysqlImpl;
@@ -51,11 +52,14 @@ public class RicercaLibroAutore extends HttpServlet {
         }
         
         String id = request.getParameter("id");
+        int id_autore = Integer.parseInt(id);
        
         LibriOnLineDataLayer model = new LibriOnLineDataLayerMysqlImpl();
         List<Libro> l = model.searchLibriAutoriById(Integer.parseInt(id));
+        Autore a = model.getAutore(id_autore);
         
         request.setAttribute("title", "Ricerca per Autore");
+        request.setAttribute("autore", a);
         request.setAttribute("libri", l);
         template.activate("schedalibro_ricerca_autore.ftl.html", request, response);
     }
