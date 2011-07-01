@@ -42,6 +42,16 @@ public interface LibriOnLineDataLayer {
     User login(String username, String password);
     
     /**
+     * Funzione di ricerca avanzata
+     * @param titolo
+     * @param tag
+     * @param autori
+     * @param isbn
+     * @return 
+     */
+     List<Libro> advancedSearch(String titolo, String tag, String autori, String isbn);
+    
+    /**
      * Questo metodo viene utilizzato nella fase di ricerca base: i visitatori
      * possono eseguire una ricerca rapida per trovare il libro desiderato. Abbiamo
      * assunto che questo tipo di ricerca si basi solo sul titolo del libro.

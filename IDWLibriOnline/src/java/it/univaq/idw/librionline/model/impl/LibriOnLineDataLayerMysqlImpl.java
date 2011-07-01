@@ -126,6 +126,7 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
      * @param id_stato stato dei volumi che vogliamo inserire
      * @return true se l'aggiunta dei volumi viene fatta in maniera corretta
      */
+    @Override
     public boolean insertVolume(Libro l, int durata_max,int id_stato){
         boolean res = true;
         Volume vol = new VolumeMysqlImpl(null);
@@ -199,15 +200,58 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
                 bl.addAll(searchByTitle(titolo));
                 
                 try{
-                    bl.addAll(manager.createNamedQuery("LibroMysqlImpl.findByEditore").setParameter("editore",titolo).getResultList());
+                    List<Libro> le = manager.createNamedQuery("LibroMysqlImpl.findByEditore").setParameter("editore",titolo).getResultList();
+                    List<Libro> temp = bookContained(bl, le);
+                    le.removeAll(temp);
+                    bl.addAll(le);
                 }catch (NoResultException e){
             
                 }
-                bl.addAll(searchByAutori(titolo));
+                //Allo stesso modo di come abbiamo fatto in precedenza, chiamiamo
+                //la funzione searchByAutori per ottenere tutti i libri che contengono
+                //quell'autore indicato; successivamente si chiama la funzione 
+                //bookContained in modo da evitare di aggiungere quelli presenti
+                //Infine si aggiungono i restanti
+                List<Libro> lt = searchByAutori(titolo);
+                List<Libro> diff = bookContained(bl,lt);
+                lt.removeAll(diff);
+                bl.addAll(lt);
                 
             //manager.getTransaction().commit();
             return bl;
         }else return null;
+    }
+    
+    /**
+     * Funzione di ricerca avanzata
+     * @param titolo
+     * @param tag
+     * @param autori
+     * @param isbn
+     * @return 
+     */
+    public List<Libro> advancedSearch(String titolo, String tag, String autori, String isbn){
+    
+           List<Libro> res = new ArrayList<Libro>();
+        
+           if(!isbn.equals("")){
+               Libro l = searchByIsbn(isbn);
+               if(l!=null){
+                   res.add(l);
+                   return res;
+               }
+           }
+           if(!titolo.equals("")) res.addAll(searchByTitle(titolo));
+           
+           if(!autori.equals("")){
+                List<Libro> temp = searchByAutori(autori);
+                res = bookContained(res, temp);
+           }
+           if(!res.isEmpty()&&!tag.equals("")){
+                List<Libro> temp =searchByTags(tag);
+                res = bookContained(res, temp);
+           }
+           return res;
     }
     
     /**
@@ -1416,5 +1460,30 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
         //System.out.println("Zilfio"+res);
         manager.getTransaction().commit();
         return res;
+    }
+    
+    /**
+     * Il metodo si occupa di eliminare i libri nella seconda lista già
+     * presente nella prima: si aggiunge alla lista che sarà infine restituta
+     * l'insieme dei libri che sono comuni ad entrambe le liste
+     * @param ll1 lista 1
+     * @param ll2 lista 1
+     * @return Lista contentente i libri comuni ad entrambe le liste
+     */
+    public List<Libro> bookContained(List<Libro> ll1,List<Libro> ll2){
+        List<Libro> resList = new ArrayList<Libro>();
+        for(Iterator it = ll1.iterator(); it.hasNext(); ){
+            //Prelevo un libro della prima lista
+            Libro l1 = (Libro) it.next();
+            
+            //Per ogni libro della seconda lista lista, vedo se è presente anche nella prima
+            for(Iterator ite = ll2.iterator(); ite.hasNext(); ){
+                Libro l2 = (Libro) ite.next();
+                if(l1.getIsbn().equals( l2.getIsbn())){
+                    resList.add(l2);
+                }
+            }
+        }
+        return resList;
     }
 }
