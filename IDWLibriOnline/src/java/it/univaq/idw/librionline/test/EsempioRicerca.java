@@ -141,7 +141,7 @@ public class EsempioRicerca {
             System.out.println( "UserList : "+element.getUsername());                           
         }
         
-        list = dl.advancedSearch("primi", "", "", "");
+        list = dl.advancedSearch("primi", "", "paolo", "");
         for ( Iterator i = list.iterator(); i.hasNext(); ) {
             Libro element = (Libro) i.next();
             System.out.println( "Avanzata : "+element.getTitolo());                           

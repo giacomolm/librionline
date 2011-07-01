@@ -230,6 +230,7 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
      * @param isbn
      * @return 
      */
+    @Override
     public List<Libro> advancedSearch(String titolo, String tag, String autori, String isbn){
     
            List<Libro> res = new ArrayList<Libro>();
@@ -247,10 +248,11 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
                 List<Libro> temp = searchByAutori(autori);
                 res = bookContained(res, temp);
            }
-           if(!res.isEmpty()&&!tag.equals("")){
+           if(!res.isEmpty())
+               if(!tag.equals("")){
                 List<Libro> temp =searchByTags(tag);
                 res = bookContained(res, temp);
-           }
+                }
            return res;
     }
     
@@ -480,7 +482,7 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
             List<Autore> bl=null;
             try{
                 //Sfruttiamo la funzione messa a disposizione della libreria JPA che effettua la ricerca per titolo
-                bl =  manager.createQuery("SELECT a FROM AutoreMysqlImpl a WHERE a.cognome LIKE :keyword").setParameter("keyword", ric).getResultList();                                
+                bl =  manager.createQuery("SELECT a FROM AutoreMysqlImpl a WHERE a.cognome LIKE :keyword OR a.nome LIKE :keyword").setParameter("keyword", ric).getResultList();                                
             }catch(NoResultException e){
                 //bl=null;
                 
