@@ -68,7 +68,7 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
      * @return true se il l'inserimento è stato effettuato in maniera corretta
      */
     @Override
-    public boolean insertBook(String isbn, String titolo, String editore, String annopubbl, String recens, int id_lingua,String[] id_autori, String[] id_tag, int n_copie, int id_stato){
+    public boolean insertBook(String isbn, String titolo, String editore, String annopubbl, String recens, int id_lingua,String[] id_autori, String[] id_tag, int n_copie, int durata_max,int id_stato){
         if(!bookIsThis(isbn)){
             List<Autore> autori = new ArrayList<Autore>();
             List<Tag> tags = new ArrayList<Tag>();
@@ -111,7 +111,7 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
             manager.getTransaction().commit();
             
             //Devo ricordare di impostare anche i volumi
-            
+            for(int i=0; i<n_copie; i++) insertVolume(l, durata_max, id_stato);
             
             return res;
         }
@@ -121,15 +121,16 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
     /**
      * Il metodo permette l'inserimento di un volume a partire da un libro 
      * @param l Libro al quale vogliamo inserire i volumi
+     * @param durata_max indica la durata di default del prestito
      * @param id_stato stato dei volumi che vogliamo inserire
      * @return true se l'aggiunta dei volumi viene fatta in maniera corretta
      */
-    public boolean insertVolume(Libro l, int id_stato){
+    public boolean insertVolume(Libro l, int durata_max,int id_stato){
         boolean res = true;
-        Volume vol = new VolumeMysqlImpl();
+        Volume vol = new VolumeMysqlImpl(null);
         //Imposto il libro al nuovo volume creato
         vol.setLibro(l);
-        
+        ((VolumeMysqlImpl)vol).setDurataMax(durata_max);
         manager.getTransaction().begin();
         try{
             //cerco l'oggetto stato a partire dal suo id

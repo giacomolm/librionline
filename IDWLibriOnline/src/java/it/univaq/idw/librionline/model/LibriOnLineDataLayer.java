@@ -23,7 +23,7 @@ public interface LibriOnLineDataLayer {
      * @param l Libro da inserire
      * @return true se il l'inserimento è stato effettuato in maniera corretta
      */
-    boolean insertBook(String isbn, String titolo, String editore, String annopubbl, String recens, int id_lingua,String[] id_autori, String[] id_tag, int n_copie, int id_stato);
+    boolean insertBook(String isbn, String titolo, String editore, String annopubbl, String recens, int id_lingua,String[] id_autori, String[] id_tag, int n_copie, int durata_max,int id_stato);
     
     /**
      * Questo metodo verifica se una particolare username è già presente nel DB.
@@ -365,4 +365,13 @@ public interface LibriOnLineDataLayer {
      * @return true se l'inserimento è stato eseguito in maniera corretta
      */
     boolean insertStato(String stato);
+    
+    /**
+     * Il metodo permette l'inserimento di un volume a partire da un libro 
+     * @param l Libro al quale vogliamo inserire i volumi
+     * @param durata_max indica la durata di default del prestito
+     * @param id_stato stato dei volumi che vogliamo inserire
+     * @return true se l'aggiunta del volume viene fatta in maniera corretta
+     */
+    boolean insertVolume(Libro l, int durata_max,int id_stato);
 }
