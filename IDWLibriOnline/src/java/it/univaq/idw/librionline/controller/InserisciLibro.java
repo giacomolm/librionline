@@ -13,7 +13,6 @@ import it.univaq.idw.librionline.model.Stato;
 import it.univaq.idw.librionline.model.Tag;
 import it.univaq.idw.librionline.model.impl.LibriOnLineDataLayerMysqlImpl;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -28,7 +27,7 @@ import javax.servlet.http.HttpSession;
 public class InserisciLibro extends HttpServlet {
     
     private boolean analizza_form_libro(HttpServletRequest request, HttpServletResponse response) throws IOException {
-      
+        
         String isbn = request.getParameter("insertbook_isbn");
         String titolo = request.getParameter("insertbook_titolo");
         String editore = request.getParameter("insertbook_editore");
@@ -40,12 +39,11 @@ public class InserisciLibro extends HttpServlet {
         String copie = request.getParameter("insertbook_numerocopie");
         String stato = request.getParameter("insertbook_stato");
         String durata_max = request.getParameter("insertbook_duratamax");
-        PrintWriter w = response.getWriter();
         
         if((isbn == null || isbn.isEmpty()) || (titolo == null || titolo.isEmpty()) || (editore == null || editore.isEmpty()) || (annoPubblicazione == null || annoPubblicazione.isEmpty())|| (autore == null) || (tag == null) || (copie == null || copie.isEmpty()) || (stato == null || stato.isEmpty()) || (durata_max == null || durata_max.isEmpty())){
             return false;
         }
-        
+
         LibriOnLineDataLayer dl = new LibriOnLineDataLayerMysqlImpl();
         
         int id_lingua = Integer.parseInt(lingua);
@@ -101,7 +99,7 @@ public class InserisciLibro extends HttpServlet {
                 }
                 else{
                     boolean result = analizza_form_libro(request,response);
-                    if(result){
+                    if(result){ 
                         request.setAttribute("title","Inserisci Autore");
                         request.setAttribute("messaggio","Il Libro è stato inserito correttamente!");
                         res.activate("backoffice_inseriscilibro.ftl.html", request, response);
