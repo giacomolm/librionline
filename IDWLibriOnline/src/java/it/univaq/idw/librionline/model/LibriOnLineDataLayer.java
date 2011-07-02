@@ -42,12 +42,13 @@ public interface LibriOnLineDataLayer {
     User login(String username, String password);
     
     /**
-     * Funzione di ricerca avanzata
-     * @param titolo
-     * @param tag
-     * @param autori
-     * @param isbn
-     * @return 
+     * Funzione di ricerca avanzata: verifica se esiste un libro che corrisponde
+     * a tutti quanti i parametri descritti.
+     * @param titolo del libro che su vuole cercare
+     * @param tag relativi al libro
+     * @param autori che hanno scritto o contribuito alla realizzazione del libro
+     * @param isbn del libro
+     * @return Una lista di libri che corrispondono ai criteri inseriti
      */
      List<Libro> advancedSearch(String titolo, String tag, String autori, String isbn);
     

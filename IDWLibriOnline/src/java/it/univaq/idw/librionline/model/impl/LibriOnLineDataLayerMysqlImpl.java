@@ -4,7 +4,6 @@
  */
 package it.univaq.idw.librionline.model.impl;
 
-import com.sun.org.apache.xerces.internal.impl.dv.xs.MonthDV;
 import it.univaq.idw.librionline.model.LibriOnLineDataLayer;
 import it.univaq.idw.librionline.model.Autore;
 import it.univaq.idw.librionline.model.Gruppo;
@@ -15,15 +14,11 @@ import it.univaq.idw.librionline.model.Stato;
 import it.univaq.idw.librionline.model.Tag;
 import it.univaq.idw.librionline.model.User;
 import it.univaq.idw.librionline.model.Volume;
-import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -31,7 +26,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.NoResultException;
 import javax.persistence.Persistence;
-import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
 
 /**
  *
@@ -235,6 +229,9 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
     
            List<Libro> res = new ArrayList<Libro>();
         
+           //Effettuo una ricerca per isbn, se questo campo non è vuoto
+           //notiamo che se viene effettuata una ricerca per isbn non continuiamo
+           //con la ricerca, per migliorare l'efficenza della ricerca
            if(!isbn.equals("")){
                Libro l = searchByIsbn(isbn);
                if(l!=null){
@@ -242,17 +239,32 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
                }
                return res;
            }
-           if(!titolo.equals("")) res.addAll(searchByTitle(titolo));
-           
-           if(!autori.equals("")){
-                List<Libro> temp = searchByAutori(autori);
-                res = bookContained(res, temp);
+           //effettuo una ricerca per titolo .Se ci sono dei libri che corrispondono
+           //li aggiungo alla lista dei libri creata precedentemente
+           if(!titolo.equals("")){
+               res.addAll(searchByTitle(titolo));
+               if(!autori.equals("")){
+                    List<Libro> temp = searchByAutori(autori);
+                    res = bookContained(res, temp);
+               }
+               if(!res.isEmpty())
+                  if(!tag.equals("")){
+                    List<Libro> temp =searchByTags(tag);
+                    res = bookContained(res, temp);
+                    }
            }
-           if(!res.isEmpty())
-               if(!tag.equals("")){
-                List<Libro> temp =searchByTags(tag);
-                res = bookContained(res, temp);
-                }
+           //Cerco la lista di libri scritta da tutti gli autori indicati
+           else if(!autori.equals("")){
+                res.addAll(searchByAutori(autori)); 
+                if(!res.isEmpty())
+                   if(!tag.equals("")){
+                    List<Libro> temp =searchByTags(tag);
+                    res = bookContained(res, temp);
+                    }
+           }
+           else if(!tag.equals("")){
+                        res.addAll(searchByTags(tag));
+                    }
            return res;
     }
     
@@ -481,32 +493,39 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
                 //System.out.println(lista[i]);
                 ric += lista[i]+"%";
             }
-            List<Autore> bl=null;
-            try{
-                //Sfruttiamo la funzione messa a disposizione della libreria JPA che effettua la ricerca per titolo
-                bl =  manager.createQuery("SELECT a FROM AutoreMysqlImpl a WHERE a.cognome LIKE :keyword OR a.nome LIKE :keyword").setParameter("keyword", ric).getResultList();                                
-            }catch(NoResultException e){
-                //bl=null;
-                
+            
+            List<Autore> bl= new ArrayList<Autore>();
+            for(int i=0; i<lista.length; i++){
+                try{
+                    //Sfruttiamo la funzione messa a disposizione della libreria JPA che effettua la ricerca per autore
+                    List<Autore> temp =  manager.createQuery("SELECT a FROM AutoreMysqlImpl a WHERE a.cognome LIKE :keyword OR a.nome LIKE :keyword").setParameter("keyword", lista[i]).getResultList();                                
+                    for(Iterator it = temp.iterator(); it.hasNext();){
+                        Autore a = (Autore )it.next();
+                        if(!bl.contains(a)) bl.add(a);
+                    }
+                }catch(NoResultException e){
+                    //bl=null;
+
+                }
             }
             
             List<Libro> cl = (List) new ArrayList<LibroMysqlImpl>();
             for(int i=0; i<bl.size(); i++){
-            try{
-                //Ottengo l'elemtento, cioè l'autore i-esimo della lista
-  
-                Collection<Libro> temp = (List) bl.get(i).getLibroCollection();
-                
-                //Estraggo tutti quanti libri che ha scritto
-                for ( Iterator it = temp.iterator(); it.hasNext(); ) {
-                    LibroMysqlImpl element = (LibroMysqlImpl) it.next();
-                    if(!cl.contains(element)) cl.add(element);
+                try{
+                    //Ottengo l'elemtento, cioè l'autore i-esimo della lista
+
+                    Collection<Libro> temp = (List) bl.get(i).getLibroCollection();
+
+                    //Estraggo tutti quanti libri che ha scritto
+                    for ( Iterator it = temp.iterator(); it.hasNext(); ) {
+                        LibroMysqlImpl element = (LibroMysqlImpl) it.next();
+                        if(!cl.contains(element)) cl.add(element);
+                    }
+                }
+                catch(NoResultException e){
+
                 }
             }
-            catch(NoResultException e){
-
-            }
-        }
             manager.getTransaction().commit();
             return cl;
         }else return null;

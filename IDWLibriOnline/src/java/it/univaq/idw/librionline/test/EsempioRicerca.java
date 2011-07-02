@@ -146,5 +146,11 @@ public class EsempioRicerca {
             Libro element = (Libro) i.next();
             System.out.println( "Avanzata : "+element.getTitolo());                           
         }
+        
+        List<Libro> lista = dl.searchByTags("informatica");
+        for ( Iterator i = lista.iterator(); i.hasNext(); ) {
+            Libro element = (Libro) i.next();
+            System.out.println( "Autori : "+element.getTitolo());                           
+        }
     }
 }
