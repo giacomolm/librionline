@@ -239,8 +239,8 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
                Libro l = searchByIsbn(isbn);
                if(l!=null){
                    res.add(l);
-                   return res;
                }
+               return res;
            }
            if(!titolo.equals("")) res.addAll(searchByTitle(titolo));
            
@@ -391,20 +391,22 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
 
             }
         }
-        cl = (List) tl.get(0).getLibroCollection();
-        
-        for(int i=1; i<tl.size(); i++){
-            try{
-                List<Libro> res = (List) new ArrayList<LibroMysqlImpl>();
-                Collection<Libro> temp = (List) tl.get(i).getLibroCollection();
-                for ( Iterator it = temp.iterator(); it.hasNext(); ) {
-                    LibroMysqlImpl element = (LibroMysqlImpl) it.next();
-                    if(cl.contains(element)) res.add(element);
-                }
-                cl =  res;
-            }
-            catch(NoResultException e){
+        if(!tl.isEmpty()){
+            cl = (List) tl.get(0).getLibroCollection();
 
+            for(int i=1; i<tl.size(); i++){
+                try{
+                    List<Libro> res = (List) new ArrayList<LibroMysqlImpl>();
+                    Collection<Libro> temp = (List) tl.get(i).getLibroCollection();
+                    for ( Iterator it = temp.iterator(); it.hasNext(); ) {
+                        LibroMysqlImpl element = (LibroMysqlImpl) it.next();
+                        if(cl.contains(element)) res.add(element);
+                    }
+                    cl =  res;
+                }
+                catch(NoResultException e){
+
+                }
             }
         }
         manager.getTransaction().commit();
