@@ -12,19 +12,28 @@ import it.univaq.idw.librionline.model.Lingua;
 import it.univaq.idw.librionline.model.Stato;
 import it.univaq.idw.librionline.model.Tag;
 import it.univaq.idw.librionline.model.impl.LibriOnLineDataLayerMysqlImpl;
+import java.io.File;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.List;
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
 /**
  *
  * @author Zilfio
  */
 public class InserisciLibro extends HttpServlet {
+    
+        private static final String TMP_DIR_PATH = "c:\\tmp";
+        private File tmpDir;
+        private static final String DESTINATION_DIR_PATH ="/copie_elettroniche";
+        private File destinationDir;
     
     private boolean analizza_form_libro(HttpServletRequest request, HttpServletResponse response) throws IOException {
         
@@ -52,6 +61,11 @@ public class InserisciLibro extends HttpServlet {
         int durata = Integer.parseInt(durata_max);
 
         if(dl.insertBook(isbn, titolo, editore, annoPubblicazione, recensione, id_lingua, autore, tag, n_copie,durata, id_stato)){
+            PrintWriter w = response.getWriter();
+            // Check that we have a file upload request
+            if(ServletFileUpload.isMultipartContent(request)){
+                
+            }
             return true;
         }
         else{
@@ -116,6 +130,20 @@ public class InserisciLibro extends HttpServlet {
                 request.setAttribute("bibliotecario",false);
                 request.setAttribute("tipologia_utente","Utente");
             }
+        }
+    }
+
+    @Override
+    public void init(ServletConfig config) throws ServletException {
+        super.init(config);
+        tmpDir = new File(TMP_DIR_PATH);
+        if(!tmpDir.isDirectory()) {
+                throw new ServletException(TMP_DIR_PATH + " is not a directory");
+        }
+        String realPath = getServletContext().getRealPath(DESTINATION_DIR_PATH);
+        destinationDir = new File(realPath);
+        if(!destinationDir.isDirectory()) {
+                throw new ServletException(DESTINATION_DIR_PATH+" is not a directory");
         }
     }
 
