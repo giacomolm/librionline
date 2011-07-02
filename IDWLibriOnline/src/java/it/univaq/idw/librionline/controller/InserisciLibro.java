@@ -16,12 +16,17 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import org.apache.commons.fileupload.FileItemFactory;
+import org.apache.commons.fileupload.FileUploadException;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
 /**
@@ -64,7 +69,25 @@ public class InserisciLibro extends HttpServlet {
             PrintWriter w = response.getWriter();
             // Check that we have a file upload request
             if(ServletFileUpload.isMultipartContent(request)){
-                
+                try {
+                    // Create a factory for disk-based file items
+                    DiskFileItemFactory factory = new DiskFileItemFactory();
+
+                    // Set factory constraints
+                    factory.setSizeThreshold(1*1024*1024*1024);
+                    factory.setRepository(TMP_DIR_PATH);
+
+                    // Create a new file upload handler
+                    ServletFileUpload upload = new ServletFileUpload(factory);
+
+                    // Set overall request size constraint
+                    upload.setSizeMax(1*1024*1024);
+
+                    // Parse the request
+                    List  items = upload.parseRequest(request);
+                    } catch (FileUploadException ex) {
+                        Logger.getLogger(InserisciLibro.class.getName()).log(Level.SEVERE, null, ex);
+                    }
             }
             return true;
         }
