@@ -713,67 +713,45 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
         //scorro ciascun libro con l'intenzione di contare quanti prestiti sono
         //stati eseguiti per ciascuno di essi
         Iterator it = ll.iterator();
-        if(it.hasNext()){
-            //inizializzo la lista di libri ai primi 10 elementi del db
-            lc = (Map) new HashMap(10);
+        lc = (Map) new HashMap(10);
             int i=9;
-            do{
-                Libro ltemp = (LibroMysqlImpl) it.next();
-                Collection<Volume> volcol = ltemp.getVolumeCollection();
-                Iterator<Volume> iv;
-                //Calcolo la somma dei prestiti per quel libro
-                int sum=0;
-                for(iv = volcol.iterator(); iv.hasNext();){
-                    sum+=((Volume) iv.next()).getPrestitoCollection().size();
-                }
-                if(sum>0) lc.put(ltemp.getIsbn(), new Integer(sum));
-                i--;
-            }
-            while(it.hasNext()&&i>0);
+        while(it.hasNext()){
             
             //Se i libri presenti nella libreria sono maggiori di 10, devo selezionare quali tra questi devo restituire
-            if(i==0){
-                 while(it.hasNext()){
-                     //Mi riferrico con l al libro corrente nella lista di libri che sto esaminando
-                     Libro l = ((Libro) it.next());
-                     //scelgo il libro nella lista che ha il numero minore di prestiti
 
-                     if(!lc.isEmpty()){
-                         if(lc.size()<5){
-                            Collection<Volume> volcol = l.getVolumeCollection();
-                            Iterator<Volume> iv;
-                            //Calcolo la somma dei prestiti per quel libro
-                            int sum=0;
-                            for(iv = volcol.iterator(); iv.hasNext();){
-                                sum+=((Volume) iv.next()).getPrestitoCollection().size();
-                            }
-                            if(sum>0)lc.put(l.getIsbn(), new Integer(sum));
-                         }
-                         else{
-                             Integer temp = ((Integer)lc.get(getMinPrestiti(lc)));
-                             //System.out.println(getMinPrestiti(lc)+" val "+temp);
-                             //se il numero di prestiti riferiti a l sono maggiori di quelli di temp
-                             //allora devo procedere con il replace di questo
-                             Collection<Volume> volcol = l.getVolumeCollection();
-                             Iterator<Volume> iv;
-                             int sum=0;
-                             for(iv = volcol.iterator(); iv.hasNext();){
-                                    sum+=((Volume) iv.next()).getPrestitoCollection().size();
-                                }
+             //Mi riferrico con l al libro corrente nella lista di libri che sto esaminando
+             Libro l = ((Libro) it.next());
 
-                             Integer sumTemp = new Integer(sum);
-                             System.out.println(sumTemp+" --"+temp+" "+sumTemp.compareTo(temp));
-                             if(sumTemp.compareTo(temp)== 1){
-                                 //System.out.println("--");
-                                 //System.out.println("get "+lc.get(getMinPrestiti(lc)));
-                                 //System.out.println("remove "+lc.remove(getMinPrestiti(lc)));
-                                 lc.remove(getMinPrestiti(lc));
-                                 lc.put(l.getIsbn(), sumTemp);
-                             }
-                         }
-                     }
+                 if(lc.size()<5){
+                    Collection<Volume> volcol = l.getVolumeCollection();
+                    Iterator<Volume> iv;
+                    //Calcolo la somma dei prestiti per quel libro
+                    int sum=0;
+                    for(iv = volcol.iterator(); iv.hasNext();){
+                        sum+=((Volume) iv.next()).getPrestitoCollection().size();
+                    }
+                    if(sum>0)lc.put(l.getIsbn(), new Integer(sum));
                  }
-            }
+                 else{
+                     Integer temp = ((Integer)lc.get(getMinPrestiti(lc)));
+                     //System.out.println(getMinPrestiti(lc)+" val "+temp);
+                     //se il numero di prestiti riferiti a l sono maggiori di quelli di temp
+                     //allora devo procedere con il replace di questo
+                     Collection<Volume> volcol = l.getVolumeCollection();
+                     Iterator<Volume> iv;
+                     int sum=0;
+                     for(iv = volcol.iterator(); iv.hasNext();){
+                            sum+=((Volume) iv.next()).getPrestitoCollection().size();
+                        }
+
+                     Integer sumTemp = new Integer(sum);
+                     //System.out.println(sumTemp+" --"+temp+" "+sumTemp.compareTo(temp));
+                     if(sumTemp.compareTo(temp)== 1){      
+                         lc.remove(getMinPrestiti(lc));
+                         lc.put(l.getIsbn(), sumTemp);
+                     }
+             }
+
         }
         manager.getTransaction().commit();
         List<Libro> l = (List) new ArrayList<LibroMysqlImpl>();
@@ -1543,6 +1521,7 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
      * @param id dello stato che si vuole cercare
      * @return Stato se ce n'è uno con quell'id, altrimenti null
      */
+    @Override
     public Stato getStato(int id){
         Stato s  = null;
         try{
