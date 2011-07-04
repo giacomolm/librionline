@@ -133,6 +133,18 @@
         <servlet-name>Inserisci</servlet-name>
         <servlet-class>it.univaq.idw.librionline.controller.Inserisci</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>Visualizza</servlet-name>
+        <servlet-class>it.univaq.idw.librionline.controller.Visualizza</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>VisualizzaStati</servlet-name>
+        <servlet-class>it.univaq.idw.librionline.controller.VisualizzaStati</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UpdateStato</servlet-name>
+        <servlet-class>it.univaq.idw.librionline.controller.UpdateStato</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Home</servlet-name>
         <url-pattern>/Home</url-pattern>
@@ -236,6 +248,18 @@
     <servlet-mapping>
         <servlet-name>Inserisci</servlet-name>
         <url-pattern>/Inserisci</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Visualizza</servlet-name>
+        <url-pattern>/Visualizza</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>VisualizzaStati</servlet-name>
+        <url-pattern>/VisualizzaStati</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UpdateStato</servlet-name>
+        <url-pattern>/UpdateStato</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

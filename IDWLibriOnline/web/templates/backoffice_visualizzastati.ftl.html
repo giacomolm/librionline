@@ -1,0 +1,15 @@
+<h2 class="page_title"> Stati </h2>
+<p>Cliccare su di uno stato per modificarlo o eliminarlo.</p>
+<#if (stato_log??)>
+<#if bibliotecario>
+<#if (stati??)>
+<ul>
+<#list stati as stato>
+    <li><a href="UpdateStato?id=${stato.id}">${stato.stato}</a></li>
+</#list>
+</ul>
+<#else>
+    <p><em>Nosta: Nessuno stato presente</em></p>
+</#if>
+</#if>
+</#if>

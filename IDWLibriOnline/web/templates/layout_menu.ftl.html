@@ -16,16 +16,9 @@
              <#include "layout_menu_inserisci.ftl.html">
     <!--[if lte IE 6]></td></tr></table></a><![endif]-->
     </li>
-    <li><a href="#">Visualizza<!--[if IE 7]><!--></a><!--<![endif]-->
+    <li><a href="Visualizza">Visualizza<!--[if IE 7]><!--></a><!--<![endif]-->
     <!--[if lte IE 6]><table><tr><td><![endif]-->
-            <ul>
-                    <li><a href="#">Visualizza Libri</a></li>
-                    <li><a href="#">Visualizza Lingue</a></li>
-                    <li><a href="#">Visualizza Autori</a></li>
-                    <li><a href="#">Visualizza Tag</a></li>
-                    <li><a href="#">Visualizza Volumi</a></li>
-                    <li><a href="#">Visualizza Stati</a></li>
-            </ul>
+            <#include "layout_menu_visualizza.ftl.html">
     <!--[if lte IE 6]></td></tr></table></a><![endif]-->
     </li>
     <#else>

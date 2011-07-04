@@ -19,7 +19,7 @@ import javax.servlet.http.HttpSession;
  *
  * @author Zilfio
  */
-public class Inserisci extends HttpServlet {
+public class UpdateStato extends HttpServlet {
 
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -40,6 +40,9 @@ public class Inserisci extends HttpServlet {
             if(dl.isAdmin((String)session.getAttribute("username"))){
                 request.setAttribute("bibliotecario",true);
                 request.setAttribute("tipologia_utente","Bibliotecario");
+                
+                request.getParameter("id");
+                // devo trovare lo stato partendo dal suo id
             }
             else{
                 request.setAttribute("bibliotecario",false);
@@ -47,8 +50,8 @@ public class Inserisci extends HttpServlet {
             }
         }
         
-        request.setAttribute("title","Inserisci");
-        res.activate("inserisci.ftl.html", request, response);
+        request.setAttribute("title","Visualizza");
+        res.activate("backoffice_updatestato.ftl.html", request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

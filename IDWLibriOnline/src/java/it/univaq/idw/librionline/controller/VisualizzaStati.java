@@ -7,8 +7,11 @@ package it.univaq.idw.librionline.controller;
 import it.univaq.idw.librionline.framework.util.SecurityLayer;
 import it.univaq.idw.librionline.framework.util.TemplateResult;
 import it.univaq.idw.librionline.model.LibriOnLineDataLayer;
+import it.univaq.idw.librionline.model.Stato;
 import it.univaq.idw.librionline.model.impl.LibriOnLineDataLayerMysqlImpl;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -19,7 +22,7 @@ import javax.servlet.http.HttpSession;
  *
  * @author Zilfio
  */
-public class Inserisci extends HttpServlet {
+public class VisualizzaStati extends HttpServlet {
 
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -40,17 +43,23 @@ public class Inserisci extends HttpServlet {
             if(dl.isAdmin((String)session.getAttribute("username"))){
                 request.setAttribute("bibliotecario",true);
                 request.setAttribute("tipologia_utente","Bibliotecario");
+                
+                List<Stato> stats = dl.getAllStato();
+                if(stats.isEmpty()){
+                    request.setAttribute("stati",null);
+                }
+                else{
+                    request.setAttribute("stati",stats);
+                }
             }
             else{
                 request.setAttribute("bibliotecario",false);
                 request.setAttribute("tipologia_utente","Utente");
             }
-        }
-        
-        request.setAttribute("title","Inserisci");
-        res.activate("inserisci.ftl.html", request, response);
+        }     
+        request.setAttribute("title","Visualizza Stati");
+        res.activate("backoffice_visualizzastati.ftl.html", request, response);
     }
-
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /** 
      * Handles the HTTP <code>GET</code> method.
