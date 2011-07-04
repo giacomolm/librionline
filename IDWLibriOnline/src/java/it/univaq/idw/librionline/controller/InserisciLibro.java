@@ -4,6 +4,7 @@
  */
 package it.univaq.idw.librionline.controller;
 
+import it.univaq.idw.librionline.framework.util.MultipartHttpServletRequest;
 import it.univaq.idw.librionline.framework.util.SecurityLayer;
 import it.univaq.idw.librionline.framework.util.TemplateResult;
 import it.univaq.idw.librionline.model.Autore;
@@ -14,7 +15,9 @@ import it.univaq.idw.librionline.model.Tag;
 import it.univaq.idw.librionline.model.impl.LibriOnLineDataLayerMysqlImpl;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintWriter;
+import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -29,18 +32,22 @@ import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.FileItemFactory;
+import org.apache.commons.fileupload.FileUploadException;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
+
 /**
  *
  * @author Zilfio
  */
 public class InserisciLibro extends HttpServlet {
     
-        private static final String TMP_DIR_PATH = "c:\\tmp";
-        private File tmpDir;
+        private static final String TMP_DIR_PATH = "/tmp";
         private static final String DESTINATION_DIR_PATH ="/copie_elettroniche";
-        private File destinationDir;
     
-    private boolean analizza_form_libro(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        private boolean analizza_form_libro(HttpServletRequest request, HttpServletResponse response) throws IOException {
         
         String isbn = request.getParameter("insertbook_isbn");
         String titolo = request.getParameter("insertbook_titolo");
@@ -64,7 +71,7 @@ public class InserisciLibro extends HttpServlet {
         int n_copie = Integer.parseInt(copie);
         int id_stato = Integer.parseInt(stato);
         int durata = Integer.parseInt(durata_max);
-
+        
         if(dl.insertBook(isbn, titolo, editore, annoPubblicazione, recensione, id_lingua, autore, tag, n_copie,durata, id_stato)){
             PrintWriter w = response.getWriter();
             // Check that we have a file upload request
@@ -75,7 +82,6 @@ public class InserisciLibro extends HttpServlet {
 
                     // Set factory constraints
                     factory.setSizeThreshold(1*1024*1024*1024);
-                    factory.setRepository(TMP_DIR_PATH);
 
                     // Create a new file upload handler
                     ServletFileUpload upload = new ServletFileUpload(factory);
@@ -159,15 +165,6 @@ public class InserisciLibro extends HttpServlet {
     @Override
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
-        tmpDir = new File(TMP_DIR_PATH);
-        if(!tmpDir.isDirectory()) {
-                throw new ServletException(TMP_DIR_PATH + " is not a directory");
-        }
-        String realPath = getServletContext().getRealPath(DESTINATION_DIR_PATH);
-        destinationDir = new File(realPath);
-        if(!destinationDir.isDirectory()) {
-                throw new ServletException(DESTINATION_DIR_PATH+" is not a directory");
-        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -195,6 +192,34 @@ public class InserisciLibro extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
+                
+        boolean isMultipart = ServletFileUpload.isMultipartContent(request);
+
+        if(isMultipart){
+            try {
+                DiskFileItemFactory factory = new DiskFileItemFactory();
+
+
+                
+                ServletFileUpload upload = new ServletFileUpload(factory);
+
+                
+                List items = upload.parseRequest(request);
+                Iterator itr = items.iterator();
+
+                while(itr.hasNext()) {
+                    FileItem item = (FileItem) itr.next();
+
+                    if(!item.isFormField()) {
+                        //scrivo l'item nel file "savedFile"
+                    }
+                }
+
+            } catch (Exception e) {
+                // TODO Auto-generated catch block
+
+            }
+        }
     }
 
     /** 

@@ -152,5 +152,11 @@ public class EsempioRicerca {
             Libro element = (Libro) i.next();
             System.out.println( "Autori : "+element.getTitolo());                           
         }
+        
+        List<Libro> listl = dl.getMostProvided();
+        for ( Iterator i = listl.iterator(); i.hasNext(); ) {
+            Libro element = (Libro) i.next();
+            System.out.println( "Most Provided : "+element.getTitolo());                           
+        }
     }
 }

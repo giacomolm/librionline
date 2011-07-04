@@ -701,7 +701,7 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
     
         manager.getTransaction().begin();
         List<Libro> ll = null;
-        Map lc = null;
+        Map<String,Integer> lc = null;
         //Prelevo tutti i libri presenti nella libreria
         
         try{
@@ -726,34 +726,57 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
                 for(iv = volcol.iterator(); iv.hasNext();){
                     sum+=((Volume) iv.next()).getPrestitoCollection().size();
                 }
-                if(sum>0) lc.put(ltemp.getIsbn(), sum);
+                if(sum>0) lc.put(ltemp.getIsbn(), new Integer(sum));
                 i--;
             }
             while(it.hasNext()&&i>0);
+            
             //Se i libri presenti nella libreria sono maggiori di 10, devo selezionare quali tra questi devo restituire
             if(i==0){
                  while(it.hasNext()){
                      //Mi riferrico con l al libro corrente nella lista di libri che sto esaminando
                      Libro l = ((Libro) it.next());
                      //scelgo il libro nella lista che ha il numero minore di prestiti
-                     int temp = ((Integer)lc.get(getMinPrestiti(lc)));
-                     //se il numero di prestiti riferiti a l sono maggiori di quelli di temp
-                     //allora devo procedere con il replace di questo
-                     Collection<Volume> volcol = l.getVolumeCollection();
-                     Iterator<Volume> iv;
-                     int sum=0;
-                     for(iv = volcol.iterator(); iv.hasNext();){
-                            sum+=((Volume) iv.next()).getPrestitoCollection().size();
-                        }
-                     if(sum>temp){
-                         lc.remove(getMinPrestiti(lc));
-                         lc.put(l.getIsbn(), sum);
+
+                     if(!lc.isEmpty()){
+                         if(lc.size()<5){
+                            Collection<Volume> volcol = l.getVolumeCollection();
+                            Iterator<Volume> iv;
+                            //Calcolo la somma dei prestiti per quel libro
+                            int sum=0;
+                            for(iv = volcol.iterator(); iv.hasNext();){
+                                sum+=((Volume) iv.next()).getPrestitoCollection().size();
+                            }
+                            if(sum>0)lc.put(l.getIsbn(), new Integer(sum));
+                         }
+                         else{
+                             Integer temp = ((Integer)lc.get(getMinPrestiti(lc)));
+                             //System.out.println(getMinPrestiti(lc)+" val "+temp);
+                             //se il numero di prestiti riferiti a l sono maggiori di quelli di temp
+                             //allora devo procedere con il replace di questo
+                             Collection<Volume> volcol = l.getVolumeCollection();
+                             Iterator<Volume> iv;
+                             int sum=0;
+                             for(iv = volcol.iterator(); iv.hasNext();){
+                                    sum+=((Volume) iv.next()).getPrestitoCollection().size();
+                                }
+
+                             Integer sumTemp = new Integer(sum);
+                             System.out.println(sumTemp+" --"+temp+" "+sumTemp.compareTo(temp));
+                             if(sumTemp.compareTo(temp)== 1){
+                                 //System.out.println("--");
+                                 //System.out.println("get "+lc.get(getMinPrestiti(lc)));
+                                 //System.out.println("remove "+lc.remove(getMinPrestiti(lc)));
+                                 lc.remove(getMinPrestiti(lc));
+                                 lc.put(l.getIsbn(), sumTemp);
+                             }
+                         }
                      }
                  }
             }
         }
         manager.getTransaction().commit();
-        List<Libro> l = (List) new ArrayList<LibroMysqlImpl>(10);
+        List<Libro> l = (List) new ArrayList<LibroMysqlImpl>();
         //devo convertire le chiavi presenti della mappa in libri concreti
         Set keys = lc.keySet();
         for(Iterator iter=keys.iterator(); iter.hasNext();){
@@ -774,9 +797,10 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
     public String getMinPrestiti(Map m){
     
         int i;
-        String min = null;
+        String min;
         Set set = m.keySet();
         
+        //Lista degli 
         Object[] list = new Object[set.size()];
         list = set.toArray();
         if(list.length>1){ 
@@ -784,9 +808,12 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
             String key;
             for(i=1; i<list.length; i++){
                 key = (String) list[i];
-                if(((Integer)m.get(key)) < ((Integer)m.get(min))) min = key;
+                System.out.print((Integer)m.get(key)+" "+((Integer)m.get(min))+" "+ ((Integer)m.get(key)).compareTo((Integer)m.get(min)));
+                if(((Integer)m.get(key)).compareTo((Integer)m.get(min))==-1) min = key;
+                System.out.println(" res "+m.get(min));
             }
         }
+        else min = (String) list[0];
         return min;
     }
     
