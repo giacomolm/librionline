@@ -386,4 +386,12 @@ public interface LibriOnLineDataLayer {
      * @return true se l'aggiunta del volume viene fatta in maniera corretta
      */
     boolean insertVolume(Libro l, int durata_max,int id_stato);
+    
+    /**
+     * Il metodo provvede a restituire uno stato, inteso come oggetto a partire 
+     * dal suo id.
+     * @param id dello stato che si vuole cercare
+     * @return Stato se ce n'è uno con quell'id, altrimenti null
+     */
+    Stato getStato(int id);
 }

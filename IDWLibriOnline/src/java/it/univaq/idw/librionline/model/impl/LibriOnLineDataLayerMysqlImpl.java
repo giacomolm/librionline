@@ -1536,4 +1536,21 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
         }
         return resList;
     }
+    
+    /**
+     * Il metodo provvede a restituire uno stato, inteso come oggetto a partire 
+     * dal suo id.
+     * @param id dello stato che si vuole cercare
+     * @return Stato se ce n'è uno con quell'id, altrimenti null
+     */
+    public Stato getStato(int id){
+        Stato s  = null;
+        try{
+            //Prelevo tutti quanti gli oggetti stato
+            s =  (Stato) manager.createNamedQuery("StatoMysqlImpl.findById").setParameter("id", id).getSingleResult();
+        }catch (NoResultException e){
+            //Non esiste alcun utente con quell'username
+        }
+        return s;
+    }
 }
