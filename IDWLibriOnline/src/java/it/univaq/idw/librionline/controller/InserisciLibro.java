@@ -12,7 +12,9 @@ import it.univaq.idw.librionline.model.Lingua;
 import it.univaq.idw.librionline.model.Stato;
 import it.univaq.idw.librionline.model.Tag;
 import it.univaq.idw.librionline.model.impl.LibriOnLineDataLayerMysqlImpl;
+import java.io.File;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Iterator;
 import java.util.List;
 import javax.servlet.ServletException;
@@ -21,20 +23,18 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.fileupload.FileItemFactory;
-import org.apache.commons.fileupload.FileUploadException;
+import org.apache.commons.fileupload.*;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
+
 
 /**
  *
  * @author Zilfio
  */
 public class InserisciLibro extends HttpServlet {
-
-    private boolean analizza_form_libro(HttpServletRequest request, HttpServletResponse response) {
-
+    
+    private boolean analizza_form_libro(HttpServletRequest request, HttpServletResponse response) throws IOException {
         
         String isbn = request.getParameter("insertbook_isbn");
         String titolo = request.getParameter("insertbook_titolo");
@@ -59,7 +59,7 @@ public class InserisciLibro extends HttpServlet {
         int id_stato = Integer.parseInt(stato);
         int durata = Integer.parseInt(durata_max);
         
-        if(dl.insertBook(isbn, titolo, editore, annoPubblicazione, recensione, id_lingua, autore, tag, n_copie,durata, id_stato)){
+        if(dl.insertBook(isbn, titolo, editore, annoPubblicazione, recensione, id_lingua, autore, tag, n_copie,durata, id_stato)){         
             return true;
         }
         else{
@@ -78,7 +78,8 @@ public class InserisciLibro extends HttpServlet {
             throws ServletException, IOException {
         TemplateResult res = new TemplateResult(getServletContext());
         HttpSession session = SecurityLayer.checkSession(request);
-        
+        PrintWriter out = response.getWriter();
+
         if(session != null){
             request.setAttribute("stato_log", "Logout");
 
@@ -107,7 +108,49 @@ public class InserisciLibro extends HttpServlet {
                 }
                 else{
                     boolean result = analizza_form_libro(request,response);
-                    if(result){ 
+                    if(result){  
+                        if(ServletFileUpload.isMultipartContent(request)){
+                            // prepariamo per l'upload della copia elettronica del libro
+                            FileItemFactory factory = new DiskFileItemFactory();
+                            ServletFileUpload upload = new ServletFileUpload(factory);
+                            List<FileItem> items;
+                            try {
+                                //analizzo la richiesta
+                                items = upload.parseRequest(request);
+                                Iterator<FileItem> it = items.iterator();
+                                //itero sugli elementi della richiesta
+                                while (it.hasNext()) {
+                                    //singolo elemento della richiesta
+                                    FileItem item = it.next();
+                                    String nome = item.getFieldName();
+                                    if (item.isFormField()) {
+                                        //l'elemento è un campo semplice
+                                        String valore = item.getString();
+                                        if (!valore.isEmpty()) {
+                                            out.println("<p><b>" + nome + "</b>=" + valore + "</p>");
+                                        } else {
+                                            out.println("<p><b>" + nome + "</b>=<i>VUOTO</i></p>");
+                                        }
+                                    } else {
+                                        //l'elemento è un file
+                                        String fileName = item.getName();
+                                        String contentType = item.getContentType();
+                                        long size = item.getSize();
+                                        //copia del file nel repository
+                                        File f = new File(getServletContext().getRealPath("") + "/" + fileName);
+                                        item.write(f);
+                                        out.println("<p><b>" + nome + "</b>= FILE '" + fileName + "' (" + contentType + "," + size + " bytes)</p>");
+                                    }
+                                }
+                                } catch (FileUploadException ex) {
+                                    //qui va gestito ogni errore di upload
+                                    ex.printStackTrace();
+                                } catch (Exception ex) {
+                                    //qui vanno gestiti gli errori derivanti dalla chiamata a write()
+                                    ex.printStackTrace();
+                                }
+                        }
+                        
                         request.setAttribute("title","Inserisci Autore");
                         request.setAttribute("messaggio","Il Libro è stato inserito correttamente!");
                         res.activate("backoffice_inseriscilibro.ftl.html", request, response);
@@ -125,7 +168,7 @@ public class InserisciLibro extends HttpServlet {
                 request.setAttribute("tipologia_utente","Utente");
             }
         }
-    }
+    }     
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /** 
@@ -137,7 +180,7 @@ public class InserisciLibro extends HttpServlet {
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException{       
+            throws ServletException, IOException{
             processRequest(request, response);
     }
 

@@ -7,6 +7,7 @@ package it.univaq.idw.librionline.controller;
 import it.univaq.idw.librionline.framework.util.SecurityLayer;
 import it.univaq.idw.librionline.framework.util.TemplateResult;
 import it.univaq.idw.librionline.model.LibriOnLineDataLayer;
+import it.univaq.idw.librionline.model.Stato;
 import it.univaq.idw.librionline.model.impl.LibriOnLineDataLayerMysqlImpl;
 import java.io.IOException;
 import javax.servlet.ServletException;
@@ -41,8 +42,11 @@ public class UpdateStato extends HttpServlet {
                 request.setAttribute("bibliotecario",true);
                 request.setAttribute("tipologia_utente","Bibliotecario");
                 
-                request.getParameter("id");
-                // devo trovare lo stato partendo dal suo id
+                String id = request.getParameter("id");
+                int id_stato = Integer.parseInt(id);
+                
+                Stato stato = dl.getStato(id_stato);
+                request.setAttribute("stato",stato);
             }
             else{
                 request.setAttribute("bibliotecario",false);
