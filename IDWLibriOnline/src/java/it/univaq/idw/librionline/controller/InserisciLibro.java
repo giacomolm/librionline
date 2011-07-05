@@ -4,6 +4,7 @@
  */
 package it.univaq.idw.librionline.controller;
 
+import it.univaq.idw.librionline.framework.util.MultipartHttpServletRequest;
 import it.univaq.idw.librionline.framework.util.SecurityLayer;
 import it.univaq.idw.librionline.framework.util.TemplateResult;
 import it.univaq.idw.librionline.model.Autore;
@@ -12,7 +13,11 @@ import it.univaq.idw.librionline.model.Lingua;
 import it.univaq.idw.librionline.model.Stato;
 import it.univaq.idw.librionline.model.Tag;
 import it.univaq.idw.librionline.model.impl.LibriOnLineDataLayerMysqlImpl;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -53,6 +58,22 @@ public class InserisciLibro extends HttpServlet {
         int durata = Integer.parseInt(durata_max);
         
         if(dl.insertBook(isbn, titolo, editore, annoPubblicazione, recensione, id_lingua, autore, tag, n_copie,durata, id_stato)){         
+            String nome_file = request.getParameter("insertbook_file_name");
+            int size_file = Integer.parseInt(request.getParameter("insertbook_file_size"));
+        
+            if(size_file > 0){
+                InputStream is = ((MultipartHttpServletRequest)request).getStream("insertbook_file");
+                File file = new File(getServletContext().getRealPath("")+"/copie_elettroniche/"+nome_file);
+                OutputStream out=new FileOutputStream(file);
+
+                byte buf[]=new byte[1024];
+                int len;
+                while((len=is.read(buf))>0)
+                    out.write(buf,0,len);
+                out.close();
+                is.close();
+            }
+            
             return true;
         }
         else{

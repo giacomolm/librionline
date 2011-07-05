@@ -3,17 +3,18 @@
 <#if (stato_log??)>
     <#if bibliotecario>
     <#if (prestititotali??)>
+    <div id="page_container_prestiti" class="container">
+    <div class="page_navigation"></div>
+    <ul class="content">
     <#list prestititotali as prestitototale>
     <#if prestitototale.expired>
-    <ul>
         <li style="color:red"> <strong>PRESTITO SCADUTO</strong> - <em>Libro da restituire:</em> <a href="SchedaDettaglioLibro?isbn=${prestitototale.volume.libro.isbn}">${prestitototale.volume.libro.titolo}</a> - <em>Data prestito:</em> ${prestitototale.dataPrestito?date} - <em>Doveva restituirlo entro il:</em> ${prestitototale.dataPresuntaRestituzione?date} - <em>Utente:</em> <a href="SchedaUtente?id=${prestitototale.user.id}">${prestitototale.user.username}</a></li>
-    </ul>
     <#else>
-    <ul>
         <li><em>Libro da restituire:</em> <a href="SchedaDettaglioLibro?isbn=${prestitototale.volume.libro.isbn}">${prestitototale.volume.libro.titolo}</a> - <em>Data prestito:</em> ${prestitototale.dataPrestito?date} - <em>Restituire entro il:</em> ${prestitototale.dataPresuntaRestituzione?date} - <em>Utente:</em> <a href="SchedaUtente?id=${prestitototale.user.id}">${prestitototale.user.username}</a></li>
-    </ul>
     </#if>
     </#list>
+    </ul>
+    </div>
     <#else>
         <p><em>Nota: Nessun prestito </em></p>
     </#if>
