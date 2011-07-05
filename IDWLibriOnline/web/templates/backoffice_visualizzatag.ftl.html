@@ -3,7 +3,9 @@
 <#if (stato_log??)>
 <#if bibliotecario>
 <#if (tags??)>
-<ul>
+<div id="page_container_libri" class="container">
+<div class="page_navigation"></div>
+<ul class="content">
 <#list tags as tag>
     <li><a href="UpdateTag?id=${tag.id}">${tag.tag}</a></li>
 </#list>

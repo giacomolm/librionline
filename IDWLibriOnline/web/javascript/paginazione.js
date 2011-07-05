@@ -33,3 +33,15 @@ $(document).ready(function(){
         items_per_page : 15	
     });
 });
+
+$(document).ready(function(){
+    $('#page_container_ricercabase').pajinate({
+        items_per_page : 15	
+    });
+});
+
+$(document).ready(function(){
+    $('#page_container_ricercaavanzata').pajinate({
+        items_per_page : 15	
+    });
+});

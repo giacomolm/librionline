@@ -1,7 +1,9 @@
 <h2 class="page_title"> Risultati ricerca avanzata </h2>
 
 <#if (libri??)>
-    <ul>
+<div id="page_container_ricercaavanzata" class="container">
+<div class="page_navigation"></div>
+    <ul class="content">
         <#list libri as libro>
             <li><a href="SchedaDettaglioLibro?isbn=${libro.isbn}">${libro.titolo}</a> -
              <#list libro.autoreCollection as autore>
@@ -11,6 +13,7 @@
             - ${libro.editore} - ${libro.annoPubblicazione}</li> 
         </#list>
     </ul>
+</div>
 <#else>
     <p><em>Nota: Nessun libro trovato </em></p> 
 </#if>

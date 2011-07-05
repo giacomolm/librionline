@@ -3,7 +3,7 @@
 <#if (stato_log??)>
 <#if bibliotecario>
 <#if (libri??)>
-<ul>
+<ul class="content">
 <#list libri as libro>
     <li><a href="UpdateLibro?id=${libro.isbn}">${libro.titolo}</a></li>
 </#list>

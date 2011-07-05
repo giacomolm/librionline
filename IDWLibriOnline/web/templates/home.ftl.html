@@ -20,7 +20,7 @@
     <div class="homepage_book"> 
         <p><strong>Libri da riconsegnare:</strong></p>
         <#if (libri_da_riconsegnare??)>
-            <ul>
+            <ul class="content">
             <#list libri_da_riconsegnare as libro_da_riconsegnare>
                 <#if libro_da_riconsegnare.expired>
                 <li style="color:red"> <strong>PRESTITO SCADUTO</strong> - <em>Libro da restituire:</em> <a href="SchedaDettaglioLibro?isbn=${libro_da_riconsegnare.volume.libro.isbn}">${libro_da_riconsegnare.volume.libro.titolo}</a> - <em>Data prestito:</em> ${libro_da_riconsegnare.dataPrestito?date} - <em>Dovevi restituirlo entro il:</em> ${libro_da_riconsegnare.dataPresuntaRestituzione?date}</li>
@@ -39,7 +39,7 @@
 <div class="homepage_book"> 
     <p><strong>Ultimi libri aggiunti alla biblioteca:</strong></p>
     <#if (libri??)>
-    <ul>
+    <ul class="content">
     <#list libri as libro>
         <li><a href="SchedaDettaglioLibro?isbn=${libro.isbn}">${libro.titolo}</a> - <i>Aggiunto il:</i> ${libro.dataIns?date}</li>
     </#list>
@@ -52,7 +52,7 @@
 <div class="homepage_book"> 
     <p><strong>Libri maggiormente prestati:</strong></p>
     <#if (libriprestati??)>
-    <ul>
+    <ul class="content">
     <#list libriprestati as libroprestato>
         <li><a href="SchedaDettaglioLibro?isbn=${libroprestato.isbn}">${libroprestato.titolo}</a> </li>
     </#list>

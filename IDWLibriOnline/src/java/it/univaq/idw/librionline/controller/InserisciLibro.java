@@ -59,11 +59,12 @@ public class InserisciLibro extends HttpServlet {
         
         if(dl.insertBook(isbn, titolo, editore, annoPubblicazione, recensione, id_lingua, autore, tag, n_copie,durata, id_stato)){         
             String nome_file = request.getParameter("insertbook_file_name");
+            String type_file = request.getParameter("insertbook_file_type");
             int size_file = Integer.parseInt(request.getParameter("insertbook_file_size"));
         
             if(size_file > 0){
                 InputStream is = ((MultipartHttpServletRequest)request).getStream("insertbook_file");
-                File file = new File(getServletContext().getRealPath("")+"/copie_elettroniche/"+nome_file);
+                File file = new File(getServletContext().getRealPath("")+"/copie_elettroniche/"+isbn);
                 OutputStream out=new FileOutputStream(file);
 
                 byte buf[]=new byte[1024];
