@@ -45,3 +45,15 @@ $(document).ready(function(){
         items_per_page : 15	
     });
 });
+
+$(document).ready(function(){
+    $('#page_container_visualizzaautori').pajinate({
+        items_per_page : 15	
+    });
+});
+
+$(document).ready(function(){
+    $('#page_container_visualizzalibri').pajinate({
+        items_per_page : 15	
+    });
+});
