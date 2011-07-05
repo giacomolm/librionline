@@ -10,7 +10,6 @@ import it.univaq.idw.librionline.model.LibriOnLineDataLayer;
 import it.univaq.idw.librionline.model.Stato;
 import it.univaq.idw.librionline.model.impl.LibriOnLineDataLayerMysqlImpl;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -51,14 +50,15 @@ public class VisualizzaStati extends HttpServlet {
                 else{
                     request.setAttribute("stati",stats);
                 }
+                
+                request.setAttribute("title","Visualizza Stati");
+                res.activate("backoffice_visualizzastati.ftl.html", request, response);
             }
             else{
                 request.setAttribute("bibliotecario",false);
                 request.setAttribute("tipologia_utente","Utente");
             }
         }     
-        request.setAttribute("title","Visualizza Stati");
-        res.activate("backoffice_visualizzastati.ftl.html", request, response);
     }
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /** 

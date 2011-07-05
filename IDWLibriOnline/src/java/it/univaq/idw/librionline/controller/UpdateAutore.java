@@ -6,8 +6,8 @@ package it.univaq.idw.librionline.controller;
 
 import it.univaq.idw.librionline.framework.util.SecurityLayer;
 import it.univaq.idw.librionline.framework.util.TemplateResult;
+import it.univaq.idw.librionline.model.Autore;
 import it.univaq.idw.librionline.model.LibriOnLineDataLayer;
-import it.univaq.idw.librionline.model.Stato;
 import it.univaq.idw.librionline.model.impl.LibriOnLineDataLayerMysqlImpl;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -21,18 +21,18 @@ import javax.servlet.http.HttpSession;
  *
  * @author Zilfio
  */
-public class UpdateStato extends HttpServlet {
-    
-    private boolean analizza_form_stato(HttpServletRequest request, HttpServletResponse response) {
+public class UpdateAutore extends HttpServlet {
+
+    private boolean analizza_form_autore(HttpServletRequest request, HttpServletResponse response) {
+        String cognome = request.getParameter("updateautore_cognome");
+        String nome = request.getParameter("updateautore_nome");
         
-        String stato = request.getParameter("updatestato_stato");
-        
-        if(stato == null || stato.isEmpty()){
+        if((cognome == null || cognome.isEmpty()) || (nome == null || nome.isEmpty())){
             return false;
         }
         return true;
     }
-
+    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
      * @param request servlet request
@@ -54,29 +54,30 @@ public class UpdateStato extends HttpServlet {
                 request.setAttribute("bibliotecario",true);
                 request.setAttribute("tipologia_utente","Bibliotecario");
                 
-                String update = request.getParameter("Modifica Stato");
+                String update = request.getParameter("Modifica Autore");
                 
                 if(update == null){
                     String id = request.getParameter("id");
-                    Stato state = dl.getStato(Integer.parseInt(id));
+                    Autore autore = dl.getAutore(Integer.parseInt(id));
                     
-                    request.setAttribute("title", "Modifica stato");
-                    request.setAttribute("stato", state);
-                    res.activate("backoffice_updatestato.ftl.html", request, response);
+                    request.setAttribute("title", "Modifica autore");
+                    request.setAttribute("autore", autore);
+                    res.activate("backoffice_updateautori.ftl.html", request, response);
                 }
                 
-                else if(update.equals("Modifica Stato")){
-                    boolean result = analizza_form_stato(request, response);
+                else if(update.equals("Modifica Autore")){
+                    boolean result = analizza_form_autore(request, response);
                     
-                    String id = request.getParameter("updatestato_id");
-                    Stato state = dl.getStato(Integer.parseInt(id));
-                    state.setStato(request.getParameter("updatestato_stato"));
-                    
-                    response.sendRedirect("VisualizzaStati");
+                    String id = request.getParameter("updateautore_id");
+                    Autore autore = dl.getAutore(Integer.parseInt(id));
+                    autore.setCognome(request.getParameter("updateautore_cognome"));
+                    autore.setNome(request.getParameter("updateautore_nome"));
+                         
+                    response.sendRedirect("VisualizzaAutori");
                 }
                 else{
-                    request.setAttribute("title", "Modifica stato");
-                    res.activate("backoffice_updatestato.ftl.html", request, response);
+                    request.setAttribute("title", "Modifica autore");
+                    res.activate("backoffice_updateautori.ftl.html", request, response);
                 }
             }
                     

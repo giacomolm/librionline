@@ -1,0 +1,15 @@
+<h2 class="page_title"> Tag </h2>
+<p>Cliccare su di un tag per modificarlo o eliminarlo.</p>
+<#if (stato_log??)>
+<#if bibliotecario>
+<#if (tags??)>
+<ul>
+<#list tags as tag>
+    <li><a href="UpdateTag?id=${tag.id}">${tag.tag}</a></li>
+</#list>
+</ul>
+<#else>
+    <p><em>Nota: Nessun tag presente</em></p>
+</#if>
+</#if>
+</#if>

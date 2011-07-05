@@ -1,7 +1,9 @@
 <h2 class="page_title"> Libri </h2>
 
 <#if (libri??)>
-    <ul>
+<div id="page_container" class="container">
+<div class="page_navigation"></div>
+    <ul class="content">
         <#list libri as libro>
             <li><a href="SchedaDettaglioLibro?isbn=${libro.isbn}">${libro.titolo}</a> -
             <em>
@@ -13,6 +15,7 @@
              </li> 
         </#list>
     </ul>
+</div>
 <#else>
     <p> Nessun libro trovato </p> 
 </#if>

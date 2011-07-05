@@ -1,0 +1,15 @@
+<h2 class="page_title"> Lingue </h2>
+<p>Cliccare su di una lingua per modificarla o eliminarla.</p>
+<#if (stato_log??)>
+<#if bibliotecario>
+<#if (lingue??)>
+<ul>
+<#list lingue as lingua>
+    <li><a href="UpdateLingua?id=${lingua.id}">${lingua.lingua}</a></li>
+</#list>
+</ul>
+<#else>
+    <p><em>Nota: Nessuna lingua presente</em></p>
+</#if>
+</#if>
+</#if>

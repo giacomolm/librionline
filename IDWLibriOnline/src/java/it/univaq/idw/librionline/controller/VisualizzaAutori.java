@@ -6,11 +6,11 @@ package it.univaq.idw.librionline.controller;
 
 import it.univaq.idw.librionline.framework.util.SecurityLayer;
 import it.univaq.idw.librionline.framework.util.TemplateResult;
+import it.univaq.idw.librionline.model.Autore;
 import it.univaq.idw.librionline.model.LibriOnLineDataLayer;
-import it.univaq.idw.librionline.model.Stato;
 import it.univaq.idw.librionline.model.impl.LibriOnLineDataLayerMysqlImpl;
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -21,17 +21,7 @@ import javax.servlet.http.HttpSession;
  *
  * @author Zilfio
  */
-public class UpdateStato extends HttpServlet {
-    
-    private boolean analizza_form_stato(HttpServletRequest request, HttpServletResponse response) {
-        
-        String stato = request.getParameter("updatestato_stato");
-        
-        if(stato == null || stato.isEmpty()){
-            return false;
-        }
-        return true;
-    }
+public class VisualizzaAutori extends HttpServlet {
 
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -45,7 +35,6 @@ public class UpdateStato extends HttpServlet {
         TemplateResult res = new TemplateResult(getServletContext());
         HttpSession session = SecurityLayer.checkSession(request);
         LibriOnLineDataLayer dl = new LibriOnLineDataLayerMysqlImpl();
-        PrintWriter w = response.getWriter();
         
         if(session != null){
             request.setAttribute("stato_log", "Logout");
@@ -54,37 +43,22 @@ public class UpdateStato extends HttpServlet {
                 request.setAttribute("bibliotecario",true);
                 request.setAttribute("tipologia_utente","Bibliotecario");
                 
-                String update = request.getParameter("Modifica Stato");
-                
-                if(update == null){
-                    String id = request.getParameter("id");
-                    Stato state = dl.getStato(Integer.parseInt(id));
-                    
-                    request.setAttribute("title", "Modifica stato");
-                    request.setAttribute("stato", state);
-                    res.activate("backoffice_updatestato.ftl.html", request, response);
-                }
-                
-                else if(update.equals("Modifica Stato")){
-                    boolean result = analizza_form_stato(request, response);
-                    
-                    String id = request.getParameter("updatestato_id");
-                    Stato state = dl.getStato(Integer.parseInt(id));
-                    state.setStato(request.getParameter("updatestato_stato"));
-                    
-                    response.sendRedirect("VisualizzaStati");
+                List<Autore> autori = dl.getAllAutori();
+                if(autori.isEmpty()){
+                    request.setAttribute("autori",null);
                 }
                 else{
-                    request.setAttribute("title", "Modifica stato");
-                    res.activate("backoffice_updatestato.ftl.html", request, response);
+                    request.setAttribute("autori",autori);
                 }
+                
+                request.setAttribute("title","Visualizza Autori");
+                res.activate("backoffice_visualizzaautori.ftl.html", request, response);
             }
-                    
             else{
                 request.setAttribute("bibliotecario",false);
                 request.setAttribute("tipologia_utente","Utente");
             }
-        }
+        }     
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -122,6 +96,4 @@ public class UpdateStato extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
-
-    
 }

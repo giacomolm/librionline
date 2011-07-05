@@ -2,6 +2,7 @@
 var login,user,pass;
 var ricerca,titolo;
 var regist, userreg, passreg, email, tel, nome, cognome, codicefiscale, indirizzo, citta, provincia, cap;
+var inseriscilibro, inseriscilibro_isbn, inseriscilibro_titolo, inseriscilibro_editore, inseriscilibro_annopubblicazione, inseriscilibro_autori, inseriscilibro_tag, inseriscilibro_numerovolumi, inseriscilibro_stato, inseriscilibro_duratamax;
 
 //funzione di controllo per il campo di input testuale user
 function checkuser() {
@@ -304,9 +305,187 @@ function checkFormReg() {
 	//in questo modo, se uno dei due ritorna false, la form non verrà sottomessa
 }
 
+//funzione per il controllo dell'intera form durante la submission
+function checkInsLibro() {
+	//eseguiamo i controlli sui campi, e ritorniamo l'AND dei loro risultati
+	return (checkinslibro_isbn() && checkinslibro_titolo() && checkinslibro_editore() && checkinslibro_annopubblicazione() && checkinslibro_autori() && checkinslibro_tag() && checkinslibro_numerovolumi() && checkinslibro_stato() && checkinslibro_duratamax());
+	//in questo modo, se uno dei campi ritorna false, la form non verrà sottomessa
+}
+
+function checkinslibro_isbn() {
+	if (inseriscilibro_isbn.value == "") {
+		//attiviamo il campo
+		inseriscilibro_isbn.focus();
+		//selezioniamo il testo errato
+		inseriscilibro_isbn.select();
+		//e bordiamo di rosso il campo da correggere
+		inseriscilibro_isbn.style.border="1px solid red";
+                //finestra che indica l'errore
+                alert("Lunghezza del campo \'Isbn\' vuoto! \n N.B. L'isbn è formato da 13 cifre!");
+		//ritorniamo false per indicare che l'azione è fallita
+		return false;		
+	} else {
+		inseriscilibro_isbn.style.border="";
+		//ritorniamo true per indicare che l'azione è andata a buon fine
+		return true;
+	}
+}
+
+function checkinslibro_titolo() {
+	if (inseriscilibro_titolo.value == "") {
+		//attiviamo il campo
+		inseriscilibro_titolo.focus();
+		//selezioniamo il testo errato
+		inseriscilibro_titolo.select();
+		//e bordiamo di rosso il campo da correggere
+		inseriscilibro_titolo.style.border="1px solid red";
+                //finestra che indica l'errore
+                alert("Lunghezza del campo \'Titolo\' vuoto!");
+		//ritorniamo false per indicare che l'azione è fallita
+		return false;		
+	} else {
+		inseriscilibro_titolo.style.border="";
+		//ritorniamo true per indicare che l'azione è andata a buon fine
+		return true;
+	}
+}
+
+function checkinslibro_editore() {
+	if (inseriscilibro_editore.value == "") {
+		//attiviamo il campo
+		inseriscilibro_editore.focus();
+		//selezioniamo il testo errato
+		inseriscilibro_editore.select();
+		//e bordiamo di rosso il campo da correggere
+		inseriscilibro_editore.style.border="1px solid red";
+                //finestra che indica l'errore
+                alert("Lunghezza del campo \'Editore\' vuoto!");
+		//ritorniamo false per indicare che l'azione è fallita
+		return false;		
+	} else {
+		inseriscilibro_editore.style.border="";
+		//ritorniamo true per indicare che l'azione è andata a buon fine
+		return true;
+	}
+}
+
+function checkinslibro_annopubblicazione() {
+	if (inseriscilibro_annopubblicazione.value == "") {
+		//attiviamo il campo
+		inseriscilibro_annopubblicazione.focus();
+		//selezioniamo il testo errato
+		inseriscilibro_annopubblicazione.select();
+		//e bordiamo di rosso il campo da correggere
+		inseriscilibro_annopubblicazione.style.border="1px solid red";
+                //finestra che indica l'errore
+                alert("Lunghezza del campo \'Anno pubblicazione\' vuoto!");
+		//ritorniamo false per indicare che l'azione è fallita
+		return false;		
+	} else {
+		inseriscilibro_annopubblicazione.style.border="";
+		//ritorniamo true per indicare che l'azione è andata a buon fine
+		return true;
+	}
+}
+
+function checkinslibro_autori() {
+	if (inseriscilibro_autori.value == "") {
+		//attiviamo il campo
+		inseriscilibro_autori.focus();
+		//selezioniamo il testo errato
+		inseriscilibro_autori.select();
+		//e bordiamo di rosso il campo da correggere
+		inseriscilibro_autori.style.border="1px solid red";
+                //finestra che indica l'errore
+                alert("Lunghezza del campo \'Autori\' vuoto!");
+		//ritorniamo false per indicare che l'azione è fallita
+		return false;		
+	} else {
+		inseriscilibro_autori.style.border="";
+		//ritorniamo true per indicare che l'azione è andata a buon fine
+		return true;
+	}
+}
+
+function checkinslibro_tag() {
+	if (inseriscilibro_tag.value == "") {
+		//attiviamo il campo
+		inseriscilibro_tag.focus();
+		//selezioniamo il testo errato
+		inseriscilibro_tag.select();
+		//e bordiamo di rosso il campo da correggere
+		inseriscilibro_tag.style.border="1px solid red";
+                //finestra che indica l'errore
+                alert("Lunghezza del campo \'Tag\' vuoto!");
+		//ritorniamo false per indicare che l'azione è fallita
+		return false;		
+	} else {
+		inseriscilibro_tag.style.border="";
+		//ritorniamo true per indicare che l'azione è andata a buon fine
+		return true;
+	}
+}
+
+function checkinslibro_numerovolumi() {
+	if (inseriscilibro_numerovolumi.value == "") {
+		//attiviamo il campo
+		inseriscilibro_numerovolumi.focus();
+		//selezioniamo il testo errato
+		inseriscilibro_numerovolumi.select();
+		//e bordiamo di rosso il campo da correggere
+		inseriscilibro_numerovolumi.style.border="1px solid red";
+                //finestra che indica l'errore
+                alert("Lunghezza del campo \'Numero volumi\' vuoto!");
+		//ritorniamo false per indicare che l'azione è fallita
+		return false;		
+	} else {
+		inseriscilibro_numerovolumi.style.border="";
+		//ritorniamo true per indicare che l'azione è andata a buon fine
+		return true;
+	}
+}
+
+function checkinslibro_stato() {
+	if (inseriscilibro_stato.value == "") {
+		//attiviamo il campo
+		inseriscilibro_stato.focus();
+		//selezioniamo il testo errato
+		inseriscilibro_stato.select();
+		//e bordiamo di rosso il campo da correggere
+		inseriscilibro_stato.style.border="1px solid red";
+                //finestra che indica l'errore
+                alert("Lunghezza del campo \'Stato\' vuoto!");
+		//ritorniamo false per indicare che l'azione è fallita
+		return false;		
+	} else {
+		inseriscilibro_stato.style.border="";
+		//ritorniamo true per indicare che l'azione è andata a buon fine
+		return true;
+	}
+}
+
+function checkinslibro_duratamax() {
+	if (inseriscilibro_duratamax.value == "") {
+		//attiviamo il campo
+		inseriscilibro_duratamax.focus();
+		//selezioniamo il testo errato
+		inseriscilibro_duratamax.select();
+		//e bordiamo di rosso il campo da correggere
+		inseriscilibro_duratamax.style.border="1px solid red";
+                //finestra che indica l'errore
+                alert("Lunghezza del campo \'Durata\' vuoto!");
+		//ritorniamo false per indicare che l'azione è fallita
+		return false;		
+	} else {
+		inseriscilibro_duratamax.style.border="";
+		//ritorniamo true per indicare che l'azione è andata a buon fine
+		return true;
+	}
+}
+
 window.onload = function() {
 
-        //acquisiamo i riferimenti alla form e ai camp che volgiamo controllare
+        //acquisiamo i riferimenti alla form e ai campi che vogliamo controllare
         ricerca = document.getElementById('form_ricerca_base');
 	titolo = document.getElementById('titolo');
 	//impostiamo i listener corretti sulla form e sui suoi campi
@@ -315,7 +494,7 @@ window.onload = function() {
             ricerca.onsubmit = function() {return checkFormRicerca();}
         }
         
-        //acquisiamo i riferimenti alla form e ai camp che volgiamo controllare
+        //acquisiamo i riferimenti alla form e ai campi che vogliamo controllare
 	login = document.getElementById('form_login');
 	user = document.getElementById('user');
 	pass = document.getElementById('pass');	
@@ -326,7 +505,7 @@ window.onload = function() {
             login.onsubmit = function() {return checkFormLogin();}
         }
         
-        //acquisiamo i riferimenti alla form e ai camp che volgiamo controllare
+        //acquisiamo i riferimenti alla form e ai campi che vogliamo controllare
         regist = document.getElementById("registrazione");
         userreg = document.getElementById("user_reg");
         passreg = document.getElementById("pass_reg");
@@ -353,5 +532,30 @@ window.onload = function() {
             provincia.onchange = function() {return checkprovincia();}
             cap.onchange = function() {return checkcap();}
             regist.onsubmit = function() {return checkFormReg();}
+        }
+        
+        //acquisiamo i riferimenti alla form e ai campi che vogliamo controllare
+        inseriscilibro = document.getElementById("insertbook");
+        inseriscilibro_isbn = document.getElementById("insertbook_isbn");
+        inseriscilibro_titolo = document.getElementById("insertbook_titolo");
+        inseriscilibro_editore = document.getElementById("insertbook_editore");
+        inseriscilibro_annopubblicazione = document.getElementById("insertbook_annopubblicazione");
+        inseriscilibro_autori = document.getElementById("insertbook_autore");
+        inseriscilibro_tag = document.getElementById("insertbook_tag");
+        inseriscilibro_numerovolumi = document.getElementById("insertbook_numerocopie");
+        inseriscilibro_stato = document.getElementById("insertbook_stato");
+        inseriscilibro_duratamax = document.getElementById("insertbook_duratamax");
+        //impostiamo i listener corretti sulla form e sui suoi campi
+        if(inseriscilibro != null && inseriscilibro_isbn.value != null && inseriscilibro_titolo.value != null && inseriscilibro_editore.value != null && inseriscilibro_annopubblicazione.value != null && inseriscilibro_autori.value != null && inseriscilibro_tag.value != null && inseriscilibro_numerovolumi.value != null && inseriscilibro_stato.value != null && inseriscilibro_duratamax.value != null){
+            inseriscilibro_isbn.onchange = function() {return checkinslibro_isbn();}
+            inseriscilibro_titolo.onchange = function() {return checkinslibro_titolo();}
+            inseriscilibro_editore.onchange = function() {return checkinslibro_editore();}
+            inseriscilibro_annopubblicazione.onchange = function() {return checkinslibro_annopubblicazione();}
+            inseriscilibro_autori.onchange = function() {return checkinslibro_autori();}
+            inseriscilibro_tag.onchange = function() {return checkinslibro_tag();}
+            inseriscilibro_numerovolumi.onchange = function() {return checkinslibro_numerovolumi();}
+            inseriscilibro_stato.onchange = function() {return checkinslibro_stato();}
+            inseriscilibro_duratamax.onchange = function() {return checkinslibro_duratamax();}
+            inseriscilibro.onsubmit = function() {return checkInsLibro();}
         }
 }

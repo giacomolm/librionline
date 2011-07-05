@@ -145,6 +145,34 @@
         <servlet-name>UpdateStato</servlet-name>
         <servlet-class>it.univaq.idw.librionline.controller.UpdateStato</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>VisualizzaAutori</servlet-name>
+        <servlet-class>it.univaq.idw.librionline.controller.VisualizzaAutori</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UpdateAutore</servlet-name>
+        <servlet-class>it.univaq.idw.librionline.controller.UpdateAutore</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>VisualizzaTag</servlet-name>
+        <servlet-class>it.univaq.idw.librionline.controller.VisualizzaTag</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>VisualizzaLingue</servlet-name>
+        <servlet-class>it.univaq.idw.librionline.controller.VisualizzaLingue</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UpdateLingua</servlet-name>
+        <servlet-class>it.univaq.idw.librionline.controller.UpdateLingua</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UpdateTag</servlet-name>
+        <servlet-class>it.univaq.idw.librionline.controller.UpdateTag</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>VisualizzaLibri</servlet-name>
+        <servlet-class>it.univaq.idw.librionline.controller.VisualizzaLibri</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Home</servlet-name>
         <url-pattern>/Home</url-pattern>
@@ -260,6 +288,34 @@
     <servlet-mapping>
         <servlet-name>UpdateStato</servlet-name>
         <url-pattern>/UpdateStato</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>VisualizzaAutori</servlet-name>
+        <url-pattern>/VisualizzaAutori</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UpdateAutore</servlet-name>
+        <url-pattern>/UpdateAutore</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>VisualizzaTag</servlet-name>
+        <url-pattern>/VisualizzaTag</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>VisualizzaLingue</servlet-name>
+        <url-pattern>/VisualizzaLingue</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UpdateLingua</servlet-name>
+        <url-pattern>/UpdateLingua</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UpdateTag</servlet-name>
+        <url-pattern>/UpdateTag</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>VisualizzaLibri</servlet-name>
+        <url-pattern>/VisualizzaLibri</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

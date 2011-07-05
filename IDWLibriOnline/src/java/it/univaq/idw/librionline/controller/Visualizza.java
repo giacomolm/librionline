@@ -40,15 +40,15 @@ public class Visualizza extends HttpServlet {
             if(dl.isAdmin((String)session.getAttribute("username"))){
                 request.setAttribute("bibliotecario",true);
                 request.setAttribute("tipologia_utente","Bibliotecario");
+                             
+                request.setAttribute("title","Visualizza");
+                res.activate("visualizza.ftl.html", request, response);
             }
             else{
                 request.setAttribute("bibliotecario",false);
                 request.setAttribute("tipologia_utente","Utente");
             }
         }
-        
-        request.setAttribute("title","Visualizza");
-        res.activate("visualizza.ftl.html", request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

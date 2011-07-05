@@ -1,0 +1,15 @@
+<h2 class="page_title"> Libri </h2>
+<p>Cliccare su di un libro per modificarlo o eliminarlo.</p>
+<#if (stato_log??)>
+<#if bibliotecario>
+<#if (libri??)>
+<ul>
+<#list libri as libro>
+    <li><a href="UpdateLibro?id=${libro.isbn}">${libro.titolo}</a></li>
+</#list>
+</ul>
+<#else>
+    <p><em>Nota: Nessun libro presente</em></p>
+</#if>
+</#if>
+</#if>

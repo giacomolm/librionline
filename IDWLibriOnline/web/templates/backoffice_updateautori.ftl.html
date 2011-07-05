@@ -1,0 +1,20 @@
+<h2 class="page_title"> Modifica Stato </h2>
+<#if (stato_log??)>
+    <#if bibliotecario>
+    <form action="UpdateAutore" method="get" id="updateautore">
+        <fieldset><legend>Autore</legend>
+            <br />
+            <input type="hidden" name="updateautore_id" id="updateautore_id" value="${autore.id}" />
+            <label>Cognome</label> <input type="text" name="updateautore_cognome" id="updateautore_cognome" value="${autore.cognome}" maxlength="50" /> <br />
+            <label>Nome</label> <input type="text" name="updateautore_nome" id="updateautore_nome" value="${autore.nome}" maxlength="50" /> <br />
+            <br />
+        </fieldset>
+        <div>
+            <br />
+            <input type="submit" value="Modifica Autore" name="Modifica Autore" />
+            <input type="submit" value="Elimina Autore" name="Elimina Autore" />
+            <input type="reset" value="Reset" name="Cancella" />
+        </div>
+    </form>
+    </#if>
+</#if>

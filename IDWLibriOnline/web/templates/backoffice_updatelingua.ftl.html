@@ -1,0 +1,19 @@
+<h2 class="page_title"> Modifica Lingua </h2>
+<#if (stato_log??)>
+    <#if bibliotecario>
+    <form action="UpdateLingua" method="get" id="updatelingua">
+        <fieldset><legend>Lingua</legend>
+            <br />
+            <input type="hidden" name="updatelingua_id" id="updatelingua_id" value="${lingua.id}" />
+            <label>Lingua</label> <input type="text" name="updatelingua_lingua" id="updatelingua_lingua" value="${lingua.lingua}" maxlength="25" /> <br />
+            <br />
+        </fieldset>
+        <div>
+            <br />
+            <input type="submit" value="Modifica Lingua" name="Modifica Lingua" />
+            <input type="submit" value="Elimina Lingua" name="Modifica Lingua" />
+            <input type="reset" value="Reset" name="Cancella" />
+        </div>
+    </form>
+    </#if>
+</#if>

@@ -7,7 +7,7 @@ package it.univaq.idw.librionline.controller;
 import it.univaq.idw.librionline.framework.util.SecurityLayer;
 import it.univaq.idw.librionline.framework.util.TemplateResult;
 import it.univaq.idw.librionline.model.LibriOnLineDataLayer;
-import it.univaq.idw.librionline.model.Stato;
+import it.univaq.idw.librionline.model.Tag;
 import it.univaq.idw.librionline.model.impl.LibriOnLineDataLayerMysqlImpl;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -21,18 +21,18 @@ import javax.servlet.http.HttpSession;
  *
  * @author Zilfio
  */
-public class UpdateStato extends HttpServlet {
-    
-    private boolean analizza_form_stato(HttpServletRequest request, HttpServletResponse response) {
+public class UpdateTag extends HttpServlet {
+
+    private boolean analizza_form_tag(HttpServletRequest request, HttpServletResponse response) {
         
-        String stato = request.getParameter("updatestato_stato");
+        String tag = request.getParameter("updatetag_tag");
         
-        if(stato == null || stato.isEmpty()){
+        if(tag == null || tag.isEmpty()){
             return false;
         }
         return true;
     }
-
+    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
      * @param request servlet request
@@ -54,29 +54,29 @@ public class UpdateStato extends HttpServlet {
                 request.setAttribute("bibliotecario",true);
                 request.setAttribute("tipologia_utente","Bibliotecario");
                 
-                String update = request.getParameter("Modifica Stato");
+                String update = request.getParameter("Modifica Tag");
                 
                 if(update == null){
                     String id = request.getParameter("id");
-                    Stato state = dl.getStato(Integer.parseInt(id));
+                    Tag tag = dl.getTag(Integer.parseInt(id));
                     
-                    request.setAttribute("title", "Modifica stato");
-                    request.setAttribute("stato", state);
-                    res.activate("backoffice_updatestato.ftl.html", request, response);
+                    request.setAttribute("title", "Modifica tag");
+                    request.setAttribute("tag", tag);
+                    res.activate("backoffice_updatetag.ftl.html", request, response);
                 }
                 
-                else if(update.equals("Modifica Stato")){
-                    boolean result = analizza_form_stato(request, response);
+                else if(update.equals("Modifica Tag")){
+                    boolean result = analizza_form_tag(request, response);
                     
-                    String id = request.getParameter("updatestato_id");
-                    Stato state = dl.getStato(Integer.parseInt(id));
-                    state.setStato(request.getParameter("updatestato_stato"));
+                    String id = request.getParameter("updatetag_id");
+                    Tag tag = dl.getTag(Integer.parseInt(id));
+                    tag.setTag(request.getParameter("updatetag_tag"));
                     
-                    response.sendRedirect("VisualizzaStati");
+                    response.sendRedirect("VisualizzaTag");
                 }
                 else{
-                    request.setAttribute("title", "Modifica stato");
-                    res.activate("backoffice_updatestato.ftl.html", request, response);
+                    request.setAttribute("title", "Modifica tag");
+                    res.activate("backoffice_updatetag.ftl.html", request, response);
                 }
             }
                     
@@ -122,6 +122,4 @@ public class UpdateStato extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
-
-    
 }

@@ -1,21 +1,17 @@
 <h2 class="page_title"> Modifica Stato </h2>
 <#if (stato_log??)>
     <#if bibliotecario>
-        <#if (messaggio??)>
-        <div class="messaggio">
-            <p><strong>${messaggio}</strong></p>
-        </div>
-        <div><br /></div>
-        </#if>
     <form action="UpdateStato" method="get" id="updatestato">
         <fieldset><legend>Stato</legend>
             <br />
+            <input type="hidden" name="updatestato_id" id="updatestato_id" value="${stato.id}" />
             <label>Stato</label> <input type="text" name="updatestato_stato" id="updatestato_stato" value="${stato.stato}" maxlength="25" /> <br />
             <br />
         </fieldset>
         <div>
             <br />
             <input type="submit" value="Modifica Stato" name="Modifica Stato" />
+            <input type="submit" value="Elimina Stato" name="Modifica Stato" />
             <input type="reset" value="Reset" name="Cancella" />
         </div>
     </form>

@@ -1,0 +1,19 @@
+<h2 class="page_title"> Modifica Tag </h2>
+<#if (stato_log??)>
+    <#if bibliotecario>
+    <form action="UpdateTag" method="get" id="updatetag">
+        <fieldset><legend>Tag</legend>
+            <br />
+            <input type="hidden" name="updatetag_id" id="updatetag_id" value="${tag.id}" />
+            <label>Tag</label> <input type="text" name="updatetag_tag" id="updatetag_tag" value="${tag.tag}" maxlength="25" /> <br />
+            <br />
+        </fieldset>
+        <div>
+            <br />
+            <input type="submit" value="Modifica Tag" name="Modifica Tag" />
+            <input type="submit" value="Elimina Tag" name="Modifica Tag" />
+            <input type="reset" value="Reset" name="Cancella" />
+        </div>
+    </form>
+    </#if>
+</#if>
