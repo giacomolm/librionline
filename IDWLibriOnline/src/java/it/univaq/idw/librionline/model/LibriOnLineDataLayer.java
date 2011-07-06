@@ -291,7 +291,21 @@ public interface LibriOnLineDataLayer {
      * @return true se l'inserimento è andato a buon fine
      */
     boolean insertTag(String tag);
-    
+
+    /**
+     * Il metodo permette la modifica di un tag nel database.
+     * @param id_tag indicante l'id del tag che vogliamo modificare
+     * @param tag stringa indicante il tag
+     * @return true se la modifica è andata a buon fine
+     */
+    boolean modificaTag(int id_tag,String tag);
+    /**
+     * Il metodo permette la rimozione di un tag nel database.
+     * @param id_tag indicante l'id del tag che vogliamo eliminare
+     * @return true se la rimozione è andata a buon fine
+     */
+     boolean eliminaTag(int id_tag);
+     
     /**
      * Il metodo permette di prelevare tutti quanti i tag presenti nel database
      * in modo tale da poter essere visualizzati agli utenti che hanno bisogno
@@ -327,7 +341,19 @@ public interface LibriOnLineDataLayer {
      * @return true se l'inserimento è andato a buon fine
      */
     boolean insertLingua(String lingua);
-    
+    /**
+     * Il metodo permette di modificare una lingua, indicando il suo id
+     * @param id_lingua
+     * @param lingua
+     * @return true se la modifica è stata effettuata corretramente
+     */
+    boolean modificaLingua(int id_lingua, String lingua);
+    /**
+     * Il metodo permette di eliminare una lingua, indicando il suo id
+     * @param id_lingua
+     * @return true se la sua eliminazione è stata effettuata correttamente
+     */
+    boolean eliminaLingua(int id_lingua);
     /**
      * Il metodo permette l'aggiunta di un nuovo tag nel database, nel caso
      * la libreria non abbia ancora incluso una particolare categoria di libri
@@ -335,6 +361,23 @@ public interface LibriOnLineDataLayer {
      * @return true se l'inserimento è andato a buon fine
      */
     boolean insertAutore(String cognome,String nome);
+    
+        /**
+     * Il metodo permette la modifica di un autore nel database.
+     * @param id_autore 
+     * @param cognome dell'autore da inserire
+     * @param nome nome dell'autore da inserire
+     * @return true se la modifica è andata a buon fine
+     */
+    boolean modificaAutore(int id_autore,String cognome,String nome);   
+
+    /**
+     * Il metodo permette di eliminare un autore presente nel database.
+     * @param id_autore 
+     * @return true se la cancellazione è andata a buon fine
+     */
+    boolean eliminaAutore(int id_autore);
+    
     /**
      * Controllo se l'autore è già presente nel database, attraverso il suo nome
      * e cognome
@@ -395,6 +438,22 @@ public interface LibriOnLineDataLayer {
     boolean insertStato(String stato);
     
     /**
+     * Il metodo provvede alla modifica di uno stato, cioè alla modifica di una
+     * condizione fisica del libro
+     * @param id_stato 
+     * @param stato, cioè la stringa indicante il nuovo stato
+     * @return true se la modifica è avvenuta correttamente
+     */
+    boolean modificaStato(int id_stato,String stato);
+
+    /**
+     * Il metodo provvede alla rimozione di uno stato.
+     * @param id_stato 
+     * @return true se la cancellazione è avvenuta correttamente
+     */
+    boolean eliminaStato(int id_stato);
+    
+    /**
      * Il metodo permette l'inserimento di un volume a partire da un libro 
      * @param l Libro al quale vogliamo inserire i volumi
      * @param durata_max indica la durata di default del prestito
@@ -408,6 +467,28 @@ public interface LibriOnLineDataLayer {
      * dal suo id.
      * @param id dello stato che si vuole cercare
      * @return Stato se ce n'è uno con quell'id, altrimenti null
+     */
+    
+    /**
+     * Il metodo permette la modifica di un volume relativo un libro 
+     * @param id_volume
+     * @param durata_max indica la durata di default del prestito
+     * @param id_stato stato dei volumi che vogliamo inserire
+     * @return true se la modifica dei volumi viene fatta in maniera corretta
+     */
+    boolean modificaVolume(int id_volume, int durata_max,int id_stato);   
+   
+    /**
+     * Il metodo permette la rimozione di un volume relativo un libro 
+     * @param id_volume
+     * @return true se la rimozione del volume viene fatta in maniera corretta
+     */
+    boolean eliminaVolume(int id_volume);
+    
+    /**
+     * Restituisce l'oggetto Stato a partire dal suo id
+     * @param id dello stato che si vuole reperire
+     * @return Stato se estite, altrimenti null
      */
     Stato getStato(int id);
 }

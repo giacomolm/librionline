@@ -58,7 +58,7 @@ public class EsempioInserimento {
         System.out.println(dl.insertLingua("inglese"));
         System.out.println(dl.insertAutore("D'orazio", "Silvio"));
         System.out.println(dl.chiudiPrestito(4));
-        System.out.println(dl.insertStato("Ciao"));
+        //System.out.println(dl.insertStato("Ciao"));
         Libro l = dl.searchByIsbn("9788871923031");
         dl.insertVolume(l, 655, 1);
         String[] id_autori = {"1","2","3"};
@@ -66,5 +66,17 @@ public class EsempioInserimento {
         dl.insertBook("1289892112", "Test", "Test", "2006", "qwerty", 1, id_autori, id_tag, 3, 30, 1);
         System.out.println(dl.modificaLibro("1289892112", "Test", "Test", "2006", "azerty", 1, id_autori, id_tag, 3, 30, 1));
         System.out.println(dl.eliminaLibro("1289892112"));
+        dl.insertLingua("Russo");
+        dl.modificaLingua(3, "Svedese");
+        dl.eliminaLingua(4);
+        //dl.insertAutore("Volo", "Fabio");
+        //dl.modificaAutore(17, "Volo", "Fabio Maria");
+        dl.eliminaAutore(16);
+        //dl.insertTag("Filmografia");
+        //dl.eliminaTag(7);
+        //dl.insertVolume(dl.searchByIsbn("9788871923031"), 40, 2);
+        //dl.modificaVolume(111, 41, 1);
+        dl.eliminaVolume(111);
+        System.out.println(dl.modificaStato(9, "Ciao"));
     }
 }

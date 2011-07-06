@@ -6,6 +6,7 @@ package it.univaq.idw.librionline.model.impl;
 
 import it.univaq.idw.librionline.model.LibriOnLineDataLayer;
 import it.univaq.idw.librionline.model.Autore;
+import it.univaq.idw.librionline.model.Copiaelettronica;
 import it.univaq.idw.librionline.model.Gruppo;
 import it.univaq.idw.librionline.model.Libro;
 import it.univaq.idw.librionline.model.Lingua;
@@ -26,6 +27,9 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.NoResultException;
 import javax.persistence.Persistence;
+import javax.servlet.GenericServlet;
+import javax.servlet.ServletContext;
+import org.GNOME.Accessibility.Application;
 
 /**
  *
@@ -35,6 +39,7 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
     
     EntityManagerFactory factory;
     EntityManager manager;
+    String path;
     
     /**
      * Questo construttore permette l'instanziazione di un oggetto
@@ -49,6 +54,7 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
     public LibriOnLineDataLayerMysqlImpl(){
         factory = Persistence.createEntityManagerFactory("IDWLibriOnlinePU");
         manager = factory.createEntityManager();
+        
     }
     
     /**
@@ -197,6 +203,23 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
           else return false;
      }
  
+    /**
+     * Il metodo restituisce un volume, se presente, a partire dal suo id
+     * @param id_volume che vogliamo trovare
+     * @return Volume se presente , altrimenti null
+     */
+    public Volume getVolume(int id_volume){
+        Volume v = null;
+        manager.getTransaction().begin();
+        try{
+            v = (Volume) manager.createNamedQuery("VolumeMysqlImpl.findById").setParameter("id", id_volume).getSingleResult();
+        }
+        catch(NoResultException e){
+         
+        }
+        manager.getTransaction().commit();
+        return v;
+    }
     
     /**
      * Il metodo permette l'inserimento di un volume a partire da un libro 
@@ -229,6 +252,57 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
         
         manager.getTransaction().commit();
         return res;
+    }
+    
+    /**
+     * Il metodo permette la modifica di un volume relativo un libro 
+     * @param id_volume
+     * @param durata_max indica la durata di default del prestito
+     * @param id_stato stato dei volumi che vogliamo inserire
+     * @return true se la modifica dei volumi viene fatta in maniera corretta
+     */
+    @Override
+    public boolean modificaVolume(int id_volume, int durata_max,int id_stato){
+        boolean res = true;
+        Volume v = getVolume(id_volume);
+        if(v!=null){
+            manager.getTransaction().begin();
+            ((VolumeMysqlImpl)v).setDurataMax(durata_max);
+       
+            try{
+                //cerco l'oggetto stato a partire dal suo id
+                Stato st = (Stato) manager.createNamedQuery("StatoMysqlImpl.findById").setParameter("id", id_stato).getSingleResult();
+                //imposto lo stato sul volume
+                v.setStato(st);
+                //memorizzo il volume fisicamente sul db
+                manager.persist(v);
+            }
+            catch(NoResultException e){
+                //se qualcosa è andata storta, il flag prende false
+                res = false;
+            }
+        }
+        manager.getTransaction().commit();
+        return res;
+    }   
+   
+    /**
+     * Il metodo permette la rimozione di un volume relativo un libro 
+     * @param id_volume
+     * @return true se la rimozione del volume viene fatta in maniera corretta
+     */
+    @Override
+    public boolean eliminaVolume(int id_volume){
+   
+        Volume v = getVolume(id_volume);
+        if (v!=null){
+              manager.getTransaction().begin();
+              //effetuiamo la rimozione vera e propria
+              manager.remove(v);
+              manager.getTransaction().commit();
+              return true;
+        }
+        else return false;
     }
     
     /**
@@ -1296,6 +1370,48 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
     }
 
     /**
+     * Il metodo permette la modifica di un tag nel database.
+     * @param id_tag indicante l'id del tag che vogliamo modificare
+     * @param tag stringa indicante il tag
+     * @return true se la modifica è andata a buon fine
+     */
+    @Override
+    public boolean modificaTag(int id_tag,String tag){
+        Tag t = getTag(id_tag);
+        if(t!=null){
+            boolean res = true;
+            manager.getTransaction().begin();
+            try{
+                //Significa che esiste qualche tag con quel nome
+                manager.createNamedQuery("TagMysqlImpl.findByTag").setParameter("tag", tag);
+                res = false;
+            }
+            catch(NoResultException e){
+                t.setTag(tag);
+                manager.persist(t);
+            }
+            manager.getTransaction().commit();
+            return res;
+        }
+        else return false;
+    }
+    /**
+     * Il metodo permette la rimozione di un tag nel database.
+     * @param id_tag indicante l'id del tag che vogliamo eliminare
+     * @return true se la rimozione è andata a buon fine
+     */
+    @Override
+    public boolean eliminaTag(int id_tag){
+        Tag t = getTag(id_tag);
+        if(t!=null){
+            manager.getTransaction().begin();
+            manager.remove(t);
+            manager.getTransaction().commit();
+            return true;
+        }
+        else return false;
+    }   
+    /**
      * Controllo se l'autore è già presente nel database, attraverso il suo nome
      * e cognome
      * @param cognome dell'autore che vogliamo inserire
@@ -1318,9 +1434,9 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
     }
     
     /**
-     * Il metodo permette l'aggiunta di un nuovo tag nel database, nel caso
-     * la libreria non abbia ancora incluso una particolare categoria di libri
-     * @param tag stringa indicante il tag
+     * Il metodo permette l'aggiunta di un nuovo autore nel database.
+     * @param cognome dell'autore da inserire
+     * @param nome nome dell'autore da inserire
      * @return true se l'inserimento è andato a buon fine
      */
     @Override
@@ -1336,6 +1452,44 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
         }
         else return false;
     }
+    
+    /**
+     * Il metodo permette la modifica di un autore nel database.
+     * @param id_autore 
+     * @param cognome dell'autore da inserire
+     * @param nome nome dell'autore da inserire
+     * @return true se la modifica è andata a buon fine
+     */
+    @Override
+    public boolean modificaAutore(int id_autore,String cognome,String nome){
+        Autore a = getAutore(id_autore);
+        if(a!=null){
+            a.setNome(nome);
+            a.setCognome(cognome);
+            manager.getTransaction().begin();
+            manager.persist(a);
+            manager.getTransaction().commit();
+            return true;
+        }
+        else return false;
+    }    
+
+    /**
+     * Il metodo permette di eliminare un autore presente nel database.
+     * @param id_autore 
+     * @return true se la cancellazione è andata a buon fine
+     */
+    @Override
+    public boolean eliminaAutore(int id_autore){
+        Autore a = getAutore(id_autore);
+        if(a!=null){
+            manager.getTransaction().begin();
+            manager.remove(a);
+            manager.getTransaction().commit();
+            return true;
+        }
+        else return false;
+    }  
     
     /**
      * Il metodo permette di prelevare tutti quanti i tag presenti nel database
@@ -1431,6 +1585,51 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
             return true;
         }
         else return false;
+    }
+    
+    /**
+     * Il metodo permette di modificare una lingua, indicando il suo id
+     * @param id_lingua
+     * @param lingua
+     * @return true se la modifica è stata effettuata corretramente
+     */
+    @Override
+    public boolean modificaLingua(int id_lingua, String lingua){
+        if(!linguaIsThis(lingua)){
+            boolean res = true;
+            manager.getTransaction().begin();
+            try{
+                 Lingua l = (Lingua) manager.createNamedQuery("LinguaMysqlImpl.findById").setParameter("id", id_lingua).getSingleResult();
+                 l.setLingua(lingua);
+                 manager.persist(l);
+            }
+            catch(NoResultException e){
+                res = false;
+            }      
+  
+            manager.getTransaction().commit();
+            return res;
+        }
+        else return false;
+    }
+    /**
+     * Il metodo permette di eliminare una lingua, indicando il suo id
+     * @param id_lingua
+     * @return true se la sua eliminazione è stata effettuata correttamente
+     */
+    @Override
+    public boolean eliminaLingua(int id_lingua){
+        boolean res = true;
+        manager.getTransaction().begin();
+        try{
+             Lingua l = (Lingua) manager.createNamedQuery("LinguaMysqlImpl.findById").setParameter("id", id_lingua).getSingleResult();
+             manager.remove(l);
+        }
+        catch(NoResultException e){
+             res = false;
+        }
+        manager.getTransaction().commit();
+        return res;
     }
     
     /**
@@ -1550,6 +1749,24 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
     }
     
     /**
+     * Il metodo provvede a restituire uno stato, inteso come oggetto a partire 
+     * dal suo id.
+     * @param id dello stato che si vuole cercare
+     * @return Stato se ce n'è uno con quell'id, altrimenti null
+     */
+    @Override
+    public Stato getStato(int id){
+        Stato s  = null;
+        try{
+            //Prelevo tutti quanti gli oggetti stato
+            s =  (Stato) manager.createNamedQuery("StatoMysqlImpl.findById").setParameter("id", id).getSingleResult();
+        }catch (NoResultException e){
+            //Non esiste alcun utente con quell'username
+        }
+        return s;
+    }
+    
+    /**
      * Il metodo provvede all'inserimento di un nuovo stato, cioè di una nuova
      * condizione fisica del libro
      * @param stato
@@ -1576,6 +1793,52 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
     }
     
     /**
+     * Il metodo provvede alla modifica di uno stato, cioè alla modifica di una
+     * condizione fisica del libro
+     * @param id_stato 
+     * @param stato, cioè la stringa indicante il nuovo stato
+     * @return true se la modifica è avvenuta correttamente
+     */
+    @Override
+    public boolean modificaStato(int id_stato,String stato){
+        Stato s = getStato(id_stato);
+        if(s!=null){
+        boolean res = true;
+        manager.getTransaction().begin(); 
+            try{
+               //Prelevo gli oggetti stato, se esistono
+               manager.createNamedQuery("StatoMysqlImpl.findByStato").setParameter("stato", stato).getResultList();
+               //Significa che esiste già uno stato con quel nome
+               res = false;
+            }catch (NoResultException e){
+                //Altrimenti procedo con il regolare inserimento
+                s.setStato(stato);
+                manager.persist(s);
+            }
+            manager.getTransaction().commit();
+            return res;
+        }
+        else return false;
+    }
+
+    /**
+     * Il metodo provvede alla rimozione di uno stato.
+     * @param id_stato 
+     * @return true se la cancellazione è avvenuta correttamente
+     */
+    @Override
+    public boolean eliminaStato(int id_stato){
+        Stato s = getStato(id_stato);
+        if(s!=null){
+                manager.getTransaction().begin();
+                manager.remove(s);
+                manager.getTransaction().commit();
+                return true;
+        }
+        else return false;
+    } 
+   
+    /**
      * Il metodo si occupa di eliminare i libri nella seconda lista già
      * presente nella prima: si aggiunge alla lista che sarà infine restituta
      * l'insieme dei libri che sono comuni ad entrambe le liste
@@ -1599,22 +1862,41 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
         }
         return resList;
     }
-    
+
     /**
-     * Il metodo provvede a restituire uno stato, inteso come oggetto a partire 
-     * dal suo id.
-     * @param id dello stato che si vuole cercare
-     * @return Stato se ce n'è uno con quell'id, altrimenti null
+     * Il metodo provvede l'inserimento della copia elettronica relativo un libro
+     * @param l libro al quale vogliamo aggiungere una copia elettronica
+     * @param mime tipo del file che stiamo inserendo
+     * @return true se l'inserimento va a buon fine
      */
-    @Override
-    public Stato getStato(int id){
-        Stato s  = null;
-        try{
-            //Prelevo tutti quanti gli oggetti stato
-            s =  (Stato) manager.createNamedQuery("StatoMysqlImpl.findById").setParameter("id", id).getSingleResult();
-        }catch (NoResultException e){
-            //Non esiste alcun utente con quell'username
-        }
-        return s;
+    public boolean insertCopiaElettronica(Libro l, String mime){
+            Copiaelettronica ce =new CopiaelettronicaMysqlImpl(null, mime, l.getIsbn()+"."+mime);
+            l.getCopiaelettronicaCollection().add(ce);
+            manager.getTransaction().begin();
+            manager.persist(l);
+            manager.getTransaction().commit();
+            return true;
     }
+    
+        /**
+     * Il metodo provvede la modifica della copia elettronica relativo un libro
+     * @param id_copia 
+     * @param mime tipo del file che stiamo modificando
+     * @return true se l'inserimento va a buon fine
+     */
+    //public boolean modificaCopiaElettronica(int id_copia, String mime){
+            
+            /*l.getCopiaelettronicaCollection().add(ce);
+            manager.getTransaction().begin();
+            manager.persist(l);
+            manager.getTransaction().commit();
+            return true;*/
+    //}
+    
+    //public Copiaelettronica getCopiaElettronica(int id_copia){
+        /*Copiaelettronica e = null
+        manager.getTransaction().begin();
+        manager.persist(l);
+        manager.getTransaction().commit();*/
+   // }
 }
