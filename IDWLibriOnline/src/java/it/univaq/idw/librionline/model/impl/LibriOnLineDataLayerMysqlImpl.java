@@ -27,8 +27,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.NoResultException;
 import javax.persistence.Persistence;
-import javax.servlet.GenericServlet;
-import javax.servlet.ServletContext;
 
 /**
  *
@@ -38,7 +36,6 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
     
     EntityManagerFactory factory;
     EntityManager manager;
-    String path;
     
     /**
      * Questo construttore permette l'instanziazione di un oggetto
@@ -53,7 +50,6 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
     public LibriOnLineDataLayerMysqlImpl(){
         factory = Persistence.createEntityManagerFactory("IDWLibriOnlinePU");
         manager = factory.createEntityManager();
-        
     }
     
     /**
@@ -1382,10 +1378,13 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
             manager.getTransaction().begin();
             try{
                 //Significa che esiste qualche tag con quel nome
-                manager.createNamedQuery("TagMysqlImpl.findByTag").setParameter("tag", tag);
+                Tag temp = (Tag)manager.createNamedQuery("TagMysqlImpl.findByTag").setParameter("tag", tag).getSingleResult();
                 res = false;
+                
             }
             catch(NoResultException e){
+                
+                        
                 t.setTag(tag);
                 manager.persist(t);
             }
@@ -1884,18 +1883,61 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
      * @return true se l'inserimento va a buon fine
      */
     public boolean modificaCopiaElettronica(int id_copia, String mime){
-            
-            /*l.getCopiaelettronicaCollection().add(ce);
+        Copiaelettronica ce = getCopiaElettronica(id_copia);
+        if(ce!=null){
+            ce.setMimetype(mime);
+            ce.setUrl(ce.getLibro().getIsbn()+"."+mime);
             manager.getTransaction().begin();
-            manager.persist(l);
-            manager.getTransaction().commit();*/
+            manager.persist(ce);
+            manager.getTransaction().commit();
             return true;
+        }
+        else return false;
     }
     
-    //public Copiaelettronica getCopiaElettronica(int id_copia){
-        /*Copiaelettronica e = null
+    /**
+     * Il metodo provvede alla rimozione della copia elettronica relativa un libro
+     * @param id_copia 
+     * @return true se l'eliminazione va a buon fine
+     */
+    public boolean eliminaCopiaElettronica(int id_copia){
+        Copiaelettronica ce = getCopiaElettronica(id_copia);
+        if(ce!=null){
+            manager.getTransaction().begin();
+            manager.remove(ce);
+            manager.getTransaction().commit();
+            return true;
+        }
+        else return false;
+    }
+    
+    /**
+     * Ritorna a copia elettronica indicata da quell'id
+     * @param id_copia della copia che vogliamo recuperare
+     * @return CopiaElettronica desiderata altrimenti null se non esiste
+     */
+    public Copiaelettronica getCopiaElettronica(int id_copia){
+        Copiaelettronica e = null;
         manager.getTransaction().begin();
-        manager.persist(l);
-        manager.getTransaction().commit();*/
-   // }
+        try{
+            e = (Copiaelettronica) manager.createNamedQuery("CopiaElettronicaMysqlImpl.findById").setParameter("id", id_copia).getSingleResult();
+        }
+        catch(NoResultException ex){
+            //Non c'è nessuna copia elettronica con quell'id
+        }
+        manager.getTransaction().commit();
+        return e;
+    }
+    
+    /**
+     * Il metodo consiste nel verificare se un autore ha scritto il libro indicato
+     * dall'id
+     * @param id_libro
+     * @param id_autore
+     * @return "selected" se appartiene, altrimenti una stringa vuota
+     */
+    public String isAnAuthor(int id_libro, int id_autore){
+    
+        return "";
+    }
 }

@@ -72,11 +72,11 @@ public class EsempioInserimento {
         //dl.insertAutore("Volo", "Fabio");
         //dl.modificaAutore(17, "Volo", "Fabio Maria");
         dl.eliminaAutore(16);
-        //dl.insertTag("Filmografia");
+        dl.modificaTag(7,"Filmo");
         //dl.eliminaTag(7);
         //dl.insertVolume(dl.searchByIsbn("9788871923031"), 40, 2);
         //dl.modificaVolume(111, 41, 1);
-        dl.eliminaVolume(111);
-        System.out.println(dl.modificaStato(9, "Ciao"));
+        //dl.eliminaVolume(111);
+        //System.out.println(dl.modificaStato(9, "Ciao"));
     }
 }
