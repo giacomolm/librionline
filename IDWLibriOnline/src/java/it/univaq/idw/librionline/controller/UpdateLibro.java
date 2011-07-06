@@ -7,7 +7,7 @@ package it.univaq.idw.librionline.controller;
 import it.univaq.idw.librionline.framework.util.SecurityLayer;
 import it.univaq.idw.librionline.framework.util.TemplateResult;
 import it.univaq.idw.librionline.model.LibriOnLineDataLayer;
-import it.univaq.idw.librionline.model.Tag;
+import it.univaq.idw.librionline.model.Libro;
 import it.univaq.idw.librionline.model.impl.LibriOnLineDataLayerMysqlImpl;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -21,18 +21,10 @@ import javax.servlet.http.HttpSession;
  *
  * @author Zilfio
  */
-public class UpdateTag extends HttpServlet {
+public class UpdateLibro extends HttpServlet {
 
-    private boolean analizza_form_tag(HttpServletRequest request, HttpServletResponse response) {
-        
-        String tag = request.getParameter("updatetag_tag");
-        
-        if(tag == null || tag.isEmpty()){
-            return false;
-        }
-        else{
-            return true;
-            }
+    private boolean analizza_form_libro(HttpServletRequest request, HttpServletResponse response) {
+        return true;
     }
     
     /** 
@@ -47,7 +39,6 @@ public class UpdateTag extends HttpServlet {
         TemplateResult res = new TemplateResult(getServletContext());
         HttpSession session = SecurityLayer.checkSession(request);
         LibriOnLineDataLayer dl = new LibriOnLineDataLayerMysqlImpl();
-        PrintWriter w = response.getWriter();
         
         if(session != null){
             request.setAttribute("stato_log", "Logout");
@@ -56,41 +47,30 @@ public class UpdateTag extends HttpServlet {
                 request.setAttribute("bibliotecario",true);
                 request.setAttribute("tipologia_utente","Bibliotecario");
                 
-                String update = request.getParameter("Modifica Tag");
+                String update = request.getParameter("Modifica Libro");
                 
                 if(update == null){
                     String id = request.getParameter("id");
-                    Tag tag = dl.getTag(Integer.parseInt(id));
+                    Libro libro = dl.searchByIsbn(id);
                     
-                    request.setAttribute("title", "Modifica tag");
-                    request.setAttribute("tag", tag);
-                    res.activate("backoffice_updatetag.ftl.html", request, response);
+                    request.setAttribute("title", "Modifica libro");
+                    request.setAttribute("libro", libro);
+                    res.activate("backoffice_updatelibro.ftl.html", request, response);
                 }
                 
-                else if(update.equals("Modifica Tag")){
-                    String id = request.getParameter("updatetag_id");
-                    int id_tag = Integer.parseInt(id);
-                    String tag = request.getParameter("updatetag_tag");
-                    boolean result = analizza_form_tag(request, response);
+                else if(update.equals("Modifica Libro")){
+                    boolean result = analizza_form_libro(request, response);
+                    
                     if(result){
-                        dl.modificaTag(id_tag, tag);
-                        Tag object_tag = dl.getTag(id_tag);
-                        request.setAttribute("tag", object_tag);
-                        request.setAttribute("title", "Modifica Tag");
-                        request.setAttribute("messaggio", "Tag modificato correttamente");
-                        res.activate("backoffice_updatetag.ftl.html", request, response);
+                        request.setAttribute("messaggio", "Libro modificato correttamente");
                     }
                     else{
-                        Tag object_tag = dl.getTag(id_tag);
-                        request.setAttribute("tag", object_tag);
-                        request.setAttribute("title", "Modifica Tag");
-                        request.setAttribute("messaggio", "Update Tag fallito");
-                        res.activate("backoffice_updatetag.ftl.html", request, response);
+                        request.setAttribute("messaggio", "Update libro Fallito");
                     }
                 }
                 else{
-                    request.setAttribute("title", "Modifica tag");
-                    res.activate("backoffice_updatetag.ftl.html", request, response);
+                    request.setAttribute("title", "Modifica Libro");
+                    res.activate("backoffice_updatelibro.ftl.html", request, response);
                 }
             }
                     
@@ -136,4 +116,5 @@ public class UpdateTag extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
+
 }
