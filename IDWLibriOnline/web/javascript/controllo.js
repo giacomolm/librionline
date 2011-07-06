@@ -2,7 +2,8 @@
 var login,user,pass;
 var ricerca,titolo;
 var regist, userreg, passreg, email, tel, nome, cognome, codicefiscale, indirizzo, citta, provincia, cap;
-var inseriscilibro, inseriscilibro_isbn, inseriscilibro_titolo, inseriscilibro_editore, inseriscilibro_annopubblicazione, inseriscilibro_autori, inseriscilibro_tag, inseriscilibro_numerovolumi, inseriscilibro_stato, inseriscilibro_duratamax;
+var forminslibro, inslibro_isbn, inslibro_titolo, inslibro_editore, inslibro_annopubblicazione, inslibro_autori, inslibro_tag, inslibro_numerocopie, inslibro_stato, inslibro_duratamax;
+var formricercauser, ricerca_user;
 
 function check(elemento,stringa){
     if (elemento.value == "") {
@@ -45,10 +46,31 @@ function checkFormReg() {
 }
 
 //funzione per il controllo dell'intera form durante la submission
-function checkInsLibro(){
+function checkFormInserimentoLibro(){
         //eseguiamo i controlli dei campi, e ritorniamo l'AND dei loro risultati
-	return (check(inseriscilibro_isbn,"Isbn") && check(inseriscilibro_titolo,"Titolo") && check(inseriscilibro_editore,"Editore") && check(inseriscilibro_annopubblicazione,"Anno pubblicazione") && check(inseriscilibro_autori,"Autori") && check(inseriscilibro_tag,"Tag") && check(inseriscilibro_numerovolumi,"Numero volumi") && check(inseriscilibro_stato,"Stato") && check(inseriscilibro_numerovolumi,"Durata massima"));
+	return (check(inslibro_isbn,"Isbn") && check(inslibro_titolo,"Titolo") && check(inslibro_editore,"Editore") && check(inslibro_annopubblicazione,"Anno pubblicazione") && check(inslibro_autori,"Autori") && check(inslibro_tag,"Tag") && check(inslibro_numerocopie,"Numero volumi") && check(inslibro_stato,"Stato") && check(inslibro_duratamax,"Durata massima"));
 	//in questo modo, se uno ritorna false, la form non verrà sottomessa
+}
+
+//funzione per il controllo dell'intera form durante la submission
+function checkRicercaUser(){
+        //eseguiamo i controlli dei campi, e ritorniamo l'AND dei loro risultati
+        return (check(ricerca_user,"Username"));
+        //in questo modo, se uno ritorna false, la form non verrà sottomessa
+}
+
+//funzione per il controllo dell'intera form durante la submission
+function checkInserisciTag(){
+        //eseguiamo i controlli dei campi, e ritorniamo l'AND dei loro risultati
+        return (check(instag,"Tag"));
+        //in questo modo, se uno ritorna false, la form non verrà sottomessa
+}
+
+//funzione per il controllo dell'intera form durante la submission
+function checkInserisciStato(){
+        //eseguiamo i controlli dei campi, e ritorniamo l'AND dei loro risultati
+        return (check(insstato,"Stato"));
+        //in questo modo, se uno ritorna false, la form non verrà sottomessa
 }
 
 window.onload = function() {
@@ -64,8 +86,8 @@ window.onload = function() {
         
         //acquisiamo i riferimenti alla form e ai campi che vogliamo controllare
 	login = document.getElementById('form_login');
-	user = document.getElementById('user');
-	pass = document.getElementById('pass');	
+	user = document.getElementById('username');
+	pass = document.getElementById('password');	
 	//impostiamo i listener corretti sulla form e sui suoi campi
         if(login != null && user.value != null && pass.value != null){
             user.onchange = function() {return check(user,"Username");}
@@ -103,27 +125,54 @@ window.onload = function() {
         }
         
         //acquisiamo i riferimenti alla form e ai campi che vogliamo controllare
-        inseriscilibro = document.getElementById("insertbook");
-        inseriscilibro_isbn = document.getElementById("insertbook_isbn");
-        inseriscilibro_titolo = document.getElementById("insertbook_titolo");
-        inseriscilibro_editore = document.getElementById("insertbook_editore");
-        inseriscilibro_annopubblicazione = document.getElementById("insertbook_annopubblicazione");
-        inseriscilibro_autori = document.getElementById("insertbook_autore");
-        inseriscilibro_tag = document.getElementById("insertbook_tag");
-        inseriscilibro_numerovolumi = document.getElementById("insertbook_numerocopie");
-        inseriscilibro_stato = document.getElementById("insertbook_stato");
-        inseriscilibro_duratamax = document.getElementById("insertbook_duratamax");
+        forminslibro = document.getElementById("insertbook");
+        inslibro_isbn = document.getElementById("insertbook_isbn");
+        inslibro_titolo = document.getElementById("insertbook_titolo");
+        inslibro_editore = document.getElementById("insertbook_editore");
+        inslibro_annopubblicazione = document.getElementById("insertbook_annopubblicazione");
+        inslibro_autori = document.getElementById("insertbook_autore");
+        inslibro_tag = document.getElementById("insertbook_tag");
+        inslibro_numerocopie = document.getElementById("insertbook_numerocopie");
+        inslibro_stato = document.getElementById("insertbook_stato");
+        inslibro_duratamax = document.getElementById("insertbook_duratamax");
         //impostiamo i listener corretti sulla form e sui suoi campi
-        if(inseriscilibro != null && inseriscilibro_isbn.value != null && inseriscilibro_titolo.value != null && inseriscilibro_editore.value != null && inseriscilibro_annopubblicazione.value != null && inseriscilibro_autori.value != null && inseriscilibro_tag.value != null && inseriscilibro_numerovolumi.value != null && inseriscilibro_stato.value != null && inseriscilibro_duratamax.value != null){
-            inseriscilibro_isbn.onchange = function() {return check(inseriscilibro_isbn,"Isbn");}
-            inseriscilibro_titolo.onchange = function() {return check(inseriscilibro_titolo,"Titolo");}
-            inseriscilibro_editore.onchange = function() {return check(inseriscilibro_editore,"Editore");}
-            inseriscilibro_annopubblicazione.onchange = function() {return check(inseriscilibro_annopubblicazione,"Anno pubblicazione");}
-            inseriscilibro_autori.onchange = function() {return check(inseriscilibro_autori,"Autori");}
-            inseriscilibro_tag.onchange = function() {return check(inseriscilibro_tag,"Tag");}
-            inseriscilibro_numerovolumi.onchange = function() {return check(inseriscilibro_numerovolumi,"Numero copie");}
-            inseriscilibro_stato.onchange = function() {return check(inseriscilibro_stato,"Stato");}
-            inseriscilibro_duratamax.onchange = function() {return check(inseriscilibro_duratamax,"Durata massima");}
-            inseriscilibro.onsubmit = function() {return checkInsLibro();}
+        if(forminslibro != null && inslibro_isbn.value != null && inslibro_titolo.value != null && inslibro_editore.value != null && inslibro_annopubblicazione.value != null && inslibro_autori.value != null && inslibro_tag.value != null && inslibro_numerocopie.value != null && inslibro_stato.value != null && inslibro_duratamax.value != null){
+            inslibro_isbn.onchange = function() {return check(inslibro_isbn,"Isbn");}
+            inslibro_titolo.onchange = function() {return check(inslibro_titolo,"Titolo");}
+            inslibro_editore.onchange = function() {return check(inslibro_editore,"Editore");}
+            inslibro_annopubblicazione.onchange = function() {return check(inslibro_annopubblicazione,"Anno pubblicazione");}
+            inslibro_autori.onchange = function() {return check(inslibro_autori,"Autori");}
+            inslibro_tag.onchange = function() {return check(inslibro_tag,"Tag");}
+            inslibro_numerocopie.onchange = function() {return check(inslibro_numerocopie,"Numero copie");}
+            inslibro_stato.onchange = function() {return check(inslibro_stato,"Stato");}
+            inslibro_duratamax.onchange = function() {return check(inslibro_duratamax,"Durata massima");}
+            forminslibro.onsubmit = function() {return checkFormInserimentoLibro();}
+        }
+        
+        //acquisiamo i riferimenti alla form e ai campi che vogliamo controllare
+        formricercauser = document.getElementById("form_ricerca_utente");
+        ricerca_user = document.getElementById("ricerca_utente_username");
+        //impostiamo i listener corretti sulla form e sui suoi campi
+        if(formricercauser != null && ricerca_user.value != null){
+            ricerca_user.onchange = function() {return check(ricerca_user,"Username");}
+            formricercauser.onsubmit = function() {return checkRicercaUser();}
+        }
+        
+        //acquisiamo i riferimenti alla form e ai campi che vogliamo controllare
+        formrinstag = document.getElementById("inserttag");
+        instag = document.getElementById("inserttag_tag");
+        //impostiamo i listener corretti sulla form e sui suoi campi
+        if(formrinstag != null && instag.value != null){
+            instag.onchange = function() {return check(instag,"Tag");}
+            formrinstag.onsubmit = function() {return checkInserisciTag();}
+        }
+        
+        //acquisiamo i riferimenti alla form e ai campi che vogliamo controllare
+        formrinsstato = document.getElementById("insertstato");
+        insstato = document.getElementById("insertstato_stato");
+        //impostiamo i listener corretti sulla form e sui suoi campi
+        if(formrinsstato != null && insstato.value != null){
+            insstato.onchange = function() {return check(insstato,"Stato");}
+            formrinsstato.onsubmit = function() {return checkInserisciStato();}
         }
 }

@@ -1,11 +1,15 @@
 package it.univaq.idw.librionline.framework.util;
 
+import java.io.IOException;
 import java.util.Calendar;
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 public class SecurityLayer {
 
+    //--------- SICUREZZA DI SESSIONE ------------
     //questa funzione esegue una serie di controlli di sicurezza
     //sulla sessione corrente. Se la sessione non è valida, la cancella
     //e ritorna null, altrimenti la aggiorna e la restituisce
@@ -35,16 +39,16 @@ public class SecurityLayer {
             if (begin == null) {
                 check = false;
             } else {
-                //secondi trascorsi dall'inizio della sessione
+                //millisecondi trascorsi dall'inizio della sessione
                 long secondsfrombegin = (now.getTimeInMillis() - begin.getTimeInMillis()) / 1000;
                 //dopo tre ore la sessione scade
-                if (secondsfrombegin > 3 * 60 * 60) {
+                if (secondsfrombegin / 60 > 3 * 60) {
                     check = false;
                 } else if (last != null) {
-                    //secondi trascorsi dall'ultima azione
+                    //millisecondi trascorsi dall'ultima azione
                     long secondsfromlast = (now.getTimeInMillis() - last.getTimeInMillis()) / 1000;
-                    //dopo trenta minuti dall'ultima operazione la sessione è invalidata
-                    if (secondsfromlast > 30 * 60) {
+                    //dopo 30 minuti dall'ultima operazione la sessione è invalidata
+                    if (secondsfromlast / 60 > 1 * 60) {
                         check = false;
                     }
                 }
@@ -70,9 +74,66 @@ public class SecurityLayer {
     }
 
     public static void disposeSession(HttpServletRequest request) {
-        HttpSession s = request.getSession(false);
+        HttpSession s = request.getSession(true);
+        s.invalidate();
+    }
+
+    //--------- SICUREZZA DATI ------------
+    //questa funzione aggiunge un backslash davanti a
+    //tutti i caratteri "pericolosi", usati per eseguire
+    //SQL injection attraverso i parametri delle form
+    public static String addSlashes(String s) {
+        return s.replaceAll("(['\"\\\\])", "\\\\$1");
+    }
+
+    //questa funzione rimuove gli slash aggiunti da addSlashes
+    public static String stripSlashes(String s) {
+        return s.replaceAll("\\\\(['\"\\\\])", "$1");
+    }
+
+    public static int checkNumeric(String s) throws NumberFormatException {
+        //convertiamo la stringa in numero, ma assicuriamoci prima che sia valida
         if (s != null) {
-            s.invalidate();
+            //se la conversione fallisce, viene generata un'eccezione
+            return Integer.parseInt(s);
+        } else {
+            throw new NumberFormatException("String argument is null");
+        }
+    }
+
+    //--------- SICUREZZA DI CONNESSIONE ------------
+    //questa funzione verifica se il protocollo HTTPS � attivo
+    public static boolean checkHttps(HttpServletRequest r) {
+        return r.isSecure();
+        //metodo "fatto a mano" che funziona solo se il server trasmette gli header corretti
+        //String httpsheader = r.getHeader("HTTPS");
+        //return (httpsheader != null && httpsheader.toLowerCase().equals("on"));
+    }
+
+    //questa funzione ridirige il browser sullo stesso indirizzo
+    //attuale, ma con protocollo https
+    public static void redirectToHttps(HttpServletRequest request, HttpServletResponse response) throws ServletException {
+        //estraiamo le parti della request url
+        String server = request.getServerName();
+        //int port = request.getServerPort();
+        String context = request.getContextPath();
+        String path = request.getServletPath();
+        String info = request.getPathInfo();
+        String query = request.getQueryString();
+
+        //riconstruiamo la url cambiando il protocollo e la porta COME SPECIFICATO NELLA CONFIGURAZIONE DI TOMCAT
+        String newUrl = "https://" + server + ":8443" +  context + path + (info != null ? info : "") + (query != null ? "?" + query : "");
+        try {
+            //ridirigiamo il client
+            response.sendRedirect(newUrl);
+        } catch (IOException ex) {
+            try {
+                //in caso di problemi tentiamo prima di inviare un errore HTTP standard
+                response.sendError(response.SC_INTERNAL_SERVER_ERROR, "Cannot redirect to HTTPS, blocking request");
+            } catch (IOException ex1) {
+                //altrimenti generiamo un'eccezione
+                throw new ServletException("Cannot redirect to https!");
+            }
         }
     }
 }

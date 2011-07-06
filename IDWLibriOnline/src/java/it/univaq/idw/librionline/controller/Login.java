@@ -19,6 +19,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import org.eclipse.persistence.internal.eis.cobol.helper.Helper;
 
 /**
  *
@@ -39,6 +40,9 @@ public class Login extends HttpServlet {
         password = Md5.md5(password);
         
         LibriOnLineDataLayer dl = new LibriOnLineDataLayerMysqlImpl();
+        
+        username = SecurityLayer.addSlashes(username);
+        password = SecurityLayer.addSlashes(password); 
         
         //Questa è la funzione da richiamare per il login
         //Attenzione! restituisco un'oggetto user! Se non esiste alcun utente o se c'è stato qualche problema di autenticazione viene restituito un oggetto null
@@ -82,7 +86,7 @@ public class Login extends HttpServlet {
             if("Login".equals(login)){
                 if(analizza_form_login(request,response)){
                     LibriOnLineDataLayer dl = new LibriOnLineDataLayerMysqlImpl();
-                    SecurityLayer.createSession(request, request.getParameter("username") , dl.getGruppoByUsername(request.getParameter("username")));
+                    SecurityLayer.createSession(request, request.getParameter(SecurityLayer.stripSlashes("username")) , dl.getGruppoByUsername(request.getParameter(SecurityLayer.stripSlashes("username"))));
                     response.sendRedirect("StatoConnessione");
                 }
                 else{

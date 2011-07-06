@@ -5,6 +5,7 @@
 package it.univaq.idw.librionline.controller;
 
 import it.univaq.idw.librionline.framework.util.SecurityLayer;
+import it.univaq.idw.librionline.framework.util.TemplateResult;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -26,9 +27,12 @@ public class Logout extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        TemplateResult res = new TemplateResult(getServletContext()); 
         
         SecurityLayer.disposeSession(request);
-        response.sendRedirect("Login");
+        request.setAttribute("title", "Login");
+        request.setAttribute("messaggio", "Logout avvenuto con successo");
+        res.activate("form_login.ftl.html", request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
