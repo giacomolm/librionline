@@ -114,6 +114,67 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
     }
     
     /**
+     * La funzione permette di modificare il libro che indichiamo con il parametro
+     * isbn.
+     * @param isbn
+     * @param titolo
+     * @param editore
+     * @param annopubbl
+     * @param recens
+     * @param id_lingua
+     * @param id_autori
+     * @param id_tag
+     * @param n_copie
+     * @param durata_max
+     * @param id_stato
+     * @return true se la modifica è andata a buon fine.
+     */
+    public boolean modificaLibro(String isbn, String titolo, String editore, String annopubbl, String recens, int id_lingua,String[] id_autori, String[] id_tag, int n_copie, int durata_max,int id_stato){
+        if(!bookIsThis(isbn)){
+            Libro l = searchByIsbn(isbn);
+            List<Autore> autori = new ArrayList<Autore>();
+            List<Tag> tags = new ArrayList<Tag>();
+            boolean res = true;
+            manager.getTransaction().begin();
+            //Inseriamo i campi opportuni nel nuovo oggetto libro
+            if(editore != null) l.setEditore(editore);
+            l.setAnnoPubblicazione(annopubbl);
+            //Si è deciso di creare un entità separata per le lingue. Per questo motivo
+            //dobbiamo recuperare la lingua dall'entità per impostarla nel libro
+            try{
+                l.setLingua((LinguaMysqlImpl)(manager.createNamedQuery("LinguaMysqlImpl.findById").setParameter("id", id_lingua).getSingleResult()));      
+            }catch(NoResultException e){
+                //out.printlm("Problemi con le lingue");
+            }
+            
+            //Procediamo con l'inserimento degli autori. Dobbiamo prima recuperare ciascun autore
+            //dalla propria entità e poi aggiungerlo al libro che si vuole inserire
+            try{
+                for(int i=0; i<id_autori.length; i++){
+                    autori.add((AutoreMysqlImpl)manager.createNamedQuery("AutoreMysqlImpl.findById").setParameter("id", Integer.parseInt(id_autori[i])).getSingleResult());
+                }
+                l.setAutoreCollection(autori);
+                
+                //Facciamo la stessa cosa con i tag
+                for(int i=0; i<id_tag.length; i++){
+                    tags.add((TagMysqlImpl)manager.createNamedQuery("TagMysqlImpl.findById").setParameter("id", Integer.parseInt(id_tag[i])).getSingleResult());
+                }
+                l.setTagCollection(tags);
+            }catch(NoResultException e){
+                //Ci sono stati dei problemi nell'aggiunta degli autori o nell'aggiunta dei tag
+                res = false;
+            }
+           
+            //Memorizzo effettivamente sul db le modifiche
+            manager.persist(l);
+            manager.getTransaction().commit();
+
+            return res;
+        }
+        else return false;
+    }
+    
+    /**
      * Il metodo permette l'inserimento di un volume a partire da un libro 
      * @param l Libro al quale vogliamo inserire i volumi
      * @param durata_max indica la durata di default del prestito

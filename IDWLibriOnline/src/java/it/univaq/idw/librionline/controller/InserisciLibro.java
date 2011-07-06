@@ -24,6 +24,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import org.apache.commons.fileupload.DiskFileUpload;
 
 
 /**
@@ -31,6 +32,7 @@ import javax.servlet.http.HttpSession;
  * @author Zilfio
  */
 public class InserisciLibro extends HttpServlet {
+
     
     private boolean analizza_form_libro(HttpServletRequest request, HttpServletResponse response) throws IOException {
         
@@ -94,6 +96,7 @@ public class InserisciLibro extends HttpServlet {
         TemplateResult res = new TemplateResult(getServletContext());
         HttpSession session = SecurityLayer.checkSession(request);
 
+        
         if(session != null){
             request.setAttribute("stato_log", "Logout");
 
