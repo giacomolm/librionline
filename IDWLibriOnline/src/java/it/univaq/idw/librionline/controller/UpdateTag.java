@@ -62,7 +62,7 @@ public class UpdateTag extends HttpServlet {
                     String id = request.getParameter("id");
                     Tag tag = dl.getTag(Integer.parseInt(id));
                     
-                    request.setAttribute("title", "Modifica tag");
+                    request.setAttribute("title", "Modifica Tag");
                     request.setAttribute("tag", tag);
                     res.activate("backoffice_updatetag.ftl.html", request, response);
                 }
@@ -89,8 +89,12 @@ public class UpdateTag extends HttpServlet {
                     }
                 }
                 else{
-                    request.setAttribute("title", "Modifica tag");
-                    res.activate("backoffice_updatetag.ftl.html", request, response);
+                    String id = request.getParameter("updatetag_id");
+                    int id_tag = Integer.parseInt(id);
+                    
+                    dl.eliminaTag(id_tag);
+                    
+                    response.sendRedirect("VisualizzaTag");
                 }
             }
                     

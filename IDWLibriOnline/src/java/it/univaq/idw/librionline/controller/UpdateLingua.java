@@ -45,7 +45,6 @@ public class UpdateLingua extends HttpServlet {
         TemplateResult res = new TemplateResult(getServletContext());
         HttpSession session = SecurityLayer.checkSession(request);
         LibriOnLineDataLayer dl = new LibriOnLineDataLayerMysqlImpl();
-        PrintWriter w = response.getWriter();
         
         if(session != null){
             request.setAttribute("stato_log", "Logout");
@@ -60,23 +59,39 @@ public class UpdateLingua extends HttpServlet {
                     String id = request.getParameter("id");
                     Lingua lingua = dl.getLingua(Integer.parseInt(id));
                     
-                    request.setAttribute("title", "Modifica lingua");
+                    request.setAttribute("title", "Modifica Lingua");
                     request.setAttribute("lingua", lingua);
                     res.activate("backoffice_updatelingua.ftl.html", request, response);
                 }
                 
                 else if(update.equals("Modifica Lingua")){
-                    boolean result = analizza_form_lingua(request, response);
-                    
                     String id = request.getParameter("updatelingua_id");
-                    Lingua lingua = dl.getLingua(Integer.parseInt(id));
-                    lingua.setLingua(request.getParameter("updatelingua_lingua"));
-                    
-                    response.sendRedirect("VisualizzaLingue");
+                    int id_lingua = Integer.parseInt(id);
+                    String lingua = request.getParameter("updatestato_stato");
+                    boolean result = analizza_form_lingua(request, response);
+                    if(result){
+                        dl.modificaLingua(id_lingua, lingua);
+                        Lingua object_lingua = dl.getLingua(id_lingua);
+                        request.setAttribute("lingua", object_lingua);
+                        request.setAttribute("title", "Modifica Lingua");
+                        request.setAttribute("messaggio", "Lingua modificata correttamente");
+                        res.activate("backoffice_updatelingua.ftl.html", request, response);
+                    }
+                    else{
+                        Lingua object_lingua = dl.getLingua(id_lingua);
+                        request.setAttribute("stato", object_lingua);
+                        request.setAttribute("title", "Modifica Lingua");
+                        request.setAttribute("messaggio", "Update Lingua fallito");
+                        res.activate("backoffice_updatelingua.ftl.html", request, response);
+                    }
                 }
                 else{
-                    request.setAttribute("title", "Modifica lingua");
-                    res.activate("backoffice_updatelingua.ftl.html", request, response);
+                    String id = request.getParameter("updatelingua_id");
+                    int id_lingua = Integer.parseInt(id);
+                    
+                    dl.eliminaLingua(id_lingua);
+                    
+                    response.sendRedirect("VisualizzaLingue");
                 }
             }
                     

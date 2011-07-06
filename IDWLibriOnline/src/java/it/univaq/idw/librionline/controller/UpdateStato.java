@@ -45,7 +45,6 @@ public class UpdateStato extends HttpServlet {
         TemplateResult res = new TemplateResult(getServletContext());
         HttpSession session = SecurityLayer.checkSession(request);
         LibriOnLineDataLayer dl = new LibriOnLineDataLayerMysqlImpl();
-        PrintWriter w = response.getWriter();
         
         if(session != null){
             request.setAttribute("stato_log", "Logout");
@@ -58,25 +57,41 @@ public class UpdateStato extends HttpServlet {
                 
                 if(update == null){
                     String id = request.getParameter("id");
-                    Stato state = dl.getStato(Integer.parseInt(id));
+                    Stato stato = dl.getStato(Integer.parseInt(id));
                     
-                    request.setAttribute("title", "Modifica stato");
-                    request.setAttribute("stato", state);
+                    request.setAttribute("title", "Modifica Stato");
+                    request.setAttribute("stato", stato);
                     res.activate("backoffice_updatestato.ftl.html", request, response);
                 }
                 
                 else if(update.equals("Modifica Stato")){
-                    boolean result = analizza_form_stato(request, response);
-                    
                     String id = request.getParameter("updatestato_id");
-                    Stato state = dl.getStato(Integer.parseInt(id));
-                    state.setStato(request.getParameter("updatestato_stato"));
-                    
-                    response.sendRedirect("VisualizzaStati");
+                    int id_stato = Integer.parseInt(id);
+                    String stato = request.getParameter("updatestato_stato");
+                    boolean result = analizza_form_stato(request, response);
+                    if(result){
+                        dl.modificaStato(id_stato, stato);
+                        Stato object_stato = dl.getStato(id_stato);
+                        request.setAttribute("stato", object_stato);
+                        request.setAttribute("title", "Modifica Stato");
+                        request.setAttribute("messaggio", "Stato modificato correttamente");
+                        res.activate("backoffice_updatestato.ftl.html", request, response);
+                    }
+                    else{
+                        Stato object_stato = dl.getStato(id_stato);
+                        request.setAttribute("stato", object_stato);
+                        request.setAttribute("title", "Modifica Stato");
+                        request.setAttribute("messaggio", "Update Stato fallito");
+                        res.activate("backoffice_updatestato.ftl.html", request, response);
+                    }
                 }
                 else{
-                    request.setAttribute("title", "Modifica stato");
-                    res.activate("backoffice_updatestato.ftl.html", request, response);
+                    String id = request.getParameter("updatestato_id");
+                    int id_stato = Integer.parseInt(id);
+                    
+                    dl.eliminaStato(id_stato);
+                    
+                    response.sendRedirect("VisualizzaStati");
                 }
             }
                     
@@ -86,6 +101,7 @@ public class UpdateStato extends HttpServlet {
             }
         }
     }
+
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /** 

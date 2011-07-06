@@ -45,7 +45,6 @@ public class UpdateAutore extends HttpServlet {
         TemplateResult res = new TemplateResult(getServletContext());
         HttpSession session = SecurityLayer.checkSession(request);
         LibriOnLineDataLayer dl = new LibriOnLineDataLayerMysqlImpl();
-        PrintWriter w = response.getWriter();
         
         if(session != null){
             request.setAttribute("stato_log", "Logout");
@@ -60,24 +59,40 @@ public class UpdateAutore extends HttpServlet {
                     String id = request.getParameter("id");
                     Autore autore = dl.getAutore(Integer.parseInt(id));
                     
-                    request.setAttribute("title", "Modifica autore");
+                    request.setAttribute("title", "Modifica Autore");
                     request.setAttribute("autore", autore);
                     res.activate("backoffice_updateautori.ftl.html", request, response);
                 }
                 
                 else if(update.equals("Modifica Autore")){
-                    boolean result = analizza_form_autore(request, response);
-                    
                     String id = request.getParameter("updateautore_id");
-                    Autore autore = dl.getAutore(Integer.parseInt(id));
-                    autore.setCognome(request.getParameter("updateautore_cognome"));
-                    autore.setNome(request.getParameter("updateautore_nome"));
-                         
-                    response.sendRedirect("VisualizzaAutori");
+                    int id_autore = Integer.parseInt(id);
+                    String cognomeautore = request.getParameter("updateautore_cognome");
+                    String nomeautore = request.getParameter("updateautore_nome");
+                   
+                    boolean result = analizza_form_autore(request, response);
+                    if(result){
+                        dl.modificaAutore(id_autore, cognomeautore,nomeautore);
+                        Autore object_autore = dl.getAutore(id_autore);
+                        request.setAttribute("autore", object_autore);
+                        request.setAttribute("title", "Modifica Autore");
+                        request.setAttribute("messaggio", "Autore modificato correttamente");
+                        res.activate("backoffice_updateautori.ftl.html", request, response);
+                    }
+                    else{
+                        Autore object_autore = dl.getAutore(id_autore);
+                        request.setAttribute("autore", object_autore);
+                        request.setAttribute("title", "Modifica Autore");
+                        request.setAttribute("messaggio", "Update Autore fallito");
+                        res.activate("backoffice_updateautori.ftl.html", request, response);
+                    }
                 }
                 else{
-                    request.setAttribute("title", "Modifica autore");
-                    res.activate("backoffice_updateautori.ftl.html", request, response);
+                    String id = request.getParameter("updateautore_id");
+                    int id_autore = Integer.parseInt(id);
+                    dl.eliminaAutore(id_autore);
+                    
+                    response.sendRedirect("VisualizzaAutori");
                 }
             }
                     
