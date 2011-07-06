@@ -34,6 +34,14 @@ public interface LibriOnLineDataLayer {
      boolean modificaLibro(String isbn, String titolo, String editore, String annopubbl, String recens, int id_lingua,String[] id_autori, String[] id_tag, int n_copie, int durata_max,int id_stato);
     
     /**
+     * La funzione permette di eliminare il libro che indichiamo con il parametro
+     * isbn.
+     * @param isbn del libro che vogliamo modificare
+     */
+     boolean eliminaLibro(String isbn);
+ 
+     
+    /**
      * Questo metodo verifica se una particolare username è già presente nel DB.
      * @param username String rappresentante l'username
      * @retur true se l'username inserito è già stato utilizzato da un altro utente

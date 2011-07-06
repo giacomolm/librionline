@@ -129,8 +129,9 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
      * @param id_stato
      * @return true se la modifica è andata a buon fine.
      */
+    @Override
     public boolean modificaLibro(String isbn, String titolo, String editore, String annopubbl, String recens, int id_lingua,String[] id_autori, String[] id_tag, int n_copie, int durata_max,int id_stato){
-        if(!bookIsThis(isbn)){
+        if(bookIsThis(isbn)){
             Libro l = searchByIsbn(isbn);
             List<Autore> autori = new ArrayList<Autore>();
             List<Tag> tags = new ArrayList<Tag>();
@@ -139,6 +140,9 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
             //Inseriamo i campi opportuni nel nuovo oggetto libro
             if(editore != null) l.setEditore(editore);
             l.setAnnoPubblicazione(annopubbl);
+            
+            if(recens != null) l.setRecensione(recens);
+            
             //Si è deciso di creare un entità separata per le lingue. Per questo motivo
             //dobbiamo recuperare la lingua dall'entità per impostarla nel libro
             try{
@@ -173,6 +177,26 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
         }
         else return false;
     }
+    
+    /**
+     * La funzione permette di modificare il libro che indichiamo con il parametro
+     * isbn.
+     * @param isbn del libro che vogliamo modificare
+     */
+    @Override
+     public boolean eliminaLibro(String isbn){
+          if(bookIsThis(isbn)){
+              //Cerchiamo il libro che vogliamo occupare
+              Libro l = searchByIsbn(isbn);
+              manager.getTransaction().begin();
+              //effetuiamo la rimozione vera e propria
+              manager.remove(l);
+              manager.getTransaction().commit();
+              return true;
+          }
+          else return false;
+     }
+ 
     
     /**
      * Il metodo permette l'inserimento di un volume a partire da un libro 
