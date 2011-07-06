@@ -1785,7 +1785,6 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
             //Non esiste alcuno stato con quel nome
   
         }
-        //System.out.println("Zilfio"+res);
         manager.getTransaction().commit();
         return res;
     }
@@ -1805,7 +1804,7 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
         manager.getTransaction().begin(); 
             try{
                //Prelevo gli oggetti stato, se esistono
-               manager.createNamedQuery("StatoMysqlImpl.findByStato").setParameter("stato", stato).getResultList();
+               Stato temp = (Stato) manager.createNamedQuery("StatoMysqlImpl.findByStato").setParameter("stato", stato).getSingleResult();
                //Significa che esiste già uno stato con quel nome
                res = false;
             }catch (NoResultException e){

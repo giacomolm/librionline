@@ -67,8 +67,8 @@ public class EsempioInserimento {
         System.out.println(dl.modificaLibro("1289892112", "Test", "Test", "2006", "azerty", 1, id_autori, id_tag, 3, 30, 1));
         System.out.println(dl.eliminaLibro("1289892112"));
         dl.insertLingua("Russo");
-        dl.modificaLingua(3, "Svedese");
-        dl.eliminaLingua(4);
+        System.out.println(dl.modificaLingua(5, "Croato"));
+        //dl.eliminaLingua(4);
         //dl.insertAutore("Volo", "Fabio");
         //dl.modificaAutore(17, "Volo", "Fabio Maria");
         dl.eliminaAutore(16);
@@ -78,6 +78,6 @@ public class EsempioInserimento {
         //dl.insertVolume(dl.searchByIsbn("9788871923031"), 40, 2);
         //dl.modificaVolume(111, 41, 1);
         //dl.eliminaVolume(111);
-        //System.out.println(dl.modificaStato(9, "Ciao"));
+        System.out.println(dl.modificaStato(11, "Zilfio"));
     }
 }
