@@ -29,7 +29,6 @@ import javax.persistence.NoResultException;
 import javax.persistence.Persistence;
 import javax.servlet.GenericServlet;
 import javax.servlet.ServletContext;
-import org.GNOME.Accessibility.Application;
 
 /**
  *
@@ -1878,20 +1877,20 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
             return true;
     }
     
-        /**
+    /**
      * Il metodo provvede la modifica della copia elettronica relativo un libro
      * @param id_copia 
      * @param mime tipo del file che stiamo modificando
      * @return true se l'inserimento va a buon fine
      */
-    //public boolean modificaCopiaElettronica(int id_copia, String mime){
+    public boolean modificaCopiaElettronica(int id_copia, String mime){
             
             /*l.getCopiaelettronicaCollection().add(ce);
             manager.getTransaction().begin();
             manager.persist(l);
-            manager.getTransaction().commit();
-            return true;*/
-    //}
+            manager.getTransaction().commit();*/
+            return true;
+    }
     
     //public Copiaelettronica getCopiaElettronica(int id_copia){
         /*Copiaelettronica e = null
