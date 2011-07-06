@@ -67,7 +67,7 @@ public class UpdateLingua extends HttpServlet {
                 else if(update.equals("Modifica Lingua")){
                     String id = request.getParameter("updatelingua_id");
                     int id_lingua = Integer.parseInt(id);
-                    String lingua = request.getParameter("updatestato_stato");
+                    String lingua = request.getParameter("updatelingua_lingua");
                     boolean result = analizza_form_lingua(request, response);
                     if(result){
                         dl.modificaLingua(id_lingua, lingua);
