@@ -3,7 +3,7 @@
  * and open the template in the editor.
  */
 package it.univaq.idw.librionline.controller;
-
+ 
 import it.univaq.idw.librionline.framework.util.MultipartHttpServletRequest;
 import it.univaq.idw.librionline.framework.util.SecurityLayer;
 import it.univaq.idw.librionline.framework.util.TemplateResult;
@@ -24,7 +24,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import org.apache.commons.fileupload.DiskFileUpload;
 
 
 /**
@@ -32,7 +31,6 @@ import org.apache.commons.fileupload.DiskFileUpload;
  * @author Zilfio
  */
 public class InserisciLibro extends HttpServlet {
-
     
     private boolean analizza_form_libro(HttpServletRequest request, HttpServletResponse response) throws IOException {
         
@@ -96,7 +94,6 @@ public class InserisciLibro extends HttpServlet {
         TemplateResult res = new TemplateResult(getServletContext());
         HttpSession session = SecurityLayer.checkSession(request);
 
-        
         if(session != null){
             request.setAttribute("stato_log", "Logout");
 
