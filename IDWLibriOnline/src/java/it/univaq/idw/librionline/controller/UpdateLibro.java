@@ -29,34 +29,20 @@ public class UpdateLibro extends HttpServlet {
 
     private boolean analizza_form_libro(HttpServletRequest request, HttpServletResponse response) throws IOException {
         
-        String isbn = request.getParameter("insertbook_isbn");
-        String titolo = request.getParameter("insertbook_titolo");
-        String editore = request.getParameter("insertbook_editore");
-        String annoPubblicazione = request.getParameter("insertbook_annopubblicazione");
-        String recensione = request.getParameter("insertbook_recensione");
-        String lingua = request.getParameter("insertbook_lingua");
-        String[] autore = request.getParameterValues("insertbook_autore");
-        String[] tag = request.getParameterValues("insertbook_tag");
-        String copie = request.getParameter("insertbook_numerocopie");
-        String stato = request.getParameter("insertbook_stato");
-        String durata_max = request.getParameter("insertbook_duratamax");
+        String isbn = request.getParameter("updatebook_isbn");
+        String titolo = request.getParameter("updatebook_titolo");
+        String editore = request.getParameter("updatebook_editore");
+        String annoPubblicazione = request.getParameter("updatebook_annopubblicazione");
+        String recensione = request.getParameter("updatebook_recensione");
+        String lingua = request.getParameter("updatebook_lingua");
+        String[] autore = request.getParameterValues("updatebook_autore");
+        String[] tag = request.getParameterValues("updatebook_tag");
         
-        if((isbn == null || isbn.isEmpty()) || (titolo == null || titolo.isEmpty()) || (editore == null || editore.isEmpty()) || (annoPubblicazione == null || annoPubblicazione.isEmpty())|| (autore == null) || (tag == null) || (copie == null || copie.isEmpty()) || (stato == null || stato.isEmpty()) || (durata_max == null || durata_max.isEmpty())){
+        if((isbn == null || isbn.isEmpty()) || (titolo == null || titolo.isEmpty()) || (editore == null || editore.isEmpty()) || (annoPubblicazione == null || annoPubblicazione.isEmpty())|| (autore == null) || (tag == null)){
             return false;
-        }
-
-        LibriOnLineDataLayer dl = new LibriOnLineDataLayerMysqlImpl();
-        
-        int id_lingua = Integer.parseInt(lingua);
-        int n_copie = Integer.parseInt(copie);
-        int id_stato = Integer.parseInt(stato);
-        int durata = Integer.parseInt(durata_max);
-        
-        if(dl.modificaLibro(isbn, titolo, editore, annoPubblicazione, recensione, id_lingua, autore, tag, n_copie,durata, id_stato)){         
-            return true;
         }
         else{
-            return false;
+            return true;
         }
     }
     
@@ -86,26 +72,44 @@ public class UpdateLibro extends HttpServlet {
                     String isbn = request.getParameter("id");
                     Libro libro = dl.searchByIsbn(isbn);
                     Collection<Autore> autori = libro.getAutoreCollection();
+                    Collection<Autore> autorinotautori = dl.notAuthor(isbn);
                     Collection<Tag> tags = libro.getTagCollection();
+                    Collection<Tag> tagsnottags = dl.notAtag(isbn);
                     
                     request.setAttribute("title", "Modifica libro");
                     request.setAttribute("libro", libro);
                     request.setAttribute("autori", autori);
+                    request.setAttribute("autorinotautori", autorinotautori);
                     request.setAttribute("tags", tags);
+                    request.setAttribute("tagsnottags", tagsnottags);
                     res.activate("backoffice_updatelibro.ftl.html", request, response);
                 }
                 
                 else if(update.equals("Modifica Libro")){
+                    String isbn = request.getParameter("updatebook_isbn");
+                    String titolo = request.getParameter("updatebook_titolo");
+                    String editore = request.getParameter("updatebook_editore");
+                    String annoPubblicazione = request.getParameter("updatebook_annopubblicazione");
+                    String recensione = request.getParameter("updatebook_recensione");
+                    String lingua = request.getParameter("updatebook_lingua");
+                    String[] autore = request.getParameterValues("updatebook_autore");
+                    String[] tag = request.getParameterValues("updatebook_tag");
+                    int id_lingua = Integer.parseInt(lingua);
                     boolean result = analizza_form_libro(request, response);
                     
                     if(result){
+                        dl.modificaLibro(isbn, titolo, editore, lingua, recensione, id_lingua, autore, tag);
+                        Libro object_libro = dl.searchByIsbn(isbn);
                         request.setAttribute("title", "Modifica libro");
                         request.setAttribute("messaggio", "Libro modificato correttamente");
+                        request.setAttribute("libro", object_libro);
                         res.activate("backoffice_updatelibro.ftl.html", request, response);
                     }
                     else{
+                        Libro object_libro = dl.searchByIsbn(isbn);
                         request.setAttribute("title", "Modifica libro");
                         request.setAttribute("messaggio", "Update libro Fallito");
+                        request.setAttribute("libro", object_libro);
                         res.activate("backoffice_updatelibro.ftl.html", request, response);
                     }
                 }
