@@ -30,18 +30,16 @@ public class Prestito extends HttpServlet {
         
         String isbn = request.getParameter("prestito_isbn");
         String prestito_volumi = request.getParameter("prestito_volumi");
-        String prestito_duratamax = request.getParameter("prestito_duratamax");
         String prestito_utenti = request.getParameter("prestito_utenti");
         
         int id_vol = Integer.parseInt(prestito_volumi);
-        int durata = Integer.parseInt(prestito_duratamax);
         int id_user = Integer.parseInt(prestito_utenti);
         
         if((isbn == null) || (id_vol <= 0) || (id_user <= 0)){
             return false;
         }
         
-        if(dl.registraPrestito(isbn, id_vol, id_user, durata)){
+        if(dl.registraPrestito(isbn, id_vol, id_user)){
             return true;
         }
         else{
