@@ -1243,7 +1243,7 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
      * @return true se il prestito va a buon fine
      */
     @Override
-    public boolean registraPrestito(String isbn, int id_vol, int id_user, int durata_max){
+    public boolean registraPrestito(String isbn, int id_vol, int id_user){
         //Cerchiamo il libro che vogliamo dare in prestito
         Libro l = searchByIsbn(isbn);
         Volume vol = null;
@@ -1262,7 +1262,7 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
                 if(v.getId()==id_vol){
                     //Abbiamo trovato il volume di nostro interesse!
                     vol = v;
-                    ((VolumeMysqlImpl)vol).setDurataMax(durata_max);
+                    //((VolumeMysqlImpl)vol).setDurataMax(durata_max);
                     trovato = true;
                 }
             }
@@ -1935,8 +1935,45 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
      * @param id_autore
      * @return "selected" se appartiene, altrimenti una stringa vuota
      */
-    public String isAnAuthor(int id_libro, int id_autore){
+    public String isAnAuthor(String isbn_libro, int id_autore){
+        //Prelevo il Libro
+        Libro l = searchByIsbn(isbn_libro);
+        if(l!=null){
+            //Se esiste, prelevo la lista degli autori che l'hanno scritto
+            Collection<Autore> ca = l.getAutoreCollection();
+            //Per ciascun autore, esamino il suo id
+            for(Iterator i = ca.iterator(); i.hasNext();){
+                Autore a = (Autore) i.next();
+                if(a.getId()==id_autore)
+                       return "selected";
+            }
+            return "";
+        }
+        else return "";
+    }
     
-        return "";
+    /**
+     * Il metodo consiste nel verificare se un tag appartien al libro indicato
+     * dall'isbn
+     * @param isbn_libro
+     * @param id_autore
+     * @return "selected" se appartiene, altrimenti una stringa vuota
+     */
+    public String isAtag(String isbn_libro, int id_tag){
+        //Prelevo il Libro
+        Libro l = searchByIsbn(isbn_libro);
+        if(l!=null){
+            //Se esiste, prelevo la lista degli autori che l'hanno scritto
+            Collection<Tag> tc = l.getTagCollection();
+            //Per ciascun autore, esamino il suo id
+            for(Iterator i = tc.iterator(); i.hasNext();){
+                Tag t = (Tag) i.next();
+                //Se coincide, ritoradno che deve essere selezionato
+                if(t.getId()==id_tag)
+                       return "selected";
+            }
+            return "";
+        }
+        else return "";
     }
 }

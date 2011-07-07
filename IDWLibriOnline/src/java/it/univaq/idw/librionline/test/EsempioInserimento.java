@@ -67,7 +67,7 @@ public class EsempioInserimento {
         System.out.println(dl.modificaLibro("1289892112", "Test", "Test", "2006", "azerty", 1, id_autori, id_tag, 3, 30, 1));
         System.out.println(dl.eliminaLibro("1289892112"));
         dl.insertLingua("Russo");
-        System.out.println(dl.modificaLingua(5, "Croato"));
+        System.out.println(dl.modificaLingua(3, "Svedese"));
         //dl.eliminaLingua(4);
         //dl.insertAutore("Volo", "Fabio");
         //dl.modificaAutore(17, "Volo", "Fabio Maria");

@@ -57,7 +57,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "LibroMysqlImpl.findByEditore", query = "SELECT l FROM LibroMysqlImpl l WHERE l.editore = :editore"),
     @NamedQuery(name = "LibroMysqlImpl.findByAnnoPubblicazione", query = "SELECT l FROM LibroMysqlImpl l WHERE l.annoPubblicazione = :annoPubblicazione")})
 public class LibroMysqlImpl implements Serializable,Libro {
-    @Basic(optional = false)
+    @Basic(optional =     false)
     @Column(name = "data_ins")
     @Temporal(TemporalType.DATE)
     private Date dataIns;
@@ -402,4 +402,5 @@ public class LibroMysqlImpl implements Serializable,Libro {
     public void setAnnoPubblicazione(String annoPubblicazione) {
        this.annoPubblicazione = annoPubblicazione;
     }
+
 }
