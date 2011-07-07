@@ -53,6 +53,7 @@ public class VisualizzaLingue extends HttpServlet {
                 }
                 
                 request.setAttribute("title","Visualizza Lingue");
+                request.setAttribute("navigazione","<a href='Home'>Homepage</a> -> <a href='Visualizza'>Modifica</a>");
                 res.activate("backoffice_visualizzalingue.ftl.html", request, response);
             }
             else{

@@ -52,6 +52,7 @@ public class VisualizzaStati extends HttpServlet {
                 }
                 
                 request.setAttribute("title","Visualizza Stati");
+                request.setAttribute("navigazione","<a href='Home'>Homepage</a> -> <a href='Visualizza'>Modifica</a>");
                 res.activate("backoffice_visualizzastati.ftl.html", request, response);
             }
             else{

@@ -52,6 +52,7 @@ public class VisualizzaAutori extends HttpServlet {
                 }
                 
                 request.setAttribute("title","Visualizza Autori");
+                request.setAttribute("navigazione","<a href='Home'>Homepage</a> -> <a href='Visualizza'>Modifica</a>");
                 res.activate("backoffice_visualizzaautori.ftl.html", request, response);
             }
             else{

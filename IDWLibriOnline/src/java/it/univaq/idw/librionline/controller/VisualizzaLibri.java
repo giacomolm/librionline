@@ -53,6 +53,7 @@ public class VisualizzaLibri extends HttpServlet {
                 }
                 
                 request.setAttribute("title","Visualizza Libri");
+                request.setAttribute("navigazione","<a href='Home'>Homepage</a> -> <a href='Visualizza'>Modifica</a>");
                 res.activate("backoffice_visualizzalibri.ftl.html", request, response);
             }
             else{

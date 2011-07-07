@@ -40,6 +40,7 @@ public class StatoConnessione extends HttpServlet {
 
         if (session == null) {
             request.setAttribute("title","Login");
+            request.setAttribute("navigazione","<a href='Home'>Homepage</a>");
             res.activate("form_login.ftl.html", request, response);
         } else {
             LibriOnLineDataLayer dl = new LibriOnLineDataLayerMysqlImpl();
@@ -58,6 +59,7 @@ public class StatoConnessione extends HttpServlet {
             request.setAttribute("ip",(String) session.getAttribute("ip"));
             request.setAttribute("date",f.format(((Calendar) session.getAttribute("inizio-sessione")).getTime()));
             request.setAttribute("title","Stato Connessione");
+            request.setAttribute("navigazione","<a href='Home'>Homepage</a>");
             res.activate("statoconnessione.ftl.html", request, response);
         }
     }

@@ -92,11 +92,13 @@ public class Login extends HttpServlet {
                 else{
                     request.setAttribute("title","Login");
                     request.setAttribute("messaggio","Login Fallito: inserire correttamente 'username' e 'password'");
+                    request.setAttribute("navigazione","<a href='Home'>Homepage</a>");
                     res.activate("form_login.ftl.html", request, response);
                 }
             }
             else{
                 request.setAttribute("title","Login");
+                request.setAttribute("navigazione","<a href='Home'>Homepage</a>");
                 res.activate("form_login.ftl.html", request, response);
             }
         }

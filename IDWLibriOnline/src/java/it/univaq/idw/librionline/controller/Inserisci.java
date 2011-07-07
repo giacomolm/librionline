@@ -42,6 +42,7 @@ public class Inserisci extends HttpServlet {
                 request.setAttribute("tipologia_utente","Bibliotecario");
                         
                 request.setAttribute("title","Inserisci");
+                request.setAttribute("navigazione","<a href='Home'>Homepage</a>");
                 res.activate("inserisci.ftl.html", request, response);
             }
             else{

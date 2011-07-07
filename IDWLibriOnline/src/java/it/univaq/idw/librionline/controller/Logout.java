@@ -32,6 +32,7 @@ public class Logout extends HttpServlet {
         SecurityLayer.disposeSession(request);
         request.setAttribute("title", "Login");
         request.setAttribute("messaggio", "Logout avvenuto con successo");
+        request.setAttribute("navigazione","<a href='Home'>Homepage</a>");
         res.activate("form_login.ftl.html", request, response);
     }
 

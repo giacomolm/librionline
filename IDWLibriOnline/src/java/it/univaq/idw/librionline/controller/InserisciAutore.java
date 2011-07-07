@@ -65,6 +65,7 @@ public class InserisciAutore extends HttpServlet {
                 
                 if(insert_tag == null){
                     request.setAttribute("title","Inserisci Autore");
+                    request.setAttribute("navigazione","<a href='Home'>Homepage</a> -> <a href='Inserisci'>Inserisci</a>");
                     res.activate("backoffice_inserisciautore.ftl.html", request, response);
                 }
                 else{

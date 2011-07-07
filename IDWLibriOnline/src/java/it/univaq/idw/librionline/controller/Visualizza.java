@@ -40,8 +40,10 @@ public class Visualizza extends HttpServlet {
             if(dl.isAdmin((String)session.getAttribute("username"))){
                 request.setAttribute("bibliotecario",true);
                 request.setAttribute("tipologia_utente","Bibliotecario");
-                             
+                         
+                
                 request.setAttribute("title","Visualizza");
+                request.setAttribute("navigazione","<a href='Home'>Homepage</a>");
                 res.activate("visualizza.ftl.html", request, response);
             }
             else{

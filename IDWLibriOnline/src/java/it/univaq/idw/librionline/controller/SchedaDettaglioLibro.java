@@ -81,6 +81,7 @@ public class SchedaDettaglioLibro extends HttpServlet {
                     
                     request.setAttribute("stato_log", "Logout");
                 }
+                request.setAttribute("navigazione","<a href='Home'>Homepage</a> -> <a href='Libro'>Libro</a>");
                 template.activate("schedalibro.ftl.html", request, response); 
 	    }
 	}
