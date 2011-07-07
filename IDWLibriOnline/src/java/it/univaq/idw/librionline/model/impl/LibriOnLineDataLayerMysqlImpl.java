@@ -150,23 +150,7 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
                 l.setLingua((LinguaMysqlImpl)(manager.createNamedQuery("LinguaMysqlImpl.findById").setParameter("id", id_lingua).getSingleResult()));      
             }catch(NoResultException e){
                 //out.printlm("Problemi con le lingue");
-            }
-            
-            //Procediamo con l'inserimento degli autori. Dobbiamo prima recuperare ciascun autore
-            //dalla propria entità e poi aggiungerlo al libro che si vuole inserire
-            try{
-                Collection<Autore> ac = new ArrayList<Autore>();
-                //for(Iterator it = l.getAutoreCollection().iterator(); it.hasNext();){}
-                    for(int i=0; i<id_autori.length; i++){
-                        Autore temp = (Autore)manager.createNamedQuery("AutoreMysqlImpl.findById").setParameter("id", Integer.parseInt(id_autori[i])).getSingleResult();
-                        ac.add(temp);
-                    }
-                    l.setAutoreCollection(ac);
-            }catch(NoResultException e){
-                //Ci sono stati dei problemi nell'aggiunta degli autori
-                res = false;
-            }
-           
+            }                       
             
             //Facciamo la stessa cosa con i tag
             try{
@@ -178,6 +162,29 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
                 l.setTagCollection(tags);
             }
             catch(NoResultException e){
+                res = false;
+            }
+            
+            //Procediamo con l'inserimento degli autori. Dobbiamo prima recuperare ciascun autore
+            //dalla propria entità e poi aggiungerlo al libro che si vuole inserire
+            try{
+                Collection<Autore> ac = new ArrayList<Autore>();
+                for(int i=0; i<id_autori.length; i++){
+                    Autore temp = (Autore)manager.createNamedQuery("AutoreMysqlImpl.findById").setParameter("id", Integer.parseInt(id_autori[i])).getSingleResult();
+                    ac.add(temp);
+                }
+                //Gestione Errore di mutuo accesso
+                l.setAutoreCollection(ac);
+                /*Collection<Autore> presenti = l.getAutoreCollection();
+                
+                for(Iterator it = presenti.iterator(); it.hasNext();){
+                    Autore temp =(Autore) it.next();
+                    if(!ac.contains(temp)) presenti.add(temp);
+                    //else presenti.remove(temp);
+                }*/
+                
+            }catch(NoResultException e){
+                //Ci sono stati dei problemi nell'aggiunta degli autori
                 res = false;
             }
             
