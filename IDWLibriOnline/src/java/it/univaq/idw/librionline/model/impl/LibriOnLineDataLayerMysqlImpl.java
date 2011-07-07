@@ -1931,10 +1931,9 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
     
     /**
      * Il metodo consiste nel verificare se un autore ha scritto il libro indicato
-     * dall'id
+     * dall'id e restituire la lista degli autori che non hanno scritto quel libro
      * @param id_libro
-     * @param id_autore
-     * @return "selected" se appartiene, altrimenti una stringa vuota
+     * @return restituisce la lista degli autori che non hanno scritto quel libro
      */
     @Override
     public List<Autore> notAuthor(String isbn_libro){
@@ -1951,27 +1950,20 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
     }
     
     /**
-     * Il metodo consiste nel verificare se un tag appartien al libro indicato
-     * dall'isbn
+     * Il metodo consiste nel verificare se un tag appartiene al libro indicato
+     * dall'isbn, e restituire la lista dei tag che non appartengono al libro
      * @param isbn_libro
-     * @param id_autore
-     * @return "selected" se appartiene, altrimenti una stringa vuota
+     * @return la lista dei tag che non appartengono al libro
      */
-    public String isAtag(String isbn_libro, int id_tag){
+    public List<Tag> notAtag(String isbn_libro){
         //Prelevo il Libro
         Libro l = searchByIsbn(isbn_libro);
         if(l!=null){
             //Se esiste, prelevo la lista degli autori che l'hanno scritto
-            Collection<Tag> tc = l.getTagCollection();
-            //Per ciascun autore, esamino il suo id
-            for(Iterator i = tc.iterator(); i.hasNext();){
-                Tag t = (Tag) i.next();
-                //Se coincide, ritoradno che deve essere selezionato
-                if(t.getId()==id_tag)
-                       return "selected";
-            }
-            return "";
+            List<Tag> tc = getAllTag();
+            tc.removeAll(l.getTagCollection());
+            return tc;
         }
-        else return "";
+        else return null;
     }
 }

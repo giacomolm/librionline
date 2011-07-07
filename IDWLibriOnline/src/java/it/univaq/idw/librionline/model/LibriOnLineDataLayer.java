@@ -507,4 +507,13 @@ public interface LibriOnLineDataLayer {
      * @return "selected" se appartiene, altrimenti una stringa vuota
      */
     List<Autore> notAuthor(String isbn_libro);
+    
+        
+    /**
+     * Il metodo consiste nel verificare se un tag appartiene al libro indicato
+     * dall'isbn, e restituire la lista dei tag che non appartengono al libro
+     * @param isbn_libro
+     * @return la lista dei tag che non appartengono al libro
+     */
+    List<Tag> notAtag(String isbn_libro);
 }
