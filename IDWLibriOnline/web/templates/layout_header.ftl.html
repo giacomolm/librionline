@@ -1,12 +1,14 @@
 <div id="header">
 <div id="header_menu">
-       <a id="login" href="Login">
            <#if (stato_log??)>
+           <a href="Login">
            <strong>${stato_log}</strong>
+           </a>
            <#else>
+           <a href="Login">
            <strong>Login</strong>
+           </a>
            </#if>
-       </a>
 </div>
 <div id="header_logo"> 
     <a id="titolo_header" href="Home"><img src="img/header2.png" alt="LibriOnLine" /></a>

@@ -10,7 +10,6 @@ import it.univaq.idw.librionline.model.LibriOnLineDataLayer;
 import it.univaq.idw.librionline.model.Volume;
 import it.univaq.idw.librionline.model.impl.LibriOnLineDataLayerMysqlImpl;
 import java.io.IOException;
-import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -73,18 +72,22 @@ public class UpdateVolumi extends HttpServlet {
                     
                     boolean result = analizza_form_volume(request, response);
                     if(result){
-                        dl.modificaVolume(id_volume, durata, stato_id);
+                        if(dl.modificaVolume(id_volume, durata, stato_id)){
+                            request.setAttribute("messaggio", "Volume modificato correttamente!");                            
+                        }
+                        else{
+                            request.setAttribute("messaggio", "Volume non modificato!");                            
+                        }
                         Volume object_volume = dl.getVolume(id_volume);
                         request.setAttribute("volume", object_volume);
                         request.setAttribute("title", "Modifica Volume");
-                        request.setAttribute("messaggio", "Volume modificato correttamente");
                         res.activate("backoffice_updatevolumi.ftl.html", request, response);
                     }
                     else{
                         Volume object_volume = dl.getVolume(id_volume);
                         request.setAttribute("volume", object_volume);
                         request.setAttribute("title", "Modifica Volume");
-                        request.setAttribute("messaggio", "Update Volume fallito");
+                        request.setAttribute("messaggio", "Impossibile modificare il volume!");
                         res.activate("backoffice_updatevolumi.ftl.html", request, response);
                     }
                 }
@@ -92,9 +95,9 @@ public class UpdateVolumi extends HttpServlet {
                     String id = request.getParameter("updatevol_id");
                     int id_volume = Integer.parseInt(id);
                     String isbn = request.getParameter("updatevol_isbn");
-                    dl.eliminaVolume(id_volume);
-                    
-                    response.sendRedirect("VisualizzaVolume2?isbn="+isbn);
+                    if(dl.eliminaVolume(id_volume)){
+                        response.sendRedirect("VisualizzaVolume2?isbn="+isbn);
+                    }
                 }
             }
                     

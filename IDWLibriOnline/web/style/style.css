@@ -38,6 +38,7 @@ a:link,a:visited{
     font-size: 80%;
     background-color: #e8effb;
     padding-right:5px;
+    text-align: right;
 }
 
 #header_logo {
@@ -51,10 +52,6 @@ a:link,a:visited{
     display: block;
     background-repeat: no-repeat;
     float: left;
-}
-
-#login{
-    float: right;
 }
 
 #center {

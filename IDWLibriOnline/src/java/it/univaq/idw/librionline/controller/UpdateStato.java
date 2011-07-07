@@ -10,7 +10,6 @@ import it.univaq.idw.librionline.model.LibriOnLineDataLayer;
 import it.univaq.idw.librionline.model.Stato;
 import it.univaq.idw.librionline.model.impl.LibriOnLineDataLayerMysqlImpl;
 import java.io.IOException;
-import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -70,18 +69,22 @@ public class UpdateStato extends HttpServlet {
                     String stato = request.getParameter("updatestato_stato");
                     boolean result = analizza_form_stato(request, response);
                     if(result){
-                        dl.modificaStato(id_stato, stato);
+                        if(dl.modificaStato(id_stato, stato)){
+                            request.setAttribute("messaggio", "Stato modificato correttamente!");
+                        }
+                        else{
+                            request.setAttribute("messaggio", "Stato non modificato!");
+                        }
                         Stato object_stato = dl.getStato(id_stato);
                         request.setAttribute("stato", object_stato);
                         request.setAttribute("title", "Modifica Stato");
-                        request.setAttribute("messaggio", "Stato modificato correttamente");
                         res.activate("backoffice_updatestato.ftl.html", request, response);
                     }
                     else{
                         Stato object_stato = dl.getStato(id_stato);
                         request.setAttribute("stato", object_stato);
                         request.setAttribute("title", "Modifica Stato");
-                        request.setAttribute("messaggio", "Update Stato fallito");
+                        request.setAttribute("messaggio", "Impossibile modificare lo Stato!");
                         res.activate("backoffice_updatestato.ftl.html", request, response);
                     }
                 }
@@ -89,9 +92,9 @@ public class UpdateStato extends HttpServlet {
                     String id = request.getParameter("updatestato_id");
                     int id_stato = Integer.parseInt(id);
                     
-                    dl.eliminaStato(id_stato);
-                    
-                    response.sendRedirect("VisualizzaStati");
+                    if(dl.eliminaStato(id_stato)){
+                        response.sendRedirect("VisualizzaStati");
+                    }
                 }
             }
                     

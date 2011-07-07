@@ -72,27 +72,31 @@ public class UpdateAutore extends HttpServlet {
                    
                     boolean result = analizza_form_autore(request, response);
                     if(result){
-                        dl.modificaAutore(id_autore, cognomeautore,nomeautore);
+                        if(dl.modificaAutore(id_autore, cognomeautore,nomeautore)){
+                            request.setAttribute("messaggio", "Autore modificato correttamente!");
+                        }
+                        else{
+                            request.setAttribute("messaggio", "Autore non modificato!");
+                        }
                         Autore object_autore = dl.getAutore(id_autore);
                         request.setAttribute("autore", object_autore);
                         request.setAttribute("title", "Modifica Autore");
-                        request.setAttribute("messaggio", "Autore modificato correttamente");
                         res.activate("backoffice_updateautori.ftl.html", request, response);
                     }
                     else{
                         Autore object_autore = dl.getAutore(id_autore);
                         request.setAttribute("autore", object_autore);
                         request.setAttribute("title", "Modifica Autore");
-                        request.setAttribute("messaggio", "Update Autore fallito");
+                        request.setAttribute("messaggio", "Impossibile modificare l'Autore!");
                         res.activate("backoffice_updateautori.ftl.html", request, response);
                     }
                 }
                 else{
                     String id = request.getParameter("updateautore_id");
                     int id_autore = Integer.parseInt(id);
-                    dl.eliminaAutore(id_autore);
-                    
-                    response.sendRedirect("VisualizzaAutori");
+                    if(dl.eliminaAutore(id_autore)){
+                         response.sendRedirect("VisualizzaAutori");
+                    }
                 }
             }
                     

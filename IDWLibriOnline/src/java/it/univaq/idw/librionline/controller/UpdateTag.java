@@ -73,18 +73,22 @@ public class UpdateTag extends HttpServlet {
                     String tag = request.getParameter("updatetag_tag");
                     boolean result = analizza_form_tag(request, response);
                     if(result){
-                        dl.modificaTag(id_tag, tag);
+                        if(dl.modificaTag(id_tag, tag)){
+                            request.setAttribute("messaggio", "Tag modificato correttamente!");
+                        }
+                        else{
+                            request.setAttribute("messaggio", "Tag non modificato!");
+                        }
                         Tag object_tag = dl.getTag(id_tag);
                         request.setAttribute("tag", object_tag);
                         request.setAttribute("title", "Modifica Tag");
-                        request.setAttribute("messaggio", "Tag modificato correttamente");
                         res.activate("backoffice_updatetag.ftl.html", request, response);
                     }
                     else{
                         Tag object_tag = dl.getTag(id_tag);
                         request.setAttribute("tag", object_tag);
                         request.setAttribute("title", "Modifica Tag");
-                        request.setAttribute("messaggio", "Update Tag fallito");
+                        request.setAttribute("messaggio", "Impossibile modificare il Tag!");
                         res.activate("backoffice_updatetag.ftl.html", request, response);
                     }
                 }
@@ -92,9 +96,9 @@ public class UpdateTag extends HttpServlet {
                     String id = request.getParameter("updatetag_id");
                     int id_tag = Integer.parseInt(id);
                     
-                    dl.eliminaTag(id_tag);
-                    
-                    response.sendRedirect("VisualizzaTag");
+                    if(dl.eliminaTag(id_tag)){                    
+                        response.sendRedirect("VisualizzaTag");
+                    }
                 }
             }
                     

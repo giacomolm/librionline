@@ -12,9 +12,7 @@ import it.univaq.idw.librionline.model.Libro;
 import it.univaq.idw.librionline.model.Tag;
 import it.univaq.idw.librionline.model.impl.LibriOnLineDataLayerMysqlImpl;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.Collection;
-import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -98,7 +96,12 @@ public class UpdateLibro extends HttpServlet {
                     boolean result = analizza_form_libro(request, response);
                     
                     if(result){
-                        dl.modificaLibro(isbn, titolo, editore, lingua, recensione, id_lingua, autore, tag);
+                        if(dl.modificaLibro(isbn, titolo, editore, annoPubblicazione, recensione, id_lingua, autore, tag)){
+                            request.setAttribute("messaggio", "Libro modificato correttamente!");
+                        }
+                        else{
+                            request.setAttribute("messaggio", "Libro non modificato!");
+                        }
                         Libro object_libro = dl.searchByIsbn(isbn);
                         Collection<Autore> autori = object_libro.getAutoreCollection();
                         Collection<Autore> autorinotautori = dl.notAuthor(isbn);
@@ -111,7 +114,6 @@ public class UpdateLibro extends HttpServlet {
                         request.setAttribute("autorinotautori", autorinotautori);
                         request.setAttribute("tags", tags);
                         request.setAttribute("tagsnottags", tagsnottags);
-                        request.setAttribute("messaggio", "Libro modificato correttamente");
                         res.activate("backoffice_updatelibro.ftl.html", request, response);
                     }
                     else{
@@ -132,11 +134,11 @@ public class UpdateLibro extends HttpServlet {
                     }
                 }
                 else{
-                    String isbn = request.getParameter("updatelibro_isbn");
+                    String isbn = request.getParameter("updatebook_isbn");
                     
-                    dl.eliminaLibro(isbn);
-                    
-                    response.sendRedirect("VisualizzaLibri");
+                    if(dl.eliminaLibro(isbn)){
+                        response.sendRedirect("VisualizzaLibri");
+                    }
                 }
             }
                     

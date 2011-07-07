@@ -23,7 +23,7 @@
                     <path-in-war>WEB-INF/lib</path-in-war>
                 </library>
                 <library dirs="200">
-                    <file>${file.reference.eclipselink.jar}</file>
+                    <file>${file.reference.eclipselink-jpa-modelgen_2.3.0.v20110604-r9504.jar}</file>
                     <path-in-war>WEB-INF/lib</path-in-war>
                 </library>
                 <library dirs="200">
@@ -31,7 +31,7 @@
                     <path-in-war>WEB-INF/lib</path-in-war>
                 </library>
                 <library dirs="200">
-                    <file>${file.reference.eclipselink-jpa-modelgen_2.3.0.v20110604-r9504.jar}</file>
+                    <file>${file.reference.eclipselink.jar}</file>
                     <path-in-war>WEB-INF/lib</path-in-war>
                 </library>
             </web-module-libraries>

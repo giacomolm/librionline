@@ -10,7 +10,6 @@ import it.univaq.idw.librionline.model.LibriOnLineDataLayer;
 import it.univaq.idw.librionline.model.Lingua;
 import it.univaq.idw.librionline.model.impl.LibriOnLineDataLayerMysqlImpl;
 import java.io.IOException;
-import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -70,18 +69,23 @@ public class UpdateLingua extends HttpServlet {
                     String lingua = request.getParameter("updatelingua_lingua");
                     boolean result = analizza_form_lingua(request, response);
                     if(result){
-                        dl.modificaLingua(id_lingua, lingua);
+                        if(dl.modificaLingua(id_lingua, lingua)){
+                            request.setAttribute("messaggio", "Lingua modificata correttamente!");
+                        }
+                        else{
+                            request.setAttribute("messaggio", "Lingua non modificata!");
+                        }
                         Lingua object_lingua = dl.getLingua(id_lingua);
                         request.setAttribute("lingua", object_lingua);
                         request.setAttribute("title", "Modifica Lingua");
-                        request.setAttribute("messaggio", "Lingua modificata correttamente");
+                        
                         res.activate("backoffice_updatelingua.ftl.html", request, response);
                     }
                     else{
                         Lingua object_lingua = dl.getLingua(id_lingua);
                         request.setAttribute("stato", object_lingua);
                         request.setAttribute("title", "Modifica Lingua");
-                        request.setAttribute("messaggio", "Update Lingua fallito");
+                        request.setAttribute("messaggio", "Impossibile modificare la Lingua!");
                         res.activate("backoffice_updatelingua.ftl.html", request, response);
                     }
                 }
@@ -89,9 +93,9 @@ public class UpdateLingua extends HttpServlet {
                     String id = request.getParameter("updatelingua_id");
                     int id_lingua = Integer.parseInt(id);
                     
-                    dl.eliminaLingua(id_lingua);
-                    
-                    response.sendRedirect("VisualizzaLingue");
+                    if(dl.eliminaLingua(id_lingua)){
+                        response.sendRedirect("VisualizzaLingue");
+                    }  
                 }
             }
                     
