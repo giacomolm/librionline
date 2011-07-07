@@ -61,7 +61,7 @@ public class EsempioInserimento {
         //System.out.println(dl.insertStato("Ciao"));
         Libro l = dl.searchByIsbn("9788871923031");
         dl.insertVolume(l, 655, 1);
-        String[] id_autori = {"1","2","3"};
+        String[] id_autori = {"4","5","6"};
         String[] id_tag = {"1","2","3"};
         dl.insertBook("1289892112", "Test", "Test", "2006", "qwerty", 1, id_autori, id_tag, 3, 30, 1);
         System.out.println(dl.modificaLibro("9788861142879", "Test", "Test", "2006", "azerty", 1, id_autori, id_tag));
