@@ -203,6 +203,7 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
      * @param id_volume che vogliamo trovare
      * @return Volume se presente , altrimenti null
      */
+    @Override
     public Volume getVolume(int id_volume){
         Volume v = null;
         manager.getTransaction().begin();
@@ -1935,21 +1936,18 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
      * @param id_autore
      * @return "selected" se appartiene, altrimenti una stringa vuota
      */
-    public String isAnAuthor(String isbn_libro, int id_autore){
+    @Override
+    public List<Autore> notAuthor(String isbn_libro){
         //Prelevo il Libro
         Libro l = searchByIsbn(isbn_libro);
         if(l!=null){
             //Se esiste, prelevo la lista degli autori che l'hanno scritto
-            Collection<Autore> ca = l.getAutoreCollection();
+            List<Autore> ca = getAllAutori();
             //Per ciascun autore, esamino il suo id
-            for(Iterator i = ca.iterator(); i.hasNext();){
-                Autore a = (Autore) i.next();
-                if(a.getId()==id_autore)
-                       return "selected";
-            }
-            return "";
+            ca.removeAll(l.getAutoreCollection());
+            return ca;
         }
-        else return "";
+        return null;
     }
     
     /**

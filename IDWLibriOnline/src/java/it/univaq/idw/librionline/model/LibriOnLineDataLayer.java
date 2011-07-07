@@ -486,9 +486,25 @@ public interface LibriOnLineDataLayer {
     boolean eliminaVolume(int id_volume);
     
     /**
+     * Il metodo restituisce un volume, se presente, a partire dal suo id
+     * @param id_volume che vogliamo trovare
+     * @return Volume se presente , altrimenti null
+     */
+    Volume getVolume(int id_volume);
+    
+    /**
      * Restituisce l'oggetto Stato a partire dal suo id
      * @param id dello stato che si vuole reperire
      * @return Stato se estite, altrimenti null
      */
     Stato getStato(int id);
+    
+    /**
+     * Il metodo consiste nel verificare se un autore ha scritto il libro indicato
+     * dall'id
+     * @param id_libro
+     * @param id_autore
+     * @return "selected" se appartiene, altrimenti una stringa vuota
+     */
+    List<Autore> notAuthor(String isbn_libro);
 }
