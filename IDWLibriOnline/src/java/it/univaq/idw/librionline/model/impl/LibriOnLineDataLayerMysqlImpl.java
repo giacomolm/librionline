@@ -131,7 +131,7 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
      * @return true se la modifica è andata a buon fine.
      */
     @Override
-    public boolean modificaLibro(String isbn, String titolo, String editore, String annopubbl, String recens, int id_lingua,String[] id_autori, String[] id_tag, int n_copie, int durata_max,int id_stato){
+    public boolean modificaLibro(String isbn, String titolo, String editore, String annopubbl, String recens, int id_lingua,String[] id_autori, String[] id_tag){
         if(bookIsThis(isbn)){
             Libro l = searchByIsbn(isbn);
             List<Autore> autori = new ArrayList<Autore>();
@@ -446,6 +446,23 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
             return true;
         }
         else return false;
+    }
+    
+    public boolean modificaUser(int id_user, String username,String password,String email,String telefono,String nome,String cognome,String codfisc,String indirizzo,String citta,String prov,int cap,Gruppo gruppo){
+        User u=getUser(id_user);
+        if(u != null){
+            manager.getTransaction().begin();
+            //Instanzio l'oggetto utente che voglio inserire nel database
+            u.setEmail(email);
+            u.setTelefono(telefono);
+            //Imposto il gruppo di appartenenza dell'utente, definito dal biblotecario se è egli stesso a registrarlo, altrimenti viene assegnato quello di default
+            u.setGruppo(gruppo);
+            //Memorizzo fisicamente l'utente sul database
+            manager.persist(u);
+            manager.getTransaction().commit();
+            return true;
+        }
+        return false;
     }
     
     /**

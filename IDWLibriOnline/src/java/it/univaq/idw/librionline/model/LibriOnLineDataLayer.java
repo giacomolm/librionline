@@ -31,7 +31,7 @@ public interface LibriOnLineDataLayer {
      * isbn.
      * @param isbn del libro che vogliamo modificare
      */
-     boolean modificaLibro(String isbn, String titolo, String editore, String annopubbl, String recens, int id_lingua,String[] id_autori, String[] id_tag, int n_copie, int durata_max,int id_stato);
+     boolean modificaLibro(String isbn, String titolo, String editore, String annopubbl, String recens, int id_lingua,String[] id_autori, String[] id_tag);
     
     /**
      * La funzione permette di eliminare il libro che indichiamo con il parametro
