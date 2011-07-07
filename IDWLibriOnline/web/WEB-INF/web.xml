@@ -177,6 +177,18 @@
         <servlet-name>UpdateLibro</servlet-name>
         <servlet-class>it.univaq.idw.librionline.controller.UpdateLibro</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>VisualizzaVolume</servlet-name>
+        <servlet-class>it.univaq.idw.librionline.controller.VisualizzaVolume</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>VisualizzaVolume2</servlet-name>
+        <servlet-class>it.univaq.idw.librionline.controller.VisualizzaVolume2</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UpdateVolumi</servlet-name>
+        <servlet-class>it.univaq.idw.librionline.controller.UpdateVolumi</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Home</servlet-name>
         <url-pattern>/Home</url-pattern>
@@ -324,6 +336,18 @@
     <servlet-mapping>
         <servlet-name>UpdateLibro</servlet-name>
         <url-pattern>/UpdateLibro</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>VisualizzaVolume</servlet-name>
+        <url-pattern>/VisualizzaVolume</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>VisualizzaVolume2</servlet-name>
+        <url-pattern>/VisualizzaVolume2</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UpdateVolumi</servlet-name>
+        <url-pattern>/UpdateVolumi</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>30</session-timeout>

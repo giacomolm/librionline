@@ -1,0 +1,15 @@
+<h2 class="page_title"> Risultati ricerca volumi </h2>
+<p>Cliccare su di un volume per modificarlo o eliminarlo.</p>
+<#if (stato_log??)>
+<#if bibliotecario>
+<#if (volumi??)>
+<ul>
+<#list volumi as volume>
+    <li><a href="UpdateVolumi?id=${volume.id}">Titolo: ${volume.libro.titolo} - ID Copia: ${volume.id} - Stato: ${volume.stato.stato!"Stato non presente"}</a></li>
+</#list>
+</ul>
+<#else>
+    <p><em>Nota: Nessun volume presente</em></p>
+</#if>
+</#if>
+</#if>

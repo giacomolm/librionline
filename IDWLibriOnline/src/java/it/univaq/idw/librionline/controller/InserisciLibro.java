@@ -64,15 +64,26 @@ public class InserisciLibro extends HttpServlet {
         
             if(size_file > 0){
                 InputStream is = ((MultipartHttpServletRequest)request).getStream("insertbook_file");
-                File file = new File(getServletContext().getRealPath("")+"/copie_elettroniche/"+isbn);
-                OutputStream out=new FileOutputStream(file);
-
-                byte buf[]=new byte[1024];
-                int len;
-                while((len=is.read(buf))>0)
-                    out.write(buf,0,len);
-                out.close();
-                is.close();
+                if("application/pdf".equals(type_file)){
+                    File file = new File(getServletContext().getRealPath("")+"/copie_elettroniche/"+isbn+".pdf");
+                    OutputStream out=new FileOutputStream(file);
+                    byte buf[]=new byte[1024];
+                    int len;
+                    while((len=is.read(buf))>0)
+                        out.write(buf,0,len);
+                    out.close();
+                    is.close();
+                }
+                else{
+                    File file = new File(getServletContext().getRealPath("")+"/copie_elettroniche/"+isbn+".txt");
+                    OutputStream out=new FileOutputStream(file);
+                    byte buf[]=new byte[1024];
+                    int len;
+                    while((len=is.read(buf))>0)
+                        out.write(buf,0,len);
+                    out.close();
+                    is.close();
+                }
             }
             
             return true;

@@ -32,7 +32,7 @@ public class Ricerca extends HttpServlet {
         
         LibriOnLineDataLayer dl = new LibriOnLineDataLayerMysqlImpl();
         
-        List<Libro> l = dl.advancedSearch(titolo, tag, autore, isbn);
+        List<Libro> l = dl.advancedSearch(SecurityLayer.addSlashes(titolo), SecurityLayer.addSlashes(tag), SecurityLayer.addSlashes(autore), SecurityLayer.addSlashes(isbn));
         
         if(l.isEmpty()){
             return null;
@@ -57,7 +57,7 @@ public class Ricerca extends HttpServlet {
 
         //Questa è la funzione da richiamare per la ricerca base
         //Attenzion! restituisco una collezione di libri! Perchè più libri potrebbero avere lo stesso titolo
-        List<Libro> bc = dl.simpleBookSearch(titolo);
+        List<Libro> bc = dl.simpleBookSearch(SecurityLayer.addSlashes(titolo));
         
         if(bc.isEmpty()){
             return null;

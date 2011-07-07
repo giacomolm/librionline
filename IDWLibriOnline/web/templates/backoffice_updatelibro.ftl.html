@@ -1,20 +1,23 @@
 <h2 class="page_title"> Modifica di un libro nella biblioteca </h2>
 <#if (stato_log??)>
     <#if bibliotecario>
-    <form action="InserisciLibro"  enctype="multipart/form-data" method="POST" id="updatebook">
+    <#if (messaggio??)>
+        <div class="messaggio">
+            <p><strong>${messaggio}</strong></p>
+        </div>
+        <div><br /></div>
+    </#if>
+    <form action="UpdateLibro"  enctype="multipart/form-data" method="post" id="updatebook">
         <fieldset><legend>Dati libro</legend>
-            <br />
-            <label>Isbn</label> <input type="text" name="updatebook_isbn" id="updatebook_isbn" maxlength="13" /> <br /> <br />
-            <label>Titolo</label> <input type="text" name="updatebook_titolo" id="updatebook_titolo" maxlength="50" size ="50"/> <br /> <br />
-            <label>Editore</label> <input type="text" name="updatebook_editore" id="updatebook_editore" maxlength="25" size ="25" /> <br /> <br />
-            <label>Anno Pubblicazione</label> <input type="text" name="updatebook_annopubblicazione" id="updatebook_annopubblicazione" maxlength="4" size ="5" /> <br /> <br />
+            <input type="hidden" name="updatebook_isbn" id="updatebook_isbn" value="${libro.isbn}" /> <br /> <br />
+            <label>Titolo</label> <input type="text" name="updatebook_titolo" id="updatebook_titolo" maxlength="50" size ="50" value="${libro.titolo}" /> <br /> <br />
+            <label>Editore</label> <input type="text" name="updatebook_editore" id="updatebook_editore" maxlength="25" size ="25" value="${libro.editore}" /> <br /> <br />
+            <label>Anno Pubblicazione</label> <input type="text" name="updatebook_annopubblicazione" id="updatebook_annopubblicazione" maxlength="4" size ="5" value="${libro.annoPubblicazione}" /> <br /> <br />
             <label>Recensione</label> <br />
-            <textarea name="updatebook_recensione" id="updatebook_recensione" rows="10" cols="100"></textarea> <br /> <br />
+            <textarea name="updatebook_recensione" id="updatebook_recensione" rows="10" cols="100" >${libro.recensione}</textarea> <br /> <br />
             <p><label>Lingua</label> - Se non c'&egrave; una lingua puoi accedere a questa <a href="InserisciLingua">pagina</a> per inserirla </p> 
             <select name="updatebook_lingua">
-                <#list lingue as lingua>
-                <option value="${lingua.id}">${lingua.lingua}</option>
-                </#list>
+                <option value="${libro.lingua.id}">${libro.lingua.lingua}</option>
             </select> <br /> <br />
             <p><span class="withtooltip"><label>Autori</label><span class="tooltip"><span class="hidewithcss"> (</span>puoi selezionare anche pi&ugrave; autori, <i>basta tener premuto il tasto "Ctrl"</i><span class="hidewithcss">)</span></span></span> - Se non c'&egrave; un autore puoi accedere a questa <a href="InserisciAutore">pagina</a> per inserirlo</p>
             <select name="updatebook_autore" multiple="multiple">
@@ -28,19 +31,10 @@
                 <option value="${tag.id}">${tag.tag}</option>
                 </#list>
             </select>
-            <br /> <br />
-            <label>Numero volumi: </label><input type="text" name="updatebook_numerocopie" id="updatebook_numerocopie" value="1" size="2" maxlength="3"/>
-            <label>Stato: </label>
-            <select name="updatebook_stato">
-                <#list stati as stato>
-                <option value="${stato.id}">${stato.stato}</option>
-                </#list>
-            </select>
-            <label> Durata massima:</label> <input type="text" name="updatebook_duratamax" id="updatebook_duratamax" value="30" size="2" maxlength="2" />
-        </fieldset><br />
+        </fieldset> <div> <br /> </div>
         <fieldset><legend>Copia elettronica</legend>
             <br />
-            <input type="file" name="updatebook_file" id="updatebook_file" name="insertbook_file"><br>
+            <input type="file" name="updatebook_file" id="updatebook_file" /><br />
         </fieldset>
         <div>
             <br />

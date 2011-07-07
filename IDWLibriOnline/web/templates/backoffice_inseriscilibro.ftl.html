@@ -7,7 +7,7 @@
         </div>
         <div><br /></div>
     </#if>
-    <form action="InserisciLibro"  enctype="multipart/form-data" method="POST" id="insertbook">
+    <form action="InserisciLibro"  enctype="multipart/form-data" method="post" id="insertbook">
         <fieldset><legend>Dati libro</legend>
             <br />
             <label>Isbn</label> <input type="text" name="insertbook_isbn" id="insertbook_isbn" maxlength="13" /> <br /> <br />
@@ -43,10 +43,10 @@
                 </#list>
             </select>
             <label> Durata massima:</label> <input type="text" name="insertbook_duratamax" id="insertbook_duratamax" value="30" size="2" maxlength="2" />
-        </fieldset><br />
+        </fieldset><div><br /></div>
         <fieldset><legend>Copia elettronica</legend>
             <br />
-            <input type="file" name="insertbook_file" id="insertbook_file" name="insertbook_file"><br>
+            <input type="file" name="insertbook_file" id="insertbook_file" /><br />
         </fieldset>
         <div>
             <br />
