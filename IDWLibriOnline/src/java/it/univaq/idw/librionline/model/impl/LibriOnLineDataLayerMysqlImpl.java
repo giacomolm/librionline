@@ -134,11 +134,11 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
     public boolean modificaLibro(String isbn, String titolo, String editore, String annopubbl, String recens, int id_lingua,String[] id_autori, String[] id_tag){
         if(bookIsThis(isbn)){
             Libro l = searchByIsbn(isbn);
-            List<Autore> autori = new ArrayList<Autore>();
-            List<Tag> tags = new ArrayList<Tag>();
+            
             boolean res = true;
             manager.getTransaction().begin();
             //Inseriamo i campi opportuni nel nuovo oggetto libro
+            l.setTitolo(titolo);
             if(editore != null) l.setEditore(editore);
             l.setAnnoPubblicazione(annopubbl);
             
@@ -155,23 +155,33 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
             //Procediamo con l'inserimento degli autori. Dobbiamo prima recuperare ciascun autore
             //dalla propria entità e poi aggiungerlo al libro che si vuole inserire
             try{
+                Collection<Autore> ac = new ArrayList<Autore>();
                 for(int i=0; i<id_autori.length; i++){
-                    autori.add((AutoreMysqlImpl)manager.createNamedQuery("AutoreMysqlImpl.findById").setParameter("id", Integer.parseInt(id_autori[i])).getSingleResult());
+                    Autore temp = (Autore)manager.createNamedQuery("AutoreMysqlImpl.findById").setParameter("id", Integer.parseInt(id_autori[i])).getSingleResult();
+                    ac.add(temp);
                 }
-                l.setAutoreCollection(autori);
-                
-                //Facciamo la stessa cosa con i tag
-                for(int i=0; i<id_tag.length; i++){
-                    tags.add((TagMysqlImpl)manager.createNamedQuery("TagMysqlImpl.findById").setParameter("id", Integer.parseInt(id_tag[i])).getSingleResult());
-                }
-                l.setTagCollection(tags);
+                l.setAutoreCollection(ac);                
             }catch(NoResultException e){
                 //Ci sono stati dei problemi nell'aggiunta degli autori o nell'aggiunta dei tag
                 res = false;
             }
            
+            
+            //Facciamo la stessa cosa con i tag
+            try{
+                Collection<Tag> tags = new ArrayList<Tag>();
+                for(int i=0; i<id_tag.length; i++){
+                    Tag temp = (Tag) manager.createNamedQuery("TagMysqlImpl.findById").setParameter("id", Integer.parseInt(id_tag[i])).getSingleResult();
+                    tags.add(temp);
+                }
+                l.setTagCollection(tags);
+            }
+            catch(NoResultException e){
+                res = false;
+            }
+            
             //Memorizzo effettivamente sul db le modifiche
-            manager.persist(l);
+            if(res) manager.persist(l);
             manager.getTransaction().commit();
 
             return res;
@@ -448,6 +458,12 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
         else return false;
     }
     
+    /**
+     * Il metofo permette di modificare i dati relativi ad un utente, con riferimento
+     * agli stessi parametri parametri per la creazione dell'utente stesso
+     * @param id_user
+     * @return true se la modifica va a buon fine
+     */
     public boolean modificaUser(int id_user, String username,String password,String email,String telefono,String nome,String cognome,String codfisc,String indirizzo,String citta,String prov,int cap,Gruppo gruppo){
         User u=getUser(id_user);
         if(u != null){
@@ -459,6 +475,18 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
             u.setGruppo(gruppo);
             //Memorizzo fisicamente l'utente sul database
             manager.persist(u);
+            manager.getTransaction().commit();
+            return true;
+        }
+        return false;
+    }
+    
+    public boolean removeUser(int id_user){
+        User u=getUser(id_user);
+        if(u != null){
+            manager.getTransaction().begin();
+            //Memorizzo fisicamente l'utente sul database
+            manager.remove(u);
             manager.getTransaction().commit();
             return true;
         }

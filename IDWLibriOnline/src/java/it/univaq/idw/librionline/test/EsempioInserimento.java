@@ -64,7 +64,7 @@ public class EsempioInserimento {
         String[] id_autori = {"1","2","3"};
         String[] id_tag = {"1","2","3"};
         dl.insertBook("1289892112", "Test", "Test", "2006", "qwerty", 1, id_autori, id_tag, 3, 30, 1);
-        System.out.println(dl.modificaLibro("1289892112", "Test", "Test", "2006", "azerty", 1, id_autori, id_tag));
+        System.out.println(dl.modificaLibro("9788861142879", "Test", "Test", "2006", "azerty", 1, id_autori, id_tag));
         System.out.println(dl.eliminaLibro("1289892112"));
         dl.insertLingua("Russo");
         System.out.println(dl.modificaLingua(3, "Svedese"));
