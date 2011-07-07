@@ -17,6 +17,7 @@ import it.univaq.idw.librionline.model.User;
 import it.univaq.idw.librionline.model.Volume;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.ConcurrentModificationException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -27,6 +28,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.NoResultException;
 import javax.persistence.Persistence;
+import javax.persistence.RollbackException;
 
 /**
  *
@@ -142,15 +144,7 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
             if(editore != null) l.setEditore(editore);
             l.setAnnoPubblicazione(annopubbl);
             
-            if(recens != null) l.setRecensione(recens);
-            
-            //Si è deciso di creare un entità separata per le lingue. Per questo motivo
-            //dobbiamo recuperare la lingua dall'entità per impostarla nel libro
-            try{
-                l.setLingua((LinguaMysqlImpl)(manager.createNamedQuery("LinguaMysqlImpl.findById").setParameter("id", id_lingua).getSingleResult()));      
-            }catch(NoResultException e){
-                //out.printlm("Problemi con le lingue");
-            }                       
+            if(recens != null) l.setRecensione(recens);            
             
             //Facciamo la stessa cosa con i tag
             try{
@@ -165,8 +159,24 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
                 res = false;
             }
             
+            //Si è deciso di creare un entità separata per le lingue. Per questo motivo
+            //dobbiamo recuperare la lingua dall'entità per impostarla nel libro
+            /*try{
+                l.setLingua((LinguaMysqlImpl)(manager.createNamedQuery("LinguaMysqlImpl.findById").setParameter("id", id_lingua).getSingleResult()));      
+            }catch(NoResultException e){
+                //out.printlm("Problemi con le lingue");
+            }*/                  
+
+            
             //Procediamo con l'inserimento degli autori. Dobbiamo prima recuperare ciascun autore
             //dalla propria entità e poi aggiungerlo al libro che si vuole inserire
+
+            
+            //Memorizzo effettivamente sul db le modifiche
+            if(res) manager.persist(l);
+            manager.getTransaction().commit();
+            
+            manager.getTransaction().begin();
             try{
                 Collection<Autore> ac = new ArrayList<Autore>();
                 for(int i=0; i<id_autori.length; i++){
@@ -175,23 +185,14 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
                 }
                 //Gestione Errore di mutuo accesso
                 l.setAutoreCollection(ac);
-                /*Collection<Autore> presenti = l.getAutoreCollection();
-                
-                for(Iterator it = presenti.iterator(); it.hasNext();){
-                    Autore temp =(Autore) it.next();
-                    if(!ac.contains(temp)) presenti.add(temp);
-                    //else presenti.remove(temp);
-                }*/
-                
+
             }catch(NoResultException e){
                 //Ci sono stati dei problemi nell'aggiunta degli autori
                 res = false;
             }
-            
-            //Memorizzo effettivamente sul db le modifiche
             if(res) manager.persist(l);
             manager.getTransaction().commit();
-
+            
             return res;
         }
         else return false;

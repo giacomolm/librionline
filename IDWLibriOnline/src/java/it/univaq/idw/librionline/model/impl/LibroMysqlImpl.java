@@ -403,4 +403,5 @@ public class LibroMysqlImpl implements Serializable,Libro {
        this.annoPubblicazione = annoPubblicazione;
     }
 
+
 }

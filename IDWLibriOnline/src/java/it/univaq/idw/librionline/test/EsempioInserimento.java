@@ -65,7 +65,6 @@ public class EsempioInserimento {
         String[] id_tag = {"1","2","3"};
         dl.insertBook("1289892112", "Test", "Test", "2006", "qwerty", 1, id_autori, id_tag, 3, 30, 1);
         System.out.println(dl.modificaLibro("9788861142879", "Test", "Test", "2006", "azerty", 1, id_autori, id_tag));
-        System.out.println(dl.eliminaLibro("1289892112"));
         dl.insertLingua("Russo");
         System.out.println(dl.modificaLingua(3, "Svedese"));
         //dl.eliminaLingua(4);
@@ -79,5 +78,6 @@ public class EsempioInserimento {
         //dl.modificaVolume(111, 41, 1);
         //dl.eliminaVolume(111);
         System.out.println(dl.modificaStato(11, "Zilfio"));
+        System.out.println(dl.eliminaLibro("9788850321001"));
     }
 }

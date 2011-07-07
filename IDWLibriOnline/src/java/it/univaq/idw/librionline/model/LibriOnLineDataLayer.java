@@ -516,4 +516,26 @@ public interface LibriOnLineDataLayer {
      * @return la lista dei tag che non appartengono al libro
      */
     List<Tag> notAtag(String isbn_libro);
+    
+    /**
+     * Il metodo provvede l'inserimento della copia elettronica relativo un libro
+     * @param l libro al quale vogliamo aggiungere una copia elettronica
+     * @param mime tipo del file che stiamo inserendo
+     * @return true se l'inserimento va a buon fine
+     */
+    boolean insertCopiaElettronica(Libro l, String mime);
+    /**
+     * Il metodo provvede la modifica della copia elettronica relativo un libro
+     * @param id_copia 
+     * @param mime tipo del file che stiamo modificando
+     * @return true se l'inserimento va a buon fine
+     */
+    boolean modificaCopiaElettronica(int id_copia, String mime);
+    
+    /**
+     * Il metodo provvede alla rimozione della copia elettronica relativa un libro
+     * @param id_copia 
+     * @return true se l'eliminazione va a buon fine
+     */
+    boolean eliminaCopiaElettronica(int id_copia);
 }
