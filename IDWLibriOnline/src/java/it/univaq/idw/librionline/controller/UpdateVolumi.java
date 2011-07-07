@@ -7,6 +7,7 @@ package it.univaq.idw.librionline.controller;
 import it.univaq.idw.librionline.framework.util.SecurityLayer;
 import it.univaq.idw.librionline.framework.util.TemplateResult;
 import it.univaq.idw.librionline.model.LibriOnLineDataLayer;
+import it.univaq.idw.librionline.model.Volume;
 import it.univaq.idw.librionline.model.impl.LibriOnLineDataLayerMysqlImpl;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -55,10 +56,10 @@ public class UpdateVolumi extends HttpServlet {
                 
                 if(update == null){
                     String id = request.getParameter("id");
-                    //Volume volume = dl.getVolumeById(id);
+                    Volume volume = dl.getVolume(Integer.parseInt(id));
                     
                     request.setAttribute("title", "Modifica Volume");
-                    //request.setAttribute("volume", volume);
+                    request.setAttribute("volume", volume);
                     res.activate("backoffice_updatevolumi.ftl.html", request, response);
                 }
                 
@@ -73,27 +74,27 @@ public class UpdateVolumi extends HttpServlet {
                     boolean result = analizza_form_volume(request, response);
                     if(result){
                         dl.modificaVolume(id_volume, durata, stato_id);
-                        //Volume object_volume = dl.getVolumeById(id_volume);
-                        //request.setAttribute("autore", object_volume);
+                        Volume object_volume = dl.getVolume(id_volume);
+                        request.setAttribute("volume", object_volume);
                         request.setAttribute("title", "Modifica Volume");
                         request.setAttribute("messaggio", "Volume modificato correttamente");
                         res.activate("backoffice_updatevolumi.ftl.html", request, response);
                     }
                     else{
-                        //Volume object_volume = dl.getVolumeById(id_volume);
-                        //request.setAttribute("autore", object_volume);
+                        Volume object_volume = dl.getVolume(id_volume);
+                        request.setAttribute("volume", object_volume);
                         request.setAttribute("title", "Modifica Volume");
-                        request.setAttribute("messaggio", "Update Autore fallito");
+                        request.setAttribute("messaggio", "Update Volume fallito");
                         res.activate("backoffice_updatevolumi.ftl.html", request, response);
                     }
                 }
                 else{
-                    String id = request.getParameter("updatevolume_id");
-                    String isbn = request.getParameter("updatevolume_isbn");
+                    String id = request.getParameter("updatevol_id");
                     int id_volume = Integer.parseInt(id);
+                    String isbn = request.getParameter("updatevol_isbn");
                     dl.eliminaVolume(id_volume);
                     
-                    response.sendRedirect("VisualizzaVolume2?isbn=isbn");
+                    response.sendRedirect("VisualizzaVolume2?isbn="+isbn);
                 }
             }
                     

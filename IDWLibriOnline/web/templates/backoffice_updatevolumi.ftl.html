@@ -15,12 +15,13 @@
             <select name="updatevol_stato">
                 <option value="${volume.stato.id}">${volume.stato.stato}</option>
             </select>
-            <label> Durata massima:</label> <input type="text" name="updatevol_duratamax" id="updatevol_duratamax" value="${volume.stato.durataMax}" size="2" maxlength="2" />
-            <input type="hidden" value="${volume.isbn}" name="updatevol_isbn" id="updatevol_isbn" />
+            <br /><br />
+            <label> Durata massima:</label> <input type="text" name="updatevol_duratamax" id="updatevol_duratamax" value="${volume.durataMax}" size="2" maxlength="2" />
+            <input type="hidden" value="${volume.libro.isbn}" name="updatevol_isbn" id="updatevol_isbn" />
         </fieldset>
         <div>
             <br />
-            <input type="submit" value="Inserisci Volume" name="Modifica Volume" />
+            <input type="submit" value="Modifica Volume" name="Modifica Volume" />
             <input type="submit" value="Elimina Volume" name="Modifica Volume" />
             <input type="reset" value="Reset" name="Cancella" />
         </div>

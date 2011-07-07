@@ -100,16 +100,34 @@ public class UpdateLibro extends HttpServlet {
                     if(result){
                         dl.modificaLibro(isbn, titolo, editore, lingua, recensione, id_lingua, autore, tag);
                         Libro object_libro = dl.searchByIsbn(isbn);
+                        Collection<Autore> autori = object_libro.getAutoreCollection();
+                        Collection<Autore> autorinotautori = dl.notAuthor(isbn);
+                        Collection<Tag> tags = object_libro.getTagCollection();
+                        Collection<Tag> tagsnottags = dl.notAtag(isbn);
+                    
                         request.setAttribute("title", "Modifica libro");
-                        request.setAttribute("messaggio", "Libro modificato correttamente");
                         request.setAttribute("libro", object_libro);
+                        request.setAttribute("autori", autori);
+                        request.setAttribute("autorinotautori", autorinotautori);
+                        request.setAttribute("tags", tags);
+                        request.setAttribute("tagsnottags", tagsnottags);
+                        request.setAttribute("messaggio", "Libro modificato correttamente");
                         res.activate("backoffice_updatelibro.ftl.html", request, response);
                     }
                     else{
                         Libro object_libro = dl.searchByIsbn(isbn);
+                        Collection<Autore> autori = object_libro.getAutoreCollection();
+                        Collection<Autore> autorinotautori = dl.notAuthor(isbn);
+                        Collection<Tag> tags = object_libro.getTagCollection();
+                        Collection<Tag> tagsnottags = dl.notAtag(isbn);
+                    
                         request.setAttribute("title", "Modifica libro");
-                        request.setAttribute("messaggio", "Update libro Fallito");
                         request.setAttribute("libro", object_libro);
+                        request.setAttribute("autori", autori);
+                        request.setAttribute("autorinotautori", autorinotautori);
+                        request.setAttribute("tags", tags);
+                        request.setAttribute("tagsnottags", tagsnottags);
+                        request.setAttribute("messaggio", "Update libro Fallito");
                         res.activate("backoffice_updatelibro.ftl.html", request, response);
                     }
                 }
