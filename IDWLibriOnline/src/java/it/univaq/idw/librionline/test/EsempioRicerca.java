@@ -9,6 +9,7 @@ import it.univaq.idw.librionline.model.LibriOnLineDataLayer;
 import it.univaq.idw.librionline.model.Libro;
 import it.univaq.idw.librionline.model.Lingua;
 import it.univaq.idw.librionline.model.Prestito;
+import it.univaq.idw.librionline.model.Stato;
 import it.univaq.idw.librionline.model.Tag;
 import it.univaq.idw.librionline.model.User;
 import it.univaq.idw.librionline.model.Volume;
@@ -157,6 +158,12 @@ public class EsempioRicerca {
         for ( Iterator i = listl.iterator(); i.hasNext(); ) {
             Libro element = (Libro) i.next();
             System.out.println( "Most Provided : "+element.getTitolo());                           
+        }
+        
+        List<Stato> lists = dl.notStati(1);
+        for ( Iterator i = lists.iterator(); i.hasNext(); ) {
+            Stato element = (Stato) i.next();
+            System.out.println( "STato : "+element.getStato());                           
         }
     }
 }
