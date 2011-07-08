@@ -113,15 +113,6 @@ public class CopiaelettronicaMysqlImpl implements Serializable, Copiaelettronica
         this.url = url;
     }
 
-
-    /**
-     * 
-     * @param libro
-     */
-    public void setLibro(LibroMysqlImpl libro) {
-        this.libro = libro;
-    }
-
     @Override
     public int hashCode() {
         int hash = 0;
@@ -154,7 +145,7 @@ public class CopiaelettronicaMysqlImpl implements Serializable, Copiaelettronica
 
     @Override
     public void setLibro(Libro libro) {
-        setLibro(libro);
+        this.libro = (LibroMysqlImpl) libro;
     }
     
 }

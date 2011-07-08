@@ -79,5 +79,6 @@ public class EsempioInserimento {
         //dl.eliminaVolume(111);
         System.out.println(dl.modificaStato(11, "Zilfio"));
         System.out.println(dl.eliminaLibro("9788850321001"));
+        System.out.println(dl.insertCopiaElettronica(dl.searchByIsbn("1232121213133"),"pdf"));
     }
 }

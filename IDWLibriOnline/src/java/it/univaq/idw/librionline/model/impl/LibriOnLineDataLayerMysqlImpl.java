@@ -1921,11 +1921,13 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
      * @param mime tipo del file che stiamo inserendo
      * @return true se l'inserimento va a buon fine
      */
+    @Override
     public boolean insertCopiaElettronica(Libro l, String mime){
-            Copiaelettronica ce =new CopiaelettronicaMysqlImpl(null, mime, l.getIsbn()+"."+mime);
-            l.getCopiaelettronicaCollection().add(ce);
+ 
             manager.getTransaction().begin();
-            manager.persist(l);
+            Copiaelettronica ce =new CopiaelettronicaMysqlImpl(null, mime, l.getIsbn()+"."+mime);
+            ce.setLibro(l); 
+            manager.persist(ce);
             manager.getTransaction().commit();
             return true;
     }
