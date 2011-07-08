@@ -9,6 +9,7 @@ import it.univaq.idw.librionline.framework.util.SecurityLayer;
 import it.univaq.idw.librionline.framework.util.TemplateResult;
 import it.univaq.idw.librionline.model.Autore;
 import it.univaq.idw.librionline.model.LibriOnLineDataLayer;
+import it.univaq.idw.librionline.model.Libro;
 import it.univaq.idw.librionline.model.Lingua;
 import it.univaq.idw.librionline.model.Stato;
 import it.univaq.idw.librionline.model.Tag;
@@ -65,7 +66,8 @@ public class InserisciLibro extends HttpServlet {
             if(size_file > 0){
                 InputStream is = ((MultipartHttpServletRequest)request).getStream("insertbook_file");
                 if("application/pdf".equals(type_file)){
-                    File file = new File(getServletContext().getRealPath("")+"/copie_elettroniche/"+isbn+".pdf");
+                    String type = "pdf";
+                    File file = new File(getServletContext().getRealPath("")+"/copie_elettroniche/"+isbn+"."+type);
                     OutputStream out=new FileOutputStream(file);
                     byte buf[]=new byte[1024];
                     int len;
@@ -73,9 +75,14 @@ public class InserisciLibro extends HttpServlet {
                         out.write(buf,0,len);
                     out.close();
                     is.close();
+                    Libro libro = dl.searchByIsbn(isbn);
+                    if(libro != null){
+                        dl.insertCopiaElettronica(dl.searchByIsbn(isbn), type);
+                    }
                 }
                 else{
-                    File file = new File(getServletContext().getRealPath("")+"/copie_elettroniche/"+isbn+".txt");
+                    String type = "txt";
+                    File file = new File(getServletContext().getRealPath("")+"/copie_elettroniche/"+isbn+"."+type);
                     OutputStream out=new FileOutputStream(file);
                     byte buf[]=new byte[1024];
                     int len;
@@ -83,6 +90,10 @@ public class InserisciLibro extends HttpServlet {
                         out.write(buf,0,len);
                     out.close();
                     is.close();
+                    Libro libro = dl.searchByIsbn(isbn);
+                    if(libro != null){
+                        dl.insertCopiaElettronica(dl.searchByIsbn(isbn), type);
+                    }
                 }
             }
             
