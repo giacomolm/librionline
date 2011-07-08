@@ -18,7 +18,9 @@
 <#if (stato_log??)>
     <#if !bibliotecario>
     <div class="homepage_book"> 
-        <p><strong>Libri da riconsegnare:</strong></p>
+        <div class="homepage_intestazioni">
+             <strong>Libri da riconsegnare:</strong>
+        </div>
         <#if (libri_da_riconsegnare??)>
             <ul class="content">
             <#list libri_da_riconsegnare as libro_da_riconsegnare>
@@ -36,8 +38,10 @@
     <br />
     </#if>
 </#if>
-<div class="homepage_book"> 
-    <p><strong>Ultimi libri aggiunti alla biblioteca:</strong></p>
+<div class="homepage_book">
+    <div class="homepage_intestazioni">
+        <strong>Ultimi libri aggiunti alla biblioteca:</strong>
+    </div>
     <#if (libri??)>
     <ul class="content">
     <#list libri as libro>
@@ -50,7 +54,9 @@
 </div>
 <br />
 <div class="homepage_book"> 
-    <p><strong>Libri maggiormente prestati:</strong></p>
+    <div class="homepage_intestazioni">
+        <strong>Libri maggiormente prestati:</strong>
+    </div>
     <#if (libriprestati??)>
     <ul class="content">
     <#list libriprestati as libroprestato>

@@ -144,14 +144,14 @@ a:link,a:visited{
 }
 
 .page_title{
-    border-bottom: 2px solid;
-    margin-top: 5px;
+    background-color: #ceddf7;
+    padding: 5px;
     font-size: 15px;
+    margin-bottom: 20px;
 }
 
 .homepage_book{
-    border: 1px solid;
-    padding: 5px;
+    border: 1px solid #E8EFFB;
 }
 
 #alert{
@@ -161,4 +161,10 @@ a:link,a:visited{
 
 .prestito_link{
     color: blue !important;
+}
+
+.homepage_intestazioni{
+    background-color: #E8EFFB;
+    padding: 5px;
+    text-transform: uppercase;
 }
