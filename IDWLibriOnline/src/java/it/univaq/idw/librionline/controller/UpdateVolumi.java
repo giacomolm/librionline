@@ -59,6 +59,7 @@ public class UpdateVolumi extends HttpServlet {
                     
                     request.setAttribute("title", "Modifica Volume");
                     request.setAttribute("volume", volume);
+                    request.setAttribute("statinotstati", dl.notStati(volume.getId()));
                     res.activate("backoffice_updatevolumi.ftl.html", request, response);
                 }
                 
@@ -80,12 +81,14 @@ public class UpdateVolumi extends HttpServlet {
                         }
                         Volume object_volume = dl.getVolume(id_volume);
                         request.setAttribute("volume", object_volume);
+                        request.setAttribute("statinotstati", dl.notStati(id_volume));
                         request.setAttribute("title", "Modifica Volume");
                         res.activate("backoffice_updatevolumi.ftl.html", request, response);
                     }
                     else{
                         Volume object_volume = dl.getVolume(id_volume);
                         request.setAttribute("volume", object_volume);
+                        request.setAttribute("statinotstati", dl.notStati(id_volume));
                         request.setAttribute("title", "Modifica Volume");
                         request.setAttribute("messaggio", "Impossibile modificare il volume!");
                         res.activate("backoffice_updatevolumi.ftl.html", request, response);

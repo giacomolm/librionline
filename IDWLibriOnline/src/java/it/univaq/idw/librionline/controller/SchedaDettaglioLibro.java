@@ -6,10 +6,19 @@ package it.univaq.idw.librionline.controller;
 
 import it.univaq.idw.librionline.framework.util.SecurityLayer;
 import it.univaq.idw.librionline.framework.util.TemplateResult;
+import it.univaq.idw.librionline.model.Copiaelettronica;
 import it.univaq.idw.librionline.model.LibriOnLineDataLayer;
 import it.univaq.idw.librionline.model.Libro;
 import it.univaq.idw.librionline.model.impl.LibriOnLineDataLayerMysqlImpl;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.Collection;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.activation.DataSource;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -30,7 +39,7 @@ public class SchedaDettaglioLibro extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException, NamingException {
         
         TemplateResult template = new TemplateResult(getServletContext());
         HttpSession session = SecurityLayer.checkSession(request);
@@ -69,7 +78,17 @@ public class SchedaDettaglioLibro extends HttpServlet {
                 }
                 
                 if(session != null){
-                
+                    Collection<Copiaelettronica> ce = l.getCopiaelettronicaCollection();
+                    if(ce.isEmpty()){
+                        request.setAttribute("copieelettroniche",null);
+                    }
+                    else{
+                        request.setAttribute("copieelettroniche",ce);
+                    }
+
+                    InitialContext ctx = new InitialContext();
+                    String path = getServletContext().getInitParameter("copieelettroniche");
+                    request.setAttribute("path",path);
                     if(model.isAdmin((String)session.getAttribute("username"))){
                         request.setAttribute("bibliotecario",true);
                         request.setAttribute("tipologia_utente","Bibliotecario");
@@ -98,7 +117,11 @@ public class SchedaDettaglioLibro extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (NamingException ex) {
+            Logger.getLogger(SchedaDettaglioLibro.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /** 
@@ -111,7 +134,11 @@ public class SchedaDettaglioLibro extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (NamingException ex) {
+            Logger.getLogger(SchedaDettaglioLibro.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /** 

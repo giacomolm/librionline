@@ -63,8 +63,6 @@ public class InserisciLibro extends HttpServlet {
             String nome_file = request.getParameter("insertbook_file_name");
             String type_file = request.getParameter("insertbook_file_type");
             int size_file = Integer.parseInt(request.getParameter("insertbook_file_size"));
-            PrintWriter w = response.getWriter();
-            w.println(type_file);
             if(size_file > 0){
                 InputStream is = ((MultipartHttpServletRequest)request).getStream("insertbook_file");
                 if("application/force-download".equals(type_file)){
@@ -84,6 +82,21 @@ public class InserisciLibro extends HttpServlet {
                 }
                 else if("text/plain".equals(type_file)){
                     String type = "txt";
+                    File file = new File(getServletContext().getRealPath("")+"/copie_elettroniche/"+isbn+"."+type);
+                    OutputStream out=new FileOutputStream(file);
+                    byte buf[]=new byte[1024];
+                    int len;
+                    while((len=is.read(buf))>0)
+                        out.write(buf,0,len);
+                    out.close();
+                    is.close();
+                    Libro libro = dl.searchByIsbn(isbn);
+                    if(libro != null){
+                        dl.insertCopiaElettronica(dl.searchByIsbn(isbn), type);
+                    }
+                }
+                else if("application/msword".equals(type_file)){
+                    String type = "doc";
                     File file = new File(getServletContext().getRealPath("")+"/copie_elettroniche/"+isbn+"."+type);
                     OutputStream out=new FileOutputStream(file);
                     byte buf[]=new byte[1024];

@@ -7,17 +7,26 @@ package it.univaq.idw.librionline.controller;
 import it.univaq.idw.librionline.framework.util.SecurityLayer;
 import it.univaq.idw.librionline.framework.util.TemplateResult;
 import it.univaq.idw.librionline.model.Autore;
+import it.univaq.idw.librionline.model.Copiaelettronica;
 import it.univaq.idw.librionline.model.LibriOnLineDataLayer;
 import it.univaq.idw.librionline.model.Libro;
 import it.univaq.idw.librionline.model.Tag;
 import it.univaq.idw.librionline.model.impl.LibriOnLineDataLayerMysqlImpl;
+import java.io.File;
 import java.io.IOException;
 import java.util.Collection;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import org.apache.naming.java.javaURLContextFactory;
 
 /**
  *
@@ -52,7 +61,7 @@ public class UpdateLibro extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException, NamingException {
         TemplateResult res = new TemplateResult(getServletContext());
         HttpSession session = SecurityLayer.checkSession(request);
         LibriOnLineDataLayer dl = new LibriOnLineDataLayerMysqlImpl();
@@ -136,18 +145,53 @@ public class UpdateLibro extends HttpServlet {
                 else{
                     String isbn = request.getParameter("updatebook_isbn");
                     
-                    if(dl.eliminaLibro(isbn)){
-                        response.sendRedirect("VisualizzaLibri");
+                        Libro libro = dl.searchByIsbn(isbn);
+                        Collection<Copiaelettronica> ce = libro.getCopiaelettronicaCollection();
+
+                        if(ce != null){
+                            for(Copiaelettronica c : ce){
+                                InitialContext ctx = new InitialContext();
+                                
+                                String path = getServletContext().getInitParameter("copieelettroniche");
+                                String filename = (getServletContext().getRealPath(path+"/"+c.getUrl()));
+                                File f = new File(filename);
+                                if (!f.exists())
+                                throw new IllegalArgumentException(
+                                      "Delete: no such file or directory: " + filename);
+
+                                if (!f.canWrite())
+                                  throw new IllegalArgumentException("Delete: write protected: "
+                                      + filename);
+
+                                // If it is a directory, make sure it is empty
+                                if (f.isDirectory()) {
+                                  String[] files = f.list();
+                                  if (files.length > 0)
+                                    throw new IllegalArgumentException(
+                                        "Delete: directory not empty: " + filename);
+                                }
+
+                                // Attempt to delete it
+                                boolean success = f.delete();
+                                if(success){
+                                    dl.eliminaLibro(isbn);
+                                    response.sendRedirect("VisualizzaLibri");
+                                }
+
+                                if (!success)
+                                  throw new IllegalArgumentException("Delete: deletion failed");
+                              }
+                            }
+                        }
                     }
                 }
-            }
+            
                     
             else{
                 request.setAttribute("bibliotecario",false);
                 request.setAttribute("tipologia_utente","Utente");
             }
         }
-    }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /** 
@@ -160,7 +204,11 @@ public class UpdateLibro extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (NamingException ex) {
+            Logger.getLogger(UpdateLibro.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /** 
@@ -173,7 +221,11 @@ public class UpdateLibro extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (NamingException ex) {
+            Logger.getLogger(UpdateLibro.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /** 

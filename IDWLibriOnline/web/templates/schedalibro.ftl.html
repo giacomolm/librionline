@@ -31,10 +31,20 @@
 <p> <strong> Data Presunta Restituzione</strong> (<i>pi&ugrave; vicina</i>)<strong> :</strong> ${datapresuntarestituzione?date} </p>
 </#if>
 
-
 <#if (stato_log??)> 
     <#if bibliotecario>
     <strong> Verifica: </strong> <a href="PrestitiAttiviLibro?isbn=${libro.isbn}">Prestiti Presenti</a> - <a href="PrestitiPassiviLibro?isbn=${libro.isbn}">Prestiti Passati</a>
     </#if> 
+</#if>
+</#if>
+
+<#if (stato_log??)> 
+<#if (copieelettroniche??)>
+    <p> <strong> Copie elettroniche: </strong> </p>
+    <ul>
+    <#list copieelettroniche as copiaelettronica>
+    <li>Consulta la versione in formato elettronico: <a href="${path}/${copiaelettronica.url}"><img src="img/${copiaelettronica.mimetype}.jpg" alt="icona"/></a></li>
+    </#list>
+    </ul>
 </#if>
 </#if>

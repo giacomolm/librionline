@@ -13,7 +13,12 @@
             <input type="hidden" value="${volume.id}" name="updatevol_id" id="updatevol_id" />
             <label>Stato: </label>
             <select name="updatevol_stato">
-                <option value="${volume.stato.id}">${volume.stato.stato}</option>
+                <option value="${volume.stato.id}" selected="selected">${volume.stato.stato}</option>
+                <#if statinotstati??>
+                <#list statinotstati as statonotstato>
+                <option value="${statonotstato.id}">${statonotstato.stato}</option>
+                </#list>
+                </#if>
             </select>
             <br /><br />
             <label> Durata massima:</label> <input type="text" name="updatevol_duratamax" id="updatevol_duratamax" value="${volume.durataMax}" size="2" maxlength="2" />
