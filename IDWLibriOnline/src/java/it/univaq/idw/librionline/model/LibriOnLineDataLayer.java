@@ -538,4 +538,12 @@ public interface LibriOnLineDataLayer {
      * @return true se l'eliminazione va a buon fine
      */
     boolean eliminaCopiaElettronica(int id_copia);
+        
+    /**
+     * Il metodo permette di visualizzare tutti quanti gli stati di un volume,
+     * ad eccezione di quello del volume di riferimento.
+     * @param id_volume per il quale 
+     * @return Lista di stato escluso quello del volume riferito
+     */
+    List<Stato> notStati(int id_volume);
 }

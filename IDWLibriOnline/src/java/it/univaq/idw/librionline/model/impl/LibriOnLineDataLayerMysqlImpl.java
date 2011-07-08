@@ -17,7 +17,6 @@ import it.univaq.idw.librionline.model.User;
 import it.univaq.idw.librionline.model.Volume;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.ConcurrentModificationException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -28,7 +27,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.NoResultException;
 import javax.persistence.Persistence;
-import javax.persistence.RollbackException;
 
 /**
  *
@@ -261,7 +259,7 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
         }
         catch(NoResultException e){
             //se qualcosa è andata storta, avviso il chiamante
-            e.printStackTrace();
+            //e.printStackTrace();
             res = false;
         }
         
@@ -416,29 +414,53 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
            //effettuo una ricerca per titolo .Se ci sono dei libri che corrispondono
            //li aggiungo alla lista dei libri creata precedentemente
            if(!titolo.equals("")){
-               res.addAll(searchByTitle(titolo));
+               String[] lista = titolo.split(" ");
+               res.addAll(searchByTitle(lista[0]));
+                   for(int i=1; i<lista.length; i++){
+                        List<Libro> temp = searchByTitle(lista[i]);
+                        res = bookContained(res, temp);
+                   }
                if(!autori.equals("")){
-                    List<Libro> temp = searchByAutori(autori);
-                    res = bookContained(res, temp);
+                   lista = autori.split(" ");
+                   for(int i=0; i<lista.length; i++){
+                        List<Libro> temp = searchByAutori(lista[i]);
+                        res = bookContained(res, temp);
+                   }
                }
                if(!res.isEmpty())
                   if(!tag.equals("")){
-                    List<Libro> temp =searchByTags(tag);
-                    res = bookContained(res, temp);
+                    lista = tag.split(" ");
+                    for(int i=0; i<lista.length; i++){
+                        List<Libro> temp =searchByTags(tag);
+                        res = bookContained(res, temp);
                     }
+                  }
            }
            //Cerco la lista di libri scritta da tutti gli autori indicati
            else if(!autori.equals("")){
-                res.addAll(searchByAutori(autori)); 
+                String[] lista = autori.split(" ");
+                res.addAll(searchByAutori(lista[0]));
+                for(int i=1; i<lista.length; i++){
+                    List<Libro> temp = searchByAutori(lista[i]);
+                    res = bookContained(res, temp);
+                } 
                 if(!res.isEmpty())
                    if(!tag.equals("")){
-                    List<Libro> temp =searchByTags(tag);
-                    res = bookContained(res, temp);
+                    lista = tag.split(" ");
+                    for(int i=0; i<lista.length; i++){
+                        List<Libro> temp =searchByTags(tag);
+                        res = bookContained(res, temp);
                     }
+                   }
            }
            else if(!tag.equals("")){
-                        res.addAll(searchByTags(tag));
-                    }
+                String[] lista = tag.split(" ");
+                res.addAll(searchByTags(lista[0]));
+                for(int i=1; i<lista.length; i++){
+                    List<Libro> temp =searchByTags(tag);
+                    res = bookContained(res, temp);
+                }
+           }
            return res;
     }
     
@@ -663,6 +685,7 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
      * @param String titolo rappresentante il titolo completo o parte di esso
      * @return List di libri rappresentante il risultato della ricerca
      */
+    @Override
     public List<Libro> searchByTitle(String titolo){  
      if (!titolo.equals("")){
             manager.getTransaction().begin();
@@ -1938,6 +1961,7 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
      * @param mime tipo del file che stiamo modificando
      * @return true se l'inserimento va a buon fine
      */
+    @Override
     public boolean modificaCopiaElettronica(int id_copia, String mime){
         Copiaelettronica ce = getCopiaElettronica(id_copia);
         if(ce!=null){
@@ -1956,6 +1980,7 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
      * @param id_copia 
      * @return true se l'eliminazione va a buon fine
      */
+    @Override
     public boolean eliminaCopiaElettronica(int id_copia){
         Copiaelettronica ce = getCopiaElettronica(id_copia);
         if(ce!=null){
@@ -2011,6 +2036,7 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
      * @param isbn_libro
      * @return la lista dei tag che non appartengono al libro
      */
+    @Override
     public List<Tag> notAtag(String isbn_libro){
         //Prelevo il Libro
         Libro l = searchByIsbn(isbn_libro);
@@ -2019,6 +2045,23 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
             List<Tag> tc = getAllTag();
             tc.removeAll(l.getTagCollection());
             return tc;
+        }
+        else return null;
+    }
+    
+    /**
+     * Il metodo permette di visualizzare tutti quanti gli stati di un volume,
+     * ad eccezione di quello del volume di riferimento.
+     * @param id_volume per il quale 
+     * @return Lista di stato escluso quello del volume riferito
+     */
+    @Override
+    public List<Stato> notStati(int id_volume){
+        Volume v = getVolume(id_volume);
+        if(v!=null){
+            List<Stato> sl = getAllStato();
+            sl.remove(v.getStato());
+            return sl;
         }
         else return null;
     }
