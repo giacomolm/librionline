@@ -15,6 +15,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -29,7 +30,7 @@ public class InserisciCopiaElettronica2 extends HttpServlet {
 
     private boolean analizza_form_copiaelettronica(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String insfile = request.getParameter("insertcopiaelettronica_file");
-        String isbn = request.getParameter("isbn");
+        String isbn = request.getParameter("insertcopiaelettronica_isbn");
         
         if((insfile == null || insfile.isEmpty())){
             return false;
@@ -38,6 +39,7 @@ public class InserisciCopiaElettronica2 extends HttpServlet {
             String nome_file = request.getParameter("insertcopiaelettronica_file_name");
             String type_file = request.getParameter("insertcopiaelettronica_file_type");
             int size_file = Integer.parseInt(request.getParameter("insertcopiaelettronica_file_size"));
+            PrintWriter w = response.getWriter();
             LibriOnLineDataLayer dl = new LibriOnLineDataLayerMysqlImpl();
             if(size_file > 0){
                 InputStream is = ((MultipartHttpServletRequest)request).getStream("insertcopiaelettronica_file");
@@ -153,6 +155,7 @@ public class InserisciCopiaElettronica2 extends HttpServlet {
                 
                 if(insert_copia == null){
                     request.setAttribute("title","Inserisci Copia Elettronica");
+                    request.setAttribute("isbn",request.getParameter("isbn"));
                     res.activate("backoffice_inseriscicopiaelettronica.ftl.html", request, response);
                 }
                 else{
@@ -160,11 +163,13 @@ public class InserisciCopiaElettronica2 extends HttpServlet {
                     if(result){
                         request.setAttribute("title","Inserisci Copia Elettronica");
                         request.setAttribute("messaggio","La Copia Elettronica è stata inserita correttamente!");
+                        request.setAttribute("isbn","insertcopiaelettronica_isbn");
                         res.activate("backoffice_inseriscicopiaelettronica.ftl.html", request, response);
                     }
                     else{
                         request.setAttribute("title","Inserisci Copia Elettronica");
                         request.setAttribute("messaggio","Inserimento Copia Elettronica fallito: Si prega di compilare bene i campi sottostanti!");
+                        request.setAttribute("isbn","insertcopiaelettronica_isbn");
                         res.activate("backoffice_inseriscicopiaelettronica.ftl.html", request, response);
                     }
                     
