@@ -61,6 +61,7 @@ public class InserisciCopiaElettronica2 extends HttpServlet {
                            return false; 
                         } 
                     }
+                    else return false;
                 }
                 else if("text/plain".equals(type_file)){
                     String type = "txt";
@@ -81,6 +82,7 @@ public class InserisciCopiaElettronica2 extends HttpServlet {
                            return false; 
                         } 
                     }
+                    else return false;
                 }
                 else if("application/msword".equals(type_file)){
                     String type = "doc";
@@ -101,6 +103,7 @@ public class InserisciCopiaElettronica2 extends HttpServlet {
                            return false; 
                         } 
                     }
+                    else return false;
                 }
                 else{
                     return false;
