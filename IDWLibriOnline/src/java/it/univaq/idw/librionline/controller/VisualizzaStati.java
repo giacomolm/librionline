@@ -58,8 +58,12 @@ public class VisualizzaStati extends HttpServlet {
             else{
                 request.setAttribute("bibliotecario",false);
                 request.setAttribute("tipologia_utente","Utente");
+                response.sendRedirect("Home");
             }
-        }     
+        }
+        else{
+            response.sendRedirect("Home");
+        }
     }
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /** 

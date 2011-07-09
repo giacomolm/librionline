@@ -58,10 +58,14 @@ public class ChiudiPrestito extends HttpServlet {
                     res.activate("error.ftl.html", request, response);
                 }
             }
+            else{
+                request.setAttribute("bibliotecario",false);
+                request.setAttribute("tipologia_utente","Utente");
+                response.sendRedirect("Home");
+            }
         }
         else{
-            request.setAttribute("bibliotecario",false);
-            request.setAttribute("tipologia_utente","Utente");
+            response.sendRedirect("Home");
         }
     }
 

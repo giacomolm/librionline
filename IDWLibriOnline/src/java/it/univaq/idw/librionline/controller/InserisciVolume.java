@@ -83,9 +83,14 @@ public class InserisciVolume extends HttpServlet {
             else{
                 request.setAttribute("bibliotecario",false);
                 request.setAttribute("tipologia_utente","Utente");
+                response.sendRedirect("Home");
             }
         }
-    } // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+        else{
+            response.sendRedirect("Home");
+        }
+    }
+ // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /** 
      * Handles the HTTP <code>GET</code> method.
      * @param request servlet request

@@ -43,6 +43,7 @@ public class Storico extends HttpServlet {
             if(dl.isAdmin((String)session.getAttribute("username"))){
                 request.setAttribute("bibliotecario",true);
                 request.setAttribute("tipologia_utente","Bibliotecario");
+                response.sendRedirect("Home");
             }
             else{
                 request.setAttribute("bibliotecario",false);
@@ -60,6 +61,9 @@ public class Storico extends HttpServlet {
                 request.setAttribute("navigazione","<a href='Home'>Homepage</a>");
                 res.activate("storico.ftl.html", request, response);
             }
+        }
+        else{
+            response.sendRedirect("Home");
         }
     }
 
