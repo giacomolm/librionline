@@ -546,4 +546,13 @@ public interface LibriOnLineDataLayer {
      * @return Lista di stato escluso quello del volume riferito
      */
     List<Stato> notStati(int id_volume);
+    
+    /**
+     * Il metodo si occupa di individuare i libri che devono essere riconsegnati
+     * a breve (entro max 7 giorni), e include anche i libri la cui data di 
+     * riconsegna è scaduta. 
+     * @param username dell'utente di cui si vogliono conoscere i prestiti da riconsegnare a breve
+     * @return List<Prestito> di libri da riconsegnare a breve
+     */
+    List<Prestito> getPrestitiABreve(String username);
 }

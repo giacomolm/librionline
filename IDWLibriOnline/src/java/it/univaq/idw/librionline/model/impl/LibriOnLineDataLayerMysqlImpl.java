@@ -2065,4 +2065,26 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
         }
         else return null;
     }
+    
+    /**
+     * Il metodo si occupa di individuare i libri che devono essere riconsegnati
+     * a breve (entro max 7 giorni), e include anche i libri la cui data di 
+     * riconsegna è scaduta. 
+     * @param username dell'utente di cui si vogliono conoscere i prestiti da riconsegnare a breve
+     * @return List<Prestito> di libri da riconsegnare a breve
+     */
+    public List<Prestito> getPrestitiABreve(String username){
+        List<Prestito> res = new ArrayList<Prestito>();
+        List<Prestito> pa = getPrestitiAttivi(username);
+        if(pa.size()>0){
+            for(Iterator i = pa.iterator(); i.hasNext();){
+                Prestito p = (Prestito) i.next();
+                long restituzione= p.getDataPresuntaRestituzione().getTime();
+                long today = new Date().getTime();
+                //tolgo una settimana alla data di restituzione
+                if((restituzione-(1000*60*60*24*7))<today) res.add(p);
+            }
+        }
+        return res;
+    }
 }
