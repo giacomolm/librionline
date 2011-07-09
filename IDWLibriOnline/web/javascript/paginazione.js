@@ -67,3 +67,10 @@ $(document).ready(function(){
         num_page_links_to_display : 10	
     });
 });
+
+$(document).ready(function(){
+    $('#page_container_listaprestitiuser').pajinate({
+        items_per_page : 15,
+        num_page_links_to_display : 10	
+    });
+});

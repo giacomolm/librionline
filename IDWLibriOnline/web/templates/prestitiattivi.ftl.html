@@ -1,7 +1,10 @@
-<h2 class="page_title"> Prestiti Attivi </h2>
+<h2 class="page_title"> Prestiti In Corso </h2>
+<p>Lista dei volumi presi in prestito e non ancora restituiti</p>
 <#if stato_log??>
 <#if !bibliotecario>
 <#if (prestitiattiviuser??)>
+<div id="page_container_listaprestitiuser" class="container">
+<div class="page_navigation"></div>
 <ul class="content">
 <#list prestitiattiviuser as prestitoattivouser>
     <#if prestitoattivouser.expired>
@@ -11,6 +14,7 @@
     </#if>
 </#list>
 </ul>
+</div>
 <#else>
     <p><em>Nota: Nessun libro da riconsegnare nella biblioteca </em></p>
 </#if>
