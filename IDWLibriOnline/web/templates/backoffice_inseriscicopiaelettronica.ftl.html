@@ -1,4 +1,4 @@
-<h2 class="page_title"> Inserisci una copia elettronica di un libro nella biblioteca </h2>
+<h2 class="page_title"> Inserisci copia elettronica</h2>
 <#if (stato_log??)>
     <#if bibliotecario>
     <#if (messaggio??)>
@@ -7,3 +7,16 @@
         </div>
         <div><br /></div>
     </#if>
+    <form action="InserisciCopiaElettronica2" method="get" id="insertcopiaelettronica">
+        <fieldset><legend>Dati Volume</legend>
+            <br />
+            <input type="file" id="insertcopiaelettronica_file" name="insertcopiaelettronica_file" />
+        </fieldset>
+        <div>
+            <br />
+            <input type="submit" value="Inserisci Copia Elettronica" name="Inserisci Copia Elettronica" />
+            <input type="reset" value="Reset" name="Cancella" />
+        </div>
+    </form>
+    </#if>
+</#if>

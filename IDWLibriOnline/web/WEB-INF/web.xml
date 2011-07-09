@@ -197,6 +197,14 @@
         <servlet-name>PrestitiInCorso</servlet-name>
         <servlet-class>it.univaq.idw.librionline.controller.PrestitiInCorso</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>InserisciCopiaElettronica</servlet-name>
+        <servlet-class>it.univaq.idw.librionline.controller.InserisciCopiaElettronica</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>InserisciCopiaElettronica2</servlet-name>
+        <servlet-class>it.univaq.idw.librionline.controller.InserisciCopiaElettronica2</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Home</servlet-name>
         <url-pattern>/Home</url-pattern>
@@ -360,6 +368,14 @@
     <servlet-mapping>
         <servlet-name>PrestitiInCorso</servlet-name>
         <url-pattern>/PrestitiInCorso</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>InserisciCopiaElettronica</servlet-name>
+        <url-pattern>/InserisciCopiaElettronica</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>InserisciCopiaElettronica2</servlet-name>
+        <url-pattern>/InserisciCopiaElettronica2</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>30</session-timeout>

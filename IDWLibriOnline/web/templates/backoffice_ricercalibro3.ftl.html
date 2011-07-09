@@ -1,0 +1,15 @@
+<h2 class="page_title"> Ricerca Libro </h2>
+<#if (stato_log??)>
+    <#if bibliotecario>
+<form action="InserisciCopiaElettronica" method="post" enctype="multipart/form-data" id="form_ricerca_libro2">
+    <div>
+    <fieldset><legend>Dati Libro</legend>
+        <br />
+        <label>Titolo: </label> <input type="text" name="ricerca_libro_titolo3" id="ricerca_libro_titolo3" maxlength="50" /> <br /> <br />
+    </fieldset> <br />
+    <input type="submit" value="Ricerca Libro Titolo" name="Ricerca Libro Titolo" /> 
+    <input type="reset" value="Reset" name="Cancella" />
+    </div>
+</form>
+    </#if>
+</#if>
