@@ -555,4 +555,13 @@ public interface LibriOnLineDataLayer {
      * @return List<Prestito> di libri da riconsegnare a breve
      */
     List<Prestito> getPrestitiABreve(String username);
+    
+    /**
+     * Il metodo permette di verificare se una copia elettronica di un determinato
+     * formato è già presente nell'insieme di copie elettroniche.
+     * @param isbn del libro per il quale vogliamo esaminare le copie elettronico
+     * @param type della copia elettronica che vogliamo verificare
+     * @return true se la copia è già presente in quel formato
+     */
+    boolean existCopiaElettronica(String isbn, String type);
 }

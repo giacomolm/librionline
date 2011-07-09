@@ -2088,4 +2088,26 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
         }
         return res;
     }
+    
+    /**
+     * Il metodo permette di verificare se una copia elettronica di un determinato
+     * formato è già presente nell'insieme di copie elettroniche.
+     * @param isbn del libro per il quale vogliamo esaminare le copie elettronico
+     * @param type della copia elettronica che vogliamo verificare
+     * @return true se la copia è già presente in quel formato
+     */
+    @Override
+    public boolean existCopiaElettronica(String isbn, String type){
+        Libro l = searchByIsbn(isbn);
+        if(l!=null){
+            List<Copiaelettronica> lce = (List) l.getCopiaelettronicaCollection();
+            for(Iterator it = lce.iterator(); it.hasNext(); ){
+                Copiaelettronica e = (Copiaelettronica) it.next();
+                //Se è già presente, ritorno false
+                if(e.getMimetype().equalsIgnoreCase(type)) return false;
+            }
+            return true;
+        }
+        else return false;
+    }
 }
