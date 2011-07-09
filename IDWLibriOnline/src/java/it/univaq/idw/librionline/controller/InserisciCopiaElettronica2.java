@@ -39,7 +39,7 @@ public class InserisciCopiaElettronica2 extends HttpServlet {
             String nome_file = request.getParameter("insertcopiaelettronica_file_name");
             String type_file = request.getParameter("insertcopiaelettronica_file_type");
             int size_file = Integer.parseInt(request.getParameter("insertcopiaelettronica_file_size"));
-            PrintWriter w = response.getWriter();
+
             LibriOnLineDataLayer dl = new LibriOnLineDataLayerMysqlImpl();
             if(size_file > 0){
                 InputStream is = ((MultipartHttpServletRequest)request).getStream("insertcopiaelettronica_file");
@@ -163,13 +163,13 @@ public class InserisciCopiaElettronica2 extends HttpServlet {
                     if(result){
                         request.setAttribute("title","Inserisci Copia Elettronica");
                         request.setAttribute("messaggio","La Copia Elettronica è stata inserita correttamente!");
-                        request.setAttribute("isbn","insertcopiaelettronica_isbn");
+                        request.setAttribute("isbn",request.getParameter("insertcopiaelettronica_isbn"));
                         res.activate("backoffice_inseriscicopiaelettronica.ftl.html", request, response);
                     }
                     else{
                         request.setAttribute("title","Inserisci Copia Elettronica");
                         request.setAttribute("messaggio","Inserimento Copia Elettronica fallito: Si prega di compilare bene i campi sottostanti!");
-                        request.setAttribute("isbn","insertcopiaelettronica_isbn");
+                        request.setAttribute("isbn",request.getParameter("insertcopiaelettronica_isbn"));
                         res.activate("backoffice_inseriscicopiaelettronica.ftl.html", request, response);
                     }
                     
