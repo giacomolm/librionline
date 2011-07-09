@@ -1,0 +1,14 @@
+<h2 class="page_title"> Prestiti Attivi </h2>
+<#if (prestitiattiviuser??)>
+<ul class="content">
+<#list prestitiattiviuser as prestitoattivouser>
+    <#if libro_da_riconsegnare.expired>
+    <li style="color:red"> <strong>PRESTITO SCADUTO</strong> - <em>Libro da restituire:</em> <a href="SchedaDettaglioLibro?isbn=${prestitoattivouser.volume.libro.isbn}">${prestitoattivouser.volume.libro.titolo}</a> - <em>Data prestito:</em> ${prestitoattivouser.dataPrestito?date} - <em>Dovevi restituirlo entro il:</em> ${prestitoattivouser.dataPresuntaRestituzione?date}</li>
+    <#else>
+    <li><em>Libro da restituire:</em> <a href="SchedaDettaglioLibro?isbn=${prestitoattivouser.volume.libro.isbn}">${prestitoattivouser.volume.libro.titolo}</a> - <em>Data prestito:</em> ${prestitoattivouser.dataPrestito?date} - <em>Restituire entro il:</em> ${prestitoattivouser.dataPresuntaRestituzione?date}</li>
+    </#if>
+</#list>
+</ul>
+<#else>
+    <p><em>Nota: Nessun libro da riconsegnare nella biblioteca </em></p>
+</#if>

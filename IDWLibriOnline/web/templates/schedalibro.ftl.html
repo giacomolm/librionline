@@ -18,7 +18,7 @@
     <#if tag_has_next>, </#if>
     </#list>
 </p>
-
+<#if (stato_log??)> 
 <#if (copietotali??)>
     <p> <strong> Copie Totali: </strong> ${copietotali!"Non presente"} </p>
 </#if>
@@ -26,7 +26,7 @@
 <#if (copiedisponibili??)>
 <p> <strong> Copie Disponibili: </strong> ${copiedisponibili!"Non presente"} <#if (copiedisponibili>0)><#if (stato_log??)><#if bibliotecario>- <a class="prestito_link" href="Prestito?isbn=${libro.isbn}">Procedi con il Prestito</a></#if></#if></#if> </p> 
 </#if>
-
+</#if>
 <#if (datapresuntarestituzione??)>
 <p> <strong> Data Presunta Restituzione</strong> (<i>pi&ugrave; vicina</i>)<strong> :</strong> ${datapresuntarestituzione?date} </p>
 </#if>

@@ -44,6 +44,7 @@ public class SchedaDettaglioLibro extends HttpServlet {
 	String isbn = request.getParameter("isbn");
 	if (isbn == null){
 	    request.setAttribute("title", "Errore");
+            request.setAttribute("error_title", "Errore");
             request.setAttribute("error", "Attenzione: Codice ISBN non immesso!");
             template.activate("error.ftl.html", request, response);
 	}
@@ -53,6 +54,7 @@ public class SchedaDettaglioLibro extends HttpServlet {
 
 	    if (l == null){
                 request.setAttribute("title", "Errore");
+                request.setAttribute("error_title", "Errore");
 		request.setAttribute("error", "Attenzione: Codice ISBN non presente nel DB!");
                 template.activate("error.ftl.html", request, response);
 	    }
