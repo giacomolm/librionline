@@ -26,11 +26,10 @@ import javax.servlet.http.HttpSession;
  * @author Zilfio
  */
 public class InserisciCopiaElettronica2 extends HttpServlet {
-    private String isbn;
 
     private boolean analizza_form_copiaelettronica(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String insfile = request.getParameter("insertcopiaelettronica_file");
-        String ISBN = request.getParameter("isbn");
+        String isbn = request.getParameter("isbn");
         
         if((insfile == null || insfile.isEmpty())){
             return false;
@@ -44,66 +43,81 @@ public class InserisciCopiaElettronica2 extends HttpServlet {
                 InputStream is = ((MultipartHttpServletRequest)request).getStream("insertcopiaelettronica_file");
                 if("application/force-download".equals(type_file)){
                     String type = "pdf";
-                    File file = new File(getServletContext().getRealPath("")+"/copie_elettroniche/"+ISBN+"."+type);
-                    OutputStream out=new FileOutputStream(file);
-                    byte buf[]=new byte[1024];
-                    int len;
-                    while((len=is.read(buf))>0)
-                        out.write(buf,0,len);
-                    out.close();
-                    is.close();
-                    Libro libro = dl.searchByIsbn(ISBN);
-                    if(libro != null){
-                        if(dl.insertCopiaElettronica(dl.searchByIsbn(ISBN), type)){
-                            return true;
-                        }
-                        else{
-                           return false; 
-                        } 
+                    if(dl.existCopiaElettronica(isbn, type)){
+                        return false;
                     }
-                    else return false;
+                    else{
+                        File file = new File(getServletContext().getRealPath("")+"/copie_elettroniche/"+isbn+"."+type);
+                        OutputStream out=new FileOutputStream(file);
+                        byte buf[]=new byte[1024];
+                        int len;
+                        while((len=is.read(buf))>0)
+                            out.write(buf,0,len);
+                        out.close();
+                        is.close();
+                        Libro libro = dl.searchByIsbn(isbn);
+                        if(libro != null){
+                            if(dl.insertCopiaElettronica(libro, type)){
+                                return true;
+                            }
+                            else{
+                                return false; 
+                            } 
+                        }
+                        else return false;
+                    }
                 }
                 else if("text/plain".equals(type_file)){
                     String type = "txt";
-                    File file = new File(getServletContext().getRealPath("")+"/copie_elettroniche/"+ISBN+"."+type);
-                    OutputStream out=new FileOutputStream(file);
-                    byte buf[]=new byte[1024];
-                    int len;
-                    while((len=is.read(buf))>0)
-                        out.write(buf,0,len);
-                    out.close();
-                    is.close();
-                    Libro libro = dl.searchByIsbn(ISBN);
-                    if(libro != null){
-                        if(dl.insertCopiaElettronica(dl.searchByIsbn(ISBN), type)){
-                            return true;
-                        }
-                        else{
-                           return false; 
-                        } 
+                    if(dl.existCopiaElettronica(isbn, type)){
+                        return false;
                     }
-                    else return false;
+                    else{
+                        File file = new File(getServletContext().getRealPath("")+"/copie_elettroniche/"+isbn+"."+type);
+                        OutputStream out=new FileOutputStream(file);
+                        byte buf[]=new byte[1024];
+                        int len;
+                        while((len=is.read(buf))>0)
+                            out.write(buf,0,len);
+                        out.close();
+                        is.close();
+                        Libro libro = dl.searchByIsbn(isbn);
+                        if(libro != null){
+                            if(dl.insertCopiaElettronica(libro, type)){
+                                return true;
+                            }
+                            else{
+                                return false; 
+                            } 
+                        }
+                        else return false;
+                    }
                 }
                 else if("application/msword".equals(type_file)){
                     String type = "doc";
-                    File file = new File(getServletContext().getRealPath("")+"/copie_elettroniche/"+ISBN+"."+type);
-                    OutputStream out=new FileOutputStream(file);
-                    byte buf[]=new byte[1024];
-                    int len;
-                    while((len=is.read(buf))>0)
-                        out.write(buf,0,len);
-                    out.close();
-                    is.close();
-                    Libro libro = dl.searchByIsbn(ISBN);
-                    if(libro != null){
-                        if(dl.insertCopiaElettronica(dl.searchByIsbn(ISBN), type)){
-                            return true;
-                        }
-                        else{
-                           return false; 
-                        } 
+                    if(dl.existCopiaElettronica(isbn, type)){
+                        return false;
                     }
-                    else return false;
+                    else{
+                        File file = new File(getServletContext().getRealPath("")+"/copie_elettroniche/"+isbn+"."+type);
+                        OutputStream out=new FileOutputStream(file);
+                        byte buf[]=new byte[1024];
+                        int len;
+                        while((len=is.read(buf))>0)
+                            out.write(buf,0,len);
+                        out.close();
+                        is.close();
+                        Libro libro = dl.searchByIsbn(isbn);
+                        if(libro != null){
+                            if(dl.insertCopiaElettronica(libro, type)){
+                                return true;
+                            }
+                            else{
+                                return false; 
+                            } 
+                        }
+                        else return false;
+                    }
                 }
                 else{
                     return false;
@@ -149,7 +163,7 @@ public class InserisciCopiaElettronica2 extends HttpServlet {
                         res.activate("backoffice_inseriscicopiaelettronica.ftl.html", request, response);
                     }
                     else{
-                        request.setAttribute("title","Inserisci Lingua");
+                        request.setAttribute("title","Inserisci Copia Elettronica");
                         request.setAttribute("messaggio","Inserimento Copia Elettronica fallito: Si prega di compilare bene i campi sottostanti!");
                         res.activate("backoffice_inseriscicopiaelettronica.ftl.html", request, response);
                     }

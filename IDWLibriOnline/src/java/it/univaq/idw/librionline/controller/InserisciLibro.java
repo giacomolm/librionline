@@ -76,7 +76,7 @@ public class InserisciLibro extends HttpServlet {
                     is.close();
                     Libro libro = dl.searchByIsbn(isbn);
                     if(libro != null){
-                        dl.insertCopiaElettronica(dl.searchByIsbn(isbn), type);
+                        dl.insertCopiaElettronica(libro, type);
                     }
                 }
                 else if("text/plain".equals(type_file)){
@@ -91,7 +91,7 @@ public class InserisciLibro extends HttpServlet {
                     is.close();
                     Libro libro = dl.searchByIsbn(isbn);
                     if(libro != null){
-                        dl.insertCopiaElettronica(dl.searchByIsbn(isbn), type);
+                        dl.insertCopiaElettronica(libro, type);
                     }
                 }
                 else if("application/msword".equals(type_file)){
@@ -106,7 +106,7 @@ public class InserisciLibro extends HttpServlet {
                     is.close();
                     Libro libro = dl.searchByIsbn(isbn);
                     if(libro != null){
-                        dl.insertCopiaElettronica(dl.searchByIsbn(isbn), type);
+                        dl.insertCopiaElettronica(libro, type);
                     }
                 }
             }
