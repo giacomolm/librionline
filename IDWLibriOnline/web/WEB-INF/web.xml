@@ -193,6 +193,10 @@
         <servlet-name>UpdateVolumi</servlet-name>
         <servlet-class>it.univaq.idw.librionline.controller.UpdateVolumi</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>PrestitiInCorso</servlet-name>
+        <servlet-class>it.univaq.idw.librionline.controller.PrestitiInCorso</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Home</servlet-name>
         <url-pattern>/Home</url-pattern>
@@ -352,6 +356,10 @@
     <servlet-mapping>
         <servlet-name>UpdateVolumi</servlet-name>
         <url-pattern>/UpdateVolumi</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>PrestitiInCorso</servlet-name>
+        <url-pattern>/PrestitiInCorso</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>30</session-timeout>

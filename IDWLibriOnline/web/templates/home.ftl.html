@@ -20,7 +20,7 @@
     <#if !bibliotecario>
     <div class="homepage_book"> 
         <div class="homepage_intestazioni">
-             <strong>Libri da riconsegnare:</strong>
+             <strong>Libri da riconsegnare a breve:</strong>
         </div>
         <#if (libri_da_riconsegnare??)>
             <ul class="content">
@@ -33,7 +33,7 @@
             </#list>
             </ul>
         <#else>
-            <p><em>Nota: Nessun libro da riconsegnare nella biblioteca </em></p>
+            <p><em>Nota: Nessun libro da riconsegnare <u>a breve</u> nella biblioteca </em></p>
         </#if>
     </div>
     <br />
