@@ -2104,10 +2104,10 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
             for(Iterator it = lce.iterator(); it.hasNext(); ){
                 Copiaelettronica e = (Copiaelettronica) it.next();
                 //Se è già presente, ritorno false
-                if(e.getMimetype().equalsIgnoreCase(type)) return false;
+                if(e.getMimetype().equalsIgnoreCase(type)) return true;
             }
-            return true;
+            return false;
         }
-        else return false;
+        else return true;
     }
 }

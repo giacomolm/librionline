@@ -72,6 +72,7 @@ public class InserisciCopiaElettronica2 extends HttpServlet {
                 else if("text/plain".equals(type_file)){
                     String type = "txt";
                     if(dl.existCopiaElettronica(isbn, type)){
+                        response.getWriter().println("libro");
                         return false;
                     }
                     else{
