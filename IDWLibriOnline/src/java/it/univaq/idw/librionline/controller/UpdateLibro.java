@@ -145,7 +145,7 @@ public class UpdateLibro extends HttpServlet {
                         Libro libro = dl.searchByIsbn(isbn);
                         Collection<Copiaelettronica> ce = libro.getCopiaelettronicaCollection();
 
-                        if(ce != null){
+                        if(!ce.isEmpty()){
                             for(Copiaelettronica c : ce){
                                 InitialContext ctx = new InitialContext();
                                 
@@ -179,14 +179,18 @@ public class UpdateLibro extends HttpServlet {
                                   throw new IllegalArgumentException("Delete: deletion failed");
                               }
                             }
+                        else{
+                            dl.eliminaLibro(isbn);
+                            response.sendRedirect("VisualizzaLibri");
                         }
-                    }
-                    else{
-                        request.setAttribute("bibliotecario",false);
-                        request.setAttribute("tipologia_utente","Utente");
-                        response.sendRedirect("Home");
-                    }
                 }
+                }
+                else{
+                    request.setAttribute("bibliotecario",false);
+                    request.setAttribute("tipologia_utente","Utente");
+                    response.sendRedirect("Home");
+                }
+            }
             else{
                 response.sendRedirect("Home");
             }
