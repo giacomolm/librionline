@@ -2002,7 +2002,7 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
         Copiaelettronica e = null;
         manager.getTransaction().begin();
         try{
-            e = (Copiaelettronica) manager.createNamedQuery("CopiaElettronicaMysqlImpl.findById").setParameter("id", id_copia).getSingleResult();
+            e = (Copiaelettronica) manager.createNamedQuery("CopiaelettronicaMysqlImpl.findById").setParameter("id", id_copia).getSingleResult();
         }
         catch(NoResultException ex){
             //Non c'è nessuna copia elettronica con quell'id
