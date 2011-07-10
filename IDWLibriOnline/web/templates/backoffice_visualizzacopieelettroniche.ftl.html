@@ -1,0 +1,14 @@
+<h2 class="page_title"> Risultati ricerca copie elettroniche </h2>
+<#if (stato_log??)>
+<#if bibliotecario>
+<#if (copielettroniche??)>
+<ul>
+<#list copielettroniche as copiaelettronica>
+<li>${copiaelettronica.url} - ${copiaelettronica.mimetype} - <a href="UpdateCopiaElettronica?id=${copiaelettronica.id}&AMP;isbn=${copiaelettronica.libro.isbn}">Elimina</a></li>
+</#list>
+</ul>
+<#else>
+    <p><em>Nota: Nessuna copia elettronica presente</em></p>
+</#if>
+</#if>
+</#if>

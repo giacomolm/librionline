@@ -205,6 +205,18 @@
         <servlet-name>InserisciCopiaElettronica2</servlet-name>
         <servlet-class>it.univaq.idw.librionline.controller.InserisciCopiaElettronica2</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>VisualizzaCopieElettroniche</servlet-name>
+        <servlet-class>it.univaq.idw.librionline.controller.VisualizzaCopieElettroniche</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>VisualizzaCopieElettroniche2</servlet-name>
+        <servlet-class>it.univaq.idw.librionline.controller.VisualizzaCopieElettroniche2</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UpdateCopiaElettronica</servlet-name>
+        <servlet-class>it.univaq.idw.librionline.controller.UpdateCopiaElettronica</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Home</servlet-name>
         <url-pattern>/Home</url-pattern>
@@ -376,6 +388,18 @@
     <servlet-mapping>
         <servlet-name>InserisciCopiaElettronica2</servlet-name>
         <url-pattern>/InserisciCopiaElettronica2</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>VisualizzaCopieElettroniche</servlet-name>
+        <url-pattern>/VisualizzaCopieElettroniche</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>VisualizzaCopieElettroniche2</servlet-name>
+        <url-pattern>/VisualizzaCopieElettroniche2</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UpdateCopiaElettronica</servlet-name>
+        <url-pattern>/UpdateCopiaElettronica</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>30</session-timeout>

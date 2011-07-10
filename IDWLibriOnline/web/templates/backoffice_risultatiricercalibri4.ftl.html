@@ -1,0 +1,15 @@
+<h2 class="page_title"> Risultati ricerca libri </h2>
+
+<#if (stato_log??)>
+<#if bibliotecario>
+    <#if (libri??)>
+    <ul>
+        <#list libri as libro>
+            <li><a href="VisualizzaCopieElettroniche2?isbn=${libro.isbn}">${libro.titolo}</a></li>
+        </#list>
+     </ul>
+<#else>
+    <p>Nota: Nessun libro trovato</p>
+    </#if>
+</#if>
+</#if>
