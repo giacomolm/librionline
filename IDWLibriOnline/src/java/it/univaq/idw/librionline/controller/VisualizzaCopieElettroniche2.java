@@ -9,12 +9,13 @@ import it.univaq.idw.librionline.framework.util.TemplateResult;
 import it.univaq.idw.librionline.model.Copiaelettronica;
 import it.univaq.idw.librionline.model.LibriOnLineDataLayer;
 import it.univaq.idw.librionline.model.Libro;
-import it.univaq.idw.librionline.model.Volume;
 import it.univaq.idw.librionline.model.impl.LibriOnLineDataLayerMysqlImpl;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.Collection;
-import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -35,7 +36,7 @@ public class VisualizzaCopieElettroniche2 extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException, NamingException {
         TemplateResult res = new TemplateResult(getServletContext());
         HttpSession session = SecurityLayer.checkSession(request);
         
@@ -47,7 +48,7 @@ public class VisualizzaCopieElettroniche2 extends HttpServlet {
             if(dl.isAdmin((String)session.getAttribute("username"))){
                 request.setAttribute("bibliotecario",true);
                 request.setAttribute("tipologia_utente","Bibliotecario");
-
+                
                 String isbn = request.getParameter("isbn");
                 Libro libro = dl.searchByIsbn(isbn);
                 Collection<Copiaelettronica> copieelettroniche = libro.getCopiaelettronicaCollection();
@@ -57,6 +58,9 @@ public class VisualizzaCopieElettroniche2 extends HttpServlet {
                 }
                 else{
                     request.setAttribute("copielettroniche", copieelettroniche);
+                    InitialContext ctx = new InitialContext();
+                    String path = getServletContext().getInitParameter("copieelettroniche");
+                    request.setAttribute("path",path);
                 }
                 
                 request.setAttribute("title", "Lista copie elettroniche");
@@ -85,7 +89,11 @@ public class VisualizzaCopieElettroniche2 extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (NamingException ex) {
+            Logger.getLogger(VisualizzaCopieElettroniche2.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /** 
@@ -98,7 +106,11 @@ public class VisualizzaCopieElettroniche2 extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (NamingException ex) {
+            Logger.getLogger(VisualizzaCopieElettroniche2.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /** 

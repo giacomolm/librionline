@@ -4,7 +4,7 @@
 <#if (copielettroniche??)>
 <ul>
 <#list copielettroniche as copiaelettronica>
-<li>${copiaelettronica.url} - ${copiaelettronica.mimetype} - <a href="UpdateCopiaElettronica?id=${copiaelettronica.id}&AMP;isbn=${copiaelettronica.libro.isbn}">Elimina</a></li>
+<li> <a href="${path}/${copiaelettronica.url}"><img src="img/${copiaelettronica.mimetype}.jpg" alt="icona"/></a> - <em>Nome del file: </em>${copiaelettronica.url} - <em>Formato: </em>${copiaelettronica.mimetype} - <a href="UpdateCopiaElettronica?id=${copiaelettronica.id}&AMP;isbn=${copiaelettronica.libro.isbn}">Elimina</a></li>
 </#list>
 </ul>
 <#else>
