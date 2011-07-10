@@ -538,6 +538,13 @@ public interface LibriOnLineDataLayer {
      * @return true se l'eliminazione va a buon fine
      */
     boolean eliminaCopiaElettronica(int id_copia);
+    
+    /**
+     * Ritorna a copia elettronica indicata da quell'id
+     * @param id_copia della copia che vogliamo recuperare
+     * @return CopiaElettronica desiderata altrimenti null se non esiste
+     */
+    Copiaelettronica getCopiaElettronica(int id_copia);
         
     /**
      * Il metodo permette di visualizzare tutti quanti gli stati di un volume,

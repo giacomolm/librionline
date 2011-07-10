@@ -1997,6 +1997,7 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
      * @param id_copia della copia che vogliamo recuperare
      * @return CopiaElettronica desiderata altrimenti null se non esiste
      */
+    @Override
     public Copiaelettronica getCopiaElettronica(int id_copia){
         Copiaelettronica e = null;
         manager.getTransaction().begin();
