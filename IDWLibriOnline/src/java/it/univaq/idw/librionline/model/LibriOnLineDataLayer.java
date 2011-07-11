@@ -88,6 +88,29 @@ public interface LibriOnLineDataLayer {
     boolean insertUser(String username,String password,String email,String telefono,String nome,String cognome,String codfisc,String indirizzo,String citta,String prov,int cap,Gruppo gruppo);
     
     /**
+     * Il metofo permette di modificare i dati relativi ad un utente, con riferimento
+     * agli stessi parametri parametri per la creazione dell'utente stesso
+     * @param id_user
+     * @return true se la modifica va a buon fine
+     */
+    public boolean modificaUser(int id_user, String password,String email,String telefono,String nome,String cognome,String codfisc,String indirizzo,String citta,String prov,int cap,Gruppo gruppo);
+    
+    /**
+     * Il metodo permette di rimuovere un utente a partire dal suo Id
+     * @param id_user dell'utente che si vuole rimuovere
+     * @return true se la rimozione è stata fatta in maniera corretta
+     */
+    boolean removeUser(int id_user);
+    
+    /**
+     * Il metodo permette di restituire la lista di gruppi che non appartengono
+     * all'utente indicato dal parametro.
+     * @param id_user dell'utente per il quale vogliamo ottentere i gruppi di non appartenenza
+     * @return List di gruppi non appartenenti all'utente.
+     */
+    List<Gruppo> getNotGruppo(int id_user);
+    
+    /**
      * Questa funzione restituisce il gruppo relativo un particolare tipo. Ad esempio
      * se presente nella entità gruppo un tipo Amministrazione, passando questa stringa
      * come parametro viene restituito l'oggetto gruppo riferito.

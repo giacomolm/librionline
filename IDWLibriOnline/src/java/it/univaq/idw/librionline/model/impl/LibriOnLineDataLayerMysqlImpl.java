@@ -495,15 +495,24 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
      * @param id_user
      * @return true se la modifica va a buon fine
      */
-    public boolean modificaUser(int id_user, String username,String password,String email,String telefono,String nome,String cognome,String codfisc,String indirizzo,String citta,String prov,int cap,Gruppo gruppo){
+    public boolean modificaUser(int id_user, String password,String email,String telefono,String nome,String cognome,String codfisc,String indirizzo,String citta,String prov,int cap,Gruppo gruppo){
         User u=getUser(id_user);
         if(u != null){
             manager.getTransaction().begin();
             //Instanzio l'oggetto utente che voglio inserire nel database
+            u.setPassword(password);
             u.setEmail(email);
             u.setTelefono(telefono);
             //Imposto il gruppo di appartenenza dell'utente, definito dal biblotecario se è egli stesso a registrarlo, altrimenti viene assegnato quello di default
             u.setGruppo(gruppo);
+            
+            u.setNome(nome);
+            u.setCognome(cognome);
+            u.setCodiceFiscale(codfisc);
+            u.setIndirizzo(indirizzo);
+            u.setCitta(citta);
+            u.setProvincia(prov);
+            u.setCap(cap);
             //Memorizzo fisicamente l'utente sul database
             manager.persist(u);
             manager.getTransaction().commit();
@@ -512,6 +521,11 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
         return false;
     }
     
+    /**
+     * Il metodo permette di rimuovere un utente a partire dal suo Id
+     * @param id_user dell'utente che si vuole rimuovere
+     * @return true se la rimozione è stata fatta in maniera corretta
+     */
     public boolean removeUser(int id_user){
         User u=getUser(id_user);
         if(u != null){
@@ -522,6 +536,30 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
             return true;
         }
         return false;
+    }
+    
+    /**
+     * Il metodo permette di restituire la lista di gruppi che non appartengono
+     * all'utente indicato dal parametro.
+     * @param id_user dell'utente per il quale vogliamo ottentere i gruppi di non appartenenza
+     * @return List di gruppi non appartenenti all'utente.
+     */
+    public List<Gruppo> getNotGruppo(int id_user){
+        User u=getUser(id_user);
+        if(u != null){
+            manager.getTransaction().begin();
+            List<Gruppo> gl = new ArrayList<Gruppo>();
+            try{
+                gl = manager.createNamedQuery("GruppoMysqlImpl.findAll").getResultList();
+            }
+            catch(NoResultException e){
+                
+            }
+            gl.remove(u.getGruppo());
+            manager.getTransaction().commit();
+            return gl;
+        }
+        else return null;
     }
     
     /**
