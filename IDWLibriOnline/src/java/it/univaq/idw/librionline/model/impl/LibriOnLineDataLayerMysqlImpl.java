@@ -2150,4 +2150,21 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
         }
         else return true;
     }
+    
+    /**
+     * Il metodo premette di individuare tutti i gruppi presenti nel database
+     * @return List di tutti i gruppi presenti
+     */
+    public List<Gruppo> getAllGruppi(){
+        List<Gruppo> res = new ArrayList<Gruppo>();
+        manager.getTransaction().begin();
+        try{
+            res = manager.createNamedQuery("GruppoMysqlImpl.findAll").getResultList();
+        }
+        catch(NoResultException e){
+        
+        }
+        manager.getTransaction().commit();
+        return res;
+    }
 }

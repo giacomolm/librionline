@@ -3,6 +3,15 @@ var login,user,pass;
 var ricerca,titolo;
 var regist, userreg, passreg, email, tel, nome, cognome, codicefiscale, indirizzo, citta, provincia, cap;
 
+function advanced_search(isbn_adv, titolo_adv, tag_adv, autore_adv){
+    if((isbn_adv.value == "") && (titolo_adv.value == "") && (tag_adv.value == "") && (autore_adv.value=="")){
+        //titolo.onchange = function() {return check(titolo,"Titolo");}
+        alert("Inserire almeno un parametro"); 
+        return false;
+    }
+    else return true;
+}
+
 function confirm_inserimento(form){
     elements = form.getElementsByTagName("input");
     for(var i = 0; i <elements.length; i++){
@@ -107,6 +116,19 @@ window.onload = function() {
             titolo.onchange = function() {return check(titolo,"Titolo");}
             ricerca.onsubmit = function() {return checkFormRicerca();}
         }
+        
+        ricerca_adv = document.getElementById('form_ricerca_avanzata');
+	titolo_adv = document.getElementById('titolo_avanzato');
+        tag_adv = document.getElementById('tag_avanzato');
+        isbn_adv = document.getElementById('isbn_avanzato');
+        autore_adv = document.getElementById('autore_avanzato');
+        
+        if(ricerca_adv != null && titolo_adv != null && tag_adv != null && isbn_adv != null && autore_adv != null){
+            ricerca_adv.onsubmit = function() {return advanced_search(isbn_adv, titolo_adv, tag_adv, autore_adv);}
+        }
+        
+	//impostiamo i listener corretti sulla form e sui suoi campi
+
         
         //acquisiamo i riferimenti alla form e ai campi che vogliamo controllare
 	login = document.getElementById('form_login');

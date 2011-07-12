@@ -594,4 +594,10 @@ public interface LibriOnLineDataLayer {
      * @return true se la copia è già presente in quel formato
      */
     boolean existCopiaElettronica(String isbn, String type);
+    
+    /**
+     * Il metodo premette di individuare tutti i gruppi presenti nel database
+     * @return List di tutti i gruppi presenti
+     */
+    List<Gruppo> getAllGruppi();
 }
