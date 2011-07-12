@@ -26,7 +26,7 @@ function confirm_inserimento(form){
     }
     return true;
 }
-
+ 
 function confirm_modifica(form){
     elements = form.getElementsByTagName("input");
     for(var i = 0; i<elements.length; i++){
@@ -100,7 +100,7 @@ function checkFormReg() {
 window.onload = function() {
 
         //acquisiamo i riferimenti alla form e ai campi che vogliamo controllare
-        /*ricerca = document.getElementById('form_ricerca_base');
+        ricerca = document.getElementById('form_ricerca_base');
 	titolo = document.getElementById('titolo');
 	//impostiamo i listener corretti sulla form e sui suoi campi
         if(ricerca != null && titolo.value != null){
@@ -120,7 +120,7 @@ window.onload = function() {
         }
         
         //acquisiamo i riferimenti alla form e ai campi che vogliamo controllare
-        regist = document.getElementById("registrazione");
+        /*regist = document.getElementById("registrazione");
         userreg = document.getElementById("user_reg");
         passreg = document.getElementById("pass_reg");
         email = document.getElementById('email');
