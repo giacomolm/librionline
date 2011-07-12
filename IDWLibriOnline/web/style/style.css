@@ -128,7 +128,7 @@ a:link,a:visited{
 #footer {
     margin-left: 165px;
     margin-right: 155px;
-    height:40px;
+    height:auto;
     margin-top: 5px;
     overflow:hidden;
     background-color: green;

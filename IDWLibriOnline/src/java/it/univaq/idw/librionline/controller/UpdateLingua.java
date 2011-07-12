@@ -83,7 +83,7 @@ public class UpdateLingua extends HttpServlet {
                     }
                     else{
                         Lingua object_lingua = dl.getLingua(id_lingua);
-                        request.setAttribute("stato", object_lingua);
+                        request.setAttribute("lingua", object_lingua);
                         request.setAttribute("title", "Modifica Lingua");
                         request.setAttribute("messaggio", "Impossibile modificare la Lingua!");
                         res.activate("backoffice_updatelingua.ftl.html", request, response);
