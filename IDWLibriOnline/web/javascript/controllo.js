@@ -3,18 +3,19 @@ var login,user,pass;
 var ricerca,titolo;
 var regist, userreg, passreg, email, tel, nome, cognome, codicefiscale, indirizzo, citta, provincia, cap;
 
-function confirm_modifica(){
+function confirm_modifica(form){
     var n = form.length;
+    elements = form.getElementsByTagName("input");
         for(var i = 0; i<n; i++){
-            if(form.elements[i].value == '' && form.elements[i].name != 'notrequired'){
-              alert('Attenzione: il campo '+form.elements[i].name.split("_", 2)[1]+ ' deve essere riempito');
-            //attiviamo il campo
-            form.elements[i].focus();
-            //selezioniamo il testo errato
-            form.elements[i].select();
-            //e bordiamo di rosso il campo da correggere
-            form.elements[i].style.border="1px solid red";
-            return false;
+            if(elements[i].value == '' && elements[i].className != 'notrequired'){
+                alert('Attenzione: il campo '+elements[i].name.split("_", 2)[1]+ ' deve essere riempito');
+                //attiviamo il campo
+                elements[i].focus();
+                //selezioniamo il testo errato
+                elements[i].select();
+                //e bordiamo di rosso il campo da correggere
+                elements[i].style.border="1px solid red";
+                return false;
         }
     }
     return true;
@@ -117,12 +118,38 @@ window.onload = function() {
         }
 
         //acquisiamo i riferimenti alla form e ai campi che vogliamo controllare
-        form = document.getElementsByName('update').item(0);
+        form_book = document.getElementById('updatebook');
+        form_autori = document.getElementById('updateautore');
+        form_lingua = document.getElementById('updatelingua');
+        form_volumi = document.getElementById('updatevol');
+        form_tag = document.getElementById('updatetag');
+        form_stato = document.getElementById('updatestato');
+        form_utente= document.getElementById('backoffice_updateutente');
 	elimina = document.getElementById('elimina');
         
 	//impostiamo i listener corretti sulla form e sui suoi campi
-        if(elimina != null && form != null){
-            form.onsubmit = function() {return confirm_modifica();}
+        if(form_book != null){           
+            form_book.onsubmit = function() {return confirm_modifica(form_book);}
+        }
+        if(form_autori != null){           
+            form_autori.onsubmit = function() {return confirm_modifica(form_autori);}
+        }
+        if(form_lingua != null){           
+            form_lingua.onsubmit = function() {return confirm_modifica(form_lingua);}
+        }
+        if(form_volumi != null){           
+            form_volumi.onsubmit = function() {return confirm_modifica(form_volumi);}
+        }
+        if(form_tag != null){           
+            form_tag.onsubmit = function() {return confirm_modifica(form_tag);}
+        }        
+        if(form_stato != null){           
+            form_stato.onsubmit = function() {return confirm_modifica(form_stato);}
+        }
+        if(form_utente != null){           
+            form_utente.onsubmit = function() {return confirm_modifica(form_utente);}
+        }
+        if(elimina != null){            
             elimina.onclick = function() {return confirm_eliminazione();}
         }
 }
