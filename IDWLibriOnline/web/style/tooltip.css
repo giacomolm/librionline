@@ -15,16 +15,17 @@
     display: none;	
     position: absolute;
     z-index:5;
-    width: 120px;
-    max-width: 120px;
+    width: 200px;
+    max-width: 200px;
     height: auto;
     left: 1.5em;
     top: 1.5em;
-    border: 1px solid black;
-    background-color: yellow;
+    border: 1px solid blue;
+    background-color: #e8effb;
     color: black;
     font-size: 80%;
     overflow: hidden;
+    padding: 2px;
 }
 
 .withtooltip:hover .tooltip {

@@ -1,0 +1,11 @@
+<h2 class="page_title"> Risultati ricerca utente </h2>
+
+<#if (users??)>
+    <ul>
+        <#list users as user>
+            <li><a href="UpdateUtente?id=${user.id}">${user.username}</a></li>
+        </#list>
+    </ul>
+<#else>
+    <p><em>Nota: Nessun utente trovato </em></p> 
+</#if>

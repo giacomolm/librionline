@@ -26,7 +26,7 @@ public class UpdateVolumi extends HttpServlet {
         String stato = request.getParameter("updatevol_stato");
         String duratamax = request.getParameter("updatevol_duratamax");
         
-        if((stato == null || stato.isEmpty()) || (duratamax == null || duratamax.isEmpty())){
+        if((stato == null || stato.isEmpty()) || (duratamax == null || duratamax.isEmpty() || duratamax.equals("0"))){
             return false;
         }
         return true;

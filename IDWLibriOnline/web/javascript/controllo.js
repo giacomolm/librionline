@@ -2,8 +2,7 @@
 var login,user,pass;
 var ricerca,titolo;
 var regist, userreg, passreg, email, tel, nome, cognome, codicefiscale, indirizzo, citta, provincia, cap;
-var forminslibro, inslibro_isbn, inslibro_titolo, inslibro_editore, inslibro_annopubblicazione, inslibro_autori, inslibro_tag, inslibro_numerocopie, inslibro_stato, inslibro_duratamax;
-var formricercauser, ricerca_user;
+
 
 function check(elemento,stringa){
     if (elemento.value == "") {
@@ -43,34 +42,6 @@ function checkFormReg() {
 	//eseguiamo i controlli dei campi, e ritorniamo l'AND dei loro risultati
 	return (check(user_reg,"Username") && check(pass_reg,"Password") && check(email,"Email") && check(tel,"Telefono") && check(nome,"Nome") && check(cognome,"Cognome") && check(codicefiscale,"Codice fiscale") && check(indirizzo,"Indirizzo") && check(citta,"Città") && check(provincia,"Provincia") && check(cap,"Cap"));
 	//in questo modo, se uno ritorna false, la form non verrà sottomessa
-}
-
-//funzione per il controllo dell'intera form durante la submission
-function checkFormInserimentoLibro(){
-        //eseguiamo i controlli dei campi, e ritorniamo l'AND dei loro risultati
-	return (check(inslibro_isbn,"Isbn") && check(inslibro_titolo,"Titolo") && check(inslibro_editore,"Editore") && check(inslibro_annopubblicazione,"Anno pubblicazione") && check(inslibro_autori,"Autori") && check(inslibro_tag,"Tag") && check(inslibro_numerocopie,"Numero volumi") && check(inslibro_stato,"Stato") && check(inslibro_duratamax,"Durata massima"));
-	//in questo modo, se uno ritorna false, la form non verrà sottomessa
-}
-
-//funzione per il controllo dell'intera form durante la submission
-function checkRicercaUser(){
-        //eseguiamo i controlli dei campi, e ritorniamo l'AND dei loro risultati
-        return (check(ricerca_user,"Username"));
-        //in questo modo, se uno ritorna false, la form non verrà sottomessa
-}
-
-//funzione per il controllo dell'intera form durante la submission
-function checkInserisciTag(){
-        //eseguiamo i controlli dei campi, e ritorniamo l'AND dei loro risultati
-        return (check(instag,"Tag"));
-        //in questo modo, se uno ritorna false, la form non verrà sottomessa
-}
-
-//funzione per il controllo dell'intera form durante la submission
-function checkInserisciStato(){
-        //eseguiamo i controlli dei campi, e ritorniamo l'AND dei loro risultati
-        return (check(insstato,"Stato"));
-        //in questo modo, se uno ritorna false, la form non verrà sottomessa
 }
 
 window.onload = function() {
@@ -122,57 +93,5 @@ window.onload = function() {
             provincia.onchange = function() {return check(provincia,"Provincia");}
             cap.onchange = function() {return check(cap,"Cap");}
             regist.onsubmit = function() {return checkFormReg();}
-        }
-        
-        //acquisiamo i riferimenti alla form e ai campi che vogliamo controllare
-        forminslibro = document.getElementById("insertbook");
-        inslibro_isbn = document.getElementById("insertbook_isbn");
-        inslibro_titolo = document.getElementById("insertbook_titolo");
-        inslibro_editore = document.getElementById("insertbook_editore");
-        inslibro_annopubblicazione = document.getElementById("insertbook_annopubblicazione");
-        inslibro_autori = document.getElementById("insertbook_autore");
-        inslibro_tag = document.getElementById("insertbook_tag");
-        inslibro_numerocopie = document.getElementById("insertbook_numerocopie");
-        inslibro_stato = document.getElementById("insertbook_stato");
-        inslibro_duratamax = document.getElementById("insertbook_duratamax");
-        //impostiamo i listener corretti sulla form e sui suoi campi
-        if(forminslibro != null && inslibro_isbn.value != null && inslibro_titolo.value != null && inslibro_editore.value != null && inslibro_annopubblicazione.value != null && inslibro_autori.value != null && inslibro_tag.value != null && inslibro_numerocopie.value != null && inslibro_stato.value != null && inslibro_duratamax.value != null){
-            inslibro_isbn.onchange = function() {return check(inslibro_isbn,"Isbn");}
-            inslibro_titolo.onchange = function() {return check(inslibro_titolo,"Titolo");}
-            inslibro_editore.onchange = function() {return check(inslibro_editore,"Editore");}
-            inslibro_annopubblicazione.onchange = function() {return check(inslibro_annopubblicazione,"Anno pubblicazione");}
-            inslibro_autori.onchange = function() {return check(inslibro_autori,"Autori");}
-            inslibro_tag.onchange = function() {return check(inslibro_tag,"Tag");}
-            inslibro_numerocopie.onchange = function() {return check(inslibro_numerocopie,"Numero copie");}
-            inslibro_stato.onchange = function() {return check(inslibro_stato,"Stato");}
-            inslibro_duratamax.onchange = function() {return check(inslibro_duratamax,"Durata massima");}
-            forminslibro.onsubmit = function() {return checkFormInserimentoLibro();}
-        }
-        
-        //acquisiamo i riferimenti alla form e ai campi che vogliamo controllare
-        formricercauser = document.getElementById("form_ricerca_utente");
-        ricerca_user = document.getElementById("ricerca_utente_username");
-        //impostiamo i listener corretti sulla form e sui suoi campi
-        if(formricercauser != null && ricerca_user.value != null){
-            ricerca_user.onchange = function() {return check(ricerca_user,"Username");}
-            formricercauser.onsubmit = function() {return checkRicercaUser();}
-        }
-        
-        //acquisiamo i riferimenti alla form e ai campi che vogliamo controllare
-        formrinstag = document.getElementById("inserttag");
-        instag = document.getElementById("inserttag_tag");
-        //impostiamo i listener corretti sulla form e sui suoi campi
-        if(formrinstag != null && instag.value != null){
-            instag.onchange = function() {return check(instag,"Tag");}
-            formrinstag.onsubmit = function() {return checkInserisciTag();}
-        }
-        
-        //acquisiamo i riferimenti alla form e ai campi che vogliamo controllare
-        formrinsstato = document.getElementById("insertstato");
-        insstato = document.getElementById("insertstato_stato");
-        //impostiamo i listener corretti sulla form e sui suoi campi
-        if(formrinsstato != null && insstato.value != null){
-            insstato.onchange = function() {return check(insstato,"Stato");}
-            formrinsstato.onsubmit = function() {return checkInserisciStato();}
         }
 }

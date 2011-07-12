@@ -7,10 +7,10 @@ package it.univaq.idw.librionline.controller;
 import it.univaq.idw.librionline.framework.util.SecurityLayer;
 import it.univaq.idw.librionline.framework.util.TemplateResult;
 import it.univaq.idw.librionline.model.LibriOnLineDataLayer;
-import it.univaq.idw.librionline.model.Libro;
-import it.univaq.idw.librionline.model.Stato;
+import it.univaq.idw.librionline.model.User;
 import it.univaq.idw.librionline.model.impl.LibriOnLineDataLayerMysqlImpl;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -22,41 +22,31 @@ import javax.servlet.http.HttpSession;
  *
  * @author Zilfio
  */
-public class InserisciVolume2 extends HttpServlet {
+public class VisualizzaUtente extends HttpServlet {
 
-    private boolean analizza_form_volume(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    private List analizza_form_user(HttpServletRequest request, HttpServletResponse response) {
       
-        String numero_volumi = request.getParameter("insertvol_numerocopie");
-        String stato = request.getParameter("insertvol_stato");
-        String durata = request.getParameter("insertvol_duratamax");
+        List<User> bl = null;
         
-        if((numero_volumi == null || numero_volumi.isEmpty() || numero_volumi.equals("0")) || (stato == null || stato.isEmpty()) || (durata == null || durata.isEmpty() || durata.equals("0"))){
-            return false;
+        String username = request.getParameter("backoffice_ricerca_utente_username");
+        
+        if(username.isEmpty() || username == null){
+            return bl;
         }
         
+        //Questo è l'oggetto che devi dichiarare per qualsiasi interazione con il DB
         LibriOnLineDataLayer dl = new LibriOnLineDataLayerMysqlImpl();
+
+        //Questa è la funzione da richiamare per la ricerca base
+        //Attenzion! restituisco una collezione di libri! Perchè più libri potrebbero avere lo stesso titolo
+        List<User> bc = dl.getUsers(username);
         
-        int volumi = Integer.parseInt(numero_volumi);
-        int id_stato = Integer.parseInt(stato);
-        int durata_max = Integer.parseInt(durata);
-        
-        String isbn = request.getParameter("insertvol_isbn");
-        Libro l = dl.searchByIsbn(isbn);
-        
-        if(l != null){
-            for(int i=0;i<volumi;i++){
-                if(!dl.insertVolume(l, durata_max, id_stato)){
-                    return false;
-                }
-            }
-            return true;
-        }
-        else{
-            return false;
+        if(bc.isEmpty()){
+            return null;
         }
         
+        return bc;
     }
-    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
      * @param request servlet request
@@ -78,50 +68,28 @@ public class InserisciVolume2 extends HttpServlet {
                 request.setAttribute("bibliotecario",true);
                 request.setAttribute("tipologia_utente","Bibliotecario");
                 
-                String isbn = request.getParameter("isbn");
+                String search_user = request.getParameter("Ricerca Utente");
                 
-                if(isbn != null){
-                    request.setAttribute("isbn",isbn);
+                if(search_user == null){
+                    request.setAttribute("title","Ricerca Utente");
+                    res.activate("backoffice_ricercautente.ftl.html", request, response);
                 }
                 else{
-                    String isbn2 = request.getParameter("insertvol_isbn");
-                    request.setAttribute("isbn",isbn2);
-                }
-                
-                List<Stato> stati = dl.getAllStato();
-                
-                request.setAttribute("stati",stati);
-                
-                String insert_vol = request.getParameter("Inserisci Volume");
-                
-                if(insert_vol == null){
-                    request.setAttribute("title","Inserisci Volume");
-                    res.activate("backoffice_inseriscivolume.ftl.html", request, response);
-                }
-                else{
-                    boolean result = analizza_form_volume(request,response);
-                    if(result){
-                        request.setAttribute("title","Inserisci Volume");
-                        request.setAttribute("messaggio","Il Volume è stato inserito correttamente!");
-                        res.activate("backoffice_inseriscivolume.ftl.html", request, response);
-                    }
-                    else{
-                        request.setAttribute("title","Inserisci Volume");
-                        request.setAttribute("messaggio","Inserimento Volume fallito: Si prega di compilare bene i campi sottostanti!");
-                        res.activate("backoffice_inseriscivolume.ftl.html", request, response);
+                    request.setAttribute("title","Risultati Ricerca Utente");
+                    request.setAttribute("users",analizza_form_user(request,response));
+                    res.activate("backoffice_risultatiricercautente.ftl.html", request, response);
                     }         
+                }
+                else{
+                    request.setAttribute("bibliotecario",false);
+                    request.setAttribute("tipologia_utente","Utente");
+                    response.sendRedirect("Home");
                 }
             }
             else{
-                request.setAttribute("bibliotecario",false);
-                request.setAttribute("tipologia_utente","Utente");
                 response.sendRedirect("Home");
             }
         }
-        else{
-            response.sendRedirect("Home");
-        }
-    }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /** 

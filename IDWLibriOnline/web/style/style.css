@@ -62,7 +62,7 @@ a:link,a:visited{
     margin-top: 5px;
     height: 15px;
     background-color: #eae9f3;
-    margin-left: 155px;
+    margin-left: 165px;
     margin-right: 155px;
     overflow:hidden;
     font-size: 80%;
@@ -72,7 +72,7 @@ a:link,a:visited{
 
 #center_body{
     background-color: white;
-    margin-left: 155px;
+    margin-left: 165px;
     margin-right: 155px;
     overflow:hidden;
     padding: 5px;
@@ -126,7 +126,7 @@ a:link,a:visited{
 }
 
 #footer {
-    margin-left: 155px;
+    margin-left: 165px;
     margin-right: 155px;
     height:40px;
     margin-top: 5px;

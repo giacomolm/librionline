@@ -1,0 +1,50 @@
+<h2 class="page_title"> Modifica Utente </h2>
+<br />
+<#if (messaggio??)>
+    <div class="messaggio">
+        <p><strong>${messaggio}</strong></p>
+    </div>
+    <div><br /></div>
+</#if>
+<#if (stato_log??)>
+<#if bibliotecario>
+<form action="UpdateUtente" method="post" enctype="multipart/form-data" id="backoffice_updateutente">
+    <div>
+    <fieldset><legend>Dati registrazione</legend>
+        <br />
+        <input type="hidden" name="backoffice_updateutente_id" id="backoffice_updateutente_id" value="${updateutente.id}" />
+        <label>Username</label> <input type="text" disabled="disabled" name="backoffice_updateutente_username" id="backoffice_updateutente_username" value="${updateutente.username}" size="5" /> <br /> <br />
+        <label>Password</label> <input type="password" name="backoffice_updateutente_password" id="backoffice_updateutente_password" value="${updateutente.password}" maxlength="32" size="40" /> <br /> <br />
+        <label>Email</label> <input type="text" name="backoffice_updateutente_email" id="backoffice_updateutente_email" size="30" value="${updateutente.email}"  maxlength="25" /> <br /> <br />
+        <label>Telefono</label> <input type="text" name="backoffice_updateutente_tel" id="backoffice_updateutente_tel" size="20" value="${updateutente.telefono}"  maxlength="25" /> <br /> <br />
+    </fieldset> 
+    <br />
+    <fieldset><legend>Anagrafica utente</legend>
+        <br />
+        <label>Nome</label> <input type="text" name="backoffice_updateutente_nome" id="backoffice_updateutente_nome" size="25" value="${updateutente.nome}" maxlength="25" />
+        <label>Cognome</label> <input type="text" name="backoffice_updateutente_cognome" id="backoffice_updateutente_cognome" size="25" value="${updateutente.cognome}" maxlength="25" /> <br /> <br />
+        <label>Codice Fiscale</label> <input type="text" name="backoffice_updateutente_codicefiscale" id="backoffice_updateutente_codicefiscale" value="${updateutente.codiceFiscale}" size="25" maxlength="16" /> <br /> <br />
+        <label>Indirizzo</label> <input type="text" name="backoffice_updateutente_indirizzo" id="backoffice_updateutente_indirizzo" value="${updateutente.indirizzo}" size="49" maxlength="50" /> <br /> <br />
+        <label>Citt&agrave;</label> <input type="text" name="backoffice_updateutente_citta" id="backoffice_updateutente_citta" value="${updateutente.citta}" maxlength="50" />
+        <label>Provincia</label> <input type="text" name="backoffice_updateutente_provincia" id="backoffice_updateutente_provincia" value="${updateutente.provincia}" size="1" maxlength="2" />
+        <label>CAP</label> <input type="text" name="backoffice_updateutente_cap" id="backoffice_updateutente_cap" value="${updateutente.cap?c}" size="4" maxlength="5" /> <br /> <br />
+    </fieldset>
+    <br />
+    <fieldset><legend>Gruppo utente</legend>
+        <br />
+        <label>Gruppo</label> 
+        <select name="backoffice_updateutente_gruppo">
+            <option value="${updateutente.gruppo.id}" selected="selected">${updateutente.gruppo.gruppo}</option>
+            <#list groupsnotgroups as groupnotgroup>
+            <option value="${groupnotgroup.id}" >${groupnotgroup.gruppo}</option>
+            </#list>
+        </select>
+    </fieldset>
+    <br />
+    <input type="submit" value="Modifica Utente" name="Modifica Utente" /> 
+    <input type="submit" value="Elimina Utente" name="Modifica Utente" /> 
+    <input type="reset" value="Reset" name="Cancella" />
+    </div>
+</form>
+</#if>
+</#if>

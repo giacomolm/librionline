@@ -217,6 +217,14 @@
         <servlet-name>UpdateCopiaElettronica</servlet-name>
         <servlet-class>it.univaq.idw.librionline.controller.UpdateCopiaElettronica</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>VisualizzaUtente</servlet-name>
+        <servlet-class>it.univaq.idw.librionline.controller.VisualizzaUtente</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UpdateUtente</servlet-name>
+        <servlet-class>it.univaq.idw.librionline.controller.UpdateUtente</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Home</servlet-name>
         <url-pattern>/Home</url-pattern>
@@ -400,6 +408,14 @@
     <servlet-mapping>
         <servlet-name>UpdateCopiaElettronica</servlet-name>
         <url-pattern>/UpdateCopiaElettronica</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>VisualizzaUtente</servlet-name>
+        <url-pattern>/VisualizzaUtente</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UpdateUtente</servlet-name>
+        <url-pattern>/UpdateUtente</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>30</session-timeout>

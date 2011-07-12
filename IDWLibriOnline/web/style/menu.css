@@ -1,6 +1,6 @@
 .menu {
     position: absolute;
-    width: 150px;
+    width: 160px;
     font-size: 90%;
     background-color: #ceddf7;
     top:105px; 
@@ -25,7 +25,7 @@
     list-style: none;
     border: none;
     background: #cdddf7;
-    width: 150px;
+    width: 160px;
 }
 
 .menu li {
@@ -53,7 +53,7 @@
     visibility:hidden;
     position:absolute;
     top: 0;
-    left:150px;
+    left:160px;
 }
 
 /* hover sul primo livello: mostrare secondo livello */
