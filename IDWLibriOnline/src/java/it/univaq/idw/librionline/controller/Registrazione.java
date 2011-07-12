@@ -30,19 +30,19 @@ public class Registrazione extends HttpServlet {
     private boolean analizza_form_registrazione(HttpServletRequest request, HttpServletResponse response) throws NoSuchAlgorithmException, IOException {
         
         //prendo in post tutti i campi del form_registrazione
-        String user = request.getParameter("user_reg");
-        String pass = Md5.md5(request.getParameter("pass_reg"));
-        String email = request.getParameter("email");
-        String tel = request.getParameter("tel");
+        String user = request.getParameter("registrazione_username");
+        String pass = Md5.md5(request.getParameter("registrazione_password"));
+        String email = request.getParameter("registrazione_email");
+        String tel = request.getParameter("registrazione_telefono");
         
-        String nome = request.getParameter("nome");
-        String cognome = request.getParameter("cognome");
-        String codicefiscale = request.getParameter("codicefiscale");
-        String indirizzo = request.getParameter("indirizzo");
-        String citta = request.getParameter("citta");
-        String provincia = request.getParameter("provincia");
-        String cap = request.getParameter("cap");
-        String gruppo = request.getParameter("gruppo");
+        String nome = request.getParameter("registrazione_nome");
+        String cognome = request.getParameter("registrazione_cognome");
+        String codicefiscale = request.getParameter("registrazione_codicefiscale");
+        String indirizzo = request.getParameter("registrazione_indirizzo");
+        String citta = request.getParameter("registrazione_citta");
+        String provincia = request.getParameter("registrazione_provincia");
+        String cap = request.getParameter("registrazione_cap");
+        String gruppo = request.getParameter("registrazione_gruppo");
         
         if(user.equals("") || pass.equals("") || email.equals("") || tel.equals("") || nome.equals("") || cognome.equals("") || codicefiscale.equals("") || indirizzo.equals("") || citta.equals("") || provincia.equals("") || cap.equals("") || gruppo.equals("")){
             return false;
