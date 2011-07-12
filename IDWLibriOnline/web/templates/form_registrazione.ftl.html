@@ -33,8 +33,9 @@
         <br />
         <label>Gruppo</label> 
         <select name="registrazione_gruppo">
-            <option value="1">Bibliotecario</option>
-            <option value="2" selected="selected">Utente Registrato</option>
+            <#list gruppi as gruppo>
+                <option value="${gruppo.id}">${gruppo.gruppo}</option>
+            </#list>
         </select>
     </fieldset>
     <br />

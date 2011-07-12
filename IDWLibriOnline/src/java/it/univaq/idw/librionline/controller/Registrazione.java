@@ -12,6 +12,7 @@ import it.univaq.idw.librionline.model.LibriOnLineDataLayer;
 import it.univaq.idw.librionline.model.impl.LibriOnLineDataLayerMysqlImpl;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -88,19 +89,23 @@ public class Registrazione extends HttpServlet {
                 request.setAttribute("tipologia_utente","Bibliotecario");
                 
                 String registrazione = request.getParameter("Registrazione");
+                List<Gruppo> gruppi = dl.getAllGruppi();
         
                 if(registrazione == null){
                     request.setAttribute("title","Registrazione");
+                    request.setAttribute("gruppi",gruppi);
                     res.activate("form_registrazione.ftl.html", request, response);
                 }
                 else{
                     if(analizza_form_registrazione(request,response)){
                         request.setAttribute("title","Registrazione");
+                        request.setAttribute("gruppi",gruppi);
                         request.setAttribute("messaggio","Registrazione effettuata con successo!");
                         res.activate("form_registrazione.ftl.html", request, response);
                     }
                     else{
                         request.setAttribute("title","Registrazione");
+                        request.setAttribute("gruppi",gruppi);
                         request.setAttribute("messaggio","Registrazione fallita! Si prega di compilare bene i campi sottostanti!");
                         res.activate("form_registrazione.ftl.html", request, response);
                     }
