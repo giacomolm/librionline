@@ -142,7 +142,7 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
             if(editore != null) l.setEditore(editore);
             l.setAnnoPubblicazione(annopubbl);
             
-            if(recens != null) l.setRecensione(recens);            
+            l.setRecensione(recens);            
             
             //Facciamo la stessa cosa con i tag
             try{
@@ -495,6 +495,7 @@ public class LibriOnLineDataLayerMysqlImpl implements LibriOnLineDataLayer {
      * @param id_user
      * @return true se la modifica va a buon fine
      */
+    @Override
     public boolean modificaUser(int id_user, String password,String email,String telefono,String nome,String cognome,String codfisc,String indirizzo,String citta,String prov,int cap,Gruppo gruppo){
         User u=getUser(id_user);
         if(u != null){

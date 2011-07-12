@@ -7,7 +7,7 @@
         </div>
         <div><br /></div>
         </#if>
-    <form action="UpdateVolumi" method="get" id="updatevol">
+    <form action="UpdateVolumi" method="get" id="updatevol" name="update">
         <fieldset><legend>Dati Volume</legend>
             <br />
             <input type="hidden" value="${volume.id}" name="updatevol_id" id="updatevol_id" />
@@ -27,7 +27,7 @@
         <div>
             <br />
             <input type="submit" value="Modifica Volume" name="Modifica Volume" />
-            <input type="submit" value="Elimina Volume" name="Modifica Volume" />
+            <input type="submit" value="Elimina Volume" name="Modifica Volume" id="elimina"/>
             <input type="reset" value="Reset" name="Cancella" />
         </div>
     </form>

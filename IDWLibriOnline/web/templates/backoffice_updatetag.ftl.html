@@ -7,7 +7,7 @@
         </div>
         <div><br /></div>
     </#if>
-    <form action="UpdateTag" method="get" id="updatetag">
+    <form action="UpdateTag" method="get" id="updatetag" name="update">
         <fieldset><legend>Tag</legend>
             <br />
             <input type="hidden" name="updatetag_id" id="updatetag_id" value="${tag.id}" />
@@ -17,7 +17,7 @@
         <div>
             <br />
             <input type="submit" value="Modifica Tag" name="Modifica Tag" />
-            <input type="submit" value="Elimina Tag" name="Modifica Tag" />
+            <input type="submit" value="Elimina Tag" name="Modifica Tag" id="elimina"/>
             <input type="reset" value="Reset" name="Cancella" />
         </div>
     </form>

@@ -7,7 +7,7 @@
         </div>
         <div><br /></div>
     </#if>
-    <form action="UpdateStato" method="get" id="updatestato">
+    <form action="UpdateStato" method="get" id="updatestato" name="update">
         <fieldset><legend>Stato</legend>
             <br />
             <input type="hidden" name="updatestato_id" id="updatestato_id" value="${stato.id}" />
@@ -17,7 +17,7 @@
         <div>
             <br />
             <input type="submit" value="Modifica Stato" name="Modifica Stato" />
-            <input type="submit" value="Elimina Stato" name="Modifica Stato" />
+            <input type="submit" value="Elimina Stato" name="Modifica Stato" id="elimina"/>
             <input type="reset" value="Reset" name="Cancella" />
         </div>
     </form>

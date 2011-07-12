@@ -7,7 +7,7 @@
         </div>
         <div><br /></div>
     </#if>
-    <form action="UpdateLingua" method="get" id="updatelingua">
+    <form action="UpdateLingua" method="get" id="updatelingua" name="update">
         <fieldset><legend>Lingua</legend>
             <br />
             <input type="hidden" name="updatelingua_id" id="updatelingua_id" value="${lingua.id}" />
@@ -17,7 +17,7 @@
         <div>
             <br />
             <input type="submit" value="Modifica Lingua" name="Modifica Lingua" />
-            <input type="submit" value="Elimina Lingua" name="Modifica Lingua" />
+            <input type="submit" value="Elimina Lingua" name="Modifica Lingua" id="elimina"/>
             <input type="reset" value="Reset" name="Cancella" />
         </div>
     </form>
