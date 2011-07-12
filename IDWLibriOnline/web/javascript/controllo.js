@@ -3,19 +3,50 @@ var login,user,pass;
 var ricerca,titolo;
 var regist, userreg, passreg, email, tel, nome, cognome, codicefiscale, indirizzo, citta, provincia, cap;
 
-function confirm_modifica(form){
-    var n = form.length;
+function confirm_inserimento(form){
     elements = form.getElementsByTagName("input");
-        for(var i = 0; i<n; i++){
-            if(elements[i].value == '' && elements[i].className != 'notrequired'){
-                alert('Attenzione: il campo '+elements[i].name.split("_", 2)[1]+ ' deve essere riempito');
-                //attiviamo il campo
-                elements[i].focus();
-                //selezioniamo il testo errato
-                elements[i].select();
-                //e bordiamo di rosso il campo da correggere
-                elements[i].style.border="1px solid red";
-                return false;
+    for(var i = 0; i <elements.length; i++){
+        if(elements[i].value == '' && elements[i].className != 'notrequired'){
+            alert('Attenzione: il campo '+elements[i].name.split("_", 2)[1]+ ' deve essere riempito');
+            //attiviamo il campo
+            elements[i].focus();
+            //selezioniamo il testo errato
+            elements[i].select();
+            //e bordiamo di rosso il campo da correggere
+            elements[i].style.border="1px solid red";
+            return false;
+        }
+    }
+    elements = form.getElementsByTagName("select");
+    for(i = 0; i<elements.length; i++){
+        if(elements[i].value == '' && elements[i].className != 'notrequired'){
+            alert('Attenzione: deve essere selezione almeno un '+elements[i].name.split("_", 2)[1]+ '');
+            return false;
+        }
+    }
+    return true;
+}
+
+function confirm_modifica(form){
+    elements = form.getElementsByTagName("input");
+    for(var i = 0; i<elements.length; i++){
+        if(elements[i].value == '' && elements[i].className != 'notrequired'){
+            alert('Attenzione: il campo '+elements[i].name.split("_", 2)[1]+ ' deve essere riempito');
+            //attiviamo il campo
+            elements[i].focus();
+            //selezioniamo il testo errato
+            elements[i].select();
+            //e bordiamo di rosso il campo da correggere
+            elements[i].style.border="1px solid red";
+            return false;
+        }
+    }
+    
+    elements = form.getElementsByTagName("select");
+    for(i = 0; i<elements.length; i++){
+        if(elements[i].value == '' && elements[i].className != 'notrequired'){
+            alert('Attenzione: deve essere selezione almeno un '+elements[i].name.split("_", 2)[1]+ '');
+            return false;
         }
     }
     return true;
@@ -69,7 +100,7 @@ function checkFormReg() {
 window.onload = function() {
 
         //acquisiamo i riferimenti alla form e ai campi che vogliamo controllare
-        ricerca = document.getElementById('form_ricerca_base');
+        /*ricerca = document.getElementById('form_ricerca_base');
 	titolo = document.getElementById('titolo');
 	//impostiamo i listener corretti sulla form e sui suoi campi
         if(ricerca != null && titolo.value != null){
@@ -115,9 +146,43 @@ window.onload = function() {
             provincia.onchange = function() {return check(provincia,"Provincia");}
             cap.onchange = function() {return check(cap,"Cap");}
             regist.onsubmit = function() {return checkFormReg();}
+        }*/
+        
+        //acquisiamo i riferimenti alla form di inserimento
+        form_insert_book = document.getElementById('insertbook');
+        form_insert_autori = document.getElementById('insertauthor');
+        form_insert_ce = document.getElementById('insertcopiaelettronica');
+        form_insert_lingua = document.getElementById('insertlanguage');
+        form_insert_volumi = document.getElementById('insertvol');
+        form_insert_tag = document.getElementById('inserttag');
+        form_insert_stato = document.getElementById('insertstato');
+        form_insert_utente= document.getElementById('registrazione');
+        
+        if(form_insert_book != null){           
+            form_insert_book.onsubmit = function() {return confirm_inserimento(form_insert_book);}
         }
-
-        //acquisiamo i riferimenti alla form e ai campi che vogliamo controllare
+        if(form_insert_autori != null){           
+            form_insert_autori.onsubmit = function() {return confirm_inserimento(form_insert_autori);}
+        }
+        if(form_insert_ce != null){           
+            form_insert_ce.onsubmit = function() {return confirm_inserimento(form_insert_ce);}
+        }
+        if(form_insert_lingua != null){           
+            form_insert_lingua.onsubmit = function() {return confirm_inserimento(form_insert_lingua);}
+        }
+        if(form_insert_volumi != null){           
+            form_insert_volumi.onsubmit = function() {return confirm_inserimento(form_insert_volumi);}
+        }
+        if(form_insert_tag != null){           
+            form_insert_tag.onsubmit = function() {return confirm_inserimento(form_insert_tag);}
+        }
+        if(form_insert_stato != null){           
+            form_insert_stato.onsubmit = function() {return confirm_inserimento(form_insert_stato);}
+        }
+        if(form_insert_utente != null){           
+            form_insert_utente.onsubmit = function() {return confirm_inserimento(form_insert_utente);}
+        }
+        //acquisiamo i riferimenti alle form edi modifica
         form_book = document.getElementById('updatebook');
         form_autori = document.getElementById('updateautore');
         form_lingua = document.getElementById('updatelingua');

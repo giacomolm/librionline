@@ -15,7 +15,7 @@
             <label>Editore</label> <input type="text" name="insertbook_editore" id="insertbook_editore" maxlength="25" size ="25" /> <br /> <br />
             <label>Anno Pubblicazione</label> <input type="text" name="insertbook_annopubblicazione" id="insertbook_annopubblicazione" maxlength="4" size ="5" /> <br /> <br />
             <label>Recensione</label> <br />
-            <textarea name="insertbook_recensione" id="insertbook_recensione" rows="10" cols="100"></textarea> <br /> <br />
+            <textarea name="insertbook_recensione" id="insertbook_recensione" class="notrequired" rows="10" cols="100"></textarea> <br /> <br />
             <p><label>Lingua</label> - Se non c'&egrave; una lingua puoi accedere a questa <a href="InserisciLingua">pagina</a> per inserirla </p> 
             <select name="insertbook_lingua">
                 <#list lingue as lingua>
@@ -46,7 +46,7 @@
         </fieldset><div><br /></div>
         <fieldset><legend>Copia elettronica</legend>
             <br />
-            <input type="file" name="insertbook_file" id="insertbook_file" /><br />
+            <input type="file" name="insertbook_file" id="insertbook_file" class="notrequired" /><br />
         </fieldset>
         <div>
             <br />
