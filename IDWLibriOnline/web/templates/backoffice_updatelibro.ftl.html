@@ -14,7 +14,7 @@
             <label>Editore</label> <input type="text" name="updatebook_editore" id="updatebook_editore" maxlength="25" size ="25" value="${libro.editore}" /> <br /> <br />
             <label>Anno Pubblicazione</label> <input type="text" name="updatebook_annopubblicazione" id="updatebook_annopubblicazione" maxlength="4" size ="5" value="${libro.annoPubblicazione}" /> <br /> <br />
             <label>Recensione</label> <br />
-            <textarea id="updatebook_recensione" name="notrequired" rows="10" cols="100" ><#if libro.recensione??>${libro.recensione}</#if></textarea> <br /> <br />
+            <textarea id="updatebook_recensione" name="updatebook_recensione" rows="10" cols="100" ><#if libro.recensione??>${libro.recensione}</#if></textarea> <br /> <br />
             <p><label>Lingua</label> - Se non c'&egrave; una lingua puoi accedere a questa <a href="InserisciLingua">pagina</a> per inserirla </p> 
             <select name="updatebook_lingua">
                 <option value="${libro.lingua.id}">${libro.lingua.lingua}</option>
