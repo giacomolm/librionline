@@ -64,6 +64,7 @@ public class InserisciStato extends HttpServlet {
                 
                 if(insert_state == null){
                     request.setAttribute("title","Inserisci Stato");
+                    request.setAttribute("navigazione","<a href='Home'>Homepage</a> -> <a href='Inserisci'>Inserisci</a>");
                     res.activate("backoffice_inseriscistato.ftl.html", request, response);
                 }
                 else{
@@ -71,11 +72,13 @@ public class InserisciStato extends HttpServlet {
                     if(result){
                         request.setAttribute("title","Inserisci Stato");
                         request.setAttribute("messaggio","Lo Stato è stato inserito correttamente!");
+                        request.setAttribute("navigazione","<a href='Home'>Homepage</a> -> <a href='Inserisci'>Inserisci</a>");
                         res.activate("backoffice_inseriscistato.ftl.html", request, response);
                     }
                     else{
                         request.setAttribute("title","Inserisci Stato");
                         request.setAttribute("messaggio","Inserimento Stato fallito: Si prega di compilare bene i campi sottostanti!");
+                        request.setAttribute("navigazione","<a href='Home'>Homepage</a> -> <a href='Inserisci'>Inserisci</a>");
                         res.activate("backoffice_inseriscistato.ftl.html", request, response);
                     }         
                 }

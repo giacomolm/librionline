@@ -64,6 +64,7 @@ public class VisualizzaCopieElettroniche2 extends HttpServlet {
                 }
                 
                 request.setAttribute("title", "Lista copie elettroniche");
+                request.setAttribute("navigazione","<a href='Home'>Homepage</a> -> <a href='Visualizza'>Modifica</a> -> <a href='VisualizzaCopieElettroniche'>VisualizzaCopieElettroniche</a>");
                 res.activate("backoffice_visualizzacopieelettroniche.ftl.html", request, response);
                
             }

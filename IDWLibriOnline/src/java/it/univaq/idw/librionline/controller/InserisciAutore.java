@@ -73,11 +73,13 @@ public class InserisciAutore extends HttpServlet {
                     if(result){
                         request.setAttribute("title","Inserisci Autore");
                         request.setAttribute("messaggio","L'Autore è stato inserito correttamente!");
+                        request.setAttribute("navigazione","<a href='Home'>Homepage</a> -> <a href='Inserisci'>Inserisci</a>");
                         res.activate("backoffice_inserisciautore.ftl.html", request, response);
                     }
                     else{
                         request.setAttribute("title","Inserisci Autore");
                         request.setAttribute("messaggio","Inserimento Autore fallito: Si prega di compilare bene i campi sottostanti!");
+                        request.setAttribute("navigazione","<a href='Home'>Homepage</a> -> <a href='Inserisci'>Inserisci</a>");
                         res.activate("backoffice_inserisciautore.ftl.html", request, response);
                     }
                     

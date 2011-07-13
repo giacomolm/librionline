@@ -40,22 +40,25 @@ public class SchedaDettaglioLibro extends HttpServlet {
         
         TemplateResult template = new TemplateResult(getServletContext());
         HttpSession session = SecurityLayer.checkSession(request);
+        LibriOnLineDataLayer model = new LibriOnLineDataLayerMysqlImpl();
+        
 	//controllo validita dell'ID del libro
 	String isbn = request.getParameter("isbn");
 	if (isbn == null){
 	    request.setAttribute("title", "Errore");
             request.setAttribute("error_title", "Errore");
             request.setAttribute("error", "Attenzione: Codice ISBN non immesso!");
+            request.setAttribute("navigazione","<a href='Home'>Homepage</a> -> <a href='Libri'>Libri</a>");
             template.activate("error.ftl.html", request, response);
 	}
 	else{
-	    LibriOnLineDataLayer model = new LibriOnLineDataLayerMysqlImpl();
 	    Libro l = model.searchByIsbn(isbn);
 
 	    if (l == null){
                 request.setAttribute("title", "Errore");
                 request.setAttribute("error_title", "Errore");
 		request.setAttribute("error", "Attenzione: Codice ISBN non presente nel DB!");
+                request.setAttribute("navigazione","<a href='Home'>Homepage</a> -> <a href='Libri'>Libri</a>");
                 template.activate("error.ftl.html", request, response);
 	    }
 	    else{
@@ -88,6 +91,7 @@ public class SchedaDettaglioLibro extends HttpServlet {
                     InitialContext ctx = new InitialContext();
                     String path = getServletContext().getInitParameter("copieelettroniche");
                     request.setAttribute("path",path);
+                    
                     if(model.isAdmin((String)session.getAttribute("username"))){
                         request.setAttribute("bibliotecario",true);
                         request.setAttribute("tipologia_utente","Bibliotecario");
@@ -99,7 +103,7 @@ public class SchedaDettaglioLibro extends HttpServlet {
                     
                     request.setAttribute("stato_log", "Logout");
                 }
-                request.setAttribute("navigazione","<a href='Home'>Homepage</a> -> <a href='Libro'>Libro</a>");
+                request.setAttribute("navigazione","<a href='Home'>Homepage</a> -> <a href='Libri'>Libri</a>");
                 template.activate("schedalibro.ftl.html", request, response); 
 	    }
 	}

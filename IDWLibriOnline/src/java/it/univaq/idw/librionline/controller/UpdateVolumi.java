@@ -60,6 +60,7 @@ public class UpdateVolumi extends HttpServlet {
                     request.setAttribute("title", "Modifica Volume");
                     request.setAttribute("volume", volume);
                     request.setAttribute("statinotstati", dl.notStati(volume.getId()));
+                    request.setAttribute("navigazione","<a href='Home'>Homepage</a> -> <a href='Visualizza'>Modifica</a> -> <a href='VisualizzaVolume'>VisualizzaVolume</a>");
                     res.activate("backoffice_updatevolumi.ftl.html", request, response);
                 }
                 
@@ -83,6 +84,7 @@ public class UpdateVolumi extends HttpServlet {
                         request.setAttribute("volume", object_volume);
                         request.setAttribute("statinotstati", dl.notStati(id_volume));
                         request.setAttribute("title", "Modifica Volume");
+                        request.setAttribute("navigazione","<a href='Home'>Homepage</a> -> <a href='Visualizza'>Modifica</a> -> <a href='VisualizzaVolume'>VisualizzaVolume</a>");
                         res.activate("backoffice_updatevolumi.ftl.html", request, response);
                     }
                     else{
@@ -91,6 +93,7 @@ public class UpdateVolumi extends HttpServlet {
                         request.setAttribute("statinotstati", dl.notStati(id_volume));
                         request.setAttribute("title", "Modifica Volume");
                         request.setAttribute("messaggio", "Impossibile modificare il volume!");
+                        request.setAttribute("navigazione","<a href='Home'>Homepage</a> -> <a href='Visualizza'>Modifica</a> -> <a href='VisualizzaVolume'>VisualizzaVolume</a>");
                         res.activate("backoffice_updatevolumi.ftl.html", request, response);
                     }
                 }

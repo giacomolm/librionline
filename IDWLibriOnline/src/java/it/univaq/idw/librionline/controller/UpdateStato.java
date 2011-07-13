@@ -60,6 +60,7 @@ public class UpdateStato extends HttpServlet {
                     
                     request.setAttribute("title", "Modifica Stato");
                     request.setAttribute("stato", stato);
+                    request.setAttribute("navigazione","<a href='Home'>Homepage</a> -> <a href='Visualizza'>Modifica</a> -> <a href='VisualizzaStati'>VisualizzaStati</a>");
                     res.activate("backoffice_updatestato.ftl.html", request, response);
                 }
                 
@@ -78,6 +79,7 @@ public class UpdateStato extends HttpServlet {
                         Stato object_stato = dl.getStato(id_stato);
                         request.setAttribute("stato", object_stato);
                         request.setAttribute("title", "Modifica Stato");
+                        request.setAttribute("navigazione","<a href='Home'>Homepage</a> -> <a href='Visualizza'>Modifica</a> -> <a href='VisualizzaStati'>VisualizzaStati</a>");
                         res.activate("backoffice_updatestato.ftl.html", request, response);
                     }
                     else{
@@ -85,6 +87,7 @@ public class UpdateStato extends HttpServlet {
                         request.setAttribute("stato", object_stato);
                         request.setAttribute("title", "Modifica Stato");
                         request.setAttribute("messaggio", "Impossibile modificare lo Stato!");
+                        request.setAttribute("navigazione","<a href='Home'>Homepage</a> -> <a href='Visualizza'>Modifica</a> -> <a href='VisualizzaStati'>VisualizzaStati</a>");
                         res.activate("backoffice_updatestato.ftl.html", request, response);
                     }
                 }

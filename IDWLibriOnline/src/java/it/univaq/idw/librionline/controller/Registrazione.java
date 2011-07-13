@@ -94,6 +94,7 @@ public class Registrazione extends HttpServlet {
                 if(registrazione == null){
                     request.setAttribute("title","Registrazione");
                     request.setAttribute("gruppi",gruppi);
+                    request.setAttribute("navigazione","<a href='Home'>Homepage</a>");
                     res.activate("form_registrazione.ftl.html", request, response);
                 }
                 else{
@@ -101,12 +102,14 @@ public class Registrazione extends HttpServlet {
                         request.setAttribute("title","Registrazione");
                         request.setAttribute("gruppi",gruppi);
                         request.setAttribute("messaggio","Registrazione effettuata con successo!");
+                        request.setAttribute("navigazione","<a href='Home'>Homepage</a>");
                         res.activate("form_registrazione.ftl.html", request, response);
                     }
                     else{
                         request.setAttribute("title","Registrazione");
                         request.setAttribute("gruppi",gruppi);
                         request.setAttribute("messaggio","Registrazione fallita! Si prega di compilare bene i campi sottostanti!");
+                        request.setAttribute("navigazione","<a href='Home'>Homepage</a>");
                         res.activate("form_registrazione.ftl.html", request, response);
                     }
                 }  

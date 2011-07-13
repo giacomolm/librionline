@@ -60,6 +60,7 @@ public class UpdateAutore extends HttpServlet {
                     
                     request.setAttribute("title", "Modifica Autore");
                     request.setAttribute("autore", autore);
+                    request.setAttribute("navigazione","<a href='Home'>Homepage</a> -> <a href='Visualizza'>Modifica</a> -> <a href='VisualizzaAutori'>VisualizzaAutori</a>");
                     res.activate("backoffice_updateautori.ftl.html", request, response);
                 }
                 
@@ -80,6 +81,7 @@ public class UpdateAutore extends HttpServlet {
                         Autore object_autore = dl.getAutore(id_autore);
                         request.setAttribute("autore", object_autore);
                         request.setAttribute("title", "Modifica Autore");
+                        request.setAttribute("navigazione","<a href='Home'>Homepage</a> -> <a href='Visualizza'>Modifica</a> -> <a href='VisualizzaAutori'>VisualizzaAutori</a>");
                         res.activate("backoffice_updateautori.ftl.html", request, response);
                     }
                     else{
@@ -87,6 +89,7 @@ public class UpdateAutore extends HttpServlet {
                         request.setAttribute("autore", object_autore);
                         request.setAttribute("title", "Modifica Autore");
                         request.setAttribute("messaggio", "Impossibile modificare l'Autore!");
+                        request.setAttribute("navigazione","<a href='Home'>Homepage</a> -> <a href='Visualizza'>Modifica</a> -> <a href='VisualizzaAutori'>VisualizzaAutori</a>");
                         res.activate("backoffice_updateautori.ftl.html", request, response);
                     }
                 }

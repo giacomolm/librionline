@@ -53,7 +53,7 @@ public class PrestitiTotali extends HttpServlet {
                 }
                 
                 request.setAttribute("title","Prestiti Totali");
-
+                request.setAttribute("navigazione","<a href='Home'>Homepage</a>");
                 res.activate("prestiti_totali.ftl.html", request, response);
             }
             else{

@@ -64,6 +64,7 @@ public class InserisciTag extends HttpServlet {
                 
                 if(insert_tag == null){
                     request.setAttribute("title","Inserisci Tag");
+                    request.setAttribute("navigazione","<a href='Home'>Homepage</a> -> <a href='Inserisci'>Inserisci</a>");
                     res.activate("backoffice_inseriscitag.ftl.html", request, response);
                 }
                 else{
@@ -71,11 +72,13 @@ public class InserisciTag extends HttpServlet {
                     if(result){
                         request.setAttribute("title","Inserisci Tag");
                         request.setAttribute("messaggio","Il Tag è stato inserito correttamente!");
+                        request.setAttribute("navigazione","<a href='Home'>Homepage</a> -> <a href='Inserisci'>Inserisci</a>");
                         res.activate("backoffice_inseriscitag.ftl.html", request, response);
                     }
                     else{
                         request.setAttribute("title","Inserisci Tag");
                         request.setAttribute("messaggio","Inserimento Tag fallito: Si prega di compilare bene i campi sottostanti!");
+                        request.setAttribute("navigazione","<a href='Home'>Homepage</a> -> <a href='Inserisci'>Inserisci</a>");
                         res.activate("backoffice_inseriscitag.ftl.html", request, response);
                     }         
                 }

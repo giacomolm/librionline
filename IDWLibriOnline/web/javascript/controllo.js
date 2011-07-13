@@ -141,35 +141,6 @@ window.onload = function() {
             login.onsubmit = function() {return checkFormLogin();}
         }
         
-        //acquisiamo i riferimenti alla form e ai campi che vogliamo controllare
-        /*regist = document.getElementById("registrazione");
-        userreg = document.getElementById("user_reg");
-        passreg = document.getElementById("pass_reg");
-        email = document.getElementById('email');
-        tel = document.getElementById('tel');
-        nome = document.getElementById('nome');
-        cognome = document.getElementById('cognome');
-        codicefiscale = document.getElementById('codicefiscale');
-        indirizzo = document.getElementById('indirizzo');
-        citta = document.getElementById('citta');
-        provincia = document.getElementById('provincia');
-        cap = document.getElementById('cap');
-        //impostiamo i listener corretti sulla form e sui suoi campi
-        if(regist != null && userreg.value != null && passreg.value != null && email.value != null && tel.value != null && nome.value != null && cognome.value != null && codicefiscale.value != null && indirizzo.value != null && citta.value != null && provincia.value != null && cap.value != null){
-            userreg.onchange = function() {return check(userreg,"Username");}
-            passreg.onchange = function() {return check(passreg,"Password");}
-            email.onchange = function() {return check(email,"Email");}
-            tel.onchange = function() {return checktel(tel,"Telefono");}
-            nome.onchange = function() {return check(nome,"Nome");}
-            cognome.onchange = function() {return check(cognome,"Cognome");}
-            codicefiscale.onchange = function(){return check(codicefiscale,"Codice fiscale");}
-            indirizzo.onchange = function() {return check(indirizzo,"Indirizzo");}
-            citta.onchange = function() {return check(citta,"Città");}
-            provincia.onchange = function() {return check(provincia,"Provincia");}
-            cap.onchange = function() {return check(cap,"Cap");}
-            regist.onsubmit = function() {return checkFormReg();}
-        }*/
-        
         //acquisiamo i riferimenti alla form di inserimento
         form_insert_book = document.getElementById('insertbook');
         form_insert_autori = document.getElementById('insertauthor');

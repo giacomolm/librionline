@@ -80,6 +80,7 @@ public class Prestito extends HttpServlet {
 
                     request.setAttribute("prestitivolumi",vd);
                     request.setAttribute("prestitiusers",allUser);
+                    request.setAttribute("navigazione","<a href='Home'>Homepage</a> -> <a href='Libri'>Libri</a>");
                     res.activate("form_prestito.ftl.html", request, response);
                 }
                 else{
@@ -88,12 +89,14 @@ public class Prestito extends HttpServlet {
                     if(result){
                         request.setAttribute("title","Prestito eseguito correttamente");
                         request.setAttribute("error","Prestito eseguito correttamente");
+                        
                     }
                     else{
                         request.setAttribute("title","Prestito fallito!");
                         request.setAttribute("error","Prestito fallito!");
                     }
                     request.setAttribute("error_title","Esito Prestito!");
+                    request.setAttribute("navigazione","<a href='Home'>Homepage</a> -> <a href='Libri'>Libri</a>");
                     res.activate("error.ftl.html", request, response);
                 }
             }

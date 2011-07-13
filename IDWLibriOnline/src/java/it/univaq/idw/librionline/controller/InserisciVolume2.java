@@ -96,6 +96,7 @@ public class InserisciVolume2 extends HttpServlet {
                 
                 if(insert_vol == null){
                     request.setAttribute("title","Inserisci Volume");
+                    request.setAttribute("navigazione","<a href='Home'>Homepage</a> -> <a href='Inserisci'>Inserisci</a> -> <a href='InserisciVolume'>InserisciVolume</a>");
                     res.activate("backoffice_inseriscivolume.ftl.html", request, response);
                 }
                 else{
@@ -103,11 +104,13 @@ public class InserisciVolume2 extends HttpServlet {
                     if(result){
                         request.setAttribute("title","Inserisci Volume");
                         request.setAttribute("messaggio","Il Volume è stato inserito correttamente!");
+                        request.setAttribute("navigazione","<a href='Home'>Homepage</a> -> <a href='Inserisci'>Inserisci</a> -> <a href='InserisciVolume'>InserisciVolume</a>");
                         res.activate("backoffice_inseriscivolume.ftl.html", request, response);
                     }
                     else{
                         request.setAttribute("title","Inserisci Volume");
                         request.setAttribute("messaggio","Inserimento Volume fallito: Si prega di compilare bene i campi sottostanti!");
+                        request.setAttribute("navigazione","<a href='Home'>Homepage</a> -> <a href='Inserisci'>Inserisci</a> -> <a href='InserisciVolume'>InserisciVolume</a>");
                         res.activate("backoffice_inseriscivolume.ftl.html", request, response);
                     }         
                 }

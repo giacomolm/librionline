@@ -77,7 +77,7 @@ public class VisualizzaVolume extends HttpServlet {
                     List<Libro> libri = analizza_form_ricerca_titolo_libro(request,response);
                         request.setAttribute("title","Risultati Ricerca Libri");
                         request.setAttribute("libri",libri);
-                        request.setAttribute("navigazione","<a href='Home'>Homepage</a> -> <a href='Visualizza'>Modifica</a> -> <a href='VisualizzaVolume'>ModificaVolume</a>");
+                        request.setAttribute("navigazione","<a href='Home'>Homepage</a> -> <a href='Visualizza'>Modifica</a>");
                         res.activate("backoffice_risultatiricercalibri2.ftl.html", request, response);     
                 }
             }

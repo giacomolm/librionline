@@ -154,6 +154,7 @@ public class InserisciLibro extends HttpServlet {
                 
                 if(insert_book == null){
                     request.setAttribute("title","Inserisci Libro");
+                    request.setAttribute("navigazione","<a href='Home'>Homepage</a> -> <a href='Inserisci'>Inserisci</a>");
                     res.activate("backoffice_inseriscilibro.ftl.html", request, response);
                 }
                 else{
@@ -161,11 +162,13 @@ public class InserisciLibro extends HttpServlet {
                     if(result){                       
                         request.setAttribute("title","Inserisci Autore");
                         request.setAttribute("messaggio","Il Libro è stato inserito correttamente!");
+                        request.setAttribute("navigazione","<a href='Home'>Homepage</a> -> <a href='Inserisci'>Inserisci</a>");
                         res.activate("backoffice_inseriscilibro.ftl.html", request, response);
                     }
                     else{
                         request.setAttribute("title","Inserisci Libro");
                         request.setAttribute("messaggio","Inserimento Libro fallito: Si prega di compilare bene i campi sottostanti!");
+                        request.setAttribute("navigazione","<a href='Home'>Homepage</a> -> <a href='Inserisci'>Inserisci</a>");
                         res.activate("backoffice_inseriscilibro.ftl.html", request, response);
                     }
                     

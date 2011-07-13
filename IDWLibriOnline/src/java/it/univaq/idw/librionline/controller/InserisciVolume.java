@@ -70,12 +70,14 @@ public class InserisciVolume extends HttpServlet {
                 
                 if(search_title == null){
                     request.setAttribute("title","Ricerca Libro Titolo");
+                    request.setAttribute("navigazione","<a href='Home'>Homepage</a> -> <a href='Inserisci'>Inserisci</a>");
                     res.activate("backoffice_ricercalibro.ftl.html", request, response);
                 }
                 else{
                     List<Libro> libri = analizza_form_ricerca_titolo_libro(request,response);
                         request.setAttribute("title","Risultati Ricerca Libri");
                         request.setAttribute("libri",libri);
+                        request.setAttribute("navigazione","<a href='Home'>Homepage</a> -> <a href='Inserisci'>Inserisci</a>");
                         res.activate("backoffice_risultatiricercalibri.ftl.html", request, response);     
                 }
             }

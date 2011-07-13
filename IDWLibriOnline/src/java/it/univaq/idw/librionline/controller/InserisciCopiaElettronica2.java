@@ -157,6 +157,7 @@ public class InserisciCopiaElettronica2 extends HttpServlet {
                 if(insert_copia == null){
                     request.setAttribute("title","Inserisci Copia Elettronica");
                     request.setAttribute("isbn",request.getParameter("isbn"));
+                    request.setAttribute("navigazione","<a href='Home'>Homepage</a> -> <a href='Inserisci'>Inserisci</a> -> <a href='InserisciCopiaElettronica'>InserisciCopiaElettronica</a>");
                     res.activate("backoffice_inseriscicopiaelettronica.ftl.html", request, response);
                 }
                 else{
@@ -165,12 +166,14 @@ public class InserisciCopiaElettronica2 extends HttpServlet {
                         request.setAttribute("title","Inserisci Copia Elettronica");
                         request.setAttribute("messaggio","La Copia Elettronica è stata inserita correttamente!");
                         request.setAttribute("isbn",request.getParameter("insertcopiaelettronica_isbn"));
+                        request.setAttribute("navigazione","<a href='Home'>Homepage</a> -> <a href='Inserisci'>Inserisci</a> -> <a href='InserisciCopiaElettronica'>InserisciCopiaElettronica</a>");
                         res.activate("backoffice_inseriscicopiaelettronica.ftl.html", request, response);
                     }
                     else{
                         request.setAttribute("title","Inserisci Copia Elettronica");
                         request.setAttribute("messaggio","Inserimento Copia Elettronica fallito: Si prega di compilare bene i campi sottostanti!");
                         request.setAttribute("isbn",request.getParameter("insertcopiaelettronica_isbn"));
+                        request.setAttribute("navigazione","<a href='Home'>Homepage</a> -> <a href='Inserisci'>Inserisci</a> -> <a href='InserisciCopiaElettronica'>InserisciCopiaElettronica</a>");
                         res.activate("backoffice_inseriscicopiaelettronica.ftl.html", request, response);
                     }
                     

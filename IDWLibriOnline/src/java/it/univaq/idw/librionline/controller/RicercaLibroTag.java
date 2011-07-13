@@ -57,6 +57,7 @@ public class RicercaLibroTag extends HttpServlet {
         request.setAttribute("tag", tag);
         request.setAttribute("title", "Ricerca per Tag");
         request.setAttribute("libri", l);
+        request.setAttribute("navigazione","<a href='Home'>Homepage</a> -> <a href='Libri'>Libri</a>");
         template.activate("schedalibro_ricerca_tag.ftl.html", request, response);
     }
 

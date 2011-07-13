@@ -64,6 +64,7 @@ public class InserisciLingua extends HttpServlet {
                 
                 if(insert_language == null){
                     request.setAttribute("title","Inserisci Lingua");
+                    request.setAttribute("navigazione","<a href='Home'>Homepage</a> -> <a href='Inserisci'>Inserisci</a>");
                     res.activate("backoffice_inseriscilingua.ftl.html", request, response);
                 }
                 else{
@@ -71,11 +72,13 @@ public class InserisciLingua extends HttpServlet {
                     if(result){
                         request.setAttribute("title","Inserisci Lingua");
                         request.setAttribute("messaggio","La Lingua è stata inserita correttamente!");
+                        request.setAttribute("navigazione","<a href='Home'>Homepage</a> -> <a href='Inserisci'>Inserisci</a>");
                         res.activate("backoffice_inseriscilingua.ftl.html", request, response);
                     }
                     else{
                         request.setAttribute("title","Inserisci Lingua");
                         request.setAttribute("messaggio","Inserimento Lingua fallito: Si prega di compilare bene i campi sottostanti!");
+                        request.setAttribute("navigazione","<a href='Home'>Homepage</a> -> <a href='Inserisci'>Inserisci</a>");
                         res.activate("backoffice_inseriscilingua.ftl.html", request, response);
                     }
                     

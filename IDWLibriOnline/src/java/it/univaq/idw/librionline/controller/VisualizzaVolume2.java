@@ -55,6 +55,7 @@ public class VisualizzaVolume2 extends HttpServlet {
                 }
                 
                 request.setAttribute("title", "Lista volumi");
+                request.setAttribute("navigazione","<a href='Home'>Homepage</a> -> <a href='Visualizza'>Modifica</a> -> <a href='VisualizzaVolume'>VisualizzaVolume</a>");
                 res.activate("backoffice_visualizzavolumi.ftl.html", request, response);
                
             }

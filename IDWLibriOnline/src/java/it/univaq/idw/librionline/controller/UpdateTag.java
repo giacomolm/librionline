@@ -64,6 +64,7 @@ public class UpdateTag extends HttpServlet {
                     
                     request.setAttribute("title", "Modifica Tag");
                     request.setAttribute("tag", tag);
+                    request.setAttribute("navigazione","<a href='Home'>Homepage</a> -> <a href='Visualizza'>Modifica</a> -> <a href='VisualizzaTag'>VisualizzaTag</a>");
                     res.activate("backoffice_updatetag.ftl.html", request, response);
                 }
                 
@@ -82,6 +83,7 @@ public class UpdateTag extends HttpServlet {
                         Tag object_tag = dl.getTag(id_tag);
                         request.setAttribute("tag", object_tag);
                         request.setAttribute("title", "Modifica Tag");
+                        request.setAttribute("navigazione","<a href='Home'>Homepage</a> -> <a href='Visualizza'>Modifica</a> -> <a href='VisualizzaTag'>VisualizzaTag</a>");
                         res.activate("backoffice_updatetag.ftl.html", request, response);
                     }
                     else{
@@ -89,6 +91,7 @@ public class UpdateTag extends HttpServlet {
                         request.setAttribute("tag", object_tag);
                         request.setAttribute("title", "Modifica Tag");
                         request.setAttribute("messaggio", "Impossibile modificare il Tag!");
+                        request.setAttribute("navigazione","<a href='Home'>Homepage</a> -> <a href='Visualizza'>Modifica</a> -> <a href='VisualizzaTag'>VisualizzaTag</a>");
                         res.activate("backoffice_updatetag.ftl.html", request, response);
                     }
                 }

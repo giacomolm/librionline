@@ -71,11 +71,13 @@ public class RicercaUtente extends HttpServlet {
                 
                 if(search_user == null){
                     request.setAttribute("title","Ricerca Utente");
+                    request.setAttribute("navigazione","<a href='Home'>Homepage</a>");
                     res.activate("form_ricercautenti.ftl.html", request, response);
                 }
                 else{
                     request.setAttribute("title","Risultati Ricerca Utente");
                     request.setAttribute("users",analizza_form_user(request,response));
+                    request.setAttribute("navigazione","<a href='Home'>Homepage</a>");
                     res.activate("risultati_ricerca_utente.ftl.html", request, response);
                     }         
                 }

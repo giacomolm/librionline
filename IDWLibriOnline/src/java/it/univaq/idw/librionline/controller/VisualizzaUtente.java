@@ -10,7 +10,6 @@ import it.univaq.idw.librionline.model.LibriOnLineDataLayer;
 import it.univaq.idw.librionline.model.User;
 import it.univaq.idw.librionline.model.impl.LibriOnLineDataLayerMysqlImpl;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -72,11 +71,13 @@ public class VisualizzaUtente extends HttpServlet {
                 
                 if(search_user == null){
                     request.setAttribute("title","Ricerca Utente");
+                    request.setAttribute("navigazione","<a href='Home'>Homepage</a>");
                     res.activate("backoffice_ricercautente.ftl.html", request, response);
                 }
                 else{
                     request.setAttribute("title","Risultati Ricerca Utente");
                     request.setAttribute("users",analizza_form_user(request,response));
+                    request.setAttribute("navigazione","<a href='Home'>Homepage</a>");
                     res.activate("backoffice_risultatiricercautente.ftl.html", request, response);
                     }         
                 }

@@ -54,6 +54,7 @@ public class PrestitiAttiviLibro extends HttpServlet {
                 }
                 
                 request.setAttribute("title","Prestiti Attivi");
+                request.setAttribute("navigazione","<a href='Home'>Homepage</a> -> <a href='Libri'>Libri</a> -> <a href=SchedaDettaglioLibro?isbn="+isbn+">SchedaDettaglioLibro</a>");
                 res.activate("prestitiattivilibro.ftl.html", request, response);
             }
             else{

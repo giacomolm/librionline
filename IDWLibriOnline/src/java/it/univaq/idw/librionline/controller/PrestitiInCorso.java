@@ -57,7 +57,7 @@ public class PrestitiInCorso extends HttpServlet {
                 }
                 
                 request.setAttribute("title","Prestiti In Corso");
-
+                request.setAttribute("navigazione","<a href='Home'>Homepage</a>");
                 res.activate("prestitiattivi.ftl.html", request, response);
             }
         }

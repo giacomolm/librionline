@@ -12,7 +12,6 @@ import it.univaq.idw.librionline.model.LibriOnLineDataLayer;
 import it.univaq.idw.librionline.model.User;
 import it.univaq.idw.librionline.model.impl.LibriOnLineDataLayerMysqlImpl;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.security.NoSuchAlgorithmException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -82,6 +81,7 @@ public class UpdateUtente extends HttpServlet {
                     request.setAttribute("title","Modifica Utente");
                     request.setAttribute("updateutente", user);
                     request.setAttribute("groupsnotgroups", dl.getNotGruppo(Integer.parseInt(id)));
+                    request.setAttribute("navigazione","<a href='Home'>Homepage</a> -> <a href='VisualizzaUtente'>VisualizzaUtente</a>");
                     res.activate("backoffice_updateutente.ftl.html", request, response);
                 }
                 else if(update_user.equals("Modifica Utente")){
@@ -118,6 +118,7 @@ public class UpdateUtente extends HttpServlet {
                         request.setAttribute("updateutente", object_user);
                         request.setAttribute("groupsnotgroups", dl.getNotGruppo(Integer.parseInt(id_user)));
                         request.setAttribute("title", "Modifica Utente");
+                        request.setAttribute("navigazione","<a href='Home'>Homepage</a> -> <a href='VisualizzaUtente'>VisualizzaUtente</a>");
                         res.activate("backoffice_updateutente.ftl.html", request, response);
                     }
                     else{
@@ -126,6 +127,7 @@ public class UpdateUtente extends HttpServlet {
                         request.setAttribute("groupsnotgroups", dl.getNotGruppo(Integer.parseInt(id_user)));
                         request.setAttribute("title", "Modifica Utente");
                         request.setAttribute("messaggio", "Impossibile modificare l'utente!");
+                        request.setAttribute("navigazione","<a href='Home'>Homepage</a> -> <a href='VisualizzaUtente'>VisualizzaUtente</a>");
                         res.activate("backoffice_updateutente.ftl.html", request, response);
                     }
                 }

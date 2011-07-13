@@ -61,6 +61,7 @@ public class RicercaLibroAutore extends HttpServlet {
         request.setAttribute("title", "Ricerca per Autore");
         request.setAttribute("autore", a);
         request.setAttribute("libri", l);
+        request.setAttribute("navigazione","<a href='Home'>Homepage</a> -> <a href='Libri'>Libri</a>");
         template.activate("schedalibro_ricerca_autore.ftl.html", request, response);
     }
 

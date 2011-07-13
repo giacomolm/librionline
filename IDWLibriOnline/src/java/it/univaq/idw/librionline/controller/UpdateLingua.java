@@ -60,6 +60,7 @@ public class UpdateLingua extends HttpServlet {
                     
                     request.setAttribute("title", "Modifica Lingua");
                     request.setAttribute("lingua", lingua);
+                    request.setAttribute("navigazione","<a href='Home'>Homepage</a> -> <a href='Visualizza'>Modifica</a> -> <a href='VisualizzaLingue'>VisualizzaLingue</a>");
                     res.activate("backoffice_updatelingua.ftl.html", request, response);
                 }
                 
@@ -78,7 +79,7 @@ public class UpdateLingua extends HttpServlet {
                         Lingua object_lingua = dl.getLingua(id_lingua);
                         request.setAttribute("lingua", object_lingua);
                         request.setAttribute("title", "Modifica Lingua");
-                        
+                        request.setAttribute("navigazione","<a href='Home'>Homepage</a> -> <a href='Visualizza'>Modifica</a> -> <a href='VisualizzaLingue'>VisualizzaLingue</a>");
                         res.activate("backoffice_updatelingua.ftl.html", request, response);
                     }
                     else{
@@ -86,6 +87,7 @@ public class UpdateLingua extends HttpServlet {
                         request.setAttribute("lingua", object_lingua);
                         request.setAttribute("title", "Modifica Lingua");
                         request.setAttribute("messaggio", "Impossibile modificare la Lingua!");
+                        request.setAttribute("navigazione","<a href='Home'>Homepage</a> -> <a href='Visualizza'>Modifica</a> -> <a href='VisualizzaLingue'>VisualizzaLingue</a>");
                         res.activate("backoffice_updatelingua.ftl.html", request, response);
                     }
                 }

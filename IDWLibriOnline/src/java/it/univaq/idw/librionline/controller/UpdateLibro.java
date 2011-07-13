@@ -86,6 +86,7 @@ public class UpdateLibro extends HttpServlet {
                     request.setAttribute("autorinotautori", autorinotautori);
                     request.setAttribute("tags", tags);
                     request.setAttribute("tagsnottags", tagsnottags);
+                    request.setAttribute("navigazione","<a href='Home'>Homepage</a> -> <a href='Visualizza'>Modifica</a> -> <a href='VisualizzaLibri'>VisualizzaLibri</a>");
                     res.activate("backoffice_updatelibro.ftl.html", request, response);
                 }
                 

@@ -55,7 +55,7 @@ public class PrestitiPassiviLibro extends HttpServlet {
                 }
                 
                 request.setAttribute("title","Prestiti Passati");
-
+                request.setAttribute("navigazione","<a href='Home'>Homepage</a> -> <a href='Libri'>Libri</a> -> <a href=SchedaDettaglioLibro?isbn="+isbn+">SchedaDettaglioLibro</a>");  
                 res.activate("prestitipassivilibro.ftl.html", request, response);
             }
             else{

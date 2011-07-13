@@ -52,6 +52,7 @@ public class SchedaUtente extends HttpServlet {
                     request.setAttribute("title", "Errore");
                     request.setAttribute("error_title", "Errore");
                     request.setAttribute("error", "Attenzione: ID Utente non immesso!");
+                    request.setAttribute("navigazione","<a href='Home'>Homepage</a> -> <a href='RicercaUtente'>RicercaUtente</a>");
                     template.activate("error.ftl.html", request, response);
                 }
                 else{
@@ -61,6 +62,7 @@ public class SchedaUtente extends HttpServlet {
                         request.setAttribute("title", "Errore");
                         request.setAttribute("error_title", "Errore");
                         request.setAttribute("error", "Attenzione: ID Utente non presente nel DB!");
+                        request.setAttribute("navigazione","<a href='Home'>Homepage</a> -> <a href='RicercaUtente'>RicercaUtente</a>");
                         template.activate("error.ftl.html", request, response);
                     }
                     else{
@@ -72,6 +74,7 @@ public class SchedaUtente extends HttpServlet {
                         else{
                             request.setAttribute("prestitiattivi", p);
                         }
+                        request.setAttribute("navigazione","<a href='Home'>Homepage</a> -> <a href='RicercaUtente'>RicercaUtente</a>");
                         template.activate("schedautente.ftl.html", request, response); 
                     }
                 }   
